@@ -18,6 +18,17 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency 'faraday', '~> 0.8.0'
+
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency 'rb-fsevent', '~> 0.9.0'
+  spec.add_development_dependency 'guard', '~> 1.8.0'
+  spec.add_development_dependency 'guard-rake', '~> 0.0.0'
+  spec.add_development_dependency 'guard-minitest', '~> 0.5.0'
+  spec.add_development_dependency 'ruby_gntp', '~> 0.3.0'
+  spec.add_development_dependency 'debugger', '~> 1.6.0'
+  spec.add_development_dependency 'pry', '~> 0.9.0'
+  spec.add_development_dependency 'yard', '~> 0.8.0'
+  spec.add_development_dependency 'redcarpet', '~> 2.3.0'
 end
