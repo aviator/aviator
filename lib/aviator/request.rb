@@ -2,8 +2,18 @@ module Aviator
   
   class Request
     
+    class PathNotDefinedError < StandardError
+      def initialize
+        super "path is not defined in #{ self.class }"
+      end
+    end
+    
+    
     def initialize(params={})
       validate_params(params)
+      @params = params
+      
+      raise PathNotDefinedError.new unless respond_to?(:path)
     end
     
     
@@ -12,11 +22,26 @@ module Aviator
     end
     
     
+    def body?
+      respond_to? :body
+    end
+    
+    
     def http_method
       :get
     end
     
+    
+    def querystring?
+      respond_to? :querystring
+    end
+    
+    
     private
+    
+    def params
+      @params.dup
+    end
     
     def validate_params(params)
       validators = methods.select{ |name| name =~ /^param_validator_/ }
@@ -38,7 +63,7 @@ module Aviator
       def http_method(http_method_name)
         define_method :http_method, lambda { http_method_name }
       end
-    
+          
       
       def requires_param(param_name)
         last_num = instance_methods.map{|n| n.to_s.gsub(/^param_validator_/, '').to_i }.max
