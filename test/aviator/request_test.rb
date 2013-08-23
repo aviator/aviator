@@ -60,6 +60,7 @@ class Aviator::Test::Request < Aviator::Test::Base
         error = private_method.call rescue $!
 
         error.message.wont_be_nil
+        error.message.must_include "private method"
       end
 
 
@@ -85,6 +86,7 @@ class Aviator::Test::Request < Aviator::Test::Base
         error = private_method.call rescue $!
 
         error.message.wont_be_nil
+        error.message.must_include "private method"
       end
       
       
