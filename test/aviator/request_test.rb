@@ -6,6 +6,8 @@ class Aviator::Test::Request < Aviator::Test::Base
 
     def valid_class
       Class.new(Aviator::Request) do
+        endpoint_type :public
+        api_version :v2
         def path; end
       end
     end
@@ -13,7 +15,9 @@ class Aviator::Test::Request < Aviator::Test::Base
     describe '::new' do
       
       it 'raises an error if path is not defined' do
-        invalid_class = Class.new(Aviator::Request)
+        invalid_class = Class.new(valid_class) do
+          undef_method :path
+        end
                       
         initializer = lambda { invalid_class.new({}) }
         initializer.must_raise Aviator::Request::PathNotDefinedError
@@ -22,6 +26,58 @@ class Aviator::Test::Request < Aviator::Test::Base
         
         error.message.wont_be_nil
       end
+
+      
+      it 'raises an error when a required param is not provided' do
+        klass = Class.new(valid_class) do
+                  requires_param :name
+                end
+                      
+        initializer = lambda { klass.new({}) }
+        initializer.must_raise ArgumentError
+        
+        error = initializer.call rescue $!
+        
+        error.message.wont_be_nil
+      end
+  
+  
+      it 'does not raise any error when the required param is provided' do
+        klass = Class.new(valid_class) do
+                  requires_param :name
+                end
+                      
+        obj = klass.new({ name: 'somename' })
+      end
+
+
+      it 'raises an EndpointTypeNotDefinedError if endpoint type is not defined' do
+        invalid_class = Class.new(valid_class) do
+          undef_method :endpoint_type
+        end
+                      
+        initializer = lambda { invalid_class.new({}) }
+        initializer.must_raise Aviator::Request::EndpointTypeNotDefinedError
+        
+        error = initializer.call rescue $!
+        
+        error.message.wont_be_nil
+      end
+
+
+      it 'raises an ApiVersionNotDefinedError if endpoint type is not defined' do
+        invalid_class = Class.new(valid_class) do
+          undef_method :api_version
+        end
+                      
+        initializer = lambda { invalid_class.new({}) }
+        initializer.must_raise Aviator::Request::ApiVersionNotDefinedError
+        
+        error = initializer.call rescue $!
+        
+        error.message.wont_be_nil
+      end
+
       
     end
 
@@ -32,6 +88,17 @@ class Aviator::Test::Request < Aviator::Test::Base
         obj = valid_class.new
 
         obj.allow_anonymous?.must_equal false
+      end
+
+
+      it 'returns true if specified as such' do
+        klass = Class.new(valid_class) do 
+                  allow_anonymous
+                end
+                
+        obj = klass.new
+
+        obj.allow_anonymous?.must_equal true
       end
 
     end
@@ -48,17 +115,19 @@ class Aviator::Test::Request < Aviator::Test::Base
         error.message.wont_be_nil
       end
 
-
-      it 'sets a Request instance to allow anonymous access' do
-        klass = Class.new(valid_class) do 
-                  allow_anonymous
-                end
-                
-        obj = klass.new
-
-        obj.allow_anonymous?.must_equal true
+    end
+    
+    
+    describe '#api_version' do
+      
+      it 'returns the api version as defined' do
+        klass = Class.new(valid_class) do
+          api_version :v2
+        end
+        
+        klass.new.api_version.must_equal :v2
       end
-
+      
     end
     
     
@@ -78,7 +147,34 @@ class Aviator::Test::Request < Aviator::Test::Base
       end
       
     end
-    
+
+
+    describe '#endpoint_type' do    
+      
+      it 'returns the endpoint type if it is defined' do
+        class_with_endpoint_type = Class.new(valid_class) do
+          endpoint_type :public
+        end
+        
+        class_with_endpoint_type.new.endpoint_type.must_equal :public
+      end
+      
+    end
+
+
+    describe '::endpoint_type' do
+
+      it 'is a private class method' do
+        private_method = lambda { Aviator::Request.endpoint_type }
+        private_method.must_raise NoMethodError
+
+        error = private_method.call rescue $!
+
+        error.message.wont_be_nil
+      end
+
+    end
+        
     
     describe '#http_method' do
       
@@ -86,6 +182,17 @@ class Aviator::Test::Request < Aviator::Test::Base
         obj = valid_class.new
   
         obj.http_method.must_equal :get
+      end
+
+
+      it 'returns the http method if it is defined' do
+        klass = Class.new(valid_class) do 
+                  http_method :post
+                end
+                
+        obj = klass.new
+  
+        obj.http_method.must_equal :post
       end
       
     end
@@ -101,17 +208,6 @@ class Aviator::Test::Request < Aviator::Test::Base
   
         error.message.wont_be_nil
         error.message.must_include "private method"
-      end
-  
-  
-      it 'sets the http method of its instances' do
-        klass = Class.new(valid_class) do 
-                  http_method :post
-                end
-                
-        obj = klass.new
-  
-        obj.http_method.must_equal :post
       end
   
     end
@@ -145,29 +241,6 @@ class Aviator::Test::Request < Aviator::Test::Base
   
         error.message.wont_be_nil
         error.message.must_include "private method"
-      end
-      
-      
-      it 'causes a Request instance to raise an error when initialized without the param' do
-        klass = Class.new(valid_class) do
-                  requires_param :name
-                end
-                      
-        initializer = lambda { klass.new({}) }
-        initializer.must_raise ArgumentError
-        
-        error = initializer.call rescue $!
-        
-        error.message.wont_be_nil
-      end
-  
-  
-      it 'does not raise any error when the required param is provided on initialization' do
-        klass = Class.new(valid_class) do
-                  requires_param :name
-                end
-                      
-        obj = klass.new({ name: 'somename' })
       end
   
     end

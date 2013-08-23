@@ -2,6 +2,18 @@ module Aviator
   
   class Request
     
+    class ApiVersionNotDefinedError < StandardError
+      def initialize
+        super "api_version is not defined in #{ self.class }"
+      end
+    end
+    
+    class EndpointTypeNotDefinedError < StandardError
+      def initialize
+        super "endpoint_type is not defined in #{ self.class }"
+      end
+    end
+
     class PathNotDefinedError < StandardError
       def initialize
         super "path is not defined in #{ self.class }"
@@ -14,6 +26,8 @@ module Aviator
       @params = params
       
       raise PathNotDefinedError.new unless respond_to?(:path)
+      raise EndpointTypeNotDefinedError.new unless respond_to?(:endpoint_type)
+      raise ApiVersionNotDefinedError.new unless respond_to?(:api_version)
     end
     
     
@@ -57,6 +71,16 @@ module Aviator
       
       def allow_anonymous
         define_method :allow_anonymous?, lambda { true }
+      end
+      
+      
+      def api_version(value)
+        define_method :api_version, lambda { value }
+      end
+      
+      
+      def endpoint_type(value)
+        define_method :endpoint_type, lambda { value }
       end
       
       
