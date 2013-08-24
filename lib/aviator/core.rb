@@ -4,7 +4,6 @@ require 'faraday'
 
 require "aviator/version"
 require "aviator/core/request"
-require "aviator/core/request_builder"
 require "aviator/core/service"
 
 module Aviator
