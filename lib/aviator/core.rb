@@ -3,7 +3,9 @@ require 'active_support/inflector'
 require 'faraday'
 
 require "aviator/version"
-require "aviator/request"
+require "aviator/core/request"
+require "aviator/core/request_builder"
+require "aviator/core/service"
 
 module Aviator
   # Your code goes here...
