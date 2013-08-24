@@ -14,6 +14,12 @@ VCR.configure do |c|
     @vcr_port_matcher_registered = true
   end
 
+  c.filter_sensitive_data('"password":"<PASSWORD>"') { %Q{"password":"#{ Aviator::Test::Environment.admin[:password] }"} }
+  c.filter_sensitive_data('"password":"<PASSWORD>"') { %Q{"password":"#{ Aviator::Test::Environment.non_admin[:password] }"} }
+  c.filter_sensitive_data('<HOST_URI>') do
+    auth_url = URI(Aviator::Test::Environment.common[:auth_url])
+    auth_url.scheme + '://' + auth_url.host
+   end
 
   c.default_cassette_options = {
     # If no cassette exists for a spec, VCR will record. Afterwards, VCR will
