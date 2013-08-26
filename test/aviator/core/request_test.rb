@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'Aviator::Request' do
+  describe 'aviator/core/request' do
 
     describe '::new' do
 

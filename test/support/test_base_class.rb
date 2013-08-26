@@ -3,6 +3,7 @@ class Test < MiniTest::Spec
 
     def cassette_name
       path = self.class.to_s
+               .gsub(/^aviator\//, '')
                .gsub(/^Aviator::Test::/, '')
                .gsub(/::#/,  '/i_')
                .gsub(/::::/, '/c_')

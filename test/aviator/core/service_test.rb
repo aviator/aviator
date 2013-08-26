@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'Aviator::Service' do
+  describe 'aviator/core/service' do
     
     def klass
       Aviator::Service
