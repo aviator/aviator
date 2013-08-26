@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Aviator::Test::Service < Aviator::Test::Base
+class Aviator::Test
 
   describe 'Aviator::Service' do
     

@@ -1,7 +1,5 @@
 module Aviator
-module Test
-
-  class Base < MiniTest::Spec
+class Test < MiniTest::Spec
 
     def cassette_name
       path = self.class.to_s
@@ -10,9 +8,9 @@ module Test
                .gsub(/::::/, '/c_')
                .gsub(/::/,   '/')
                .underscore
-                   
+                 
       basename = __name__.gsub(/test_\d+_/, '')
-      
+    
       "#{ path }/#{ basename }"
     end
 
@@ -23,8 +21,6 @@ module Test
     after do
       ::VCR.eject_cassette
     end
-
-  end
 
 end
 end
