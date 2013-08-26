@@ -21,14 +21,16 @@ module Aviator
     end
 
 
-    def initialize
+    def initialize(session_data=nil)
+      @session_data = session_data
+
       params = self.class.params_class.new if self.class.params_class
-      
+
       if params
         yield(params) if block_given?
         validate_params(params)
       end
-      
+
       @params = params
     end
 
@@ -53,6 +55,11 @@ module Aviator
     end
 
 
+    def headers?
+      self.class.headers?
+    end
+
+
     def http_method
       self.class.http_method
     end
@@ -63,15 +70,25 @@ module Aviator
     end
 
 
-    def path?
-      self.class.path?
-    end
-
-
     def querystring?
       self.class.querystring?
     end
 
+
+    def session_data
+      @session_data
+    end
+
+
+    def session_data?
+      !session_data.nil?
+    end
+
+
+    def url?
+      self.class.url?
+    end
+    
 
     private
 
@@ -124,6 +141,11 @@ module Aviator
       end
 
 
+      def headers?
+        instance_methods.include? :headers
+      end
+
+
       def http_method(value=nil)
         if value
           @http_method = value
@@ -149,11 +171,6 @@ module Aviator
       end
 
 
-      def path?
-        instance_methods.include? :path
-      end
-
-
       def querystring?
         instance_methods.include? :querystring
       end
@@ -163,6 +180,11 @@ module Aviator
         @required_params ||= []
       end
 
+
+      def url?
+        instance_methods.include? :url
+      end
+      
 
       private
 

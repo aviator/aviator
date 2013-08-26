@@ -1,15 +1,21 @@
 common: &common
-  provider: openstack
-  auth_url: http://my.openstack.org:5000/v2.0
+  provider:     openstack
+  auth_service:
+    name:        identity
+    host_uri:    http://devstack:5000
+    request:     create_token
+    api_version: v2
   
 admin:
   <<: *common
-  username: admin
-  password: mypassword
-  tenantName: admin
+  auth_credentials:
+    username:   admin
+    password:   mypassword
+    tenantName: admin
 
 non_admin:
   <<: *common
-  username: nonadmin
-  password: mypassword
-  tenantName: nonadminproject
+  auth_credentials:
+    username:   nonadmin
+    password:   mypassword
+    tenantName: nonadminproject

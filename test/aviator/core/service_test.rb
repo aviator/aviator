@@ -3,62 +3,61 @@ require 'test_helper'
 class Aviator::Test
 
   describe 'aviator/core/service' do
+
+    def config
+      Environment.admin
+    end
     
     def klass
       Aviator::Service
     end
-    
+
+    def service
+      klass.new(
+        provider: config[:provider],
+        service:  config[:auth_service][:name]
+      )
+    end
+
     describe '#request' do
-      
-      def valid_params
-        lambda { |params|
-          params.username = Aviator::Test::Environment.admin[:username]
-          params.password = Aviator::Test::Environment.admin[:password]
+
+      def do_auth_request
+        request_name = config[:auth_service][:request].to_sym
+
+        bootstrap = {
+          auth_service: config[:auth_service]
         }
+
+        service.request request_name, bootstrap do |params|
+          config[:auth_credentials].each do |k,v|
+            params[k] = v
+          end
+        end
       end
 
+
+      it 'can find the correct request based on bootstrapped session data' do
+        response = do_auth_request
+
+        response.must_be_instance_of Aviator::Response
+        response.request.api_version.must_equal config[:auth_service][:api_version].to_sym
+      end
       
-      def valid_request
-        service = klass.new(
-                    provider: 'openstack',
-                    service:  'identity',
-                    access_details: {
-                      bootstrap: {
-                        url: Aviator::Test::Environment.admin[:auth_url]
-                      }
-                    }
-                  )
+      
+      it 'can find the correct request based on non-bootstrapped session data' do
+        session_data = do_auth_request.body
         
-        service.request :create_token, &valid_params
-      end
-
-            
-      it 'knows how to use the bootstrap access_details' do
-        response = valid_request
+        response = service.request :add_tenant, session_data do |params|
+          params.name        = 'Test Project'
+          params.description = 'This is a test'
+          params.enabled     =  true
+        end
         
         response.status.must_equal 200
       end
-      
-      
-      it 'returns an Aviator::Response object' do
-        response = valid_request
 
-        response.must_be_instance_of Aviator::Response
-      end
-      
-      
-      # it 'returns the created Aviator::Request object' do
-      #   params   = valid_params.call(Struct.new)
-      #   response = valid_request
-      # 
-      #   params.each do |key, value|
-      #     response.request.params.keys.must_include key
-      #     response.request.params[key].must_equal params[key]
-      #   end
-      # end
-      
     end
-    
+
   end
 
 end

@@ -192,47 +192,7 @@ class Aviator::Test
       end
     
     end
-    
-    
-    describe '::path?' do
-    
-      it 'returns false if the path method is not defined' do
-        klass = Class.new(Aviator::Request)
-    
-        klass.path?.must_equal false
-      end
-    
-    
-      it 'returns true if the path method is defined' do
-        klass = Class.new(Aviator::Request) do
-          def path; end
-        end
-      
-        klass.path?.must_equal true
-      end
-    
-    end
-    
-    
-    describe '#path?' do
-    
-      it 'returns false if the path method is not defined' do
-        klass = Class.new(Aviator::Request)
-    
-        klass.new.path?.must_equal false
-      end
-    
-    
-      it 'returns true if the path method is defined' do
-        klass = Class.new(Aviator::Request) do
-          def path; end
-        end
-      
-        klass.new.path?.must_equal true
-      end
-    
-    end
-    
+        
     
     describe '::required_param' do
     
@@ -247,6 +207,47 @@ class Aviator::Test
       end
     
     end
+
+
+    describe '::url?' do
+    
+      it 'returns false if the path method is not defined' do
+        klass = Class.new(Aviator::Request)
+    
+        klass.url?.must_equal false
+      end
+    
+    
+      it 'returns true if the path method is defined' do
+        klass = Class.new(Aviator::Request) do
+          def url; end
+        end
+      
+        klass.url?.must_equal true
+      end
+    
+    end
+    
+    
+    describe '#path?' do
+    
+      it 'returns false if the path method is not defined' do
+        klass = Class.new(Aviator::Request)
+    
+        klass.new.url?.must_equal false
+      end
+    
+    
+      it 'returns true if the path method is defined' do
+        klass = Class.new(Aviator::Request) do
+          def url; end
+        end
+      
+        klass.new.url?.must_equal true
+      end
+    
+    end
+
 
   end
 

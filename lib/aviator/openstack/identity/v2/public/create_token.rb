@@ -14,8 +14,10 @@ define_request :create_token do
   optional_param :tenantId
 
 
-  def path
-    'tokens'
+  # TODO: Add logic for when session_data is actually an OpenStack
+  # authentication response body and not auth bootstrap information
+  def url
+    "#{ session_data[:auth_service][:host_uri] }/v2.0/tokens"
   end
 
 

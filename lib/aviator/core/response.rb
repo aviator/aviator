@@ -5,7 +5,10 @@ module Aviator
     
     def method_missing(name, *args)
       case name
-      when :body, :headers, :status
+      when :body
+        @body ||= JSON.parse(response.body).with_indifferent_access
+        @body.dup
+      when :headers, :status
         response.send(name)
       when :request
         request
