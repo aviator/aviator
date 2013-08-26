@@ -66,8 +66,7 @@ module Aviator
 
 
     def request(request_name)
-      params = {}
-      yield params
+      params = yield
 
       request_class = find_request(request_name)
 

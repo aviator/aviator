@@ -9,7 +9,7 @@ class Aviator::Test::Service < Aviator::Test::Base
     end
     
     describe '#request' do
-      
+            
       it 'knows how to use the bootstrap access_details' do
         service = klass.new(
                     provider: 'openstack',
@@ -21,9 +21,11 @@ class Aviator::Test::Service < Aviator::Test::Base
                     }
                   )
         
-        response = service.request(:create_token) do |params|
-          params[:username] = Aviator::Test::Environment.admin[:username]
-          params[:password] = Aviator::Test::Environment.admin[:password]
+        response = service.request(:create_token) do
+          {
+            username: Aviator::Test::Environment.admin[:username],
+            password: Aviator::Test::Environment.admin[:password]
+          }
         end
         
         response.status.must_equal 200
@@ -41,9 +43,11 @@ class Aviator::Test::Service < Aviator::Test::Base
                     }
                   )
         
-        response = service.request(:create_token) do |params|
-          params[:username] = Aviator::Test::Environment.admin[:username]
-          params[:password] = Aviator::Test::Environment.admin[:password]
+        response = service.request(:create_token) do
+          {
+            username: Aviator::Test::Environment.admin[:username],
+            password: Aviator::Test::Environment.admin[:password] 
+          }
         end
 
         response.must_be_instance_of Aviator::Response
