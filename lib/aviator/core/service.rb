@@ -8,10 +8,15 @@ module Aviator
       end
     end
 
+    class ProviderNotDefinedError < StandardError
+      def initialize
+        super ":provider is not defined."
+      end
+    end
 
     class ServiceNameNotDefinedError < StandardError
       def initialize
-        super ":service_name is not defined."
+        super ":service is not defined."
       end
     end
 
@@ -26,9 +31,10 @@ module Aviator
     # Because we define requests in a flattened scope, we want to make sure that when each
     # request is initialized it doesn't get polluted by instance variables and methods
     # of the containing class. This builder class makes that happen by being a
-    # scope gate for the file.
+    # scope gate for the file. See Metaprogramming Ruby, specifically on blocks and scope
     class RequestBuilder
     
+      # This method gets called by the request file eval'd in self.build below
       def define_request(request_name, &block)
         klass = Class.new(Aviator::Request, &block)
         return request_name, klass
@@ -44,17 +50,16 @@ module Aviator
 
 
 
-    attr_reader :service_name,
+    attr_reader :service,
+                :provider,
                 :access_details
 
 
     def initialize(opts={})
-      @service_name   = opts[:service_name]
-      @access_details = opts[:access_details]
-
-      raise ServiceNameNotDefinedError.new if service_name.nil?
-      raise AccessDetailsNotDefinedError.new if access_details.nil?
-
+      @access_details = opts[:access_details] || (raise AccessDetailsNotDefinedError.new)
+      @provider       = opts[:provider]       || (raise ProviderNotDefinedError.new)
+      @service        = opts[:service]        || (raise ServiceNameNotDefinedError.new)
+      
       load_requests
       initialize_http_connection
     end
@@ -72,14 +77,14 @@ module Aviator
 
       http_connection.headers['X-Auth-Token'] = token unless request.anonymous?
 
-      result = http_connection.send(request.http_method) do |r|
+      response = http_connection.send(request.http_method) do |r|
         r.url request.path
 
         r.query = request.querystring if request.querystring?
         r.body  = JSON.generate(request.body) if request.body?
       end
 
-      result
+      Aviator::Response.send(:new, response, request)
     end
 
 
@@ -125,8 +130,8 @@ module Aviator
       request_file_paths = Dir.glob(Pathname.new(__FILE__).join(
                              '..', 
                              '..', 
-                             'openstack', 
-                             service_name.to_s, 
+                             provider.to_s, 
+                             service.to_s, 
                              '**', 
                              '*.rb'
                              ).expand_path
@@ -136,7 +141,6 @@ module Aviator
 
       request_file_paths.each do |path_to_file|
         request_name, klass = RequestBuilder.build(path_to_file)
-        key = "#{ klass.api_version }/#{ klass.endpoint_type }/#{ request_name }"
         
         api_version   = @requests[klass.api_version] ||= {}
         endpoint_type = api_version[klass.endpoint_type] ||= {}
