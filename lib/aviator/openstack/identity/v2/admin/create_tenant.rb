@@ -1,4 +1,4 @@
-define_request :add_tenant do
+define_request :create_tenant do
 
   endpoint_type :admin
   api_version   :v2

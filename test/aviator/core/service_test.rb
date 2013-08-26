@@ -47,7 +47,7 @@ class Aviator::Test
       it 'can find the correct request based on non-bootstrapped session data' do
         session_data = do_auth_request.body
         
-        response = service.request :add_tenant, session_data do |params|
+        response = service.request :create_tenant, session_data do |params|
           params.name        = 'Test Project'
           params.description = 'This is a test'
           params.enabled     =  true

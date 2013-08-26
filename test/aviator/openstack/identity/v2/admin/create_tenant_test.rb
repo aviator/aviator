@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'aviator/openstack/identity/v2/admin/add_tenant' do
+  describe 'aviator/openstack/identity/v2/admin/create_tenant' do
     
     def klass
       Aviator::Service
@@ -44,7 +44,7 @@ class Aviator::Test
       it 'knows how to extract and use the session data' do
         session_data = do_auth_request.body
         
-        response = service.request :add_tenant, session_data do |params|
+        response = service.request :create_tenant, session_data do |params|
           params.name        = 'Test Project'
           params.description = 'This is a test'
           params.enabled     =  true
