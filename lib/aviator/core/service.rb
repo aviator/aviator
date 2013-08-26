@@ -65,12 +65,12 @@ module Aviator
     end
 
 
-    def request(request_name, params)
+    def request(request_name, &params)
       request_class = find_request(request_name)
 
       raise UnknownRequestError.new(request_name) if request_class.nil?
 
-      request = request_class.new(params)
+      request = request_class.new(&params)
 
       http_connection.headers['X-Auth-Token'] = token unless request.anonymous?
 

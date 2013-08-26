@@ -6,8 +6,12 @@ define_request :create_token do
   api_version   :v2
   http_method   :post
 
-  requires_param :username
-  requires_param :password
+
+  required_param :username
+  required_param :password
+  
+  optional_param :tenantName
+  optional_param :tenantId
 
 
   def path

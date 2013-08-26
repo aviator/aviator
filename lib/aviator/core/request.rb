@@ -21,8 +21,14 @@ module Aviator
     end
 
 
-    def initialize(params={})
-      validate_params(params)
+    def initialize
+      params = self.class.params_class.new if self.class.params_class
+      
+      if params
+        yield(params) if block_given?
+        validate_params(params)
+      end
+      
       @params = params
     end
 
@@ -38,7 +44,7 @@ module Aviator
 
 
     def body?
-      self.respond_to? :body
+      self.class.body?
     end
 
 
@@ -55,15 +61,15 @@ module Aviator
     def params
       @params.dup
     end
-    
-    
+
+
     def path?
-      self.respond_to? :path
+      self.class.path?
     end
 
 
     def querystring?
-      respond_to? :querystring
+      self.class.querystring?
     end
 
 
@@ -71,32 +77,32 @@ module Aviator
 
 
     def validate_params(params)
-      validators = methods.select{ |name| name =~ /^param_validator_/ }
-      validators.each do |name|
-        send(name, params)
+      required_params = self.class.required_params
+
+      required_params.each do |name|
+        raise ArgumentError.new("Missing parameter #{ name }.") if params.send(name).nil?
       end
     end
 
 
+    # NOTE that, because we are defining the following as class methods, when they
+    # are called, all 'instance' variables are actually defined in the descendant class,
+    # not in the instance/object. This is by design since we want to keep these attributes
+    # within the class and because they don't change between instances anyway.
     class << self
 
       def anonymous
-        # @anonymous will be defined by the descendant class
-        # where this method (or macro) is called.
         @anonymous = true
       end
 
 
       def anonymous?
-        # @anonymous will be defined by the descendant class
         @anonymous == true
       end
 
 
       def api_version(value=nil)
         if value
-          # @api_version will be defined by the descendant
-          # class where this method is called.
           @api_version = value
         else
           @api_version
@@ -111,8 +117,6 @@ module Aviator
 
       def endpoint_type(value=nil)
         if value
-          # @endpoint_type will be defined by the descendant
-          # class where this method is called.
           @endpoint_type = value
         else
           @endpoint_type
@@ -122,8 +126,6 @@ module Aviator
 
       def http_method(value=nil)
         if value
-          # @http_method will be defined by the descendant
-          # class where this method is called.
           @http_method = value
         else
           @http_method
@@ -131,20 +133,46 @@ module Aviator
       end
 
 
+      def params_class
+        all_params = required_params + optional_params
+
+        if all_params.length > 0
+          @params_class ||= Struct.new(*all_params)
+        end
+
+        @params_class
+      end
+
+
+      def optional_params
+        @optional_params ||= []
+      end
+
+
       def path?
         instance_methods.include? :path
       end
-      
+
+
+      def querystring?
+        instance_methods.include? :querystring
+      end
+
+
+      def required_params
+        @required_params ||= []
+      end
+
 
       private
 
+      def required_param(param_name)
+        required_params << param_name unless required_params.include?(param_name)
+      end
 
-      def requires_param(param_name)
-        last_num = instance_methods.map{|n| n.to_s.gsub(/^param_validator_/, '').to_i }.max
 
-        define_method "param_validator_#{ last_num + 1 }".to_sym, lambda { |params|
-          raise ArgumentError.new("Missing parameter #{ param_name }.") unless params.keys.include? param_name
-        }
+      def optional_param(param_name)
+        optional_params << param_name unless optional_params.include?(param_name)
       end
 
     end
