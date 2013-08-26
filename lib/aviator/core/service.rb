@@ -65,9 +65,7 @@ module Aviator
     end
 
 
-    def request(request_name)
-      params = yield
-
+    def request(request_name, params)
       request_class = find_request(request_name)
 
       raise UnknownRequestError.new(request_name) if request_class.nil?
