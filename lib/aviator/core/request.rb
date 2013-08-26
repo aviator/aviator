@@ -50,6 +50,11 @@ module Aviator
     def http_method
       self.class.http_method
     end
+
+
+    def params
+      @params.dup
+    end
     
     
     def path?
@@ -63,11 +68,6 @@ module Aviator
 
 
     private
-
-
-    def params
-      @params.dup
-    end
 
 
     def validate_params(params)
