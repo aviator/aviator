@@ -133,6 +133,8 @@ module Aviator
 
 
     def load_requests
+      # TODO: This should be determined by a provider-specific module.
+      # e.g. Aviator::OpenStack::requests_base_dir
       request_file_paths = Dir.glob(Pathname.new(__FILE__).join(
                              '..',
                              '..',
