@@ -1,0 +1,38 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"<PASSWORD>"}}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '329'
+      date:
+      - Tue, 27 Aug 2013 05:23:33 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-08-27T05:23:33.682648",
+        "expires": "2013-08-28T05:23:33Z", "id": "48b30d7a219b4e249f90a1ab988a451f"},
+        "serviceCatalog": [], "user": {"username": "admin", "roles_links": [], "id":
+        "cbbcc4f7aef6435fa2da7e5f0b2f1e97", "roles": [], "name": "admin"}, "metadata":
+        {"is_admin": 0, "roles": []}}}'
+    http_version: 
+  recorded_at: Tue, 27 Aug 2013 05:22:43 GMT
+recorded_with: VCR 2.5.0

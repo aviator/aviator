@@ -76,6 +76,39 @@ class Aviator::Test
     end
 
 
+    it 'leads to a valid response when provided with valid params' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity'
+      )
+      
+      response = service.request :create_token, RequestHelper.admin_bootstrap_session_data do |params|
+        params[:username] = Environment.openstack_admin[:auth_credentials][:username]
+        params[:password] = Environment.openstack_admin[:auth_credentials][:password]
+      end
+      
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+
+
+    it 'leads to a valid response when provided with invalid params' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity'
+      )
+      
+      response = service.request :create_token, RequestHelper.admin_bootstrap_session_data do |params|
+        params[:username] = 'somebogususer'
+        params[:password] = 'doesitreallymatter?'
+      end
+      
+      response.status.must_equal 401
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+    
   end
 
 end

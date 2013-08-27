@@ -1,0 +1,35 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"somebogususer","password":"doesitreallymatter?"}}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 401
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '98'
+      date:
+      - Tue, 27 Aug 2013 05:26:34 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"error": {"message": "Could not find user: somebogususer", "code":
+        401, "title": "Unauthorized"}}'
+    http_version: 
+  recorded_at: Tue, 27 Aug 2013 05:25:42 GMT
+recorded_with: VCR 2.5.0
