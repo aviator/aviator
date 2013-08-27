@@ -13,6 +13,21 @@ class Aviator::Test
     end
 
 
+    def new_session_data
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity'
+      )
+      
+      response = service.request :create_token, RequestHelper.admin_bootstrap_session_data do |params|
+        auth_credentials = Environment.openstack_admin[:auth_credentials]
+        auth_credentials.each { |key, value| params[key] = auth_credentials[key] }
+      end
+      
+      response.body
+    end
+
+
     def helper
       Aviator::Test::RequestHelper
     end
@@ -83,6 +98,42 @@ class Aviator::Test
       end
 
       request.body.must_equal body
+    end
+
+
+    it 'leads to a valid response when provided with valid params' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity'
+      )
+      
+      response = service.request :create_tenant, new_session_data do |params|
+        params[:name]        = "Project 1377582007"
+        params[:description] = 'My Project'
+        params[:enabled]     = true
+      end
+      
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+
+
+    it 'leads to a valid response when provided with invalid params' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity'
+      )
+      
+      response = service.request :create_tenant, new_session_data do |params|
+        params[:name]        = ""
+        params[:description] = ""
+        params[:enabled]     = true
+      end
+      
+      response.status.must_equal 400
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
     end
 
   end
