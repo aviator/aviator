@@ -37,6 +37,13 @@ class Test
           [{"name": "admin"}], "name": "admin"}, "metadata": {"is_admin": 0, "roles":
           ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}').with_indifferent_access
       end
+
+
+      def admin_bootstrap_session_data
+        {
+          auth_service: Environment.admin[:auth_service]
+        }
+      end
     
     
       def request_path(*path)
