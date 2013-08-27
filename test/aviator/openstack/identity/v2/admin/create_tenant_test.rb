@@ -104,10 +104,11 @@ class Aviator::Test
     it 'leads to a valid response when provided with valid params' do
       service = Aviator::Service.new(
         provider: 'openstack',
-        service:  'identity'
+        service:  'identity',
+        default_session_data: new_session_data
       )
       
-      response = service.request :create_tenant, new_session_data do |params|
+      response = service.request :create_tenant do |params|
         params[:name]        = "Project 1377582007"
         params[:description] = 'My Project'
         params[:enabled]     = true
@@ -122,10 +123,11 @@ class Aviator::Test
     it 'leads to a valid response when provided with invalid params' do
       service = Aviator::Service.new(
         provider: 'openstack',
-        service:  'identity'
+        service:  'identity',
+        default_session_data: new_session_data
       )
       
-      response = service.request :create_tenant, new_session_data do |params|
+      response = service.request :create_tenant do |params|
         params[:name]        = ""
         params[:description] = ""
         params[:enabled]     = true
