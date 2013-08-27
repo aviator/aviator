@@ -45,8 +45,8 @@ module Aviator
         clean_room = new
         clean_room.instance_eval(File.read(path_to_request_file))
       end
-      
-      
+
+
       private_class_method :new
 
     end
@@ -63,6 +63,7 @@ module Aviator
 
       load_requests
     end
+
 
     def request(request_name, session_data, &params)
       request_class = find_request(request_name, session_data) || (raise UnknownRequestError.new(request_name))
@@ -104,7 +105,7 @@ module Aviator
 
       nil
     end
-    
+
 
     # Candidate for extraction to aviator/openstack
     def infer_version(session_data)
