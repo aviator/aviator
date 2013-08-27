@@ -20,6 +20,13 @@ module Aviator
       end
     end
 
+    class SessionDataNotProvidedError < StandardError
+      def initialize
+        super "default_session_data is not initialized and no session data was "\
+              "provided in the method call."
+      end
+    end
+
 
     class UnknownRequestError < StandardError
       def initialize(request_name)
@@ -54,18 +61,25 @@ module Aviator
 
 
     attr_reader :service,
-                :provider
+                :provider,
+                :default_session_data
 
 
     def initialize(opts={})
       @provider = opts[:provider] || (raise ProviderNotDefinedError.new)
       @service  = opts[:service]  || (raise ServiceNameNotDefinedError.new)
+      
+      @default_session_data = opts[:default_session_data]
 
       load_requests
     end
 
 
-    def request(request_name, session_data, &params)
+    def request(request_name, session_data=nil, &params)
+      session_data ||= default_session_data
+      
+      raise SessionDataNotProvidedError.new unless session_data
+      
       request_class = find_request(request_name, session_data) || (raise UnknownRequestError.new(request_name))
       request       = request_class.new(session_data, &params)
 
