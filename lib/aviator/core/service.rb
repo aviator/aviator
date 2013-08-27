@@ -37,14 +37,17 @@ module Aviator
       # This method gets called by the request file eval'd in self.build below
       def define_request(request_name, &block)
         klass = Class.new(Aviator::Request, &block)
-        return request_name, klass
+        return klass, request_name
       end
 
 
       def self.build(path_to_request_file)
-        clean_room = self.new
+        clean_room = new
         clean_room.instance_eval(File.read(path_to_request_file))
       end
+      
+      
+      private_class_method :new
 
     end
 
@@ -128,7 +131,7 @@ module Aviator
       @requests ||= {}
 
       request_file_paths.each do |path_to_file|
-        request_name, klass = RequestBuilder.build(path_to_file)
+        klass, request_name = RequestBuilder.build(path_to_file)
 
         api_version   = @requests[klass.api_version] ||= {}
         endpoint_type = api_version[klass.endpoint_type] ||= {}

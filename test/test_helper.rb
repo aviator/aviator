@@ -21,6 +21,9 @@ unless ENV['CI'] || ENV['TRAVIS']
   require 'pry'
 end
 
+# Make sure this loads first
+require Pathname.new(__FILE__).join('..', 'support', 'test_base_class.rb').expand_path
+
 # Load all helpers in test/support
 Dir[Pathname.new(__FILE__).join('..', 'support', '*.rb')].each do |f|
   require f
