@@ -6,8 +6,8 @@ class Aviator::Test
 
     def create_request
       klass.new(helper.admin_bootstrap_session_data) do |params|
-        params[:username] = Environment.admin[:auth_credentials][:username]
-        params[:password] = Environment.admin[:auth_credentials][:password]
+        params[:username] = Environment.openstack_admin[:auth_credentials][:username]
+        params[:password] = Environment.openstack_admin[:auth_credentials][:password]
       end
     end
 
@@ -66,8 +66,8 @@ class Aviator::Test
       p = {
         auth: {
           passwordCredentials: {
-            username: Environment.admin[:auth_credentials][:username],
-            password: Environment.admin[:auth_credentials][:password]
+            username: Environment.openstack_admin[:auth_credentials][:username],
+            password: Environment.openstack_admin[:auth_credentials][:password]
           }
         }
       }

@@ -41,7 +41,7 @@ class Test
 
       def admin_bootstrap_session_data
         {
-          auth_service: Environment.admin[:auth_service]
+          auth_service: Environment.openstack_admin[:auth_service]
         }
       end
     

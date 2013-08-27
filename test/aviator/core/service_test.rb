@@ -5,7 +5,7 @@ class Aviator::Test
   describe 'aviator/core/service' do
 
     def config
-      Environment.admin
+      Environment.openstack_admin
     end
     
     def klass
