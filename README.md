@@ -71,10 +71,11 @@ response = keystone.request(:create_tenant) do |params|
   params[:enabled]     = true
 end
 
-# Aviator attempts to match the parameter names as defined in the official OpenStack API 
-# doc. However, keep in mind that OpenStack parameters that have dashes and other characters
-# that are not valid for method names and symbols should be expressed as strings. 
-# E.g. params['changes-since']
+# Aviator uses parameter names as defined in the official OpenStack API doc. You can 
+# also access the params via dot notation (e.g. params.description) or by using a string
+# for a hash key (e.g. params['description']). However, keep in mind that OpenStack
+# parameters that have dashes and other characters that are not valid for method names
+# and symbols must be expressed as strings. E.g. params['changes-since']
 
 
 # You may also query Aviator for the parameters via the CLI. With the Aviator gem 
