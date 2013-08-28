@@ -1,0 +1,103 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"<PASSWORD>"},"tenantName":"admin"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2648'
+      date:
+      - Tue, 27 Aug 2013 17:28:02 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-08-27T17:28:02.980198",
+        "expires": "2013-08-28T17:28:02Z", "id": "a45ef1f5c8694595b5480d99471ef2e1",
+        "tenant": {"description": null, "enabled": true, "id": "3cab25130620477b8b03f1bfa8741603",
+        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
+        "id": "3b72a66bf2f0491bb8dba827cade0d48", "publicURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:3333", "region": "RegionOne", "internalURL": "http://192.168.56.11:3333",
+        "id": "482f749b370c40eab8788d6d0bc47f48", "publicURL": "http://192.168.56.11:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:9292", "region": "RegionOne", "internalURL": "http://192.168.56.11:9292",
+        "id": "0cd5d5d5a0c24721a0392b47c89e3640", "publicURL": "http://192.168.56.11:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:8777", "region": "RegionOne", "internalURL": "http://192.168.56.11:8777",
+        "id": "4eb4edec1d2647bfb8ba4f9a5757169d", "publicURL": "http://192.168.56.11:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603",
+        "id": "009e8a41953d439f845b2a0c0dc28b73", "publicURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://192.168.56.11:8773/services/Admin", "region": "RegionOne",
+        "internalURL": "http://192.168.56.11:8773/services/Cloud", "id": "6820836ec6834548bf7b54da0271dded",
+        "publicURL": "http://192.168.56.11:8773/services/Cloud"}], "endpoints_links":
+        [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://192.168.56.11:35357/v2.0",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:5000/v2.0", "id":
+        "24a95f51f67949e784971e97463ee4d8", "publicURL": "http://192.168.56.11:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "admin", "roles_links": [], "id": "cbbcc4f7aef6435fa2da7e5f0b2f1e97", "roles":
+        [{"name": "admin"}], "name": "admin"}, "metadata": {"is_admin": 0, "roles":
+        ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'
+    http_version: 
+  recorded_at: Wed, 28 Aug 2013 04:16:27 GMT
+- request:
+    method: get
+    uri: http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603/images/detail?name=cirros-0.3.1-x86_64-uec-ramdisk
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - a45ef1f5c8694595b5480d99471ef2e1
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-ca4bd32d-1157-40a1-9cbd-8b478befcc7a
+      content-type:
+      - application/json
+      content-length:
+      - '741'
+      date:
+      - Tue, 27 Aug 2013 17:28:03 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"images": [{"status": "ACTIVE", "updated": "2013-07-30T22:31:21Z",
+        "links": [{"href": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
+        "rel": "self"}, {"href": "http://192.168.56.11:8774/3cab25130620477b8b03f1bfa8741603/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
+        "rel": "bookmark"}, {"href": "http://10.0.2.15:9292/3cab25130620477b8b03f1bfa8741603/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
+        "type": "application/vnd.openstack.image", "rel": "alternate"}], "id": "3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
+        "OS-EXT-IMG-SIZE:size": 3714968, "name": "cirros-0.3.1-x86_64-uec-ramdisk",
+        "created": "2013-07-30T22:31:21Z", "minDisk": 0, "progress": 100, "minRam":
+        0, "metadata": {}}]}'
+    http_version: 
+  recorded_at: Wed, 28 Aug 2013 04:16:27 GMT
+recorded_with: VCR 2.5.0
