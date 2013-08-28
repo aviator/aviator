@@ -65,6 +65,11 @@ module Aviator
     end
 
 
+    def optional_params
+      self.class.optional_params
+    end
+
+
     def params
       @params.dup
     end
@@ -72,6 +77,11 @@ module Aviator
 
     def querystring?
       self.class.querystring?
+    end
+
+
+    def required_params
+      self.class.required_params
     end
 
 
@@ -88,7 +98,7 @@ module Aviator
     def url?
       self.class.url?
     end
-    
+
 
     private
 
@@ -184,7 +194,7 @@ module Aviator
       def url?
         instance_methods.include? :url
       end
-      
+
 
       private
 
