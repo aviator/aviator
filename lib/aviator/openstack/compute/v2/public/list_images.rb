@@ -4,11 +4,11 @@ define_request :list_images do
   api_version   :v2
   http_method   :get
 
-  optional_param :show_details
+  optional_param :details
   optional_param :server
   optional_param :name
   optional_param :status
-  optional_param :changes_since
+  optional_param 'changes-since'
   optional_param :marker
   optional_param :limit
   optional_param :type
@@ -19,14 +19,12 @@ define_request :list_images do
     service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
     
     str  = "#{ service_spec[:endpoints][0][:publicURL] }/images"
-    str += "/detail" if params[:show_details]
+    str += "/detail" if params[:details]
     
     filters = []
     
-    (optional_params + required_params - [:show_details]).each do |param_name|
-      query_key = (param_name == :changes_since ? 'changes-since' : param_name)
-      
-      filters << "#{ query_key }=#{ params[param_name] }" if params[param_name]
+    (optional_params + required_params - [:details]).each do |param_name|
+      filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
     end
     
     str += "?#{ filters.join('&') }" unless filters.empty?

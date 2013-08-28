@@ -53,11 +53,11 @@ class Aviator::Test
 
     it 'has the correct list of optional parameters' do
       klass.optional_params.must_equal [
-        :show_details,
+        :details,
         :server,
         :name,
         :status,
-        :changes_since,
+        'changes-since',
         :marker,
         :limit,
         :type
@@ -76,10 +76,10 @@ class Aviator::Test
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/images"
             
       params = [
-        [ :show_details,  true                             ],
-        [ :name,         'cirros-0.3.1-x86_64-uec-ramdisk' ],
-        [ :status,       'ACTIVE'                          ],
-        [ :type,         'application/vnd.openstack.image' ]
+        [ :details,  true                             ],
+        [ :name,    'cirros-0.3.1-x86_64-uec-ramdisk' ],
+        [ :status,  'ACTIVE'                          ],
+        [ :type,    'application/vnd.openstack.image' ]
       ]
 
       url += "/detail" if params.first[1]
@@ -139,7 +139,7 @@ class Aviator::Test
       )
       
       response = service.request :list_images do |params|
-        params[:show_details] = true
+        params[:details] = true
         params[:name] = "cirros-0.3.1-x86_64-uec-ramdisk"
       end
       
