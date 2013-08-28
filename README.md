@@ -94,22 +94,11 @@ $ aviator describe openstack identity
 $ aviator describe openstack identity create_tenant
 
 
-# Be explicit about API version and endpoint type to use. Note that if Aviator does not
-# implement the given version + endpoint, an exception will be raised. If Aviator
-# implements it but the the underlying OpenStack service does not, Aviator will not
-# raise an error and will return a Response object with the appropriate status and body
-keystone_v3 = keystone.use(api_version: 'v3', endpoint_type: 'admin')
+# Be explicit about the endpoint type to use. Useful in the rare instances when
+# the same request name means differently depending on the endpoint type.
 
-response = keystone_v3.request(:list_projects) do |params|
-  params['project_id'] = project_id
-end
-
-keystone_v2 = keystone.use(api_version: 'v2', endpoint_type: 'admin')
-
-response = keystone_v2.request(:create_tenant) do |params|
-  params['name']        = 'ACME corp'
-  params['description'] = 'A description...'
-  params['enabled']     = true
+response = keystone.request(:list_tenants, endpoint_type: 'admin') do |params|
+  params['tenantName'] = tenant_name
 end
 ```
   

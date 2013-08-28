@@ -23,6 +23,7 @@ class Aviator::Test
       klass.new(options)
     end
 
+
     describe '#request' do
 
       def do_auth_request
@@ -32,7 +33,7 @@ class Aviator::Test
           auth_service: config[:auth_service]
         }
 
-        service.request request_name, bootstrap do |params|
+        service.request request_name, session_data: bootstrap do |params|
           config[:auth_credentials].each do |k,v|
             params[k] = v
           end
@@ -51,7 +52,7 @@ class Aviator::Test
       it 'can find the correct request based on non-bootstrapped session data' do
         session_data = do_auth_request.body
         
-        response = service.request :create_tenant, session_data do |params|
+        response = service.request :create_tenant, session_data: session_data do |params|
           params.name        = 'Test Project'
           params.description = 'This is a test'
           params.enabled     =  true
@@ -87,6 +88,17 @@ class Aviator::Test
         the_method.must_raise Aviator::Service::SessionDataNotProvidedError
         error = the_method.call rescue $!
         error.message.wont_be_nil
+      end
+      
+      
+      it 'accepts an endpoint type option for selecting a specific request' do
+        default_session_data = do_auth_request.body
+        s = service(default_session_data)
+      
+        response1 = s.request :list_tenants, endpoint_type: 'admin'
+        response2 = s.request :list_tenants, endpoint_type: 'public'
+        
+        response1.request.url.wont_equal response2.request.url
       end
 
     end

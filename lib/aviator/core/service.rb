@@ -75,13 +75,16 @@ module Aviator
     end
 
 
-    def request(request_name, session_data=nil, &params)
-      session_data ||= default_session_data
+    def request(request_name, options={}, &params)
+      session_data = options[:session_data] || default_session_data
       
       raise SessionDataNotProvidedError.new unless session_data
       
-      request_class = find_request(request_name, session_data) || (raise UnknownRequestError.new(request_name))
-      request       = request_class.new(session_data, &params)
+      request_class = find_request(request_name, session_data, options[:endpoint_type])
+
+      raise UnknownRequestError.new(request_name) unless request_class
+      
+      request  = request_class.new(session_data, &params)
 
       response = http_connection.send(request.http_method) do |r|
         r.url        request.url
@@ -106,12 +109,18 @@ module Aviator
 
 
     # Candidate for extraction to aviator/openstack
-    def find_request(name, session_data)
+    def find_request(name, session_data, endpoint_type=nil)
+      endpoint_types = if endpoint_type
+                         [endpoint_type.to_sym]
+                       else
+                         [:public, :admin]
+                       end
+      
       version = infer_version(session_data)
 
       return nil unless version && requests[version]
 
-      [:public, :admin].each do |endpoint_type|
+      endpoint_types.each do |endpoint_type|
         next unless requests[version][endpoint_type]
         pair = requests[version][endpoint_type].find{ |k, v| k == name }
         return pair[1] unless pair.nil?
