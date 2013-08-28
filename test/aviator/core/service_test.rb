@@ -47,6 +47,28 @@ class Aviator::Test
         response.must_be_instance_of Aviator::Response
         response.request.api_version.must_equal config[:auth_service][:api_version].to_sym
       end
+
+
+      it 'can find the correct request if api version is not defined but can be inferred from host_uri' do
+        request_name = config[:auth_service][:request].to_sym
+
+        bootstrap = {
+          auth_service: {
+            name:        'identity',
+            host_uri:    'http://devstack:5000/v2.0',
+            request:     'create_token'
+          }
+        }
+
+        response = service.request request_name, session_data: bootstrap do |params|
+          config[:auth_credentials].each do |k,v|
+            params[k] = v
+          end
+        end
+      
+        response.must_be_instance_of Aviator::Response
+        response.request.api_version.must_equal :v2
+      end
       
       
       it 'can find the correct request based on non-bootstrapped session data' do

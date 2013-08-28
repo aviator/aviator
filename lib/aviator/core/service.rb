@@ -68,7 +68,7 @@ module Aviator
     def initialize(opts={})
       @provider = opts[:provider] || (raise ProviderNotDefinedError.new)
       @service  = opts[:service]  || (raise ServiceNameNotDefinedError.new)
-      
+
       @default_session_data = opts[:default_session_data]
 
       load_requests
@@ -77,13 +77,13 @@ module Aviator
 
     def request(request_name, options={}, &params)
       session_data = options[:session_data] || default_session_data
-      
+
       raise SessionDataNotProvidedError.new unless session_data
-      
+
       request_class = find_request(request_name, session_data, options[:endpoint_type])
 
       raise UnknownRequestError.new(request_name) unless request_class
-      
+
       request  = request_class.new(session_data, &params)
 
       response = http_connection.send(request.http_method) do |r|
@@ -115,7 +115,7 @@ module Aviator
                        else
                          [:public, :admin]
                        end
-      
+
       version = infer_version(session_data)
 
       return nil unless version && requests[version]
@@ -132,8 +132,13 @@ module Aviator
 
     # Candidate for extraction to aviator/openstack
     def infer_version(session_data)
-      if session_data.has_key? :auth_service
+      if session_data.has_key?(:auth_service) && session_data[:auth_service][:api_version]
         session_data[:auth_service][:api_version].to_sym
+
+      elsif session_data.has_key?(:auth_service) && session_data[:auth_service][:host_uri]
+        m = session_data[:auth_service][:host_uri].match(/(v\d+)\.?\d*/)
+        return m[1].to_sym unless m.nil?
+
       elsif session_data.has_key? :access
         service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
         service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)[1].to_sym
