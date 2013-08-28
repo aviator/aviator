@@ -22,47 +22,40 @@ Or install it yourself as:
 ```ruby
 require 'aviator'
 
-# Authenticate against openstack as specified in :config_file generating a new default
-# token in the process.
+# Create a new session
 session = Aviator::Session.new(
             config_file: 'path/to/aviator.yml',
-            env:         :production,
+            environment: :production,
             log_file:    'path/to/aviator.log'
           )
 
-# Authenticate against openstack as specified in :config_file but log in as specified
-# user, generating a new default token in the process
-session = Aviator::Session.new(
-            config_file: 'path/to/aviator.yml', 
-            env:         :production,
-            username:     username, 
-            password:     password, 
-            log_file:    'path/to/aviator.log'
-          )
-
-# In both methods above, Aviator::Session automatically tracks the session data
-# (access/token data for OpenStack) in memory and is accessible via `Session#to_json`
-# for caching.
+# Authenticate against the auth service specified in :config_file
+session.authenticate
 
 
-# Loads a serialized session object
-session = Aviator::Session.load(json_string)
+# Aviator::Session automatically keeps track of your authentication data in an in-memory
+# keychain. For example, the authentication data from above is automatically stored 
+# in `session.keys[:default]`
 
-# Return a new session object scoped to the default token
-scoped_session = session.scope(:default)
+# To create another key, just call Session#authenticate with an extra parameter:
+session.authenticate(key_name: 'anotherkey') do |credentials|
+  credentials[:username]   = myusername
+  credentials[:password]   = mypassword
+  credentials[:tenantName] = tenantName
+end
 
-# Return a new session object with a token scoped to :tenant_id. If scoped token does not
-# exist, create one. If scoped token exists but is expired, create a new one. Otherwise,
-# re-use existing one
-scoped_session = session.scope(tenant_id: '...')
+# You can access the key at:
+session.keys['anotherkey']
 
-# Return a new session object with a token scoped to :tenant_name. If scoped token does
-# not exist, create one. If scoped token exists but is expired, create a new one. Otherwise, 
-# re-use existing one
-scoped_session = session.scope(tenant_name: '...')
+# Or you can create another session object that uses that key by default:
+session2 = session.use_key('anotherkey')
 
-# Get connection to Keystone
-keystone = scoped_session.identity_service
+# Get connection to the Identity Service using the token in the default key
+keystone = session.identity_service
+
+# Get connection to the Identity Service using the token in the 'anotherkey' key
+keystone2 = session2.identity_service
+
 
 # Create a new tenant
 response = keystone.request(:create_tenant) do |params|

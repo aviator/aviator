@@ -7,15 +7,17 @@ class Test
     
     class << self
       
-      attr_reader :config
+      attr_reader :config,
+                  :path
       
       def init!
-        config_path = Pathname.new(__FILE__).join('..', '..', 'environment.yml').expand_path
+        @path = Pathname.new(__FILE__).join('..', '..', 'environment.yml').expand_path
 
-        raise "Environment file #{ config_path } does not exist. Please make one." unless config_path.file?
+        raise "Environment file #{ path } does not exist. Please make one." unless path.file?
       
-        @config = YAML.load_file(config_path).with_indifferent_access
+        @config = YAML.load_file(path).with_indifferent_access
       end
+      
       
       def method_missing(name, *args)
         if config.keys.include? name.to_s
