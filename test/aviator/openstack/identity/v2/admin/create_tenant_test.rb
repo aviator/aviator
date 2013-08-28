@@ -19,7 +19,9 @@ class Aviator::Test
         service:  'identity'
       )
       
-      response = service.request :create_token, RequestHelper.admin_bootstrap_session_data do |params|
+      bootstrap = RequestHelper.admin_bootstrap_session_data
+      
+      response = service.request :create_token, session_data: bootstrap do |params|
         auth_credentials = Environment.openstack_admin[:auth_credentials]
         auth_credentials.each { |key, value| params[key] = auth_credentials[key] }
       end
