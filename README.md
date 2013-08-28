@@ -78,6 +78,16 @@ end
 # and symbols must be expressed as strings. E.g. params['changes-since']
 
 
+# Be explicit about the endpoint type to use. Useful in the rare instances when
+# the same request name means differently depending on the endpoint type.
+response = keystone.request(:list_tenants, endpoint_type: 'admin') do |params|
+  params['tenantName'] = tenant_name
+end
+```
+
+## CLI tools
+
+```bash
 # You may also query Aviator for the parameters via the CLI. With the Aviator gem 
 # installed, run the following commands:
 
@@ -92,14 +102,6 @@ $ aviator describe openstack identity
 
 # describe the create_tenant request of the identity service
 $ aviator describe openstack identity create_tenant
-
-
-# Be explicit about the endpoint type to use. Useful in the rare instances when
-# the same request name means differently depending on the endpoint type.
-
-response = keystone.request(:list_tenants, endpoint_type: 'admin') do |params|
-  params['tenantName'] = tenant_name
-end
 ```
   
 ## Contributing
