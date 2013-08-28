@@ -40,12 +40,12 @@ class Aviator::Test
 
 
     it 'has the correct list of required parameters' do
-      klass.required_params.must_equal [:username, :password]
+      klass.required_params.must_equal []
     end
 
 
     it 'has the correct list of optional parameters' do
-      klass.optional_params.must_equal [:tenantName, :tenantId]
+      klass.optional_params.must_equal [:username, :password, :tokenId, :tenantName, :tenantId]
     end
 
 
@@ -86,6 +86,31 @@ class Aviator::Test
       response = service.request :create_token do |params|
         params[:username] = Environment.openstack_admin[:auth_credentials][:username]
         params[:password] = Environment.openstack_admin[:auth_credentials][:password]
+      end
+      
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+
+
+    it 'leads to a valid response when provided with a token' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity',
+        default_session_data: RequestHelper.admin_bootstrap_session_data
+      )
+      
+      response = service.request :create_token do |params|
+        params[:username] = Environment.openstack_admin[:auth_credentials][:username]
+        params[:password] = Environment.openstack_admin[:auth_credentials][:password]
+      end
+      
+      token = response.body[:access][:token][:id]
+      
+      response = service.request :create_token do |params|
+        params[:tokenId]    = token
+        params[:tenantName] = Environment.openstack_admin[:auth_credentials][:tenantName]
       end
       
       response.status.must_equal 200

@@ -7,8 +7,9 @@ define_request :create_token do
   http_method   :post
 
 
-  required_param :username
-  required_param :password
+  optional_param :username
+  optional_param :password
+  optional_param :tokenId
   
   optional_param :tenantName
   optional_param :tenantId
@@ -22,14 +23,24 @@ define_request :create_token do
 
 
   def body
-    p = {
-      auth: {
-        passwordCredentials: {
-          username: params[:username],
-          password: params[:password]
-        }
-      }
-    }
+    p = if params[:tokenId]
+          {
+            auth: {
+              token: {
+                id: params[:tokenId]
+              }
+            }
+          }
+        else
+          {
+            auth: {
+              passwordCredentials: {
+                username: params[:username],
+                password: params[:password]
+              }
+            }
+          }
+        end
     
     p[:auth][:tenantName] = params[:tenantName] if params[:tenantName]
     p[:auth][:tenantId]   = params[:tenantId]   if params[:tenantId]
