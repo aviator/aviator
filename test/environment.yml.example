@@ -4,6 +4,7 @@ openstack: &openstack
     name:        identity
     host_uri:    http://devstack:5000
     request:     create_token
+    validator:   list_tenants
     api_version: v2
   
 openstack_admin:

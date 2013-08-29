@@ -30,6 +30,13 @@ module Aviator
     end
 
 
+    class ValidatorNotDefinedError < StandardError
+      def initialize
+        super("The validator request name is not defined for this session object.")
+      end
+    end
+
+
     def initialize(opts={})
       config_path  = opts[:config_file]
       environment  = opts[:environment]
@@ -91,6 +98,16 @@ module Aviator
       opts[:session_dump] = session_dump
       
       new(opts)
+    end
+    
+    
+    def validate
+      raise NotAuthenticatedError.new unless authenticated?
+      raise ValidatorNotDefinedError.new unless environment[:auth_service][:validator]
+      
+      response = auth_service.request environment[:auth_service][:validator].to_sym, session_data: auth_info
+      
+      response.status == 200 || response.status == 203
     end
     
     

@@ -149,6 +149,35 @@ class Aviator::Test
     end
     
     
+    describe '#validate' do
+      
+      it 'returns true if session is still valid' do
+        session = new_session
+        session.authenticate
+        
+        session.validate.must_equal true
+      end
+      
+      
+      it 'returns false if session is no longer valid' do
+        session = new_session
+        session.authenticate
+        
+        session.send(:auth_info)[:access][:token][:id] = 'invalidtokenid'
+        
+        session.validate.must_equal false
+      end
+      
+      
+      it 'raises an error if called before authenticating' do
+        the_method = lambda { new_session.validate }
+        
+        the_method.must_raise Aviator::Session::NotAuthenticatedError
+      end
+      
+    end
+    
+    
     describe '#xxx_service' do
       
       it 'raises a NotAuthenticatedError if called without authenticating first' do

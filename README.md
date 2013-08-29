@@ -54,9 +54,12 @@ str = session.dump
 # form of encryption on the string, make sure to decrypt it first!
 session = Aviator::Session.load(str)
 
-# Depending on how old the loaded session dump was, the auth_info may already be expired. 
-# Check if it's still current by calling Session#expired? and the reauthenticate if so.
-session.authenticate if session.expired?
+# Depending on how old the loaded session dump is, the auth_info may already be expired. 
+# Check if it's still current by calling Session#validate and reauthenticate as needed.
+#
+# IMPORTANT: The validator must be defined in the config file and it must refer to the
+# name of an request that is defined in Aviator. See 'Configuration' below for examples
+session.authenticate unless session.validate
 
 # If you want the newly created session to log its output, make sure to indicate it on load
 session = Aviator::Session.load(str, log_file: 'path/to/aviator.log')
@@ -98,18 +101,20 @@ production:
     name:        identity
     host_uri:    http://my.openstackenv.org:5000
     request:     create_token
+    validator:   list_tenants   # Request to make for validating the session
     api_version: v2             # Optional if version is indicated in host_uri
   auth_credentials:
     username:   admin
     password:   mypassword
-    tenantName: admin           # Optional
+    tenantName: myproject
 
 development_1:
   provider: openstack
   auth_service:
-    name:     identity
-    host_uri: http://devstack:5000/v2.0
-    request:  create_token
+    name:      identity
+    host_uri:  http://devstack:5000/v2.0
+    request:   create_token
+    validator: list_tenants
   auth_credentials:
     tokenId:    2c963f5512d067b24fdc312707c80c7a6d3d261b
     tenantName: admin
@@ -117,13 +122,18 @@ development_1:
 development_2:
   provider: openstack
   auth_service:
-    name:     identity
-    host_uri: http://devstack:5000/v2.0
-    request:  create_token
+    name:      identity
+    host_uri:  http://devstack:5000/v2.0
+    request:   create_token
+    validator: list_tenants
   auth_credentials:
     username: admin
     password: mypassword
+    tenantName: myproject
 ```
+
+A note on the validator: the validator can be any request as long as 1) it is defined
+in Aviator and 2) it returns an HTTP status 200 or 203 to indicate auth info validity.
 
 ## CLI tools
 
