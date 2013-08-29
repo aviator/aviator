@@ -37,7 +37,7 @@ session.authenticate
 # underlying environment while the old token is discarded by the Session object.
 # Be aware of this fact as it might unnecessarily generate too many tokens.
 #
-# Notice how you can override the credentials in the config file! Also note that
+# Notice how you can override the credentials in the config file. Also note that
 # the keys used below (:username, :password, :tenantName) match the name as 
 # indicated in the official OpenStack documentation.
 session.authenticate do |credentials|
@@ -52,7 +52,8 @@ json_str = session.to_json
 # Reload the session information. This does not create a new token.
 session = Aviator::Session.load(json_str)
 
-# Get a handle to the Identity Service using the token in the default key
+# Get a handle to the Identity Service. The auth info created from the last authentication
+# will be used throughout the life of the object.
 keystone = session.identity_service
 
 # Create a new tenant
@@ -66,7 +67,7 @@ end
 # also access the params via dot notation (e.g. params.description) or by using a string
 # for a hash key (e.g. params['description']). However, keep in mind that OpenStack
 # parameters that have dashes and other characters that are not valid for method names
-# and symbols must be expressed as strings. E.g. params['changes-since']
+# and symbols can only be expressed as strings. E.g. params['changes-since']
 
 
 # Be explicit about the endpoint type. Useful in those rare instances when
