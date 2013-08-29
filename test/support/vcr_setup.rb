@@ -2,7 +2,7 @@ require 'vcr'
 
 VCR.configure do |c|
   c.cassette_library_dir = Pathname.new(__FILE__).join('..', '..', 'cassettes')
-  c.debug_logger = File.open(Pathname.new(__FILE__).join('..', '..', '..', 'vcr.log'), 'w')
+  c.debug_logger = File.open(Pathname.new(__FILE__).join('..', '..', '..', 'tmp', 'vcr.log'), 'w')
   c.hook_into :faraday
 
   unless @vcr_port_matcher_registered
