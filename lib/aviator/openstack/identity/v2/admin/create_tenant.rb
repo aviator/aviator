@@ -4,6 +4,8 @@ define_request :create_tenant do
   api_version   :v2
   http_method   :post
 
+  link_to 'documentation',
+          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/POST_addTenant_v2.0_tenants_.html'
 
   required_param :name
   required_param :description

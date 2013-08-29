@@ -194,6 +194,27 @@ class Aviator::Test
     end
 
 
+    describe '::link_to' do
+
+      it 'adds a link to Request::links' do
+        rel  = 'documentation'
+        href = 'http://x.y.z'
+        
+        klass = Class.new(Aviator::Request) do
+                  link_to rel, href
+                end
+
+        expected = [
+          { rel: rel, href: href }
+        ]
+        
+        klass.links.must_equal expected
+        klass.new.links.must_equal expected
+      end
+
+    end
+    
+
     describe '::optional_param' do
 
       it 'is a private class method' do

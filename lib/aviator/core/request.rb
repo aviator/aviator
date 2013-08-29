@@ -65,6 +65,11 @@ module Aviator
     end
 
 
+    def links
+      self.class.links
+    end
+    
+
     def optional_params
       self.class.optional_params
     end
@@ -162,6 +167,16 @@ module Aviator
         else
           @http_method
         end
+      end
+      
+      
+      def link_to(rel, href)
+        links << { rel: rel, href: href }
+      end
+      
+      
+      def links
+        @links ||= []
       end
 
 

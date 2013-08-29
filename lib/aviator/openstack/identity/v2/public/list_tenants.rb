@@ -4,6 +4,12 @@ define_request :list_tenants do
   api_version   :v2
   http_method   :get
 
+  link_to 'documentation',
+          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/GET_listTenants_v2.0_tokens_tenants_.html'
+
+  link_to 'documentation bug',
+          'https://bugs.launchpad.net/keystone/+bug/1218601'
+
 
   optional_param :marker
   optional_param :limit

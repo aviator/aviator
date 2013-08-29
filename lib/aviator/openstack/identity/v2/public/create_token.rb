@@ -6,6 +6,12 @@ define_request :create_token do
   api_version   :v2
   http_method   :post
 
+  link_to 'documentation',
+          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/POST_authenticate_v2.0_tokens_.html'
+          
+  link_to 'documentation bug',
+          'https://bugs.launchpad.net/keystone/+bug/1208607'
+
 
   optional_param :username
   optional_param :password

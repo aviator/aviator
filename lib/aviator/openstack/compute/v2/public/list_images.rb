@@ -4,6 +4,9 @@ define_request :list_images do
   api_version   :v2
   http_method   :get
 
+  link_to 'documentation',
+          'http://docs.openstack.org/api/openstack-compute/2/content/List_Images-d1e4435.html'
+
   optional_param :details
   optional_param :server
   optional_param :name
