@@ -29,33 +29,31 @@ session = Aviator::Session.new(
             log_file:    'path/to/aviator.log'
           )
 
-# Authenticate against the auth service specified in :config_file
+# Authenticate against the auth service specified in :config_file. If no 
+# credentials are available in the config file, this line will throw an error.
 session.authenticate
 
-
-# Aviator::Session automatically keeps track of your authentication data in an in-memory
-# keychain. For example, the authentication data from above is automatically stored 
-# in `session.keys[:default]`
-
-# To create another key, just call Session#authenticate with an extra parameter:
-session.authenticate(key_name: 'anotherkey') do |credentials|
+# You can re-authenticate anytime. Note that this creates a new token in the 
+# underlying environment while the old token is discarded by the Session object.
+# Be aware of this fact as it might unnecessarily generate too many tokens.
+#
+# Notice how you can override the credentials in the config file! Also note that
+# the keys used below (:username, :password, :tenantName) match the name as 
+# indicated in the official OpenStack documentation.
+session.authenticate do |credentials|
   credentials[:username]   = myusername
   credentials[:password]   = mypassword
   credentials[:tenantName] = tenantName
 end
 
-# You can access the key at:
-session.keys['anotherkey']
+# Serialize the session information for caching
+json_str = session.to_json
 
-# Or you can create another session object that uses that key by default:
-session2 = session.use_key('anotherkey')
+# Reload the session information. This does not create a new token.
+session = Aviator::Session.load(json_str)
 
-# Get connection to the Identity Service using the token in the default key
+# Get a handle to the Identity Service using the token in the default key
 keystone = session.identity_service
-
-# Get connection to the Identity Service using the token in the 'anotherkey' key
-keystone2 = session2.identity_service
-
 
 # Create a new tenant
 response = keystone.request(:create_tenant) do |params|
@@ -71,11 +69,12 @@ end
 # and symbols must be expressed as strings. E.g. params['changes-since']
 
 
-# Be explicit about the endpoint type to use. Useful in the rare instances when
+# Be explicit about the endpoint type. Useful in those rare instances when
 # the same request name means differently depending on the endpoint type.
-response = keystone.request(:list_tenants, endpoint_type: 'admin') do |params|
-  params['tenantName'] = tenant_name
-end
+# For example, in OpenStack, :list_tenants will return only the tenants the
+# user is a member of in the public endpoint whereas the admin endpoint will
+# return all tenants in the system.
+response = keystone.request(:list_tenants, endpoint_type: 'admin')
 ```
 
 ## CLI tools

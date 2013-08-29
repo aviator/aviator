@@ -31,22 +31,17 @@ module Aviator
     end
 
 
-    def authenticate(opts={}, &block)
-      key_name = opts[:key_name] || default_key_name
-      
-      # This lambda is a candidate for extraction to aviator/openstack
+    def authenticate(&block)      
       block ||= lambda do |params|
-        credentials = environment[:auth_credentials]
-
-        params[:username]   = credentials[:username]
-        params[:password]   = credentials[:password]
-        params[:tenantName] = credentials[:tenantName] if credentials[:tenantName]
+        environment[:auth_credentials].each do |key, value|
+          params[key] = value
+        end
       end
 
       response = auth_service.request environment[:auth_service][:request].to_sym, &block
       
       if response.status == 200
-        keychain[key_name] = response.body
+        @auth_info = response.body
       else
         raise AuthenticationFailedError.new(response.body)
       end
@@ -54,7 +49,7 @@ module Aviator
 
 
     def authenticated?
-      !keychain[default_key_name].nil?
+      !auth_info.nil?
     end
     
     
@@ -69,26 +64,16 @@ module Aviator
       )
     end
     
-    
-    def default_key_name
-      @default_key_name ||= :default
-    end
-    
-    
-    def default_key_name=(val)
-      @default_key_name = val
-    end
-    
-    
+        
     def environment
       @environment
     end
     
     
-    def keychain
-      @keychain ||= HashWithIndifferentAccess.new
+    def auth_info
+      @auth_info
     end
-
+    
   end
 
 end
