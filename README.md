@@ -22,7 +22,7 @@ Or install it yourself as:
 ```ruby
 require 'aviator'
 
-# Create a new session
+# Create a new session. See 'Configuration' below for the config file format.
 session = Aviator::Session.new(
             config_file: 'path/to/aviator.yml',
             environment: :production,
@@ -75,6 +75,44 @@ end
 # user is a member of in the public endpoint whereas the admin endpoint will
 # return all tenants in the system.
 response = keystone.request(:list_tenants, endpoint_type: 'admin')
+```
+
+## Configuration
+
+The configuration file is a simple YAML file with one or more environment definitions.
+
+```
+production:
+  provider: openstack
+  auth_service:
+    name:        identity
+    host_uri:    http://my.openstackenv.org:5000
+    request:     create_token
+    api_version: v2             # Optional if version is indicated in host_uri
+  auth_credentials:
+    username:   admin
+    password:   mypassword
+    tenantName: admin           # Optional
+
+development_1:
+  provider: openstack
+  auth_service:
+    name:     identity
+    host_uri: http://devstack:5000/v2.0
+    request:  create_token
+  auth_credentials:
+    tokenId:    2c963f5512d067b24fdc312707c80c7a6d3d261b
+    tenantName: admin
+
+development_2:
+  provider: openstack
+  auth_service:
+    name:     identity
+    host_uri: http://devstack:5000/v2.0
+    request:  create_token
+  auth_credentials:
+    username: admin
+    password: mypassword
 ```
 
 ## CLI tools
