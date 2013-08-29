@@ -161,7 +161,7 @@ $ aviator describe openstack identity
 Describe Keystone's create_tenant request
 
 ```bash
-$ aviator describe openstack identity create_tenant
+$ aviator describe openstack identity v2 admin create_tenant
 ```
   
 ## Contributing

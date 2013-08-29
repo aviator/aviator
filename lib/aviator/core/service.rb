@@ -108,6 +108,11 @@ module Aviator
     end
 
 
+    def requests
+      @requests
+    end
+    
+    
     private
 
 
@@ -191,11 +196,6 @@ module Aviator
     
     def log_file
       @log_file
-    end
-
-
-    def requests
-      @requests
     end
 
   end

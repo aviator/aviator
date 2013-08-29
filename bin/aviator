@@ -1,0 +1,110 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'thor'
+require 'aviator/core'
+
+module Aviator
+module CLI
+
+  class Main < Thor
+    
+    desc 'describe [PROVIDER] [SERVICE] [API_VERSION ENDPOINT_TYPE REQUEST_NAME]', 'Describes various parts of Aviator.'
+    def describe(provider=nil, service=nil, api_version=nil, endpoint_type=nil, request=nil)
+      if request
+        describe_request provider, service, api_version, endpoint_type, request
+      elsif service
+        describe_service provider, service
+      elsif provider
+        describe_provider provider
+      else
+        list_providers
+      end
+    end
+
+
+    private
+
+
+    def describe_provider(provider)
+      puts "Available services from #{ provider }"
+      
+      Dir[Pathname.new(__FILE__).join('..', '..', 'lib', 'aviator', provider, '**')].each do |d|
+        puts "  #{ Pathname.new(d).basename }"
+      end
+    end
+
+
+    def describe_request(provider, service, api_version, endpoint_type, request_name)
+      endpoints = Service.new(provider: provider, service: service).requests[api_version.to_sym]
+      raise "Invalid API version #{ api_version }" unless endpoints
+      
+      requests = endpoints[endpoint_type.to_sym]
+      raise "Invalid endpoint type #{ endpoint_type }" unless requests
+      
+      request = requests[request_name.to_sym]
+      raise "Could not find request named #{ request_name }. Try a different api version or endpoint" unless request
+      
+      puts "Request: #{ request_name }"
+      
+      params = []
+      
+      request.optional_params.each do |param|
+        params << [param, :optional]
+      end
+      
+      request.required_params.each do |param|
+        params << [param, :required]
+      end
+      
+      params.sort! { |a,b| a[0] <=> b[0] }
+      
+      puts "\nParameters:"
+      params.each do |param_desc|
+        puts "  (#{ param_desc[1] }) #{ param_desc[0] }"
+      end
+      
+      puts "\nSample Code:"
+      print "  session.#{ service }_service.request(:#{ request_name }, endpoint_type: #{ endpoint_type })"
+      if params
+        puts " do |params|"
+        params.each do |pair|
+          puts "    params[:#{ pair[0] }] = val"
+        end
+        puts "  end"
+      end
+      
+      puts "\nLinks:"
+      request.links.each do |link|
+        puts "  #{ link[:rel] }:"
+        puts "    #{ link[:href] }\n"
+      end
+    end
+
+
+    def describe_service(provider, service)
+      puts "Available requests for #{ provider } #{ service }:"
+      
+      Service.new(provider: provider, service: service).requests.each do |api_version, endpoints|
+        endpoints.each do |endpoint_type, requests|
+          puts "  API Version: #{ api_version }  Endpoint Type: #{ endpoint_type }"
+          requests.each do |request_name, request_obj|
+            puts "      #{ request_name }"
+          end
+        end
+      end
+    end
+
+
+    def list_providers
+      puts "Available providers:"
+      puts "  openstack"
+    end
+
+  end
+
+
+end
+end
+
+Aviator::CLI::Main.start(ARGV)
