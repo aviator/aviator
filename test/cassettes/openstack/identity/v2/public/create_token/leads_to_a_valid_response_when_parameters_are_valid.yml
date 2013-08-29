@@ -23,16 +23,16 @@ http_interactions:
       content-length:
       - '329'
       date:
-      - Tue, 27 Aug 2013 05:23:33 GMT
+      - Thu, 29 Aug 2013 18:32:34 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-08-27T05:23:33.682648",
-        "expires": "2013-08-28T05:23:33Z", "id": "48b30d7a219b4e249f90a1ab988a451f"},
+      string: ! '{"access": {"token": {"issued_at": "2013-08-29T18:32:34.216430",
+        "expires": "2013-08-30T18:32:34Z", "id": "217d313bbab14553b86672cfce916b01"},
         "serviceCatalog": [], "user": {"username": "admin", "roles_links": [], "id":
         "cbbcc4f7aef6435fa2da7e5f0b2f1e97", "roles": [], "name": "admin"}, "metadata":
         {"is_admin": 0, "roles": []}}}'
     http_version: 
-  recorded_at: Tue, 27 Aug 2013 05:22:43 GMT
+  recorded_at: Thu, 29 Aug 2013 18:30:24 GMT
 recorded_with: VCR 2.5.0

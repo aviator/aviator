@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2648'
       date:
-      - Tue, 27 Aug 2013 17:25:32 GMT
+      - Thu, 29 Aug 2013 18:49:37 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-08-27T17:25:32.123829",
-        "expires": "2013-08-28T17:25:32Z", "id": "0ea5ec866312410f8a6e988070a68dde",
+      string: ! '{"access": {"token": {"issued_at": "2013-08-29T18:49:37.192953",
+        "expires": "2013-08-30T18:49:37Z", "id": "d570ba1ebffd4c6b93cefa27f120df33",
         "tenant": {"description": null, "enabled": true, "id": "3cab25130620477b8b03f1bfa8741603",
         "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
         "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
@@ -59,5 +59,38 @@ http_interactions:
         [{"name": "admin"}], "name": "admin"}, "metadata": {"is_admin": 0, "roles":
         ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'
     http_version: 
-  recorded_at: Wed, 28 Aug 2013 04:13:58 GMT
+  recorded_at: Thu, 29 Aug 2013 18:47:12 GMT
+- request:
+    method: get
+    uri: http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603/images?name=nonexistentimagenameherpderp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - d570ba1ebffd4c6b93cefa27f120df33
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-031f4f36-f046-4f7e-8e89-8bd4b87e18de
+      content-type:
+      - application/json
+      content-length:
+      - '14'
+      date:
+      - Thu, 29 Aug 2013 18:49:37 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"images": []}'
+    http_version: 
+  recorded_at: Thu, 29 Aug 2013 18:47:12 GMT
 recorded_with: VCR 2.5.0
