@@ -67,6 +67,59 @@ class Aviator::Test
     end # describe '#authenticate'
     
     
+    describe '#dump' do
+      
+      it 'serializes the session data for caching' do
+        session = new_session
+        session.authenticate
+        
+        str = session.dump
+        
+        expected = JSON.generate({
+          environment: session.send(:environment),
+          auth_info: session.send(:auth_info)
+        })
+
+        str.must_equal expected
+      end
+      
+    end
+    
+    
+    describe '::load' do
+      
+      it 'creates a new instance from the given session dump' do
+        session = new_session
+        session.authenticate
+        
+        str      = session.dump
+        session  = Aviator::Session.load(str)
+        expected = JSON.parse(str).with_indifferent_access
+        
+        session.dump.must_equal str
+        session.authenticated?.must_equal true
+        
+        # This is bad testing practice (testing a private method) but 
+        # I'll go ahead and do it anyway just to be sure.
+        session.send(:environment).must_equal expected[:environment]
+        session.send(:auth_info).must_equal   expected[:auth_info]
+      end
+      
+      
+      it 'uses the loaded auth info for its services' do
+        session = new_session
+        session.authenticate
+        
+        expected = JSON.parse(session.dump).with_indifferent_access
+        session  = Aviator::Session.load(session.dump)
+        service  = session.identity_service
+        
+        service.default_session_data.must_equal expected[:auth_info]
+      end
+      
+    end
+    
+    
     describe '::new' do
       
       it 'directs log entries to the given log file' do

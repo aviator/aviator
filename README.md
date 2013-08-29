@@ -46,11 +46,20 @@ session.authenticate do |credentials|
   credentials[:tenantName] = tenantName
 end
 
-# Serialize the session information for caching
-json_str = session.to_json
+# Serialize the session information for caching. The output is in plaintext JSON which
+# contains sensitive information and you are responsible for securing this data.
+str = session.dump
 
-# Reload the session information. This does not create a new token.
-session = Aviator::Session.load(json_str)
+# Reload the session information. This does not create a new token. If you employed any
+# form of encryption on the string, make sure to decrypt it first!
+session = Aviator::Session.load(str)
+
+# Depending on how old the loaded session dump was, the auth_info may already be expired. 
+# Check if it's still current by calling Session#expired? and the reauthenticate if so.
+session.authenticate if session.expired?
+
+# If you want the newly created session to log its output, make sure to indicate it on load
+session = Aviator::Session.load(str, log_file: 'path/to/aviator.log')
 
 # Get a handle to the Identity Service. The auth info created from the last authentication
 # will be used throughout the life of the object.

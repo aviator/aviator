@@ -24,21 +24,20 @@ module Aviator
 
 
     def initialize(opts={})
-      config_path = opts[:config_file]
-      environment = opts[:environment]
-
-      raise InvalidConfigFilePathError.new(config_path) unless Pathname.new(config_path).file?
-
-      config = YAML.load_file(config_path).with_indifferent_access
-
-
-      raise EnvironmentNotDefinedError.new(config_path, environment) unless config[environment]
-
-      @environment = config[environment]
-      @log_file    = opts[:log_file]
+      config_path  = opts[:config_file]
+      environment  = opts[:environment]
+      session_dump = opts[:session_dump]
+      
+      if session_dump
+        initialize_with_dump(session_dump)
+      else
+        initialize_with_config(config_path, environment)
+      end
+      
+      @log_file = opts[:log_file]
     end
-
-
+    
+    
     def authenticate(&block)      
       block ||= lambda do |params|
         environment[:auth_credentials].each do |key, value|
@@ -62,6 +61,14 @@ module Aviator
     end
     
     
+    def dump
+      JSON.generate({
+        environment: environment,
+        auth_info:   auth_info
+      })
+    end
+    
+    
     def method_missing(name, *args, &block)
       service_name_parts = name.to_s.match(/^(\w+)_service$/)
       
@@ -70,6 +77,13 @@ module Aviator
       else
         super name, *args, &block
       end
+    end
+    
+    
+    def self.load(session_dump, opts={})
+      opts[:session_dump] = session_dump
+      
+      new(opts)
     end
     
     
@@ -110,7 +124,26 @@ module Aviator
       
       @services[service_name]
     end
+
+
+    def initialize_with_config(config_path, environment)
+      raise InvalidConfigFilePathError.new(config_path) unless Pathname.new(config_path).file?
+
+      config = YAML.load_file(config_path).with_indifferent_access
+
+
+      raise EnvironmentNotDefinedError.new(config_path, environment) unless config[environment]
+
+      @environment = config[environment]
+    end
     
+    
+    def initialize_with_dump(session_dump)
+      session_info = JSON.parse(session_dump).with_indifferent_access
+      @environment = session_info[:environment]
+      @auth_info   = session_info[:auth_info]
+    end
+        
     
     def log_file
       @log_file
