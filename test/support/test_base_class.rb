@@ -1,8 +1,8 @@
 module Aviator
 class Test < MiniTest::Spec
 
-  def self.validate(name, &block)
-    it "returns the correct value for #{ name.to_s }", &block
+  def self.validate(name, extra_desc=nil, &block)
+    it "returns the correct value for #{ name.to_s } #{ extra_desc }", &block
   end
   
   

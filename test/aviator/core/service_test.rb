@@ -70,6 +70,7 @@ class Aviator::Test
       
         response.must_be_instance_of Aviator::Response
         response.request.api_version.must_equal :v2
+        response.status.must_equal 200
       end
       
       

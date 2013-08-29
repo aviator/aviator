@@ -18,7 +18,11 @@ define_request :create_token do
   # TODO: Add logic for when session_data is actually an OpenStack
   # authentication response body and not auth bootstrap information
   def url
-    "#{ session_data[:auth_service][:host_uri] }/v2.0/tokens"
+    url  = session_data[:auth_service][:host_uri]
+    url += '/v2.0' if (URI(url).path =~ /^\/?\w+/).nil?
+    url += "/tokens"
+    
+    url
   end
 
 
