@@ -46,6 +46,18 @@ class Aviator::Test
       end
 
     end # describe '#authenticate'
+    
+    
+    describe '#xxx_service' do
+      
+      it 'returns an instance of the indicated service' do
+        session = new_session
+        session.authenticate
+        
+        session.identity_service.wont_be_nil
+      end
+      
+    end
 
   end # describe 'aviator/core/service'
 

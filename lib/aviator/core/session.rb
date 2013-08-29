@@ -53,6 +53,17 @@ module Aviator
     end
     
     
+    def method_missing(name, *args, &block)
+      service_name_parts = name.to_s.match(/^(\w+)_service$/)
+      
+      if service_name_parts
+        get_service_obj(service_name_parts[1])
+      else
+        super name, *args, &block
+      end
+    end
+    
+    
     private
     
     
@@ -67,6 +78,21 @@ module Aviator
         
     def environment
       @environment
+    end
+
+
+    def get_service_obj(service_name)
+      raise SessionNotAuthenticatedError.new unless self.authenticated?
+      
+      @services ||= {}
+      
+      @services[service_name] ||= Service.new(
+        provider: environment[:provider],
+        service:  service_name,
+        default_session_data: auth_info
+      )
+      
+      @services[service_name]
     end
     
     
