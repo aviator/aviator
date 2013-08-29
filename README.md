@@ -50,22 +50,21 @@ end
 # contains sensitive information and you are responsible for securing this data.
 str = session.dump
 
-# Reload the session information. This does not create a new token. If you employed any
-# form of encryption on the string, make sure to decrypt it first!
+# Create a new Session object from a session dump. This DOES NOT create a new token. 
+# If you employed any form of encryption on the string, make sure to decrypt it first!
 session = Aviator::Session.load(str)
 
 # Depending on how old the loaded session dump is, the auth_info may already be expired. 
 # Check if it's still current by calling Session#validate and reauthenticate as needed.
 #
 # IMPORTANT: The validator must be defined in the config file and it must refer to the
-# name of an request that is defined in Aviator. See 'Configuration' below for examples
+# name of a request that is known to Aviator. See 'Configuration' below for examples
 session.authenticate unless session.validate
 
 # If you want the newly created session to log its output, make sure to indicate it on load
 session = Aviator::Session.load(str, log_file: 'path/to/aviator.log')
 
-# Get a handle to the Identity Service. The auth info created from the last authentication
-# will be used throughout the life of the object.
+# Get a handle to the Identity Service.
 keystone = session.identity_service
 
 # Create a new tenant
