@@ -56,8 +56,8 @@ module CLI
       request.required_params.each do |param|
         params << [param, :required]
       end
-      
-      params.sort! { |a,b| a[0] <=> b[0] }
+
+      params.sort! { |a,b| a[0].to_s <=> b[0].to_s }
       
       puts "\nParameters:"
       params.each do |param_desc|
@@ -69,7 +69,7 @@ module CLI
       if params
         puts " do |params|"
         params.each do |pair|
-          puts "    params[:#{ pair[0] }] = val"
+          puts "    params['#{ pair[0] }'] = val"
         end
         puts "  end"
       end
