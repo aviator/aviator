@@ -59,11 +59,11 @@ module Aviator
     end
 
 
+    attr_accessor :default_session_data
 
     attr_reader :service,
-                :provider,
-                :default_session_data
-
+                :provider
+                
 
     def initialize(opts={})
       @provider = opts[:provider] || (raise ProviderNotDefinedError.new)

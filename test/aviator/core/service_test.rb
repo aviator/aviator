@@ -7,10 +7,27 @@ class Aviator::Test
     def config
       Environment.openstack_admin
     end
+
+
+    def do_auth_request
+      request_name = config[:auth_service][:request].to_sym
+
+      bootstrap = {
+        auth_service: config[:auth_service]
+      }
+
+      service.request request_name, session_data: bootstrap do |params|
+        config[:auth_credentials].each do |k,v|
+          params[k] = v
+        end
+      end
+    end
+        
     
     def klass
       Aviator::Service
     end
+    
 
     def service(default_session_data=nil)
       options = {
@@ -25,21 +42,6 @@ class Aviator::Test
 
 
     describe '#request' do
-
-      def do_auth_request
-        request_name = config[:auth_service][:request].to_sym
-
-        bootstrap = {
-          auth_service: config[:auth_service]
-        }
-
-        service.request request_name, session_data: bootstrap do |params|
-          config[:auth_credentials].each do |k,v|
-            params[k] = v
-          end
-        end
-      end
-
 
       it 'can find the correct request based on bootstrapped session data' do
         response = do_auth_request
@@ -123,6 +125,31 @@ class Aviator::Test
         response1.request.url.wont_equal response2.request.url
       end
 
+    end
+    
+    
+    describe '#default_session_data=' do
+      
+      it 'sets the service\'s default session data' do
+        bootstrap = {
+          auth_service: {
+            name:     'identity',
+            host_uri: 'http://devstack:5000/v2.0',
+            request:  'create_token'
+          }
+        }
+        
+        svc = service(bootstrap)
+
+        session_data_1 = svc.default_session_data
+        session_data_2 = do_auth_request.body
+        
+        svc.default_session_data = session_data_2
+        
+        svc.default_session_data.wont_equal session_data_1
+        svc.default_session_data.must_equal session_data_2
+      end
+      
     end
 
   end
