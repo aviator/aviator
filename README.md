@@ -131,25 +131,36 @@ development_2:
     tenantName: myproject
 ```
 
-A note on the validator: the validator can be any request as long as 1) it is defined
-in Aviator and 2) it returns an HTTP status 200 or 203 to indicate auth info validity.
+A note on the validator: it can be any request as long as
+
+1. It is defined in Aviator
+1. Does not require any parameters
+1. It returns an HTTP status 200 or 203 to indicate auth info validity.
+1. It returns any other HTTP status to indicate that the auth info is invalid.
 
 ## CLI tools
 
+List available providers. Includes only OpenStack for now.
+
 ```bash
-# You may also query Aviator for the parameters via the CLI. With the Aviator gem 
-# installed, run the following commands:
-
-# list available providers
 $ aviator describe
+```
 
-# list available services for openstack
+List available services for OpenStack.
+
+```bash
 $ aviator describe openstack
+```
 
-# list available requests for the openstack identity service
+List available requests for Keystone
+
+```bash
 $ aviator describe openstack identity
+```
 
-# describe the create_tenant request of the identity service
+Describe Keystone's create_tenant request
+
+```bash
 $ aviator describe openstack identity create_tenant
 ```
   
