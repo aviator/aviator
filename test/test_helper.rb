@@ -21,6 +21,9 @@ unless ENV['CI'] || ENV['TRAVIS']
   require 'pry'
 end
 
+# Clean the tmp dir of log files
+Dir[Pathname.new(__FILE__).expand_path.join('..', '..', 'tmp', '*.log')].each { |f| File.delete(f) }
+
 # Make sure this loads first
 require Pathname.new(__FILE__).join('..', 'support', 'test_base_class.rb').expand_path
 
