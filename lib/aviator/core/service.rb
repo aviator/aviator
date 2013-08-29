@@ -35,6 +35,16 @@ module Aviator
     end
 
 
+    class Logger < Faraday::Response::Logger      
+      def initialize(app, logger=nil)
+        super(app)
+        @logger = logger || begin
+          require 'logger'
+          ::Logger.new(self.class::LOG_FILE_PATH)
+        end
+      end
+    end
+
     # Because we define requests in a flattened scope, we want to make sure that when each
     # request is initialized it doesn't get polluted by instance variables and methods
     # of the containing class. This builder class makes that happen by being a
@@ -68,6 +78,7 @@ module Aviator
     def initialize(opts={})
       @provider = opts[:provider] || (raise ProviderNotDefinedError.new)
       @service  = opts[:service]  || (raise ServiceNameNotDefinedError.new)
+      @log_file = opts[:log_file]
 
       @default_session_data = opts[:default_session_data]
 
@@ -102,6 +113,13 @@ module Aviator
 
     def http_connection
       @http_connection ||= Faraday.new do |conn|
+        if log_file
+          # Ugly hack to make logger configurable
+          const_name = 'LOG_FILE_PATH'
+          Logger.send(:remove_const, const_name) if Logger.const_defined?(const_name)
+          Logger.const_set(const_name, log_file)
+          conn.use     Logger.dup
+        end
         conn.adapter Faraday.default_adapter
         conn.headers['Content-Type'] = 'application/json'
       end
@@ -168,6 +186,11 @@ module Aviator
         endpoint_type = api_version[klass.endpoint_type] ||= {}
         endpoint_type[request_name] = klass
       end
+    end
+    
+    
+    def log_file
+      @log_file
     end
 
 

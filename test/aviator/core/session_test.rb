@@ -9,16 +9,17 @@ class Aviator::Test
     end
 
 
-    def new_session
-      Aviator::Session.new(
-        config_file: config.path,
-        environment: 'test'
-      )
+    def log_file_path
+      Pathname.new(__FILE__).expand_path.join('..', '..', '..', '..', 'tmp', 'aviator.log')
     end
 
 
-    def log_file_path
-      Pathname.new(__FILE__).expand_path.join('..', '..', '..', '..', 'tmp', 'aviator.log')
+    def new_session
+      Aviator::Session.new(
+        config_file: config.path,
+        environment: 'test',
+        log_file:    log_file_path
+      )
     end
 
 
@@ -64,6 +65,20 @@ class Aviator::Test
       end
 
     end # describe '#authenticate'
+    
+    
+    describe '::new' do
+      
+      it 'directs log entries to the given log file' do
+        log_file_path.delete if log_file_path.file?
+        
+        session = new_session
+        session.authenticate
+
+        log_file_path.file?.must_equal true
+      end
+      
+    end
     
     
     describe '#xxx_service' do

@@ -35,6 +35,7 @@ module Aviator
       raise EnvironmentNotDefinedError.new(config_path, environment) unless config[environment]
 
       @environment = config[environment]
+      @log_file    = opts[:log_file]
     end
 
 
@@ -84,7 +85,8 @@ module Aviator
       @auth_service ||= Service.new(
         provider: environment[:provider],
         service:  environment[:auth_service][:name],
-        default_session_data: { auth_service: environment[:auth_service] }
+        default_session_data: { auth_service: environment[:auth_service] },
+        log_file: log_file
       )
     end
     
@@ -102,10 +104,16 @@ module Aviator
       @services[service_name] ||= Service.new(
         provider: environment[:provider],
         service:  service_name,
-        default_session_data: auth_info
+        default_session_data: auth_info,
+        log_file: log_file
       )
       
       @services[service_name]
+    end
+    
+    
+    def log_file
+      @log_file
     end
     
     
