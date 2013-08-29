@@ -42,47 +42,17 @@ class Aviator::Test
     end
 
 
-    it 'has the correct endpoint type' do
-      klass.endpoint_type.must_equal :admin
+    validate :api_version do
+      klass.api_version.must_equal :v2
     end
 
 
-    it 'has the correct api version' do
-        klass.api_version.must_equal :v2
+    validate :anonymous? do
+      klass.anonymous?.must_equal false
     end
 
 
-    it 'has the correct http method' do
-      klass.http_method.must_equal :post
-    end
-
-
-    it 'has the correct list of required parameters' do
-      klass.required_params.must_equal [:name, :description, :enabled]
-    end
-
-
-    it 'has the correct url' do
-      session_data = helper.admin_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
-      url = "#{ service_spec[:endpoints][0][:adminURL] }/tenants"
-
-      request = create_request
-
-      request.url.must_equal url
-    end
-
-
-    it 'has the correct headers' do
-      headers = { 'X-Auth-Token' => helper.admin_session_data[:access][:token][:id] }
-
-      request = create_request
-
-      request.headers.must_equal headers
-    end
-
-
-    it 'has the correct body' do
+    validate :body do
       params = {
         name:        'Project',
         description: 'My Project',
@@ -103,7 +73,61 @@ class Aviator::Test
     end
 
 
-    it 'leads to a valid response when provided with valid params' do
+    validate :endpoint_type do
+      klass.endpoint_type.must_equal :admin
+    end
+
+
+    validate :headers do
+      headers = { 'X-Auth-Token' => helper.admin_session_data[:access][:token][:id] }
+
+      request = create_request
+
+      request.headers.must_equal headers
+    end
+
+
+    validate :http_method do
+      klass.http_method.must_equal :post
+    end
+
+
+    validate :required_params do
+      klass.required_params.must_equal [:name, :description, :enabled]
+    end
+
+
+    validate :url do
+      session_data = helper.admin_session_data
+      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      url = "#{ service_spec[:endpoints][0][:adminURL] }/tenants"
+
+      request = create_request
+
+      request.url.must_equal url
+    end
+
+
+    validate_response 'params are invalid' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity',
+        default_session_data: new_session_data
+      )
+      
+      response = service.request :create_tenant do |params|
+        params[:name]        = ""
+        params[:description] = ""
+        params[:enabled]     = true
+      end
+      
+      response.status.must_equal 400
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+    
+    
+    validate_response 'params are valid' do
       service = Aviator::Service.new(
         provider: 'openstack',
         service:  'identity',
@@ -121,24 +145,6 @@ class Aviator::Test
       response.headers.wont_be_nil
     end
 
-
-    it 'leads to a valid response when provided with invalid params' do
-      service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'identity',
-        default_session_data: new_session_data
-      )
-      
-      response = service.request :create_tenant do |params|
-        params[:name]        = ""
-        params[:description] = ""
-        params[:enabled]     = true
-      end
-      
-      response.status.must_equal 400
-      response.body.wont_be_nil
-      response.headers.wont_be_nil
-    end
 
   end
 

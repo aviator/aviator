@@ -38,22 +38,44 @@ class Aviator::Test
     end
 
 
-    it 'has the correct endpoint type' do
+    validate :anonymous? do
+      klass.anonymous?.must_equal false
+    end
+    
+    
+    validate :api_version do
+      klass.api_version.must_equal :v2
+    end
+
+
+    validate :body do
+      klass.body?.must_equal false    
+      create_request.body?.must_equal false
+    end
+    
+    
+    validate :endpoint_type do
       klass.endpoint_type.must_equal :public
     end
+    
 
+    validate :headers do
+      session_data = new_session_data
+      
+      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
 
-    it 'has the correct api version' do
-        klass.api_version.must_equal :v2
+      request = create_request(session_data)
+
+      request.headers.must_equal headers
     end
-
-
-    it 'has the correct http method' do
+    
+    
+    validate :http_method do
       klass.http_method.must_equal :get
     end
 
 
-    it 'has the correct list of optional parameters' do
+    validate :optional_params do
       klass.optional_params.must_equal [
         :details,
         :server,
@@ -67,12 +89,12 @@ class Aviator::Test
     end
 
 
-    it 'has the correct list of required parameters' do
+    validate :required_params do
       klass.required_params.must_equal []
     end
 
 
-    it 'has the correct url' do
+    validate :url do
       session_data = new_session_data
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/images"
@@ -99,26 +121,9 @@ class Aviator::Test
           
       request.url.must_equal url
     end
-
-
-    it 'has the correct headers' do
-      session_data = new_session_data
-      
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
-
-      request = create_request(session_data)
-
-      request.headers.must_equal headers
-    end
-
-
-    it 'has the correct body' do
-      klass.body?.must_equal false    
-      create_request.body?.must_equal false
-    end
     
     
-    it 'leads to a valid response when no parameters are provided' do
+    validate_response 'no parameters are provided' do
       service = Aviator::Service.new(
         provider: 'openstack',
         service:  'compute',
@@ -131,9 +136,27 @@ class Aviator::Test
       response.body.wont_be_nil
       response.headers.wont_be_nil
     end
+    
+    
+    validate_response 'parameters are invalid' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'compute',
+        default_session_data: new_session_data
+      )
+      
+      response = service.request :list_images do |params|
+        params[:name] = "nonexistentimagenameherpderp"
+      end
+      
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:images].length.must_equal 0
+      response.headers.wont_be_nil
+    end
 
 
-    it 'leads to a valid response when parameters are provided' do
+    validate_response 'parameters are valid' do
       service = Aviator::Service.new(
         provider: 'openstack',
         service:  'compute',
@@ -150,24 +173,6 @@ class Aviator::Test
       response.body[:images].length.must_equal 1
       response.headers.wont_be_nil
     end    
-    
-    
-    it 'leads to a valid response when provided with invalid params' do
-      service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'compute',
-        default_session_data: new_session_data
-      )
-      
-      response = service.request :list_images do |params|
-        params[:name] = "nonexistentimagenameherpderp"
-      end
-      
-      response.status.must_equal 200
-      response.body.wont_be_nil
-      response.body[:images].length.must_equal 0
-      response.headers.wont_be_nil
-    end
 
   end
 

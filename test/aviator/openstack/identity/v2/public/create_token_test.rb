@@ -24,45 +24,17 @@ class Aviator::Test
     end
 
 
-    it 'has the correct endpoint type' do
-      klass.endpoint_type.must_equal :public
+    validate :anonymous? do
+      klass.anonymous?.must_equal true
     end
 
 
-    it 'has the correct api version' do
-        klass.api_version.must_equal :v2
+    validate :api_version do
+      klass.api_version.must_equal :v2
     end
 
 
-    it 'has the correct http method' do
-      klass.http_method.must_equal :post
-    end
-
-
-    it 'has the correct list of required parameters' do
-      klass.required_params.must_equal []
-    end
-
-
-    it 'has the correct list of optional parameters' do
-      klass.optional_params.must_equal [:username, :password, :tokenId, :tenantName, :tenantId]
-    end
-
-
-    it 'has the correct url' do
-      session_data = helper.admin_bootstrap_session_data
-      url = "#{ session_data[:auth_service][:host_uri] }/v2.0/tokens"
-
-      create_request.url.must_equal url
-    end
-
-
-    it 'has the correct headers' do
-      create_request.headers?.must_equal false
-    end
-
-
-    it 'has the correct body' do
+    validate :body do
       p = {
         auth: {
           passwordCredentials: {
@@ -76,66 +48,100 @@ class Aviator::Test
     end
 
 
-    it 'leads to a valid response when provided with valid params' do
-      service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'identity',
-        default_session_data: RequestHelper.admin_bootstrap_session_data
-      )
-      
-      response = service.request :create_token do |params|
-        params[:username] = Environment.openstack_admin[:auth_credentials][:username]
-        params[:password] = Environment.openstack_admin[:auth_credentials][:password]
-      end
-      
-      response.status.must_equal 200
-      response.body.wont_be_nil
-      response.headers.wont_be_nil
+    validate :endpoint_type do
+      klass.endpoint_type.must_equal :public
     end
 
 
-    it 'leads to a valid response when provided with a token' do
-      service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'identity',
-        default_session_data: RequestHelper.admin_bootstrap_session_data
-      )
-      
-      response = service.request :create_token do |params|
-        params[:username] = Environment.openstack_admin[:auth_credentials][:username]
-        params[:password] = Environment.openstack_admin[:auth_credentials][:password]
-      end
-      
-      token = response.body[:access][:token][:id]
-      
-      response = service.request :create_token do |params|
-        params[:tokenId]    = token
-        params[:tenantName] = Environment.openstack_admin[:auth_credentials][:tenantName]
-      end
-      
-      response.status.must_equal 200
-      response.body.wont_be_nil
-      response.headers.wont_be_nil
+    validate :headers do
+      create_request.headers?.must_equal false
     end
 
 
-    it 'leads to a valid response when provided with invalid params' do
+    validate :http_method do
+      klass.http_method.must_equal :post
+    end
+
+
+
+    validate :optional_params do
+      klass.optional_params.must_equal [:username, :password, :tokenId, :tenantName, :tenantId]
+    end
+
+
+    validate :required_params do
+      klass.required_params.must_equal []
+    end
+
+
+    validate :url do
+      session_data = helper.admin_bootstrap_session_data
+      url = "#{ session_data[:auth_service][:host_uri] }/v2.0/tokens"
+
+      create_request.url.must_equal url
+    end
+
+
+    validate_response 'parameters are invalid' do
       service = Aviator::Service.new(
         provider: 'openstack',
         service:  'identity',
         default_session_data: RequestHelper.admin_bootstrap_session_data
       )
-      
+
       response = service.request :create_token do |params|
         params[:username] = 'somebogususer'
         params[:password] = 'doesitreallymatter?'
       end
-      
+
       response.status.must_equal 401
       response.body.wont_be_nil
       response.headers.wont_be_nil
     end
-    
+
+
+    validate_response 'parameters are valid' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity',
+        default_session_data: RequestHelper.admin_bootstrap_session_data
+      )
+
+      response = service.request :create_token do |params|
+        params[:username] = Environment.openstack_admin[:auth_credentials][:username]
+        params[:password] = Environment.openstack_admin[:auth_credentials][:password]
+      end
+
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+
+
+    validate_response 'provided with a token' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'identity',
+        default_session_data: RequestHelper.admin_bootstrap_session_data
+      )
+
+      response = service.request :create_token do |params|
+        params[:username] = Environment.openstack_admin[:auth_credentials][:username]
+        params[:password] = Environment.openstack_admin[:auth_credentials][:password]
+      end
+
+      token = response.body[:access][:token][:id]
+
+      response = service.request :create_token do |params|
+        params[:tokenId]    = token
+        params[:tenantName] = Environment.openstack_admin[:auth_credentials][:tenantName]
+      end
+
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+
   end
 
 end
