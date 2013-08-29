@@ -45,6 +45,21 @@ class Aviator::Test
         
         session.authenticated?.must_equal true
       end
+
+
+      it 'raises an AuthenticationError when authentication fails' do
+        session     = new_session
+        credentials = config.test[:auth_credentials]
+        
+        the_method = lambda do
+          session.authenticate do |c|
+            c[:username] = 'invalidusername'
+            c[:password] = 'invalidpassword'
+          end
+        end
+        
+        the_method.must_raise Aviator::Session::AuthenticationError
+      end
       
       
       it 'updates the session data of its service objects' do
@@ -135,6 +150,13 @@ class Aviator::Test
     
     
     describe '#xxx_service' do
+      
+      it 'raises a NotAuthenticatedError if called without authenticating first' do
+        the_method = lambda { new_session.identity_service }
+        
+        the_method.must_raise Aviator::Session::NotAuthenticatedError
+      end
+      
       
       it 'returns an instance of the indicated service' do
         session = new_session

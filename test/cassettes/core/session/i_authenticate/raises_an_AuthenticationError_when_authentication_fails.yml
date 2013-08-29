@@ -1,0 +1,35 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"invalidusername","password":"invalidpassword"}}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 401
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '100'
+      date:
+      - Thu, 29 Aug 2013 17:16:33 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"error": {"message": "Could not find user: invalidusername", "code":
+        401, "title": "Unauthorized"}}'
+    http_version: 
+  recorded_at: Thu, 29 Aug 2013 17:15:31 GMT
+recorded_with: VCR 2.5.0

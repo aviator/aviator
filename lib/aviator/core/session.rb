@@ -2,6 +2,13 @@ module Aviator
 
   class Session
 
+    class AuthenticationError < StandardError
+      def initialize(last_auth_body)
+        super("Authentication failed. The server returned #{ last_auth_body }")
+      end
+    end
+    
+    
     class EnvironmentNotDefinedError < ArgumentError
       def initialize(path, env)
         super("The environment '#{ env }' is not defined in #{ path }.")
@@ -16,7 +23,7 @@ module Aviator
     end
     
     
-    class SessionNotAuthenticatedError < StandardError
+    class NotAuthenticatedError < StandardError
       def initialize
         super("Session is not authenticated. Please authenticate before proceeding.")
       end
@@ -51,7 +58,7 @@ module Aviator
         @auth_info = response.body
         update_services_session_data
       else
-        raise AuthenticationFailedError.new(response.body)
+        raise AuthenticationError.new(response.body)
       end
     end
 
@@ -111,7 +118,7 @@ module Aviator
 
 
     def get_service_obj(service_name)
-      raise SessionNotAuthenticatedError.new unless self.authenticated?
+      raise NotAuthenticatedError.new unless self.authenticated?
       
       @services ||= {}
       
