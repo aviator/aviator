@@ -14,6 +14,13 @@ module Aviator
         super("The config file at #{ path } does not exist!")
       end
     end
+    
+    
+    class SessionNotAuthenticatedError < StandardError
+      def initialize
+        super("Session is not authenticated. Please authenticate before proceeding.")
+      end
+    end
 
 
     def initialize(opts={})
@@ -42,6 +49,7 @@ module Aviator
       
       if response.status == 200
         @auth_info = response.body
+        update_services_session_data
       else
         raise AuthenticationFailedError.new(response.body)
       end
@@ -65,6 +73,11 @@ module Aviator
     
     
     private
+
+
+    def auth_info
+      @auth_info
+    end
     
     
     def auth_service
@@ -96,10 +109,14 @@ module Aviator
     end
     
     
-    def auth_info
-      @auth_info
+    def update_services_session_data
+      return unless @services
+      
+      @services.each do |name, obj|
+        obj.default_session_data = auth_info
+      end
     end
-    
+      
   end
 
 end

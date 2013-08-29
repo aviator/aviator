@@ -44,6 +44,24 @@ class Aviator::Test
         
         session.authenticated?.must_equal true
       end
+      
+      
+      it 'updates the session data of its service objects' do
+        session = new_session
+        session.authenticate
+        
+        keystone = session.identity_service
+        
+        session_data_1 = keystone.default_session_data
+        
+        session.authenticate
+        
+        session.identity_service.must_equal keystone
+        
+        new_token = session.identity_service.default_session_data[:access][:token][:id]
+        new_token.wont_equal session_data_1[:access][:token][:id]
+        keystone.default_session_data[:access][:token][:id].must_equal new_token
+      end
 
     end # describe '#authenticate'
     
