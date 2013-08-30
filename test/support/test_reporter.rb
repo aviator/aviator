@@ -1,6 +1,7 @@
 require "minitest/reporters"
 
-module MiniTest::Reporters::RedStack
+module Aviator
+class Test
 
   class SpecReporter < MiniTest::Reporters::SpecReporter
 
@@ -41,5 +42,6 @@ module MiniTest::Reporters::RedStack
   end
 
 end
+end
 
-MiniTest::Reporters.use! MiniTest::Reporters::RedStack::ProgressReporter.new
+MiniTest::Reporters.use! Aviator::Test::ProgressReporter.new
