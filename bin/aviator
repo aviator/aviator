@@ -65,7 +65,7 @@ module CLI
       end
       
       puts "\nSample Code:"
-      print "  session.#{ service }_service.request(:#{ request_name }, endpoint_type: #{ endpoint_type })"
+      print "  session.#{ service }_service.request(:#{ request_name }, endpoint_type: '#{ endpoint_type }')"
       if params
         puts " do |params|"
         params.each do |pair|
@@ -87,10 +87,10 @@ module CLI
       
       Service.new(provider: provider, service: service).requests.each do |api_version, endpoints|
         endpoints.each do |endpoint_type, requests|
-          puts "  API Version: #{ api_version }  Endpoint Type: #{ endpoint_type }"
           requests.each do |request_name, request_obj|
-            puts "      #{ request_name }"
+            puts "  #{ api_version} #{ endpoint_type } #{ request_name }"
           end
+          puts ""
         end
       end
     end
