@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 1.9.3
+branches:
+  only:
+    - master
+    - develop
+    - release
+bundler_args: --without development
+script:
+  - cp test/environment.yml.travis-ci test/environment.yml
+  - bundle exec rake
