@@ -1,5 +1,10 @@
 # Aviator
 
+[![Build Status](https://travis-ci.org/relaxdiego/aviator.png?branch=master)](https://travis-ci.org/relaxdiego/aviator)
+[![Coverage Status](https://coveralls.io/repos/relaxdiego/aviator/badge.png?branch=master)](https://coveralls.io/r/relaxdiego/aviator?branch=master)
+[![Code Climate](https://codeclimate.com/github/relaxdiego/aviator.png)](https://codeclimate.com/github/relaxdiego/aviator)
+
+
 A lightweight library for communicating with the OpenStack API.
 
 
