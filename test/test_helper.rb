@@ -12,6 +12,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 ]
 SimpleCov.start do
   add_filter '/test/'
+  
+  add_group 'Core', 'lib/aviator/core'
+  add_group 'OpenStack', 'lib/aviator/openstack'
 end
 
 require 'minitest/autorun'
