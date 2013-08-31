@@ -36,20 +36,3 @@ Dir[Pathname.new(__FILE__).join('..', 'support', '*.rb')].each do |f|
 end
 
 require 'aviator/core'
-
-at_exit do
-  # Load all requests so that they are reported by SimpleCov
-  request_file_paths = Dir.glob(Pathname.new(__FILE__).join(
-                         '..', '..', 'lib', 'aviator',
-                         'openstack', '**', '*.rb'
-                         ).expand_path
-                       )
-
-  request_file_paths.each do |path| 
-    # Ignore the load errors since all we want is for
-    # SimpleCov to detect the request file.
-    begin
-      Kernel.load(path, true)
-    rescue e; end
-  end
-end
