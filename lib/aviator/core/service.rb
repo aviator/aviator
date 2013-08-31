@@ -190,7 +190,7 @@ module Aviator
                              ).expand_path
                            )
 
-      request_file_paths.each{ |path| Kernel.load(path, true) }
+      request_file_paths.each{ |path| require path }
     end
     
     
