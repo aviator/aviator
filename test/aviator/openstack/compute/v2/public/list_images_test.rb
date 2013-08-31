@@ -32,9 +32,7 @@ class Aviator::Test
 
 
     def klass
-      path = helper.request_path('compute', 'v2', 'public', 'list_images.rb')
-      klass, request_name = Aviator::Service.load_request(path)
-      klass
+      @klass ||= helper.load_request('openstack', 'compute', 'v2', 'public', 'list_images.rb')
     end
 
 
