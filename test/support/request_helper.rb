@@ -44,12 +44,41 @@ class Test
           auth_service: Environment.openstack_admin[:auth_service]
         }
       end
+      
+
+      def get_request_class(parent, *path)
+        const_name = path.shift.to_s.camelize.gsub(/\.rb$/, '')
+
+        const = if parent.const_defined?(const_name)
+                 parent.const_get(const_name)
+               else
+                 raise "Constant #{ const_name } could not be found."
+               end
+      
+        path.empty? ? const : get_request_class(const, *path)
+      end
+
+      
+      def load_request(*path)
+        request_class = nil
+        
+        begin
+          request_class = get_request_class(Aviator, *path)
+        rescue; end
+        
+        if request_class
+          request_class
+        else
+          Kernel.load(request_path(*path), true)
+          get_request_class(Aviator, *path) || raise("Request class for #{ path.join('/') } couldn't be found. Is it defined properly?")
+        end
+      end
     
     
       def request_path(*path)
-        Pathname.new(__FILE__).join('..', '..', '..', 'lib', 'aviator', 'openstack').expand_path.join(*path)
+        Pathname.new(__FILE__).join('..', '..', '..', 'lib', 'aviator').expand_path.join(*path)
       end
-
+      
     end
   end
   

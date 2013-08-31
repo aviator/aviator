@@ -32,9 +32,7 @@ class Aviator::Test
 
 
     def klass
-      path = helper.request_path('compute', 'v2', 'public', 'list_images.rb')
-      klass, request_name = Aviator::Service::RequestBuilder.build(path)
-      klass
+      @klass ||= helper.load_request('openstack', 'compute', 'v2', 'public', 'list_images.rb')
     end
 
 
@@ -105,13 +103,13 @@ class Aviator::Test
         [ :status,  'ACTIVE'                          ],
         [ :type,    'application/vnd.openstack.image' ]
       ]
-
+    
       url += "/detail" if params.first[1]
     
       filters = []
-
+    
       params[1, params.length-1].each { |pair| filters << "#{ pair[0] }=#{ pair[1] }" }
-
+    
       url += "?#{ filters.join('&') }" unless filters.empty?
       
       request = klass.new(session_data) do |p|
@@ -154,8 +152,8 @@ class Aviator::Test
       response.body[:images].length.must_equal 0
       response.headers.wont_be_nil
     end
-
-
+    
+    
     validate_response 'parameters are valid' do
       service = Aviator::Service.new(
         provider: 'openstack',

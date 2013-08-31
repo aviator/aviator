@@ -1,9 +1,12 @@
-define_request :create_token do
+Aviator.define_request :create_token do
 
   anonymous
 
-  endpoint_type :public
+  provider      :openstack
+  service       :identity
   api_version   :v2
+  endpoint_type :public
+  
   http_method   :post
 
   link_to 'documentation',
