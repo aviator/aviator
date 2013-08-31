@@ -92,85 +92,85 @@ class Aviator::Test
     end
 
 
-    # validate :url do
-    #   session_data = new_session_data
-    #   service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-    #   url          = "#{ service_spec[:endpoints][0][:publicURL] }/images"
-    #         
-    #   params = [
-    #     [ :details,  true                             ],
-    #     [ :name,    'cirros-0.3.1-x86_64-uec-ramdisk' ],
-    #     [ :status,  'ACTIVE'                          ],
-    #     [ :type,    'application/vnd.openstack.image' ]
-    #   ]
-    # 
-    #   url += "/detail" if params.first[1]
-    # 
-    #   filters = []
-    # 
-    #   params[1, params.length-1].each { |pair| filters << "#{ pair[0] }=#{ pair[1] }" }
-    # 
-    #   url += "?#{ filters.join('&') }" unless filters.empty?
-    #   
-    #   request = klass.new(session_data) do |p|
-    #     params.each { |pair| p[pair[0]] = pair[1] }
-    #   end
-    #   
-    #       
-    #   request.url.must_equal url
-    # end
+    validate :url do
+      session_data = new_session_data
+      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      url          = "#{ service_spec[:endpoints][0][:publicURL] }/images"
+            
+      params = [
+        [ :details,  true                             ],
+        [ :name,    'cirros-0.3.1-x86_64-uec-ramdisk' ],
+        [ :status,  'ACTIVE'                          ],
+        [ :type,    'application/vnd.openstack.image' ]
+      ]
+    
+      url += "/detail" if params.first[1]
+    
+      filters = []
+    
+      params[1, params.length-1].each { |pair| filters << "#{ pair[0] }=#{ pair[1] }" }
+    
+      url += "?#{ filters.join('&') }" unless filters.empty?
+      
+      request = klass.new(session_data) do |p|
+        params.each { |pair| p[pair[0]] = pair[1] }
+      end
+      
+          
+      request.url.must_equal url
+    end
     
     
-    # validate_response 'no parameters are provided' do
-    #   service = Aviator::Service.new(
-    #     provider: 'openstack',
-    #     service:  'compute',
-    #     default_session_data: new_session_data
-    #   )
-    #   
-    #   response = service.request :list_images
-    #   
-    #   response.status.must_equal 200
-    #   response.body.wont_be_nil
-    #   response.headers.wont_be_nil
-    # end
-    # 
-    # 
-    # validate_response 'parameters are invalid' do
-    #   service = Aviator::Service.new(
-    #     provider: 'openstack',
-    #     service:  'compute',
-    #     default_session_data: new_session_data
-    #   )
-    #   
-    #   response = service.request :list_images do |params|
-    #     params[:name] = "nonexistentimagenameherpderp"
-    #   end
-    #   
-    #   response.status.must_equal 200
-    #   response.body.wont_be_nil
-    #   response.body[:images].length.must_equal 0
-    #   response.headers.wont_be_nil
-    # end
-    # 
-    # 
-    # validate_response 'parameters are valid' do
-    #   service = Aviator::Service.new(
-    #     provider: 'openstack',
-    #     service:  'compute',
-    #     default_session_data: new_session_data
-    #   )
-    #   
-    #   response = service.request :list_images do |params|
-    #     params[:details] = true
-    #     params[:name] = "cirros-0.3.1-x86_64-uec-ramdisk"
-    #   end
-    #   
-    #   response.status.must_equal 200
-    #   response.body.wont_be_nil
-    #   response.body[:images].length.must_equal 1
-    #   response.headers.wont_be_nil
-    # end    
+    validate_response 'no parameters are provided' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'compute',
+        default_session_data: new_session_data
+      )
+      
+      response = service.request :list_images
+      
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+    
+    
+    validate_response 'parameters are invalid' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'compute',
+        default_session_data: new_session_data
+      )
+      
+      response = service.request :list_images do |params|
+        params[:name] = "nonexistentimagenameherpderp"
+      end
+      
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:images].length.must_equal 0
+      response.headers.wont_be_nil
+    end
+    
+    
+    validate_response 'parameters are valid' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'compute',
+        default_session_data: new_session_data
+      )
+      
+      response = service.request :list_images do |params|
+        params[:details] = true
+        params[:name] = "cirros-0.3.1-x86_64-uec-ramdisk"
+      end
+      
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:images].length.must_equal 1
+      response.headers.wont_be_nil
+    end    
 
   end
 
