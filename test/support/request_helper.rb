@@ -44,12 +44,31 @@ class Test
           auth_service: Environment.openstack_admin[:auth_service]
         }
       end
+      
+
+      def get_request_class(parent, *path)
+        const_name = path.shift.to_s.camelize.gsub(/\.rb$/, '')
+
+        const = if parent.const_defined?(const_name)
+                 parent.const_get(const_name)
+               else
+                 raise "Could not find constant #{ base.name }::#{ const_name }"
+               end
+      
+        path.empty? ? const : get_request_class(const, *path)
+      end
+
+      
+      def load_request(*path)
+        Kernel.load(request_path(*path), true)
+        get_request_class(Aviator, *path)
+      end
     
     
       def request_path(*path)
-        Pathname.new(__FILE__).join('..', '..', '..', 'lib', 'aviator', 'openstack').expand_path.join(*path)
+        Pathname.new(__FILE__).join('..', '..', '..', 'lib', 'aviator').expand_path.join(*path)
       end
-
+      
     end
   end
   
