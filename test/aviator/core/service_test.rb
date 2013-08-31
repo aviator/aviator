@@ -119,7 +119,7 @@ class Aviator::Test
       it 'accepts an endpoint type option for selecting a specific request' do
         default_session_data = do_auth_request.body
         s = service(default_session_data)
-      
+
         response1 = s.request :list_tenants, endpoint_type: 'admin'
         response2 = s.request :list_tenants, endpoint_type: 'public'
         

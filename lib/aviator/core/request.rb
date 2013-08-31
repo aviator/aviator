@@ -191,6 +191,15 @@ module Aviator
       end
 
 
+      def provider(value=nil)
+        if value
+          @provider = value
+        else
+          @provider
+        end
+      end
+      
+
       def optional_params
         @optional_params ||= []
       end
@@ -205,6 +214,15 @@ module Aviator
         @required_params ||= []
       end
 
+
+      def service(value=nil)
+        if value
+          @service = value
+        else
+          @service
+        end
+      end
+      
 
       def url?
         instance_methods.include? :url

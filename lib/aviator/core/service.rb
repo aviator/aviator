@@ -49,25 +49,25 @@ module Aviator
     # request is initialized it doesn't get polluted by instance variables and methods
     # of the containing class. This builder class makes that happen by being a
     # scope gate for the file. See Metaprogramming Ruby, specifically on blocks and scope
-    class RequestBuilder
-
-      # This method gets called by the request file eval'd in self.build below
-      def define_request(request_name, &block)
-        klass = Class.new(Aviator::Request, &block)
-        return klass, request_name
-      end
-
-
-      def self.build(path_to_request_file)
-        clean_room = new
-        clean_room.instance_eval(File.read(path_to_request_file))
-      end
-
-
-      private_class_method :new
-
-    end
-
+    # class RequestBuilder
+    # 
+    #   # This method gets called by the request file eval'd in self.build below
+    #   def define_request(request_name, &block)
+    #     klass = Class.new(Aviator::Request, &block)
+    #     return klass, request_name
+    #   end
+    # 
+    # 
+    #   def self.build(path_to_request_file)
+    #     # clean_room = new
+    #     # clean_room.instance_eval(File.read(path_to_request_file))
+    #     Kernel.load(path_to_request_file, true)
+    #   end
+    # 
+    # 
+    #   private_class_method :new
+    # 
+    # end
 
     attr_accessor :default_session_data
 
@@ -134,19 +134,27 @@ module Aviator
     # Candidate for extraction to aviator/openstack
     def find_request(name, session_data, endpoint_type=nil)
       endpoint_types = if endpoint_type
-                         [endpoint_type.to_sym]
+                         [endpoint_type.to_s.camelize]
                        else
-                         [:public, :admin]
+                         ['Public', 'Admin']
                        end
 
-      version = infer_version(session_data)
+      namespace = Aviator.const_get(provider.camelize)
+                         .const_get(service.camelize)   
 
-      return nil unless version && requests[version]
+      version = infer_version(session_data).to_s.camelize
+            
+      return nil unless version && namespace.const_defined?(version)
+
+      namespace = namespace.const_get(version)
 
       endpoint_types.each do |endpoint_type|
-        next unless requests[version][endpoint_type]
-        pair = requests[version][endpoint_type].find{ |k, v| k == name }
-        return pair[1] unless pair.nil?
+        name = name.to_s.camelize
+        
+        next unless namespace.const_defined?(endpoint_type)
+        next unless namespace.const_get(endpoint_type).const_defined?(name)
+        
+        return namespace.const_get(endpoint_type).const_get(name)
       end
 
       nil
@@ -182,22 +190,14 @@ module Aviator
                              ).expand_path
                            )
 
-      @requests ||= {}
-
-      request_file_paths.each do |path_to_file|
-        klass, request_name = RequestBuilder.build(path_to_file)
-
-        api_version   = @requests[klass.api_version] ||= {}
-        endpoint_type = api_version[klass.endpoint_type] ||= {}
-        endpoint_type[request_name] = klass
-      end
+      request_file_paths.each{ |path| Kernel.load(path, true) }
     end
     
     
     def log_file
       @log_file
     end
-
+    
   end
 
 end

@@ -1,7 +1,10 @@
-define_request :list_images do
+Aviator.define_request :list_images do
 
-  endpoint_type :public
+  provider      :openstack
+  service       :compute
   api_version   :v2
+  endpoint_type :public
+  
   http_method   :get
 
   link_to 'documentation',
