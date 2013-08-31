@@ -69,7 +69,7 @@ class Test
         if request_class
           request_class
         else
-          Kernel.load(request_path(*path), true)
+          require request_path(*path)
           get_request_class(Aviator, *path) || raise("Request class for #{ path.join('/') } couldn't be found. Is it defined properly?")
         end
       end
