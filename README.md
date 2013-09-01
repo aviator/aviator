@@ -25,7 +25,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-require 'aviator'
+require 'aviator/core'
 
 # Create a new session. See 'Configuration' below for the config file format.
 session = Aviator::Session.new(
