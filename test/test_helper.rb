@@ -35,4 +35,4 @@ Dir[Pathname.new(__FILE__).join('..', 'support', '*.rb')].each do |f|
   require f
 end
 
-require 'aviator/core'
+require 'aviator'
