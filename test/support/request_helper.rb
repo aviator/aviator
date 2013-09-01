@@ -60,18 +60,8 @@ class Test
 
       
       def load_request(*path)
-        request_class = nil
-        
-        begin
-          request_class = get_request_class(Aviator, *path)
-        rescue; end
-        
-        if request_class
-          request_class
-        else
-          require request_path(*path)
-          get_request_class(Aviator, *path) || raise("Request class for #{ path.join('/') } couldn't be found. Is it defined properly?")
-        end
+        require request_path(*path)
+        get_request_class(Aviator, *path)
       end
     
     

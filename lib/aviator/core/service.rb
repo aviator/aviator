@@ -45,29 +45,6 @@ module Aviator
       end
     end
 
-    # Because we define requests in a flattened scope, we want to make sure that when each
-    # request is initialized it doesn't get polluted by instance variables and methods
-    # of the containing class. This builder class makes that happen by being a
-    # scope gate for the file. See Metaprogramming Ruby, specifically on blocks and scope
-    # class RequestBuilder
-    # 
-    #   # This method gets called by the request file eval'd in self.build below
-    #   def define_request(request_name, &block)
-    #     klass = Class.new(Aviator::Request, &block)
-    #     return klass, request_name
-    #   end
-    # 
-    # 
-    #   def self.build(path_to_request_file)
-    #     # clean_room = new
-    #     # clean_room.instance_eval(File.read(path_to_request_file))
-    #     Kernel.load(path_to_request_file, true)
-    #   end
-    # 
-    # 
-    #   private_class_method :new
-    # 
-    # end
 
     attr_accessor :default_session_data
 
