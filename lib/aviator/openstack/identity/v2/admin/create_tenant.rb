@@ -1,7 +1,10 @@
-define_request :create_tenant do
+Aviator.define_request :create_tenant do
 
-  endpoint_type :admin
+  provider      :openstack
+  service       :identity
   api_version   :v2
+  endpoint_type :admin
+  
   http_method   :post
 
   link_to 'documentation',

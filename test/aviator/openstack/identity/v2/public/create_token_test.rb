@@ -18,9 +18,7 @@ class Aviator::Test
 
 
     def klass
-      path = helper.request_path('identity', 'v2', 'public', 'create_token.rb')
-      klass, request_name = Aviator::Service::RequestBuilder.build(path)
-      klass
+      @klass ||= helper.load_request('openstack', 'identity', 'v2', 'public', 'create_token.rb')
     end
 
 
