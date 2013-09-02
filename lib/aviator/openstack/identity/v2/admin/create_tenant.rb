@@ -1,45 +1,53 @@
-Aviator.define_request :create_tenant do
+module Aviator
 
-  provider      :openstack
-  service       :identity
-  api_version   :v2
-  endpoint_type :admin
-  
-  http_method   :post
+  define_request :create_tenant do
 
-  link_to 'documentation',
-          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/POST_addTenant_v2.0_tenants_.html'
+    meta :provider,      :openstack
+    meta :service,       :identity
+    meta :api_version,   :v2
+    meta :endpoint_type, :admin
 
-  required_param :name
-  required_param :description
-  required_param :enabled
+    link 'documentation',
+         'http://docs.openstack.org/api/openstack-identity-service/2.0/content/'
 
 
-  def url
-    service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
-    "#{ service_spec[:endpoints][0][:adminURL] }/tenants"
-  end
+    param :name,        required: true
+    param :description, required: true
+    param :enabled,     required: true
 
-  
-  def headers
-    h = {}
-    
-    unless self.anonymous?
-      h['X-Auth-Token'] = session_data[:access][:token][:id]
+
+    def body
+      {
+        tenant: {
+          name:        params[:name],
+          description: params[:description],
+          enabled:     params[:enabled]
+        }
+      }
     end
 
-    h
-  end
-  
 
-  def body
-    {
-      tenant: {
-        name:        params[:name],
-        description: params[:description],
-        enabled:     params[:enabled]
-      }
-    }
+    def headers
+      h = {}
+
+      unless self.anonymous?
+        h['X-Auth-Token'] = session_data[:access][:token][:id]
+      end
+
+      h
+    end
+
+
+    def http_method
+      :post
+    end
+
+
+    def url
+      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      "#{ service_spec[:endpoints][0][:adminURL] }/tenants"
+    end
+
   end
 
 end
