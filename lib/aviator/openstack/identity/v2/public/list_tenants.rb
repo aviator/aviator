@@ -1,47 +1,54 @@
-Aviator.define_request :list_tenants do
-
-  provider      :openstack
-  service       :identity
-  api_version   :v2
-  endpoint_type :public
+module Aviator
   
-  http_method   :get
+  define_request :list_tenants do
 
-  link_to 'documentation',
-          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/GET_listTenants_v2.0_tokens_tenants_.html'
-
-  link_to 'documentation bug',
-          'https://bugs.launchpad.net/keystone/+bug/1218601'
-
-
-  optional_param :marker
-  optional_param :limit
-
-
-  def url
-    service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
-    str = "#{ service_spec[:endpoints][0][:publicURL] }/tenants"
-    
-    filters = []
-    
-    (optional_params + required_params).each do |param_name|
-      filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
-    end
-    
-    str += "?#{ filters.join('&') }" unless filters.empty?
-    
-    str
-  end
-
+    meta :provider,      :openstack
+    meta :service,       :identity
+    meta :api_version,   :v2
+    meta :endpoint_type, :public
   
-  def headers
-    h = {}
+    link 'documentation',
+         'http://docs.openstack.org/api/openstack-identity-service/2.0/content/GET_listTenants_v2.0_tokens_tenants_.html'
+
+    link 'documentation bug',
+         'https://bugs.launchpad.net/keystone/+bug/1218601'
+
+
+    param :marker, required: false
+    param :limit,  required: false
+
+
+    def url
+      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      str = "#{ service_spec[:endpoints][0][:publicURL] }/tenants"
     
-    unless self.anonymous?
-      h['X-Auth-Token'] = session_data[:access][:token][:id]
+      filters = []
+    
+      (optional_params + required_params).each do |param_name|
+        filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
+      end
+    
+      str += "?#{ filters.join('&') }" unless filters.empty?
+    
+      str
     end
 
-    h
+  
+    def headers
+      h = {}
+    
+      unless self.anonymous?
+        h['X-Auth-Token'] = session_data[:access][:token][:id]
+      end
+
+      h
+    end
+  
+  
+    def http_method
+      :get
+    end
+
   end
   
 end

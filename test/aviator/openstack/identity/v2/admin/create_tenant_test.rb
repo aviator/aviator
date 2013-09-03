@@ -86,7 +86,7 @@ class Aviator::Test
 
 
     validate :http_method do
-      klass.http_method.must_equal :post
+      create_request.http_method.must_equal :post
     end
 
 
