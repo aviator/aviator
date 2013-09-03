@@ -36,28 +36,28 @@ class Aviator::Test
     end
 
 
-    validate :anonymous? do
+    validate_attr :anonymous? do
       klass.anonymous?.must_equal false
     end
     
     
-    validate :api_version do
+    validate_attr :api_version do
       klass.api_version.must_equal :v2
     end
 
 
-    validate :body do
+    validate_attr :body do
       klass.body?.must_equal false    
       create_request.body?.must_equal false
     end
     
     
-    validate :endpoint_type do
+    validate_attr :endpoint_type do
       klass.endpoint_type.must_equal :public
     end
     
 
-    validate :headers do
+    validate_attr :headers do
       session_data = new_session_data
       
       headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
@@ -68,12 +68,12 @@ class Aviator::Test
     end
     
     
-    validate :http_method do
+    validate_attr :http_method do
       create_request.http_method.must_equal :get
     end
 
 
-    validate :optional_params do
+    validate_attr :optional_params do
       klass.optional_params.must_equal [
         :details,
         :server,
@@ -87,12 +87,12 @@ class Aviator::Test
     end
 
 
-    validate :required_params do
+    validate_attr :required_params do
       klass.required_params.must_equal []
     end
 
 
-    validate :url do
+    validate_attr :url do
       session_data = new_session_data
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/images"
