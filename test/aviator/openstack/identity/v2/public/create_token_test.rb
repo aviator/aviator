@@ -18,23 +18,21 @@ class Aviator::Test
 
 
     def klass
-      path = helper.request_path('identity', 'v2', 'public', 'create_token.rb')
-      klass, request_name = Aviator::Service::RequestBuilder.build(path)
-      klass
+      @klass ||= helper.load_request('openstack', 'identity', 'v2', 'public', 'create_token.rb')
     end
 
 
-    validate :anonymous? do
+    validate_attr :anonymous? do
       klass.anonymous?.must_equal true
     end
 
 
-    validate :api_version do
+    validate_attr :api_version do
       klass.api_version.must_equal :v2
     end
 
 
-    validate :body do
+    validate_attr :body do
       p = {
         auth: {
           passwordCredentials: {
@@ -48,33 +46,33 @@ class Aviator::Test
     end
 
 
-    validate :endpoint_type do
+    validate_attr :endpoint_type do
       klass.endpoint_type.must_equal :public
     end
 
 
-    validate :headers do
+    validate_attr :headers do
       create_request.headers?.must_equal false
     end
 
 
-    validate :http_method do
-      klass.http_method.must_equal :post
+    validate_attr :http_method do
+      create_request.http_method.must_equal :post
     end
 
 
 
-    validate :optional_params do
+    validate_attr :optional_params do
       klass.optional_params.must_equal [:username, :password, :tokenId, :tenantName, :tenantId]
     end
 
 
-    validate :required_params do
+    validate_attr :required_params do
       klass.required_params.must_equal []
     end
 
 
-    validate :url do
+    validate_attr :url do
       session_data = helper.admin_bootstrap_session_data
       url = "#{ session_data[:auth_service][:host_uri] }/v2.0/tokens"
 
@@ -82,7 +80,7 @@ class Aviator::Test
     end
     
     
-    validate :url, 'when the host uri contains the api version' do
+    validate_attr :url, 'when the host uri contains the api version' do
       host_uri = 'http://x.y.z:5000/v2.0'
       
       request = klass.new({ auth_service: { host_uri: host_uri } }) do |params|

@@ -59,6 +59,14 @@ str = session.dump
 # If you employed any form of encryption on the string, make sure to decrypt it first!
 session = Aviator::Session.load(str)
 
+# In some instances, Session::load is inefficient because it creates a new session object
+# each time. In a web app environment, for instance, having to destroy and recreate the
+# session object can take its toll on performance. In such a scenario, use Session#load
+# (instance method, as opposed to class method). This will 'infect' an already existing
+# session object with the supplied session dump and return itself instead of creating
+# a brand new session object.
+session.load(other_session_dump)
+
 # Depending on how old the loaded session dump is, the auth_info may already be expired. 
 # Check if it's still current by calling Session#validate and reauthenticate as needed.
 #

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'aviator/openstack/compute/v2/public/list_images' do
+  describe 'aviator/openstack/compute/v2/public/list_servers' do
 
     def create_request(session_data = new_session_data)
       klass.new(session_data)
@@ -11,8 +11,8 @@ class Aviator::Test
 
     def new_session_data
       service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'identity'
+        provider: Environment.openstack_admin[:provider],
+        service:  Environment.openstack_admin[:auth_service][:name]
       )
       
       bootstrap = RequestHelper.admin_bootstrap_session_data
@@ -32,7 +32,7 @@ class Aviator::Test
 
 
     def klass
-      @klass ||= helper.load_request('openstack', 'compute', 'v2', 'public', 'list_images.rb')
+      @klass ||= helper.load_request('openstack', 'compute', 'v2', 'public', 'list_servers.rb')
     end
 
 
@@ -76,13 +76,13 @@ class Aviator::Test
     validate_attr :optional_params do
       klass.optional_params.must_equal [
         :details,
-        :server,
-        :name,
-        :status,
-        'changes-since',
-        :marker,
+        :flavor,
+        :image,
         :limit,
-        :type
+        :marker,
+        :server,
+        :status,
+        'changes-since'
       ]
     end
 
@@ -95,21 +95,21 @@ class Aviator::Test
     validate_attr :url do
       session_data = new_session_data
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/images"
+      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers"
             
       params = [
-        [ :details,  true                             ],
-        [ :name,    'cirros-0.3.1-x86_64-uec-ramdisk' ],
-        [ :status,  'ACTIVE'                          ],
-        [ :type,    'application/vnd.openstack.image' ]
+        [ :details, false      ],
+        [ :flavor,  'm1.small' ],
+        [ :image,   'cirros-0.3.1-x86_64-uec-ramdisk' ],
+        [ :status,  'ACTIVE'                          ]
       ]
-    
+          
       url += "/detail" if params.first[1]
-    
+          
       filters = []
-    
+          
       params[1, params.length-1].each { |pair| filters << "#{ pair[0] }=#{ pair[1] }" }
-    
+      
       url += "?#{ filters.join('&') }" unless filters.empty?
       
       request = klass.new(session_data) do |p|
@@ -128,10 +128,11 @@ class Aviator::Test
         default_session_data: new_session_data
       )
       
-      response = service.request :list_images
+      response = service.request :list_servers
       
       response.status.must_equal 200
       response.body.wont_be_nil
+      response.body[:servers].length.wont_equal 0
       response.headers.wont_be_nil
     end
     
@@ -143,13 +144,13 @@ class Aviator::Test
         default_session_data: new_session_data
       )
       
-      response = service.request :list_images do |params|
-        params[:name] = "nonexistentimagenameherpderp"
+      response = service.request :list_servers do |params|
+        params[:image] = "nonexistentimagenameherpderp"
       end
       
       response.status.must_equal 200
       response.body.wont_be_nil
-      response.body[:images].length.must_equal 0
+      response.body[:servers].length.must_equal 0
       response.headers.wont_be_nil
     end
     
@@ -161,14 +162,14 @@ class Aviator::Test
         default_session_data: new_session_data
       )
       
-      response = service.request :list_images do |params|
+      response = service.request :list_servers do |params|
         params[:details] = true
-        params[:name] = "cirros-0.3.1-x86_64-uec-ramdisk"
+        params[:image] = 'c95d4992-24b1-4c9a-93cb-5d2935503148'
       end
       
       response.status.must_equal 200
       response.body.wont_be_nil
-      response.body[:images].length.must_equal 1
+      response.body[:servers].length.must_equal 1
       response.headers.wont_be_nil
     end    
 

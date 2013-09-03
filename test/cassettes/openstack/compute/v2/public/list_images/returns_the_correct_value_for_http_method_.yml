@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2648'
       date:
-      - Thu, 29 Aug 2013 03:33:05 GMT
+      - Wed, 04 Sep 2013 12:55:30 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-08-29T03:33:05.280254",
-        "expires": "2013-08-30T03:33:05Z", "id": "5673e8fdcfd644eab06ae0cc5e68d2f0",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-04T12:55:30.584559",
+        "expires": "2013-09-05T12:55:30Z", "id": "1cd6ba534d94447f9420b372869447ac",
         "tenant": {"description": null, "enabled": true, "id": "3cab25130620477b8b03f1bfa8741603",
         "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
         "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
@@ -59,5 +59,5 @@ http_interactions:
         [{"name": "admin"}], "name": "admin"}, "metadata": {"is_admin": 0, "roles":
         ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'
     http_version: 
-  recorded_at: Thu, 29 Aug 2013 07:32:20 GMT
+  recorded_at: Mon, 02 Sep 2013 08:56:17 GMT
 recorded_with: VCR 2.5.0

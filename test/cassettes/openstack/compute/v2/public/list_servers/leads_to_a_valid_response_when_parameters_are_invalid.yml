@@ -1,0 +1,95 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<USERNAME>","password":"<PASSWORD>"},"tenantName":"<TENANT>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2749'
+      date:
+      - Tue, 03 Sep 2013 21:24:31 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-03T21:24:31.344753",
+        "expires": "2013-09-04T03:24:31Z", "id": "e32225931f064f1cbec963a362dd9a5f",
+        "tenant": {"description": "System account for Morphlabs mCloud administration",
+        "enabled": true, "id": "e7b1b62aa1474f758c4974b8be44cf6c", "name": "demo"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "<HOST_URI>:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c",
+        "region": "RegionOne", "internalURL": "<HOST_URI>:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c",
+        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "<HOST_URI>:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "<HOST_URI>:9292", "region": "RegionOne", "internalURL": "<HOST_URI>:9292",
+        "id": "2985945e07b74103bb2dfef7e426cd43", "publicURL": "<HOST_URI>:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "<HOST_URI>:8777", "region": "RegionOne", "internalURL": "<HOST_URI>:8777",
+        "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "<HOST_URI>:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "<HOST_URI>:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c", "region":
+        "RegionOne", "internalURL": "<HOST_URI>:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c",
+        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "<HOST_URI>:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "<HOST_URI>:8773/services/Admin", "region": "RegionOne", "internalURL":
+        "<HOST_URI>:8773/services/Cloud", "id": "1f68f3ce931946c788e487443e772fb2",
+        "publicURL": "<HOST_URI>:8773/services/Cloud"}], "endpoints_links": [], "type":
+        "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL": "<HOST_URI>:35357/v2.0",
+        "region": "RegionOne", "internalURL": "<HOST_URI>:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
+        "publicURL": "<HOST_URI>:5000/v2.0"}], "endpoints_links": [], "type": "identity",
+        "name": "keystone"}], "user": {"username": "morphadmin", "roles_links": [],
+        "id": "87f34120be394c598520744d0f4a8233", "roles": [{"name": "Member"}, {"name":
+        "admin"}, {"name": "project_manager"}], "name": "morphadmin"}, "metadata":
+        {"is_admin": 0, "roles": ["f970c227c0ee4512899606886348f67f", "a0d6ba8f41b746b495a6d25c69962489",
+        "88141c3fd5cd48459cfe1243bfa6d4e1"]}}}'
+    http_version: 
+  recorded_at: Tue, 03 Sep 2013 21:24:31 GMT
+- request:
+    method: get
+    uri: <HOST_URI>:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c/servers?image=nonexistentimagenameherpderp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - e32225931f064f1cbec963a362dd9a5f
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-7a1bee45-7627-49df-ac1d-0fbb3b57fcb3
+      content-type:
+      - application/json
+      content-length:
+      - '15'
+      date:
+      - Tue, 03 Sep 2013 21:24:31 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"servers": []}'
+    http_version: 
+  recorded_at: Tue, 03 Sep 2013 21:24:31 GMT
+recorded_with: VCR 2.5.0

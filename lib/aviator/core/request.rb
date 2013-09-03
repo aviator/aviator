@@ -1,5 +1,40 @@
 module Aviator
 
+  class << self
+    
+    def define_request(request_name, &block)
+      class_obj = Class.new(Request, &block)
+      
+      set_class_name(
+        Aviator,
+        class_obj,
+        
+        class_obj.provider,
+        class_obj.service,
+        class_obj.api_version,
+        class_obj.endpoint_type,
+        request_name
+      )
+    end
+    
+    
+    private    
+    
+    def set_class_name(base, obj, *hierarchy)
+      const_name = hierarchy.shift.to_s.camelize
+
+      const = if base.const_defined?(const_name)
+                base.const_get(const_name)
+              else
+                base.const_set(const_name, (hierarchy.empty? ? obj : Module.new))
+              end
+      
+      hierarchy.empty? ? const : set_class_name(const, obj, *hierarchy)
+    end
+    
+  end # class << self
+
+
   class Request
 
     class ApiVersionNotDefinedError < StandardError
@@ -40,28 +75,13 @@ module Aviator
     end
 
 
-    def api_version
-      self.class.api_version
-    end
-
-
     def body?
       self.class.body?
     end
 
 
-    def endpoint_type
-      self.class.endpoint_type
-    end
-
-
     def headers?
       self.class.headers?
-    end
-
-
-    def http_method
-      self.class.http_method
     end
 
 
@@ -80,11 +100,6 @@ module Aviator
     end
 
 
-    def querystring?
-      self.class.querystring?
-    end
-
-
     def required_params
       self.class.required_params
     end
@@ -99,6 +114,11 @@ module Aviator
       !session_data.nil?
     end
 
+
+    def querystring?
+      self.class.querystring?
+    end
+    
 
     def url?
       self.class.url?
@@ -123,22 +143,8 @@ module Aviator
     # within the class and because they don't change between instances anyway.
     class << self
 
-      def anonymous
-        @anonymous = true
-      end
-
-
       def anonymous?
-        @anonymous == true
-      end
-
-
-      def api_version(value=nil)
-        if value
-          @api_version = value
-        else
-          @api_version
-        end
+        respond_to?(:anonymous) && anonymous == true
       end
 
 
@@ -147,33 +153,10 @@ module Aviator
       end
 
 
-      def endpoint_type(value=nil)
-        if value
-          @endpoint_type = value
-        else
-          @endpoint_type
-        end
-      end
-
-
       def headers?
         instance_methods.include? :headers
       end
-
-
-      def http_method(value=nil)
-        if value
-          @http_method = value
-        else
-          @http_method
-        end
-      end
-      
-      
-      def link_to(rel, href)
-        links << { rel: rel, href: href }
-      end
-      
+            
       
       def links
         @links ||= []
@@ -199,12 +182,12 @@ module Aviator
       def querystring?
         instance_methods.include? :querystring
       end
-
+      
 
       def required_params
         @required_params ||= []
       end
-
+      
 
       def url?
         instance_methods.include? :url
@@ -213,13 +196,27 @@ module Aviator
 
       private
 
-      def required_param(param_name)
-        required_params << param_name unless required_params.include?(param_name)
+
+      def link(rel, href)
+        links << { rel: rel, href: href }
       end
 
 
-      def optional_param(param_name)
-        optional_params << param_name unless optional_params.include?(param_name)
+      def meta(attr_name, attr_value)
+        define_singleton_method(attr_name) do
+          attr_value
+        end
+
+        define_method(attr_name) do
+          self.class.send(attr_name)
+        end
+      end
+      
+
+      def param(param_name, opts={})
+        opts  = opts.with_indifferent_access
+        list  = (opts[:required] == false ? optional_params : required_params)
+        list << param_name unless optional_params.include?(param_name)
       end
 
     end
