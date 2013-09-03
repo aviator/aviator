@@ -40,7 +40,7 @@ http_interactions:
     uri: <HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"token":{"id":"7936a6fa365a47e5b165a5d15f667a32"},"tenantName":"admin"}}'
+      string: ! '{"auth":{"token":{"id":"7936a6fa365a47e5b165a5d15f667a32"},"tenantName":"<TENANT>"}}'
     headers:
       Content-Type:
       - application/json
