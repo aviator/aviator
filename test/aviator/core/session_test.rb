@@ -99,6 +99,35 @@ class Aviator::Test
       end
       
     end
+
+
+    describe '#load' do
+      
+      it 'returns itself' do
+        session = new_session
+        session.authenticate
+        
+        str = session.dump
+        session.load(str).must_equal session
+      end
+
+      
+      it 'updates the session data of its service objects' do
+        session1 = new_session
+        session1.authenticate
+        keystone1 = session1.identity_service
+
+        session2 = new_session
+        session2.authenticate
+        keystone2 = session2.identity_service
+
+        session1.load(session2.dump)
+
+        keystone1.wont_equal keystone2
+        keystone1.default_session_data.must_equal keystone2.default_session_data
+      end
+
+    end # describe '#load'
     
     
     describe '::load' do
