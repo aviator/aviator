@@ -15,6 +15,8 @@ VCR.configure do |c|
     @vcr_port_matcher_registered = true
   end
 
+  c.filter_sensitive_data('"username":"<USERNAME>"') { %Q{"username":"#{ Aviator::Test::Environment.openstack_admin[:auth_credentials][:username] }"} }
+  c.filter_sensitive_data('"username":"<USERNAME>"') { %Q{"username":"#{ Aviator::Test::Environment.openstack_member[:auth_credentials][:username] }"} }
   c.filter_sensitive_data('"password":"<PASSWORD>"') { %Q{"password":"#{ Aviator::Test::Environment.openstack_admin[:auth_credentials][:password] }"} }
   c.filter_sensitive_data('"password":"<PASSWORD>"') { %Q{"password":"#{ Aviator::Test::Environment.openstack_member[:auth_credentials][:password] }"} }
   c.filter_sensitive_data('<HOST_URI>') do

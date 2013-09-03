@@ -5,7 +5,7 @@ http_interactions:
     uri: <HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"<PASSWORD>"},"tenantName":"admin"}}'
+      string: ! '{"auth":{"passwordCredentials":{"username":"<USERNAME>","password":"<PASSWORD>"},"tenantName":"admin"}}'
     headers:
       Content-Type:
       - application/json
