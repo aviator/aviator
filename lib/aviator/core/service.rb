@@ -85,8 +85,8 @@ module Aviator
     end
 
 
-    def requests
-      @requests
+    def request_classes
+      @request_classes
     end
     
     
@@ -168,6 +168,14 @@ module Aviator
                            )
 
       request_file_paths.each{ |path| require path }
+      
+      constant_parts = request_file_paths
+                        .map{|rf| rf.to_s.match(/#{provider}\/#{service}\/([\w\/]+)\.rb$/) }
+                        .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
+      
+      @request_classes = constant_parts.map do |cp| 
+        "Aviator::#{provider.camelize}::#{service.camelize}::#{cp}".constantize
+      end
     end
     
     

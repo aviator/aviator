@@ -127,6 +127,29 @@ class Aviator::Test
       end
 
     end
+    
+    
+    describe '#request_classes' do
+      
+      it 'returns an array of the request classes' do
+        provider_name = config[:provider]
+        service_name  = config[:auth_service][:name]
+        service_path  = Pathname.new(__FILE__).join(
+                          '..', '..', '..', '..', 'lib', 'aviator', provider_name, service_name
+                        ).expand_path
+                       
+        request_files = Pathname.glob(service_path.join('**', '*.rb'))
+                          .map{|rf| rf.to_s.match(/#{provider_name}\/#{service_name}\/([\w\/]+)\.rb$/) }
+                          .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
+        
+        classes = request_files.map do |rf| 
+          "Aviator::#{provider_name.camelize}::#{service_name.camelize}::#{rf}".constantize
+        end
+        
+        service.request_classes.must_equal classes
+      end
+      
+    end
 
 
     describe '#default_session_data=' do
