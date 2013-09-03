@@ -99,8 +99,8 @@ class Aviator::Test
         
         display << "Parameters:\n"
 
-        params = request_class.optional_params.map{|p| [p, :required]} + 
-                 request_class.required_params.map{|p| [p, :optional]}
+        params = request_class.optional_params.map{|p| [p, :optional]} + 
+                 request_class.required_params.map{|p| [p, :required]}
         
         params.sort{|a,b| a[0].to_s <=> b[0].to_s }.each do |param|
           display << "  (#{ param[1].to_s }) #{ param[0] }\n"
