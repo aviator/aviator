@@ -83,6 +83,13 @@ module Aviator
     end
     
     
+    def load(session_dump)
+      initialize_with_dump(session_dump)
+      update_services_session_data
+      self
+    end
+    
+    
     def method_missing(name, *args, &block)
       service_name_parts = name.to_s.match(/^(\w+)_service$/)
       
