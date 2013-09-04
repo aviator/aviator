@@ -177,6 +177,28 @@ Describe Keystone's create_tenant request
 ```bash
 $ aviator describe openstack identity v2 admin create_tenant
 ```
+
+The last command above will display:
+
+```bash
+Request: create_tenant
+
+Parameters:
+  (required) description
+  (required) enabled
+  (required) name
+
+Sample Code:
+  session.identity_service.request(:create_tenant, endpoint_type: 'admin') do |params|
+     params['name'] = value
+     params['description'] = value
+     params['enabled'] = value
+  end
+
+Links:
+  documentation:
+    http://docs.openstack.org/api/openstack-identity-service/2.0/content/
+```
   
 ## Contributing
 
