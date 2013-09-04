@@ -1,24 +1,29 @@
-openstack: &openstack
+common: &common
   provider:      openstack
   auth_service:
     name:        identity
-    host_uri:    http://example.org:5000
+    host_uri:    http://an.openstack.environment.com:5000
     request:     create_token
     validator:   list_tenants
     api_version: v2
   
-openstack_admin: &openstack_admin
-  <<: *openstack
+  
+# This is expected by the test suite. You may change its values freely
+# as long as the name 'openstack_admin' doesn't change and the user's
+# role in the tenant is that of 'admin'
+openstack_admin:
+  <<: *common
   auth_credentials:
     username:   admin
     password:   mypassword
     tenantName: admin
 
-openstack_member: &openstack_member
-  <<: *openstack
+# This is expected by the test suite. You may change its values freely
+# as long as the name 'openstack_member' doesn't change and the user's
+# role in the tenant is that of 'member'
+openstack_member:
+  <<: *common
   auth_credentials:
     username:   nonadmin
     password:   mypassword
     tenantName: nonadminproject
-
-test: *openstack_admin
