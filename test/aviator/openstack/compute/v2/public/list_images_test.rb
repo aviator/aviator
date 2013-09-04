@@ -163,7 +163,7 @@ class Aviator::Test
       
       response = service.request :list_images do |params|
         params[:details] = true
-        params[:name] = "cirros-0.3.1-x86_64-uec-ramdisk"
+        params[:name]    = "cirros-0.3.1-x86_64-uec"
       end
       
       response.status.must_equal 200

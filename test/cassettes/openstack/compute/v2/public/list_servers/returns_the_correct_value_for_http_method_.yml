@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: <HOST_URI>:5000/v2.0/tokens
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"<USERNAME>","password":"<PASSWORD>"},"tenantName":"<TENANT>"}}'
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
     headers:
       Content-Type:
       - application/json
@@ -21,42 +21,44 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '2749'
+      - '2657'
       date:
-      - Tue, 03 Sep 2013 21:21:26 GMT
+      - Wed, 04 Sep 2013 21:37:01 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-03T21:21:26.618764",
-        "expires": "2013-09-04T03:21:26Z", "id": "cc555b6c5ddb4f9db10fc863e26edfa1",
-        "tenant": {"description": "System account for Morphlabs mCloud administration",
-        "enabled": true, "id": "e7b1b62aa1474f758c4974b8be44cf6c", "name": "demo"}},
-        "serviceCatalog": [{"endpoints": [{"adminURL": "<HOST_URI>:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c",
-        "region": "RegionOne", "internalURL": "<HOST_URI>:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c",
-        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "<HOST_URI>:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c"}],
+      string: ! '{"access": {"token": {"issued_at": "2013-09-04T21:37:01.826933",
+        "expires": "2013-09-05T21:37:01Z", "id": "fced3edbbb7b451c986fcc2d986706aa",
+        "tenant": {"description": null, "enabled": true, "id": "99ac3327702a4da09fd2513fe7d8e5bf",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf",
+        "id": "3b72a66bf2f0491bb8dba827cade0d48", "publicURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf"}],
         "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
-        "<HOST_URI>:9292", "region": "RegionOne", "internalURL": "<HOST_URI>:9292",
-        "id": "2985945e07b74103bb2dfef7e426cd43", "publicURL": "<HOST_URI>:9292"}],
+        "http://192.168.56.11:3333", "region": "RegionOne", "internalURL": "http://192.168.56.11:3333",
+        "id": "482f749b370c40eab8788d6d0bc47f48", "publicURL": "http://192.168.56.11:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:9292", "region": "RegionOne", "internalURL": "http://192.168.56.11:9292",
+        "id": "0cd5d5d5a0c24721a0392b47c89e3640", "publicURL": "http://192.168.56.11:9292"}],
         "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
-        "<HOST_URI>:8777", "region": "RegionOne", "internalURL": "<HOST_URI>:8777",
-        "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "<HOST_URI>:8777"}],
+        "http://192.168.56.11:8777", "region": "RegionOne", "internalURL": "http://192.168.56.11:8777",
+        "id": "4eb4edec1d2647bfb8ba4f9a5757169d", "publicURL": "http://192.168.56.11:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"adminURL": "<HOST_URI>:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c", "region":
-        "RegionOne", "internalURL": "<HOST_URI>:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c",
-        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "<HOST_URI>:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c"}],
+        [{"adminURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf",
+        "id": "009e8a41953d439f845b2a0c0dc28b73", "publicURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
-        [{"adminURL": "<HOST_URI>:8773/services/Admin", "region": "RegionOne", "internalURL":
-        "<HOST_URI>:8773/services/Cloud", "id": "1f68f3ce931946c788e487443e772fb2",
-        "publicURL": "<HOST_URI>:8773/services/Cloud"}], "endpoints_links": [], "type":
-        "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL": "<HOST_URI>:35357/v2.0",
-        "region": "RegionOne", "internalURL": "<HOST_URI>:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
-        "publicURL": "<HOST_URI>:5000/v2.0"}], "endpoints_links": [], "type": "identity",
-        "name": "keystone"}], "user": {"username": "morphadmin", "roles_links": [],
-        "id": "87f34120be394c598520744d0f4a8233", "roles": [{"name": "Member"}, {"name":
-        "admin"}, {"name": "project_manager"}], "name": "morphadmin"}, "metadata":
-        {"is_admin": 0, "roles": ["f970c227c0ee4512899606886348f67f", "a0d6ba8f41b746b495a6d25c69962489",
-        "88141c3fd5cd48459cfe1243bfa6d4e1"]}}}'
+        [{"adminURL": "http://192.168.56.11:8773/services/Admin", "region": "RegionOne",
+        "internalURL": "http://192.168.56.11:8773/services/Cloud", "id": "6820836ec6834548bf7b54da0271dded",
+        "publicURL": "http://192.168.56.11:8773/services/Cloud"}], "endpoints_links":
+        [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://192.168.56.11:35357/v2.0",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:5000/v2.0", "id":
+        "24a95f51f67949e784971e97463ee4d8", "publicURL": "http://192.168.56.11:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "<OPENSTACK_ADMIN_USERNAME>", "roles_links": [], "id": "b4217edff9a14c3888439386a726ada9",
+        "roles": [{"name": "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
+        {"is_admin": 0, "roles": ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'
     http_version: 
-  recorded_at: Tue, 03 Sep 2013 21:21:26 GMT
+  recorded_at: Wed, 04 Sep 2013 21:36:53 GMT
 recorded_with: VCR 2.5.0

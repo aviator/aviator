@@ -77,11 +77,7 @@ class Aviator::Test
       it 'can find the correct request based on non-bootstrapped session data' do
         session_data = do_auth_request.body
 
-        response = service.request :create_tenant, session_data: session_data do |params|
-          params.name        = 'Test Project'
-          params.description = 'This is a test'
-          params.enabled     =  true
-        end
+        response = service.request :list_tenants, session_data: session_data
 
         response.status.must_equal 200
       end
@@ -91,11 +87,7 @@ class Aviator::Test
         default_session_data = do_auth_request.body
         s = service(default_session_data)
 
-        response = s.request :create_tenant do |params|
-          params.name        = 'Test Project Too'
-          params.description = 'This is a test'
-          params.enabled     =  true
-        end
+        response = s.request :list_tenants
 
         response.status.must_equal 200
       end
@@ -103,11 +95,7 @@ class Aviator::Test
 
       it 'raises a SessionDataNotProvidedError if there is no session data' do
         the_method = lambda do
-          service.request :create_tenant do |params|
-            params.name        = 'Test Project Too'
-            params.description = 'This is a test'
-            params.enabled     =  true
-          end
+          service.request :list_tenants
         end
 
         the_method.must_raise Aviator::Service::SessionDataNotProvidedError
