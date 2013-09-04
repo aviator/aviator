@@ -36,3 +36,4 @@ Dir[Pathname.new(__FILE__).join('..', 'support', '*.rb')].each do |f|
 end
 
 require 'aviator'
+require 'aviator/core/cli'
