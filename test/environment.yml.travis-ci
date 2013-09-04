@@ -2,7 +2,7 @@ common: &common
   provider:      openstack
   auth_service:
     name:        identity
-    host_uri:    http://an.openstack.environment.com:5000
+    host_uri:    http://www.openstack.com:5000
     request:     create_token
     validator:   list_tenants
     api_version: v2
