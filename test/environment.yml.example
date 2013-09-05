@@ -1,4 +1,4 @@
-openstack: &openstack
+common: &common
   provider:      openstack
   auth_service:
     name:        identity
@@ -7,16 +7,23 @@ openstack: &openstack
     validator:   list_tenants
     api_version: v2
   
+  
+# This is expected by the test suite. You may change its values freely
+# as long as the name 'openstack_admin' doesn't change and the user's
+# role in the tenant is that of 'admin'
 openstack_admin:
-  <<: *openstack
+  <<: *common
   auth_credentials:
-    username:   admin
-    password:   mypassword
-    tenantName: admin
+    username:   aviatortest_admin
+    password:   aviatortest_password_admin
+    tenantName: aviatortest_project_admin
 
+# This is expected by the test suite. You may change its values freely
+# as long as the name 'openstack_member' doesn't change and the user's
+# role in the tenant is that of 'member'
 openstack_member:
-  <<: *openstack
+  <<: *common
   auth_credentials:
-    username:   nonadmin
-    password:   mypassword
-    tenantName: nonadminproject
+    username:   aviatortest_member
+    password:   aviatortest_password_member
+    tenantName: aviatortest_project_member

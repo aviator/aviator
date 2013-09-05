@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: <HOST_URI>:5000/v2.0/tokens
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"<USERNAME>","password":"<PASSWORD>"},"tenantName":"<TENANT>"}}'
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
     headers:
       Content-Type:
       - application/json
@@ -21,19 +21,20 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '2648'
+      - '2657'
       date:
-      - Thu, 29 Aug 2013 18:49:36 GMT
+      - Wed, 04 Sep 2013 21:36:57 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-08-29T18:49:36.670853",
-        "expires": "2013-08-30T18:49:36Z", "id": "642842e39ab4408d87c2a8b112ded098",
-        "tenant": {"description": null, "enabled": true, "id": "3cab25130620477b8b03f1bfa8741603",
-        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
-        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
-        "id": "3b72a66bf2f0491bb8dba827cade0d48", "publicURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603"}],
+      string: ! '{"access": {"token": {"issued_at": "2013-09-04T21:36:57.281107",
+        "expires": "2013-09-05T21:36:57Z", "id": "5bbb66017ce54f24b47046af89523f7b",
+        "tenant": {"description": null, "enabled": true, "id": "99ac3327702a4da09fd2513fe7d8e5bf",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf",
+        "id": "3b72a66bf2f0491bb8dba827cade0d48", "publicURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf"}],
         "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
         "http://192.168.56.11:3333", "region": "RegionOne", "internalURL": "http://192.168.56.11:3333",
         "id": "482f749b370c40eab8788d6d0bc47f48", "publicURL": "http://192.168.56.11:3333"}],
@@ -44,9 +45,9 @@ http_interactions:
         "http://192.168.56.11:8777", "region": "RegionOne", "internalURL": "http://192.168.56.11:8777",
         "id": "4eb4edec1d2647bfb8ba4f9a5757169d", "publicURL": "http://192.168.56.11:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"adminURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603",
-        "region": "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603",
-        "id": "009e8a41953d439f845b2a0c0dc28b73", "publicURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603"}],
+        [{"adminURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf",
+        "id": "009e8a41953d439f845b2a0c0dc28b73", "publicURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
         [{"adminURL": "http://192.168.56.11:8773/services/Admin", "region": "RegionOne",
         "internalURL": "http://192.168.56.11:8773/services/Cloud", "id": "6820836ec6834548bf7b54da0271dded",
@@ -55,14 +56,14 @@ http_interactions:
         "region": "RegionOne", "internalURL": "http://192.168.56.11:5000/v2.0", "id":
         "24a95f51f67949e784971e97463ee4d8", "publicURL": "http://192.168.56.11:5000/v2.0"}],
         "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
-        "admin", "roles_links": [], "id": "cbbcc4f7aef6435fa2da7e5f0b2f1e97", "roles":
-        [{"name": "admin"}], "name": "admin"}, "metadata": {"is_admin": 0, "roles":
-        ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'
+        "<OPENSTACK_ADMIN_USERNAME>", "roles_links": [], "id": "b4217edff9a14c3888439386a726ada9",
+        "roles": [{"name": "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
+        {"is_admin": 0, "roles": ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'
     http_version: 
-  recorded_at: Thu, 29 Aug 2013 18:47:12 GMT
+  recorded_at: Wed, 04 Sep 2013 21:36:49 GMT
 - request:
     method: get
-    uri: http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603/images
+    uri: http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf/images
     body:
       encoding: US-ASCII
       string: ''
@@ -72,37 +73,37 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 642842e39ab4408d87c2a8b112ded098
+      - 5bbb66017ce54f24b47046af89523f7b
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-da53d864-7ddd-407b-8d48-5f3415c7bbd7
+      - req-2c50f7cd-ae64-4358-943c-c4fc087af515
       content-type:
       - application/json
       content-length:
       - '1641'
       date:
-      - Thu, 29 Aug 2013 18:49:36 GMT
+      - Wed, 04 Sep 2013 21:36:57 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
       string: ! '{"images": [{"id": "c1acec19-1026-45e8-946e-b9e9a261916b", "links":
-        [{"href": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603/images/c1acec19-1026-45e8-946e-b9e9a261916b",
-        "rel": "self"}, {"href": "http://192.168.56.11:8774/3cab25130620477b8b03f1bfa8741603/images/c1acec19-1026-45e8-946e-b9e9a261916b",
-        "rel": "bookmark"}, {"href": "http://10.0.2.15:9292/3cab25130620477b8b03f1bfa8741603/images/c1acec19-1026-45e8-946e-b9e9a261916b",
+        [{"href": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf/images/c1acec19-1026-45e8-946e-b9e9a261916b",
+        "rel": "self"}, {"href": "http://192.168.56.11:8774/99ac3327702a4da09fd2513fe7d8e5bf/images/c1acec19-1026-45e8-946e-b9e9a261916b",
+        "rel": "bookmark"}, {"href": "http://10.0.2.15:9292/99ac3327702a4da09fd2513fe7d8e5bf/images/c1acec19-1026-45e8-946e-b9e9a261916b",
         "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "cirros-0.3.1-x86_64-uec"},
-        {"id": "3c2b8955-1a71-4d1c-92a4-e414a172dcb2", "links": [{"href": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
-        "rel": "self"}, {"href": "http://192.168.56.11:8774/3cab25130620477b8b03f1bfa8741603/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
-        "rel": "bookmark"}, {"href": "http://10.0.2.15:9292/3cab25130620477b8b03f1bfa8741603/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
+        {"id": "3c2b8955-1a71-4d1c-92a4-e414a172dcb2", "links": [{"href": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
+        "rel": "self"}, {"href": "http://192.168.56.11:8774/99ac3327702a4da09fd2513fe7d8e5bf/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
+        "rel": "bookmark"}, {"href": "http://10.0.2.15:9292/99ac3327702a4da09fd2513fe7d8e5bf/images/3c2b8955-1a71-4d1c-92a4-e414a172dcb2",
         "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "cirros-0.3.1-x86_64-uec-ramdisk"},
-        {"id": "fa64ed94-caec-4cab-acd6-0c5ae18732a6", "links": [{"href": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603/images/fa64ed94-caec-4cab-acd6-0c5ae18732a6",
-        "rel": "self"}, {"href": "http://192.168.56.11:8774/3cab25130620477b8b03f1bfa8741603/images/fa64ed94-caec-4cab-acd6-0c5ae18732a6",
-        "rel": "bookmark"}, {"href": "http://10.0.2.15:9292/3cab25130620477b8b03f1bfa8741603/images/fa64ed94-caec-4cab-acd6-0c5ae18732a6",
+        {"id": "fa64ed94-caec-4cab-acd6-0c5ae18732a6", "links": [{"href": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf/images/fa64ed94-caec-4cab-acd6-0c5ae18732a6",
+        "rel": "self"}, {"href": "http://192.168.56.11:8774/99ac3327702a4da09fd2513fe7d8e5bf/images/fa64ed94-caec-4cab-acd6-0c5ae18732a6",
+        "rel": "bookmark"}, {"href": "http://10.0.2.15:9292/99ac3327702a4da09fd2513fe7d8e5bf/images/fa64ed94-caec-4cab-acd6-0c5ae18732a6",
         "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "cirros-0.3.1-x86_64-uec-kernel"}]}'
     http_version: 
-  recorded_at: Thu, 29 Aug 2013 18:47:12 GMT
+  recorded_at: Wed, 04 Sep 2013 21:36:49 GMT
 recorded_with: VCR 2.5.0

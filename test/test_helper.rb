@@ -27,8 +27,10 @@ end
 # Clean the tmp dir of log files
 Dir[Pathname.new(__FILE__).expand_path.join('..', '..', 'tmp', '*.log')].each { |f| File.delete(f) }
 
-# Make sure this loads first
+# Make sure these files are loaded before the others since there are some CI workers
+# in Travis CI that seem to load files in the iterator below in a random way.
 require Pathname.new(__FILE__).join('..', 'support', 'test_base_class.rb').expand_path
+require Pathname.new(__FILE__).join('..', 'support', 'test_environment.rb').expand_path
 
 # Load all helpers in test/support
 Dir[Pathname.new(__FILE__).join('..', 'support', '*.rb')].each do |f|

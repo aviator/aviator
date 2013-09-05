@@ -133,7 +133,7 @@ class Aviator::Test
       )
       
       response = service.request :create_tenant do |params|
-        params[:name]        = "Project 1377582007"
+        params[:name]        = "Aviator Project"
         params[:description] = 'My Project'
         params[:enabled]     = true
       end

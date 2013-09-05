@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: <HOST_URI>:5000/v2.0/tokens
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"<USERNAME>","password":"<PASSWORD>"},"tenantName":"<TENANT>"}}'
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
     headers:
       Content-Type:
       - application/json
@@ -21,19 +21,20 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '2648'
+      - '2657'
       date:
-      - Thu, 29 Aug 2013 02:36:53 GMT
+      - Wed, 04 Sep 2013 21:36:50 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-08-29T02:36:53.654460",
-        "expires": "2013-08-30T02:36:53Z", "id": "b0a33b6330084fde977b3a268cbb0660",
-        "tenant": {"description": null, "enabled": true, "id": "3cab25130620477b8b03f1bfa8741603",
-        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
-        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
-        "id": "3b72a66bf2f0491bb8dba827cade0d48", "publicURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603"}],
+      string: ! '{"access": {"token": {"issued_at": "2013-09-04T21:36:50.884148",
+        "expires": "2013-09-05T21:36:50Z", "id": "9e6d30f2e691449f85ad4b0ee4c77672",
+        "tenant": {"description": null, "enabled": true, "id": "99ac3327702a4da09fd2513fe7d8e5bf",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf",
+        "id": "3b72a66bf2f0491bb8dba827cade0d48", "publicURL": "http://192.168.56.11:8774/v2/99ac3327702a4da09fd2513fe7d8e5bf"}],
         "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
         "http://192.168.56.11:3333", "region": "RegionOne", "internalURL": "http://192.168.56.11:3333",
         "id": "482f749b370c40eab8788d6d0bc47f48", "publicURL": "http://192.168.56.11:3333"}],
@@ -44,9 +45,9 @@ http_interactions:
         "http://192.168.56.11:8777", "region": "RegionOne", "internalURL": "http://192.168.56.11:8777",
         "id": "4eb4edec1d2647bfb8ba4f9a5757169d", "publicURL": "http://192.168.56.11:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"adminURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603",
-        "region": "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603",
-        "id": "009e8a41953d439f845b2a0c0dc28b73", "publicURL": "http://192.168.56.11:8776/v1/3cab25130620477b8b03f1bfa8741603"}],
+        [{"adminURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf",
+        "id": "009e8a41953d439f845b2a0c0dc28b73", "publicURL": "http://192.168.56.11:8776/v1/99ac3327702a4da09fd2513fe7d8e5bf"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
         [{"adminURL": "http://192.168.56.11:8773/services/Admin", "region": "RegionOne",
         "internalURL": "http://192.168.56.11:8773/services/Cloud", "id": "6820836ec6834548bf7b54da0271dded",
@@ -55,9 +56,9 @@ http_interactions:
         "region": "RegionOne", "internalURL": "http://192.168.56.11:5000/v2.0", "id":
         "24a95f51f67949e784971e97463ee4d8", "publicURL": "http://192.168.56.11:5000/v2.0"}],
         "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
-        "admin", "roles_links": [], "id": "cbbcc4f7aef6435fa2da7e5f0b2f1e97", "roles":
-        [{"name": "admin"}], "name": "admin"}, "metadata": {"is_admin": 0, "roles":
-        ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'
+        "<OPENSTACK_ADMIN_USERNAME>", "roles_links": [], "id": "b4217edff9a14c3888439386a726ada9",
+        "roles": [{"name": "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
+        {"is_admin": 0, "roles": ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'
     http_version: 
-  recorded_at: Thu, 29 Aug 2013 06:36:58 GMT
+  recorded_at: Wed, 04 Sep 2013 21:36:42 GMT
 recorded_with: VCR 2.5.0
