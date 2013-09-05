@@ -7,7 +7,7 @@ class Aviator::Test
     def create_request(session_data = get_session_data)
       image_id  = session.compute_service.request(:list_images).body[:images].first[:id]
       flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
-      
+
       klass.new(session_data) do |params|
         params[:imageRef]  = image_id
         params[:flavorRef] = flavor_id
@@ -19,8 +19,8 @@ class Aviator::Test
     def get_session_data
       session.send :auth_info
     end
-    
-    
+
+
     def helper
       Aviator::Test::RequestHelper
     end
@@ -29,8 +29,8 @@ class Aviator::Test
     def klass
       @klass ||= helper.load_request('openstack', 'compute', 'v2', 'public', 'create_server.rb')
     end
-    
-    
+
+
     def session
       unless @session
         @session = Aviator::Session.new(
@@ -39,10 +39,10 @@ class Aviator::Test
                    )
         @session.authenticate
       end
-      
+
       @session
     end
-    
+
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -56,7 +56,7 @@ class Aviator::Test
 
     validate_attr :body do
       request = create_request
-      
+
       klass.body?.must_equal true
       request.body?.must_equal true
       request.body.wont_be_nil
@@ -84,6 +84,8 @@ class Aviator::Test
 
     validate_attr :optional_params do
       klass.optional_params.must_equal [
+        :accessIPv4,
+        :accessIPv6,
         :adminPass,
         :metadata,
         :networks,
@@ -99,52 +101,52 @@ class Aviator::Test
         :name
       ]
     end
-  
-  
+
+
     validate_attr :url do
       service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers"
-      
+
       image_id  = session.compute_service.request(:list_images).body[:images].first[:id]
       flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
-  
-  
+
+
       request = create_request do |params|
         params[:imageRef]  = image_id
         params[:flavorRef] = flavor_id
         params[:name] = 'Aviator Server'
       end
-      
+
       request.url.must_equal url
     end
-  
-  
+
+
     validate_response 'parameters are provided' do
       image_id  = session.compute_service.request(:list_images).body[:images].first[:id]
-      flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]  
-  
+      flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
+
       response = session.compute_service.request :create_server do |params|
         params[:imageRef]  = image_id
         params[:flavorRef] = flavor_id
         params[:name] = 'Aviator Server'
       end
-  
+
       response.status.must_equal 202
       response.body.wont_be_nil
       response.body[:server].wont_be_nil
       response.headers.wont_be_nil
     end
-  
-  
+
+
     validate_response 'the flavorRef parameter is invalid' do
       image_id = session.compute_service.request(:list_images).body[:images].first[:id]
-      
+
       response = session.compute_service.request :create_server do |params|
         params[:imageRef] = image_id
         params[:flavorRef] = 'invalidvalue'
         params[:name] = 'Aviator Server'
       end
-  
+
       response.status.must_equal 400
       response.body.wont_be_nil
       response.headers.wont_be_nil
@@ -153,23 +155,23 @@ class Aviator::Test
 
     validate_response 'the adminPass parameter is provided' do
       image_id   = session.compute_service.request(:list_images).body[:images].first[:id]
-      flavor_id  = session.compute_service.request(:list_flavors).body[:flavors].first[:id]  
+      flavor_id  = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
       admin_pass = '4d764cc09a88b3'
-      
+
       response = session.compute_service.request :create_server do |params|
         params[:imageRef]  = image_id
         params[:flavorRef] = flavor_id
         params[:name]      = 'Aviator Server'
         params[:adminPass] = admin_pass
       end
-  
+
       response.status.must_equal 202
       response.body.wont_be_nil
       response.body[:server].wont_be_nil
       response.body[:server][:adminPass].must_equal admin_pass
       response.headers.wont_be_nil
     end
-  
+
   end
 
 end

@@ -10,6 +10,8 @@ module Aviator
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/CreateServers.html'
 
+    param :accessIPv4,  required: false
+    param :accessIPv6,  required: false
     param :adminPass,   required: false
     param :imageRef,    required: true
     param :flavorRef,   required: true
@@ -27,9 +29,11 @@ module Aviator
           name:      params[:name]
         }
       }
-      
-      p[:server][:adminPass] = params[:adminPass] if params[:adminPass]
-      
+
+      [:adminPass, :metadata, :personality, :networks, :accessIPv4, :accessIPv6].each do |key|
+        p[:server][key] = params[key] if params[key]
+      end
+
       p
     end
 
