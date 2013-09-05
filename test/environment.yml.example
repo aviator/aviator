@@ -15,8 +15,8 @@ openstack_admin:
   <<: *common
   auth_credentials:
     username:   aviatortest_admin
-    password:   aviatortest_password
-    tenantName: aviatortest_project
+    password:   aviatortest_password_admin
+    tenantName: aviatortest_project_admin
 
 # This is expected by the test suite. You may change its values freely
 # as long as the name 'openstack_member' doesn't change and the user's
@@ -25,5 +25,5 @@ openstack_member:
   <<: *common
   auth_credentials:
     username:   aviatortest_member
-    password:   aviatortest_password
-    tenantName: aviatortest_project
+    password:   aviatortest_password_member
+    tenantName: aviatortest_project_member
