@@ -87,7 +87,7 @@ class Aviator::Test
     validate_attr :url do
       service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       uri          = URI(service_spec[:endpoints][0][:publicURL])
-      url          = "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }"
+      url          = "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v2/"
     
       create_request.url.must_equal url
     end

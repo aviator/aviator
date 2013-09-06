@@ -26,7 +26,7 @@ module Aviator
     def url
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
       uri = URI(service_spec[:endpoints][0][:publicURL])
-      "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }"
+      "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v2/"
     end
 
   end

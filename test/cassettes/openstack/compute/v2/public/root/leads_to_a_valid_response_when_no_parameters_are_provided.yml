@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2654'
       date:
-      - Fri, 06 Sep 2013 01:00:26 GMT
+      - Fri, 06 Sep 2013 04:56:09 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-06T01:00:26.838689",
-        "expires": "2013-09-06T07:00:26Z", "id": "ce9f51bc32924a2b8ff1ecb808dfff44",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-06T04:56:09.809745",
+        "expires": "2013-09-06T10:56:09Z", "id": "a47c23e50d4f4f7081966d90c08ba46a",
         "tenant": {"description": "Used for Aviator testing/development ", "enabled":
         true, "id": "d770443fc60a410c843dc12b98ac8135", "name": "<OPENSTACK_MEMBER_TENANTNAME>"}},
         "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/d770443fc60a410c843dc12b98ac8135",
@@ -58,10 +58,10 @@ http_interactions:
         "Member"}], "name": "<OPENSTACK_MEMBER_USERNAME>"}, "metadata": {"is_admin":
         0, "roles": ["f970c227c0ee4512899606886348f67f"]}}}'
     http_version: 
-  recorded_at: Fri, 06 Sep 2013 01:00:26 GMT
+  recorded_at: Fri, 06 Sep 2013 04:56:09 GMT
 - request:
     method: get
-    uri: <OPENSTACK_ADMIN_HOST_URI>:8774
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/
     body:
       encoding: US-ASCII
       string: ''
@@ -71,25 +71,31 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - ce9f51bc32924a2b8ff1ecb808dfff44
+      - a47c23e50d4f4f7081966d90c08ba46a
   response:
     status:
       code: 200
       message: 
     headers:
+      x-compute-request-id:
+      - req-d3b8994a-d0f2-4ee0-9c3f-02131bbe7879
       content-type:
       - application/json
       content-length:
-      - '165'
+      - '643'
       date:
-      - Fri, 06 Sep 2013 01:00:26 GMT
+      - Fri, 06 Sep 2013 04:56:10 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"versions": [{"status": "CURRENT", "updated": "2011-01-21T11:33:21Z",
+      string: ! '{"version": {"status": "CURRENT", "updated": "2011-01-21T11:33:21Z",
+        "media-types": [{"base": "application/xml", "type": "application/vnd.openstack.compute+xml;version=2"},
+        {"base": "application/json", "type": "application/vnd.openstack.compute+json;version=2"}],
         "id": "v2.0", "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/", "rel":
-        "self"}]}]}'
+        "self"}, {"href": "http://docs.openstack.org/api/openstack-compute/2/os-compute-devguide-2.pdf",
+        "type": "application/pdf", "rel": "describedby"}, {"href": "http://docs.openstack.org/api/openstack-compute/2/wadl/os-compute-2.wadl",
+        "type": "application/vnd.sun.wadl+xml", "rel": "describedby"}]}}'
     http_version: 
-  recorded_at: Fri, 06 Sep 2013 01:00:26 GMT
+  recorded_at: Fri, 06 Sep 2013 04:56:10 GMT
 recorded_with: VCR 2.5.0
