@@ -97,7 +97,7 @@ class Aviator::Test
       flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
 
       service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }"
+      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }/action"
 
       request = create_request do |params|
         params[:id]  = server_id
