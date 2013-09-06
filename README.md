@@ -26,7 +26,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-require 'aviator/core'
+require 'aviator'
 
 # Create a new session. See 'Configuration' below for the config file format.
 session = Aviator::Session.new(
@@ -53,7 +53,7 @@ session.authenticate do |credentials|
 end
 
 # Serialize the session information for caching. The output is in plaintext JSON which
-# contains sensitive information and you are responsible for securing this data.
+# contains sensitive information. You are responsible for securing that.
 str = session.dump
 
 # Create a new Session object from a session dump. This DOES NOT create a new token. 
@@ -68,7 +68,7 @@ session = Aviator::Session.load(str)
 # a brand new session object.
 session.load(other_session_dump)
 
-# Depending on how old the loaded session dump is, the auth_info may already be expired. 
+# Depending on how old the loaded session dump is, its session data may already be expired. 
 # Check if it's still current by calling Session#validate and reauthenticate as needed.
 #
 # IMPORTANT: The validator must be defined in the config file and it must refer to the
@@ -105,7 +105,7 @@ response = keystone.request(:list_tenants, endpoint_type: 'admin')
 
 ## Configuration
 
-The configuration file is a simple YAML file with one or more environment definitions.
+The configuration file is a simple YAML file that can have one or more environment definitions.
 
 ```
 production:
