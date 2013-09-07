@@ -84,7 +84,9 @@ class Aviator::Test
     
     
     validate_attr :optional_params do
-      klass.optional_params.must_equal []
+      klass.optional_params.must_equal [
+        :networkID
+      ]
     end
     
     
@@ -117,7 +119,7 @@ class Aviator::Test
       response.body.wont_be_nil
       response.body[:addresses].wont_be_nil
       response.headers.wont_be_nil
-    end    
+    end
     
     
     validate_response 'an invalid server id is provided' do
@@ -129,6 +131,28 @@ class Aviator::Test
             
       response.status.must_equal 404
       response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
+    
+    
+    validate_response 'a networkID parameter is provided' do
+      server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
+      
+      response = session.compute_service.request :list_addresses do |params|
+        params[:id] = server_id
+      end
+      
+      network_id = response.body[:addresses].keys.first
+
+      response = session.compute_service.request :list_addresses do |params|
+        params[:id]        = server_id
+        params[:networkID] = network_id
+      end
+
+            
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body.keys.wont_be_empty
       response.headers.wont_be_nil
     end    
 
