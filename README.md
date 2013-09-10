@@ -1,8 +1,10 @@
 # Aviator
 
-[![Build Status](https://travis-ci.org/relaxdiego/aviator.png?branch=master)](https://travis-ci.org/relaxdiego/aviator)
-[![Coverage Status](https://coveralls.io/repos/relaxdiego/aviator/badge.png?branch=master)](https://coveralls.io/r/relaxdiego/aviator?branch=master)
-[![Code Climate](https://codeclimate.com/github/relaxdiego/aviator.png)](https://codeclimate.com/github/relaxdiego/aviator)
+[![Build Status](https://travis-ci.org/aviator/aviator.png?branch=master)](https://travis-ci.org/aviator/aviator)
+[![Coverage Status](https://coveralls.io/repos/aviator/aviator/badge.png?branch=master)](https://coveralls.io/r/aviator/aviator?branch=master)
+[![Code Climate](https://codeclimate.com/github/aviator/aviator.png)](https://codeclimate.com/github/aviator/aviator)
+[![Gem Version](https://badge.fury.io/rb/aviator.png)](http://badge.fury.io/rb/aviator)
+[![Dependency Status](https://gemnasium.com/aviator/aviator.png)](https://gemnasium.com/aviator/aviator)
 
 
 A lightweight library for communicating with the OpenStack API.
