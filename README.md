@@ -17,7 +17,7 @@ Add this line to your application's Gemfile:
 
 Or if you want to live on the edge:
 
-    gem 'aviator', :git => 'git@github.com:relaxdiego/aviator.git', :branch => 'develop'
+    gem 'aviator', :git => 'git@github.com:aviator/aviator.git', :branch => 'develop'
 
 And then execute:
 
