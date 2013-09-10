@@ -2,12 +2,20 @@ module Aviator
 
   class Response
     
+
+    def body
+      @body ||= if response.body.length > 0
+                  JSON.parse(response.body).with_indifferent_access
+                else
+                  {}
+                end
+                
+      @body.dup
+    end
+    
     
     def method_missing(name, *args)
       case name
-      when :body
-        @body ||= JSON.parse(response.body).with_indifferent_access
-        @body.dup
       when :headers, :status
         response.send(name)
       when :request
