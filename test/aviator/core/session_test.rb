@@ -17,7 +17,7 @@ class Aviator::Test
     def new_session
       Aviator::Session.new(
         config_file: config.path,
-        environment: 'test',
+        environment: 'openstack_admin',
         log_file:    log_file_path
       )
     end
@@ -36,7 +36,7 @@ class Aviator::Test
             
       it 'authenticates against the auth service using the credentials in the given block' do
         session     = new_session
-        credentials = config.test[:auth_credentials]
+        credentials = config.openstack_admin[:auth_credentials]
         
         session.authenticate do |c|
           c[:username] = credentials[:username]
@@ -49,7 +49,7 @@ class Aviator::Test
 
       it 'raises an AuthenticationError when authentication fails' do
         session     = new_session
-        credentials = config.test[:auth_credentials]
+        credentials = config.openstack_admin[:auth_credentials]
         
         the_method = lambda do
           session.authenticate do |c|

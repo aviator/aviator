@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Aviator::VERSION
   spec.authors       = ["Mark Maglana"]
   spec.email         = ["mmaglana@gmail.com"]
-  spec.description   = %q{ Lightweight Ruby bindings for the OpenStack API }
-  spec.summary       = %q{ Lightweight Ruby bindings for the OpenStack API }
-  spec.homepage      = "https://github.com/relaxdiego/aviator"
+  spec.description   = %q{ A lightweight Ruby library for the OpenStack API }
+  spec.summary       = %q{ A lightweight Ruby library for the OpenStack API }
+  spec.homepage      = "https://github.com/aviator/aviator"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

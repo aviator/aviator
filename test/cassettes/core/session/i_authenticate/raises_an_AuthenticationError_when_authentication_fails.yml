@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: <HOST_URI>:5000/v2.0/tokens
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
       string: ! '{"auth":{"passwordCredentials":{"username":"invalidusername","password":"invalidpassword"}}}'
@@ -23,7 +23,7 @@ http_interactions:
       content-length:
       - '100'
       date:
-      - Thu, 29 Aug 2013 17:16:33 GMT
+      - Wed, 04 Sep 2013 21:36:53 GMT
       connection:
       - close
     body:
@@ -31,5 +31,5 @@ http_interactions:
       string: ! '{"error": {"message": "Could not find user: invalidusername", "code":
         401, "title": "Unauthorized"}}'
     http_version: 
-  recorded_at: Thu, 29 Aug 2013 17:15:31 GMT
+  recorded_at: Wed, 04 Sep 2013 21:36:45 GMT
 recorded_with: VCR 2.5.0

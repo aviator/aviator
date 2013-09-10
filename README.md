@@ -6,7 +6,6 @@
 [![Gem Version](https://badge.fury.io/rb/aviator.png)](http://badge.fury.io/rb/aviator)
 [![Dependency Status](https://gemnasium.com/aviator/aviator.png)](https://gemnasium.com/aviator/aviator)
 
-
 A lightweight library for communicating with the OpenStack API.
 
 
@@ -15,6 +14,10 @@ A lightweight library for communicating with the OpenStack API.
 Add this line to your application's Gemfile:
 
     gem 'aviator'
+
+Or if you want to live on the edge:
+
+    gem 'aviator', :git => 'git@github.com:aviator/aviator.git', :branch => 'develop'
 
 And then execute:
 
@@ -27,7 +30,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-require 'aviator/core'
+require 'aviator'
 
 # Create a new session. See 'Configuration' below for the config file format.
 session = Aviator::Session.new(
@@ -54,7 +57,7 @@ session.authenticate do |credentials|
 end
 
 # Serialize the session information for caching. The output is in plaintext JSON which
-# contains sensitive information and you are responsible for securing this data.
+# contains sensitive information. You are responsible for securing that.
 str = session.dump
 
 # Create a new Session object from a session dump. This DOES NOT create a new token. 
@@ -69,7 +72,7 @@ session = Aviator::Session.load(str)
 # a brand new session object.
 session.load(other_session_dump)
 
-# Depending on how old the loaded session dump is, the auth_info may already be expired. 
+# Depending on how old the loaded session dump is, its session data may already be expired. 
 # Check if it's still current by calling Session#validate and reauthenticate as needed.
 #
 # IMPORTANT: The validator must be defined in the config file and it must refer to the
@@ -106,7 +109,7 @@ response = keystone.request(:list_tenants, endpoint_type: 'admin')
 
 ## Configuration
 
-The configuration file is a simple YAML file with one or more environment definitions.
+The configuration file is a simple YAML file that can have one or more environment definitions.
 
 ```
 production:
@@ -177,6 +180,28 @@ Describe Keystone's create_tenant request
 
 ```bash
 $ aviator describe openstack identity v2 admin create_tenant
+```
+
+The last command above will display:
+
+```bash
+Request: create_tenant
+
+Parameters:
+  (required) description
+  (required) enabled
+  (required) name
+
+Sample Code:
+  session.identity_service.request(:create_tenant, endpoint_type: 'admin') do |params|
+     params['name'] = value
+     params['description'] = value
+     params['enabled'] = value
+  end
+
+Links:
+  documentation:
+    http://docs.openstack.org/api/openstack-identity-service/2.0/content/
 ```
   
 ## Contributing

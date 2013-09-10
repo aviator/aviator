@@ -14,17 +14,42 @@ VCR.configure do |c|
     end
     @vcr_port_matcher_registered = true
   end
+  
+  #=========== BEGIN FILTERS FOR SENSITIVE DATA ===========
 
-  c.filter_sensitive_data('"username":"<USERNAME>"') { %Q{"username":"#{ Aviator::Test::Environment.openstack_admin[:auth_credentials][:username] }"} }
-  c.filter_sensitive_data('"username":"<USERNAME>"') { %Q{"username":"#{ Aviator::Test::Environment.openstack_member[:auth_credentials][:username] }"} }
-  c.filter_sensitive_data('"password":"<PASSWORD>"') { %Q{"password":"#{ Aviator::Test::Environment.openstack_admin[:auth_credentials][:password] }"} }
-  c.filter_sensitive_data('"password":"<PASSWORD>"') { %Q{"password":"#{ Aviator::Test::Environment.openstack_member[:auth_credentials][:password] }"} }
-  c.filter_sensitive_data('"tenantName":"<TENANT>"') { %Q{"tenantName":"#{ Aviator::Test::Environment.openstack_admin[:auth_credentials][:tenantName] }"} }
-  c.filter_sensitive_data('"tenantName":"<TENANT>"') { %Q{"tenantName":"#{ Aviator::Test::Environment.openstack_member[:auth_credentials][:tenantName] }"} }
-  c.filter_sensitive_data('<HOST_URI>') do
-    auth_url = URI(Aviator::Test::Environment.openstack[:auth_service][:host_uri])
-    auth_url.scheme + '://' + auth_url.host
-   end
+  configs = [:openstack_admin, :openstack_member]
+  env     = Aviator::Test::Environment
+
+  [:username, :password, :tenantName].each do |key|
+    configs.each do |config|
+      c.filter_sensitive_data("<#{ config.to_s.upcase }_#{key.to_s.upcase}>") { env.send(config)[:auth_credentials][key]  }
+    end
+  end
+
+  configs.each do |config|
+
+    c.filter_sensitive_data("<#{ config.to_s.upcase }_HOST_URI>") do
+      auth_url = URI(env.send(config)[:auth_service][:host_uri])
+      auth_url.scheme + '://' + auth_url.host
+     end
+  
+    # In a multi-host environment, this will come in handy since HOST_URI wont match the
+    # URI of services or resources available in a different host but same domain.
+    c.filter_sensitive_data("<#{ config.to_s.upcase }_ENV_DOMAIN>") do
+      domain_patterns = Regexp.union([
+        /\.[\w-]+\.[^\.]+\.\w{2,3}$/,
+        /\.[^\.]+\.\w{2,3}$/,
+        /\.[^\.]+\.\w{2,3}.\w+$/,
+        /^\w+$/
+      ])
+    
+      auth_url = URI(env.send(config)[:auth_service][:host_uri])
+      auth_url.host.match(domain_patterns)
+    end
+
+  end
+
+  #=========== END FILTERS FOR SENSITIVE DATA ===========
 
   c.default_cassette_options = {
     # If no cassette exists for a spec, VCR will record. Afterwards, VCR will
