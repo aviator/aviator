@@ -61,7 +61,7 @@ class Aviator::Test
 
 
     def server
-      @server ||= session.compute_service.request(:list_servers){ |p| p[:details] = true }.body[:servers].first.with_indifferent_access
+      @server ||= session.compute_service.request(:list_servers){ |p| p[:details] = true }.body[:servers].find{ |s| !['ERROR', 'VERIFY_RESIZE', 'RESIZE'].include?(s['status']) }.with_indifferent_access
     end
 
 
