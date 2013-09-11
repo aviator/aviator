@@ -10,7 +10,7 @@ module Aviator
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/Confirm_Resized_Server-d1e3868.html'
 
-    param :id,        required: true
+    param :id, required: true
 
 
     def body
