@@ -1,0 +1,138 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2656'
+      date:
+      - Wed, 11 Sep 2013 19:11:15 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-11T19:11:15.232602",
+        "expires": "2013-09-12T01:11:15Z", "id": "fe1486d4dc9d4383a91ceeb1004bba6c",
+        "tenant": {"description": "<OPENSTACK_ADMIN_TENANTNAME>", "enabled": true,
+        "id": "fcfea32c6298431ab5a12ac18dea11a9", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9",
+        "id": "6ee88a9948ba4d46a86a1199ffb4e4d1", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
+        "id": "00f556270e63426292235477a50fd3e9", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
+        "id": "4f5bfab677c345d9a950924b23336169", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/fcfea32c6298431ab5a12ac18dea11a9",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/fcfea32c6298431ab5a12ac18dea11a9",
+        "id": "11690136099c4f4abc70c820bfa67f0d", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/fcfea32c6298431ab5a12ac18dea11a9"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        "id": "6b95d8e68b4143be8506de09f0449007", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "036e6dc948524ffea535511ebfa44d3b",
+        "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
+        "roles_links": [], "id": "aea249df57e64e949f320637d4140eaf", "roles": [{"name":
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["69d7445b83e74a0fa441c1f0db2ccb8b"]}}}'
+    http_version: 
+  recorded_at: Wed, 11 Sep 2013 19:11:15 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9/flavors
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - fe1486d4dc9d4383a91ceeb1004bba6c
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-61876a68-49d8-4acb-b2cb-cb184f45cffb
+      content-type:
+      - application/json
+      content-length:
+      - '1083'
+      date:
+      - Wed, 11 Sep 2013 19:11:15 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"flavors": [{"id": "2", "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9/flavors/2",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/fcfea32c6298431ab5a12ac18dea11a9/flavors/2",
+        "rel": "bookmark"}], "name": "m1.small"}, {"id": "3", "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9/flavors/3",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/fcfea32c6298431ab5a12ac18dea11a9/flavors/3",
+        "rel": "bookmark"}], "name": "m1.medium"}, {"id": "4", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9/flavors/4",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/fcfea32c6298431ab5a12ac18dea11a9/flavors/4",
+        "rel": "bookmark"}], "name": "m1.large"}, {"id": "5", "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9/flavors/5",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/fcfea32c6298431ab5a12ac18dea11a9/flavors/5",
+        "rel": "bookmark"}], "name": "m1.xlarge"}]}'
+    http_version: 
+  recorded_at: Wed, 11 Sep 2013 19:11:15 GMT
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/fcfea32c6298431ab5a12ac18dea11a9/servers/invalidvalue/action
+    body:
+      encoding: UTF-8
+      string: ! '{"resize":{"name":"Aviator Server","flavorRef":"2"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - fe1486d4dc9d4383a91ceeb1004bba6c
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      content-length:
+      - '73'
+      content-type:
+      - application/json; charset=UTF-8
+      x-compute-request-id:
+      - req-f5c8b3d6-522d-4677-86c3-55ccbfd1d30f
+      date:
+      - Wed, 11 Sep 2013 19:11:15 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"itemNotFound": {"message": "Instance could not be found", "code":
+        404}}'
+    http_version: 
+  recorded_at: Wed, 11 Sep 2013 19:11:15 GMT
+recorded_with: VCR 2.5.0
