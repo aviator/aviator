@@ -30,30 +30,22 @@ class Aviator::Test
 
     def session
       unless @session
-        environment = 'openstack_admin'
-        @session    = Aviator::Session.new(
-                        config_file: Environment.path,
-                        environment: environment
-                      )
+        @session = Aviator::Session.new(
+                     config_file: Environment.path,
+                     environment: 'openstack_admin'
+                   )
 
         @session.authenticate
 
-        creds = YAML.load_file(Environment.path).with_indifferent_access[environment]['auth_credentials']
+        response = @session.compute_service.request(:list_servers) do |params|
+                     params[:details]     = true
+                     params[:all_tenants] = true
+                   end
 
-        tenants = @session.identity_service.request(:list_tenants).body['tenants']
-
-        tenants.each do |t|
-          @session.authenticate do |c|
-            c[:username]   = creds[:username]
-            c[:password]   = creds[:password]
-            c[:tenantName] = t['name']
-          end
-
-          has_servers = @session.compute_service.request(:list_servers).body['servers'].empty?
-
-          break unless has_servers
-        end
-
+        active_servers = response.body[:servers].find{ |s| s[:status] == 'ACTIVE' }
+        
+        raise "\n\nEnvironment should have at least 1 server with a status"\
+              " of ACTIVE\n\n" unless active_servers
       end
 
       @session
@@ -61,7 +53,11 @@ class Aviator::Test
 
 
     def server
-      @server ||= session.compute_service.request(:list_servers){ |p| p[:details] = true }.body[:servers].find{ |s| !['ERROR', 'VERIFY_RESIZE', 'RESIZE'].include?(s['status']) }.with_indifferent_access
+      @server ||= session.compute_service
+                    .request(:list_servers){ |p| p[:details] = true; p[:all_tenants] = true }
+                    .body[:servers]
+                    .find{ |s| s['status'] == 'ACTIVE' }
+                    .with_indifferent_access
     end
 
 
