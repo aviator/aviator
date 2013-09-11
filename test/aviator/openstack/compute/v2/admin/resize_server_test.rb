@@ -36,16 +36,6 @@ class Aviator::Test
                    )
 
         @session.authenticate
-
-        response = @session.compute_service.request(:list_servers) do |params|
-                     params[:details]     = true
-                     params[:all_tenants] = true
-                   end
-
-        active_servers = response.body[:servers].find{ |s| s[:status] == 'ACTIVE' }
-        
-        raise "\n\nEnvironment should have at least 1 server with a status"\
-              " of ACTIVE\n\n" unless active_servers
       end
 
       @session
@@ -53,11 +43,24 @@ class Aviator::Test
 
 
     def server
-      @server ||= session.compute_service
-                    .request(:list_servers){ |p| p[:details] = true; p[:all_tenants] = true }
-                    .body[:servers]
-                    .find{ |s| s['status'] == 'ACTIVE' }
-                    .with_indifferent_access
+      unless @server
+        response = session.compute_service.request(:list_servers) do |params|
+                     params[:details]     = true
+                     params[:all_tenants] = true
+                   end
+
+        current_tenant = get_session_data[:access][:token][:tenant]
+        active_servers = response.body[:servers].select do |server| 
+                           server[:status] == 'ACTIVE' && server[:tenant_id] == current_tenant[:id]
+                         end
+        
+        raise "\n\nProject '#{ current_tenant[:name] }' should have at least 1 server with "\
+              "a status of ACTIVE\n\n" if active_servers.empty?
+
+        @server = active_servers.first
+      end
+      
+      @server
     end
 
 
