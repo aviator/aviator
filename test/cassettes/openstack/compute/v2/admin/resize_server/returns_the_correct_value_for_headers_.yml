@@ -21,44 +21,44 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '2609'
+      - '2614'
       date:
-      - Wed, 11 Sep 2013 09:42:02 GMT
+      - Wed, 11 Sep 2013 10:06:20 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-11T09:42:02.583053",
-        "expires": "2013-09-11T15:42:02Z", "id": "442d0a9cbca04ba7a883194e38de4713",
-        "tenant": {"description": "<OPENSTACK_ADMIN_TENANTNAME> tenant", "enabled":
-        true, "id": "16843e6f7d7143c0aca680fcc73c79dc", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
-        "serviceCatalog": [{"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/16843e6f7d7143c0aca680fcc73c79dc",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/16843e6f7d7143c0aca680fcc73c79dc",
-        "id": "6ee88a9948ba4d46a86a1199ffb4e4d1", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/16843e6f7d7143c0aca680fcc73c79dc"}],
-        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+      string: ! '{"access": {"token": {"issued_at": "2013-09-11T10:06:20.434203",
+        "expires": "2013-09-11T16:06:20Z", "id": "a0b26cceeddd4ce78d9720eaf56bf61f",
+        "tenant": {"description": "Test", "enabled": true, "id": "3aca8a1f7e3d4103b694a1e147bdb73e",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/3aca8a1f7e3d4103b694a1e147bdb73e",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/3aca8a1f7e3d4103b694a1e147bdb73e",
+        "id": "6ee88a9948ba4d46a86a1199ffb4e4d1", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/3aca8a1f7e3d4103b694a1e147bdb73e"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
         "id": "00f556270e63426292235477a50fd3e9", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
-        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
         "id": "4f5bfab677c345d9a950924b23336169", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"<OPENSTACK_ADMIN_TENANTNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/16843e6f7d7143c0aca680fcc73c79dc",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/16843e6f7d7143c0aca680fcc73c79dc",
-        "id": "11690136099c4f4abc70c820bfa67f0d", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/16843e6f7d7143c0aca680fcc73c79dc"}],
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/3aca8a1f7e3d4103b694a1e147bdb73e",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/3aca8a1f7e3d4103b694a1e147bdb73e",
+        "id": "11690136099c4f4abc70c820bfa67f0d", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/3aca8a1f7e3d4103b694a1e147bdb73e"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
-        [{"<OPENSTACK_ADMIN_TENANTNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
         "id": "6b95d8e68b4143be8506de09f0449007", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
-        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
         "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "036e6dc948524ffea535511ebfa44d3b",
         "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
         [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
         "roles_links": [], "id": "1e6dd1e73a2f4766aa830440884141b5", "roles": [{"name":
-        "<OPENSTACK_ADMIN_TENANTNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
-        {"is_<OPENSTACK_ADMIN_TENANTNAME>": 0, "roles": ["69d7445b83e74a0fa441c1f0db2ccb8b"]}}}'
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["69d7445b83e74a0fa441c1f0db2ccb8b"]}}}'
     http_version: 
-  recorded_at: Wed, 11 Sep 2013 09:42:02 GMT
+  recorded_at: Wed, 11 Sep 2013 10:06:20 GMT
 - request:
     method: get
     uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tenants
@@ -71,7 +71,7 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 442d0a9cbca04ba7a883194e38de4713
+      - a0b26cceeddd4ce78d9720eaf56bf61f
   response:
     status:
       code: 200
@@ -84,20 +84,19 @@ http_interactions:
       content-length:
       - '1432'
       date:
-      - Wed, 11 Sep 2013 09:42:03 GMT
+      - Wed, 11 Sep 2013 10:06:21 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"tenants_links": [], "tenants": [{"description": "<OPENSTACK_ADMIN_TENANTNAME>
-        tenant", "enabled": true, "id": "16843e6f7d7143c0aca680fcc73c79dc", "name":
-        "<OPENSTACK_ADMIN_TENANTNAME>"}, {"description": "511_kim", "enabled": true,
-        "id": "1aec8132b09042b48ca23ab1ba9a3a1c", "name": "511_kim"}, {"description":
-        "test", "enabled": true, "id": "318a521e8a7941b68e936e47207a5631", "name":
-        "511_bydefault"}, {"description": "Test", "enabled": true, "id": "3aca8a1f7e3d4103b694a1e147bdb73e",
-        "name": "Fonsy Test Project"}, {"description": "project 2 on mcloud 4.2.3\r\n",
-        "enabled": true, "id": "54acfd809fc04eb3a5f63f243c276631", "name": "423_proj2"},
-        {"description": "test 1", "enabled": true, "id": "6bf3826888a44908a0c36ed141825618",
+      string: ! '{"tenants_links": [], "tenants": [{"description": "admin tenant",
+        "enabled": true, "id": "16843e6f7d7143c0aca680fcc73c79dc", "name": "admin"},
+        {"description": "511_kim", "enabled": true, "id": "1aec8132b09042b48ca23ab1ba9a3a1c",
+        "name": "511_kim"}, {"description": "test", "enabled": true, "id": "318a521e8a7941b68e936e47207a5631",
+        "name": "511_bydefault"}, {"description": "Test", "enabled": true, "id": "3aca8a1f7e3d4103b694a1e147bdb73e",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}, {"description": "project 2 on mcloud
+        4.2.3\r\n", "enabled": true, "id": "54acfd809fc04eb3a5f63f243c276631", "name":
+        "423_proj2"}, {"description": "test 1", "enabled": true, "id": "6bf3826888a44908a0c36ed141825618",
         "name": "423_proj1"}, {"description": "Tenant for the openstack services",
         "enabled": true, "id": "89ab16fae64a46158967796073b4eb67", "name": "services"},
         {"description": "for cjmem for cjpm", "enabled": true, "id": "8e3a9948ce774a8fa52ac2d453f19d61",
@@ -105,16 +104,16 @@ http_interactions:
         "name": "511_kor"}, {"description": "cj", "enabled": true, "id": "ded98ac586234fd3a8392c6b87351163",
         "name": "511_cjproj"}, {"description": "test project", "enabled": true, "id":
         "ea4f73e3a1314b778dac532521880d2a", "name": "511_proj_gellie"}, {"description":
-        "System account for Morphlabs mCloud <OPENSTACK_ADMIN_TENANTNAME>istration",
-        "enabled": true, "id": "ef5c5a08a18749eb81b1f0a56321fb44", "name": "demo"}]}'
+        "System account for Morphlabs mCloud administration", "enabled": true, "id":
+        "ef5c5a08a18749eb81b1f0a56321fb44", "name": "demo"}]}'
     http_version: 
-  recorded_at: Wed, 11 Sep 2013 09:42:04 GMT
+  recorded_at: Wed, 11 Sep 2013 10:06:21 GMT
 - request:
     method: post
     uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"admin"}}'
     headers:
       Content-Type:
       - application/json
@@ -132,42 +131,41 @@ http_interactions:
       content-length:
       - '2609'
       date:
-      - Wed, 11 Sep 2013 09:42:05 GMT
+      - Wed, 11 Sep 2013 10:06:22 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-11T09:42:05.182087",
-        "expires": "2013-09-11T15:42:05Z", "id": "01a858927f5c4d8887179124d21c4bf5",
-        "tenant": {"description": "<OPENSTACK_ADMIN_TENANTNAME> tenant", "enabled":
-        true, "id": "16843e6f7d7143c0aca680fcc73c79dc", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
-        "serviceCatalog": [{"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/16843e6f7d7143c0aca680fcc73c79dc",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-11T10:06:22.386261",
+        "expires": "2013-09-11T16:06:22Z", "id": "e8abcca9f3ce416c97bbfc6b64ac527b",
+        "tenant": {"description": "admin tenant", "enabled": true, "id": "16843e6f7d7143c0aca680fcc73c79dc",
+        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/16843e6f7d7143c0aca680fcc73c79dc",
         "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/16843e6f7d7143c0aca680fcc73c79dc",
         "id": "6ee88a9948ba4d46a86a1199ffb4e4d1", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/16843e6f7d7143c0aca680fcc73c79dc"}],
-        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
         "id": "00f556270e63426292235477a50fd3e9", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
-        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
         "id": "4f5bfab677c345d9a950924b23336169", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"<OPENSTACK_ADMIN_TENANTNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/16843e6f7d7143c0aca680fcc73c79dc",
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/16843e6f7d7143c0aca680fcc73c79dc",
         "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/16843e6f7d7143c0aca680fcc73c79dc",
         "id": "11690136099c4f4abc70c820bfa67f0d", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/16843e6f7d7143c0aca680fcc73c79dc"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
-        [{"<OPENSTACK_ADMIN_TENANTNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
         "id": "6b95d8e68b4143be8506de09f0449007", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
-        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
         "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "036e6dc948524ffea535511ebfa44d3b",
         "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
         [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
         "roles_links": [], "id": "1e6dd1e73a2f4766aa830440884141b5", "roles": [{"name":
-        "<OPENSTACK_ADMIN_TENANTNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
-        {"is_<OPENSTACK_ADMIN_TENANTNAME>": 0, "roles": ["69d7445b83e74a0fa441c1f0db2ccb8b"]}}}'
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["69d7445b83e74a0fa441c1f0db2ccb8b"]}}}'
     http_version: 
-  recorded_at: Wed, 11 Sep 2013 09:42:05 GMT
+  recorded_at: Wed, 11 Sep 2013 10:06:22 GMT
 - request:
     method: get
     uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/16843e6f7d7143c0aca680fcc73c79dc/servers
@@ -180,27 +178,27 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 01a858927f5c4d8887179124d21c4bf5
+      - e8abcca9f3ce416c97bbfc6b64ac527b
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-e5b3753a-f1c2-46c7-932b-478e5767f9d6
+      - req-18e19938-5562-4177-8dc1-596a4bbbc5ef
       content-type:
       - application/json
       content-length:
       - '15'
       date:
-      - Wed, 11 Sep 2013 09:42:06 GMT
+      - Wed, 11 Sep 2013 10:06:23 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
       string: ! '{"servers": []}'
     http_version: 
-  recorded_at: Wed, 11 Sep 2013 09:42:06 GMT
+  recorded_at: Wed, 11 Sep 2013 10:06:23 GMT
 - request:
     method: post
     uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
@@ -224,42 +222,41 @@ http_interactions:
       content-length:
       - '2606'
       date:
-      - Wed, 11 Sep 2013 09:42:07 GMT
+      - Wed, 11 Sep 2013 10:06:24 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-11T09:42:07.732500",
-        "expires": "2013-09-11T15:42:07Z", "id": "f218252b615c441f8a1ec6ce6210e105",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-11T10:06:24.967013",
+        "expires": "2013-09-11T16:06:24Z", "id": "b25849c46c15432c8f44c59a676c892b",
         "tenant": {"description": "511_kim", "enabled": true, "id": "1aec8132b09042b48ca23ab1ba9a3a1c",
-        "name": "511_kim"}}, "serviceCatalog": [{"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
-        "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c", "region":
-        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c",
+        "name": "511_kim"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c",
         "id": "6ee88a9948ba4d46a86a1199ffb4e4d1", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c"}],
-        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
         "id": "00f556270e63426292235477a50fd3e9", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
-        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
         "id": "4f5bfab677c345d9a950924b23336169", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"<OPENSTACK_ADMIN_TENANTNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/1aec8132b09042b48ca23ab1ba9a3a1c",
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/1aec8132b09042b48ca23ab1ba9a3a1c",
         "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/1aec8132b09042b48ca23ab1ba9a3a1c",
         "id": "11690136099c4f4abc70c820bfa67f0d", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/1aec8132b09042b48ca23ab1ba9a3a1c"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
-        [{"<OPENSTACK_ADMIN_TENANTNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
         "id": "6b95d8e68b4143be8506de09f0449007", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
-        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"<OPENSTACK_ADMIN_TENANTNAME>URL":
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
         "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "036e6dc948524ffea535511ebfa44d3b",
         "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
         [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
         "roles_links": [], "id": "1e6dd1e73a2f4766aa830440884141b5", "roles": [{"name":
-        "<OPENSTACK_ADMIN_TENANTNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
-        {"is_<OPENSTACK_ADMIN_TENANTNAME>": 0, "roles": ["69d7445b83e74a0fa441c1f0db2ccb8b"]}}}'
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["69d7445b83e74a0fa441c1f0db2ccb8b"]}}}'
     http_version: 
-  recorded_at: Wed, 11 Sep 2013 09:42:07 GMT
+  recorded_at: Wed, 11 Sep 2013 10:06:25 GMT
 - request:
     method: get
     uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c/servers
@@ -272,20 +269,20 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - f218252b615c441f8a1ec6ce6210e105
+      - b25849c46c15432c8f44c59a676c892b
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-ed3880fe-7b70-45a7-9095-cde42c192537
+      - req-9f8fa655-b27e-4938-96c4-c6ef41898007
       content-type:
       - application/json
       content-length:
       - '1878'
       date:
-      - Wed, 11 Sep 2013 09:42:08 GMT
+      - Wed, 11 Sep 2013 10:06:26 GMT
       connection:
       - close
     body:
@@ -307,7 +304,7 @@ http_interactions:
         "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/1aec8132b09042b48ca23ab1ba9a3a1c/servers/8826841b-0d10-48ed-a907-c81ffd9c9e5b",
         "rel": "bookmark"}], "name": "kim1"}]}'
     http_version: 
-  recorded_at: Wed, 11 Sep 2013 09:42:08 GMT
+  recorded_at: Wed, 11 Sep 2013 10:06:26 GMT
 - request:
     method: get
     uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c/servers/detail
@@ -320,20 +317,20 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - f218252b615c441f8a1ec6ce6210e105
+      - b25849c46c15432c8f44c59a676c892b
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-cf1c1df7-0958-4357-9b17-5f92b1698715
+      - req-21fc437d-dbde-482e-a89b-8d41edfc6e5a
       content-type:
       - application/json
       content-length:
-      - '7925'
+      - '7939'
       date:
-      - Wed, 11 Sep 2013 09:42:09 GMT
+      - Wed, 11 Sep 2013 10:06:26 GMT
       connection:
       - close
     body:
@@ -354,18 +351,18 @@ http_interactions:
         "1aec8132b09042b48ca23ab1ba9a3a1c", "OS-DCF:diskConfig": "MANUAL", "accessIPv4":
         "", "accessIPv6": "", "fault": {"message": "NoValidHost", "code": 500, "details":
         "No valid host was found. \n", "created": "2013-09-11T07:47:25Z"}, "OS-EXT-STS:power_state":
-        0, "config_drive": "", "metadata": {}}, {"status": "ACTIVE", "updated": "2013-09-11T07:32:25Z",
-        "hostId": "2e7a97f23ac475e17d334447b73c92a60f9a15aa6088150c0b284292", "OS-EXT-SRV-ATTR:host":
-        "cn2<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork_6": [{"version":
+        0, "config_drive": "", "metadata": {}}, {"status": "RESIZE", "updated": "2013-09-11T10:05:58Z",
+        "hostId": "e32cf08a5353146033b0d1424b76fe131b49391951d4f86caa2bab57", "OS-EXT-SRV-ATTR:host":
+        "cn4<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork_6": [{"version":
         4, "addr": "10.14.6.10", "OS-EXT-IPS:type": "fixed"}]}, "links": [{"href":
         "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c/servers/7de7e2fa-82c7-4489-a593-b1aecdd23f00",
         "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/1aec8132b09042b48ca23ab1ba9a3a1c/servers/7de7e2fa-82c7-4489-a593-b1aecdd23f00",
         "rel": "bookmark"}], "key_name": "kimpair", "image": {"id": "5d5415d9-3c6c-4dcd-b63a-c5f60138fdb7",
         "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/1aec8132b09042b48ca23ab1ba9a3a1c/images/5d5415d9-3c6c-4dcd-b63a-c5f60138fdb7",
-        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": "resize_migrating", "OS-EXT-STS:vm_state":
         "active", "OS-EXT-SRV-ATTR:instance_name": "instance-0000002e", "OS-EXT-SRV-ATTR:hypervisor_hostname":
-        "cn2<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "3", "links": [{"href":
-        "<OPENSTACK_ADMIN_HOST_URI>:8774/1aec8132b09042b48ca23ab1ba9a3a1c/flavors/3",
+        "cn4<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/1aec8132b09042b48ca23ab1ba9a3a1c/flavors/2",
         "rel": "bookmark"}]}, "id": "7de7e2fa-82c7-4489-a593-b1aecdd23f00", "security_groups":
         [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "845bfd29e00d46dbaa066be58f273faa",
         "name": "511- SNAP 423", "created": "2013-09-11T07:32:05Z", "tenant_id": "1aec8132b09042b48ca23ab1ba9a3a1c",
@@ -420,7 +417,7 @@ http_interactions:
         "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "progress":
         0, "OS-EXT-STS:power_state": 1, "config_drive": "", "metadata": {}}]}'
     http_version: 
-  recorded_at: Wed, 11 Sep 2013 09:42:09 GMT
+  recorded_at: Wed, 11 Sep 2013 10:06:26 GMT
 - request:
     method: get
     uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/1aec8132b09042b48ca23ab1ba9a3a1c/flavors
@@ -433,20 +430,20 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - f218252b615c441f8a1ec6ce6210e105
+      - b25849c46c15432c8f44c59a676c892b
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-ade35472-3b9d-4e7d-8017-ab69272dbd70
+      - req-65dd8f74-9c6f-40a9-9f53-996510cfce87
       content-type:
       - application/json
       content-length:
       - '1083'
       date:
-      - Wed, 11 Sep 2013 09:42:09 GMT
+      - Wed, 11 Sep 2013 10:06:27 GMT
       connection:
       - close
     body:
@@ -462,5 +459,5 @@ http_interactions:
         "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/1aec8132b09042b48ca23ab1ba9a3a1c/flavors/5",
         "rel": "bookmark"}], "name": "m1.xlarge"}]}'
     http_version: 
-  recorded_at: Wed, 11 Sep 2013 09:42:09 GMT
+  recorded_at: Wed, 11 Sep 2013 10:06:27 GMT
 recorded_with: VCR 2.5.0
