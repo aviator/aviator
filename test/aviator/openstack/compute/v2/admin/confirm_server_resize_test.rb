@@ -40,6 +40,8 @@ class Aviator::Test
 
         tenants = @session.identity_service.request(:list_tenants).body['tenants']
 
+        resized_server = nil
+
         tenants.each do |t|
           @session.authenticate do |c|
             c[:username]   = creds[:username]
@@ -50,10 +52,13 @@ class Aviator::Test
           servers = @session.compute_service.request(:list_servers){ |p| p[:details] = true }.body['servers']
 
           unless servers.empty?
-            has_resized_server = servers.find{ |s| s['status'] == 'VERIFY_RESIZE' }
-            break if has_resized_server
+            resized_server = servers.find{ |s| s['status'] == 'VERIFY_RESIZE' }
+            break if resized_server
           end
         end
+        
+        raise "\n\nEnvironment should have at least 1 recently"\
+              " resized server with a status of VERIFY_STATUS\n\n" unless resized_server
 
       end
 
@@ -62,7 +67,11 @@ class Aviator::Test
 
 
     def server
-      @server ||= session.compute_service.request(:list_servers){ |p| p[:details] = true }.body[:servers].find{ |s| s['status'] == 'VERIFY_RESIZE' }.with_indifferent_access
+      @server ||= session.compute_service
+                    .request(:list_servers){ |p| p[:details] = true }
+                    .body[:servers]
+                    .find{ |s| s['status'] == 'VERIFY_RESIZE' }
+                    .with_indifferent_access
     end
 
 
@@ -123,7 +132,7 @@ class Aviator::Test
 
     validate_response 'parameters are provided' do
       response = session.compute_service.request :confirm_server_resize do |params|
-        params[:id]        = server[:id]
+        params[:id] = server[:id]
       end
 
       response.status.must_equal 204
@@ -133,7 +142,7 @@ class Aviator::Test
 
     validate_response 'the id parameter is invalid' do
       response = session.compute_service.request :confirm_server_resize do |params|
-        params[:id]        = 'invalidvalue'
+        params[:id] = 'invalidvalue'
       end
 
       response.status.must_equal 404
