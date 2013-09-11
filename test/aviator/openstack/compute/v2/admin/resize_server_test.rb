@@ -5,11 +5,8 @@ class Aviator::Test
   describe 'aviator/openstack/compute/v2/admin/resize_server' do
 
     def create_request(session_data = get_session_data)
-      server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
-      flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
-
       klass.new(session_data) do |params|
-        params[:id]        = server_id
+        params[:id]        = server[:id]
         params[:name]      = 'Aviator Server'
         params[:flavorRef] = flavor_id
       end
@@ -33,15 +30,46 @@ class Aviator::Test
 
     def session
       unless @session
-        @session = Aviator::Session.new(
-                     config_file: Environment.path,
-                     environment: 'openstack_admin'
-                   )
+        environment = 'openstack_admin'
+        @session    = Aviator::Session.new(
+                        config_file: Environment.path,
+                        environment: environment
+                      )
 
         @session.authenticate
+
+        creds = YAML.load_file(Environment.path).with_indifferent_access[environment]['auth_credentials']
+
+        tenants = @session.identity_service.request(:list_tenants).body['tenants']
+
+        tenants.each do |t|
+          @session.authenticate do |c|
+            c[:username]   = creds[:username]
+            c[:password]   = creds[:password]
+            c[:tenantName] = t['name']
+          end
+
+          has_servers = @session.compute_service.request(:list_servers).body['servers'].empty?
+
+          break unless has_servers
+        end
+
       end
 
       @session
+    end
+
+
+    def server
+      @server ||= session.compute_service.request(:list_servers){ |p| p[:details] = true }.body[:servers].first.with_indifferent_access
+    end
+
+
+    def flavor_id
+      ids = session.compute_service.request(:list_flavors).body[:flavors].map{ |f| f['id'] }
+      ids.delete(server[:flavor][:id])
+
+      @flavor_id ||= ids.first
     end
 
 
@@ -93,14 +121,11 @@ class Aviator::Test
 
 
     validate_attr :url do
-      server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
-      flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
-
       service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }/action"
+      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server[:id] }/action"
 
       request = create_request do |params|
-        params[:id]  = server_id
+        params[:id]  = server[:id]
         params[:flavorRef] = flavor_id
         params[:name] = 'Aviator Server'
       end
@@ -110,11 +135,8 @@ class Aviator::Test
 
 
     validate_response 'parameters are provided' do
-      server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
-      flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
-
       response = session.compute_service.request :resize_server do |params|
-        params[:id]        = server_id
+        params[:id]        = server[:id]
         params[:flavorRef] = flavor_id
         params[:name]      = 'Aviator Server'
       end
@@ -140,10 +162,8 @@ class Aviator::Test
 
 
     validate_response 'the flavorRef parameter is invalid' do
-      server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
-
       response = session.compute_service.request :resize_server do |params|
-        params[:id]        = server_id
+        params[:id]        = server[:id]
         params[:flavorRef] = 'invalidvalue'
         params[:name]      = 'Aviator Server'
       end

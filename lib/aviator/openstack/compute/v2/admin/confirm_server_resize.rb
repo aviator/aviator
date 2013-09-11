@@ -16,7 +16,7 @@ module Aviator
 
     def body
       {
-        confirmResize: null
+        confirmResize: nil
       }
     end
 

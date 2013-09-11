@@ -5,10 +5,8 @@ class Aviator::Test
   describe 'aviator/openstack/compute/v2/admin/confirm_server_resize' do
 
     def create_request(session_data = get_session_data)
-      server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
-
       klass.new(session_data) do |params|
-        params[:id]        = server_id
+        params[:id] = server[:id]
       end
     end
 
@@ -30,15 +28,41 @@ class Aviator::Test
 
     def session
       unless @session
-        @session = Aviator::Session.new(
-                     config_file: Environment.path,
-                     environment: 'openstack_admin'
-                   )
+        environment = 'openstack_admin'
+        @session    = Aviator::Session.new(
+                        config_file: Environment.path,
+                        environment: environment
+                      )
 
         @session.authenticate
+
+        creds = YAML.load_file(Environment.path).with_indifferent_access[environment]['auth_credentials']
+
+        tenants = @session.identity_service.request(:list_tenants).body['tenants']
+
+        tenants.each do |t|
+          @session.authenticate do |c|
+            c[:username]   = creds[:username]
+            c[:password]   = creds[:password]
+            c[:tenantName] = t['name']
+          end
+
+          servers = @session.compute_service.request(:list_servers){ |p| p[:details] = true }.body['servers']
+
+          unless servers.empty?
+            has_resized_server = servers.find{ |s| s['status'] == 'VERIFY_RESIZE' }
+            break if has_resized_server
+          end
+        end
+
       end
 
       @session
+    end
+
+
+    def server
+      @server ||= session.compute_service.request(:list_servers){ |p| p[:details] = true }.body[:servers].find{ |s| s['status'] == 'VERIFY_RESIZE' }.with_indifferent_access
     end
 
 
@@ -86,21 +110,29 @@ class Aviator::Test
 
 
     validate_attr :url do
-      server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
-
       service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }/action"
+      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server[:id] }/action"
 
       request = create_request do |params|
-        params[:id]  = server_id
+        params[:id]  = server[:id]
       end
 
       request.url.must_equal url
     end
 
 
+    validate_response 'parameters are provided' do
+      response = session.compute_service.request :confirm_server_resize do |params|
+        params[:id]        = server[:id]
+      end
+
+      response.status.must_equal 204
+      response.headers.wont_be_nil
+    end
+
+
     validate_response 'the id parameter is invalid' do
-      response = session.compute_service.request :resize_server do |params|
+      response = session.compute_service.request :confirm_server_resize do |params|
         params[:id]        = 'invalidvalue'
       end
 
@@ -112,3 +144,4 @@ class Aviator::Test
   end
 
 end
+
