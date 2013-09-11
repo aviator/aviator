@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"},"tenantName":"<OPENSTACK_MEMBER_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2644'
+      date:
+      - Wed, 11 Sep 2013 09:39:00 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-11T09:39:00.920123",
+        "expires": "2013-09-12T09:39:00Z", "id": "251c4fc13222492f934a5e759a03cdb3",
+        "tenant": {"description": "", "enabled": true, "id": "c03f067db0db447e9dcaa83d89ac123a",
+        "name": "<OPENSTACK_MEMBER_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "http://127.0.0.1:8774/v2/c03f067db0db447e9dcaa83d89ac123a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/c03f067db0db447e9dcaa83d89ac123a",
+        "id": "5c217f7dabfc4405b2f19fb9ce36633d", "publicURL": "http://127.0.0.1:8774/v2/c03f067db0db447e9dcaa83d89ac123a"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:3333", "region": "RegionOne", "internalURL": "http://127.0.0.1:3333",
+        "id": "2cc9517596534387a120fc6090be0529", "publicURL": "http://127.0.0.1:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:9292", "region": "RegionOne", "internalURL": "http://127.0.0.1:9292",
+        "id": "73a8f755f9504369bae5487e95baa8d1", "publicURL": "http://127.0.0.1:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:8777", "region": "RegionOne", "internalURL": "http://127.0.0.1:8777",
+        "id": "1bdf9a67f08d4ad1bb51037e6b8522ba", "publicURL": "http://127.0.0.1:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8776/v1/c03f067db0db447e9dcaa83d89ac123a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/c03f067db0db447e9dcaa83d89ac123a",
+        "id": "24601679ac7d41c697130686e9d3fce2", "publicURL": "http://127.0.0.1:8776/v1/c03f067db0db447e9dcaa83d89ac123a"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8773/services/Admin", "region": "RegionOne",
+        "internalURL": "http://127.0.0.1:8773/services/Cloud", "id": "3843111b94ec47cc9d306291e3bc1051",
+        "publicURL": "http://127.0.0.1:8773/services/Cloud"}], "endpoints_links":
+        [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://127.0.0.1:35357/v2.0",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:5000/v2.0", "id":
+        "5f9312cbe04c4034b3aca6cf83f96160", "publicURL": "http://127.0.0.1:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "<OPENSTACK_MEMBER_USERNAME>", "roles_links": [], "id": "e79d07a8b999437fb44bd3e6afe72b08",
+        "roles": [{"name": "_member_"}, {"name": "project_manager"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
+        "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
+        "45bb4b03d99a43c1bc4e48d5e1ab9d72"]}}}'
+    http_version: 
+  recorded_at: Wed, 11 Sep 2013 09:39:01 GMT
+recorded_with: VCR 2.5.0
