@@ -1,0 +1,219 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2642'
+      date:
+      - Thu, 12 Sep 2013 10:49:09 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-12T10:49:09.714483",
+        "expires": "2013-09-12T16:49:09Z", "id": "377edb614c944281867aab9a8ea095d9",
+        "tenant": {"description": "System account for Morphlabs mCloud administration",
+        "enabled": true, "id": "e7b1b62aa1474f758c4974b8be44cf6c", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "http://mc.la-1-2.morphlabs.net:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c",
+        "region": "RegionOne", "internalURL": "http://mc.la-1-2.morphlabs.net:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c",
+        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "http://mc.la-1-2.morphlabs.net:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://mc.la-1-2.morphlabs.net:9292", "region": "RegionOne", "internalURL":
+        "http://mc.la-1-2.morphlabs.net:9292", "id": "2985945e07b74103bb2dfef7e426cd43",
+        "publicURL": "http://mc.la-1-2.morphlabs.net:9292"}], "endpoints_links": [],
+        "type": "image", "name": "glance"}, {"endpoints": [{"adminURL": "http://mc.la-1-2.morphlabs.net:8777",
+        "region": "RegionOne", "internalURL": "http://mc.la-1-2.morphlabs.net:8777",
+        "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "http://mc.la-1-2.morphlabs.net:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://mc.la-1-2.morphlabs.net:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c",
+        "region": "RegionOne", "internalURL": "http://mc.la-1-2.morphlabs.net:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c",
+        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "http://mc.la-1-2.morphlabs.net:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://mc.la-1-2.morphlabs.net:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "http://mc.la-1-2.morphlabs.net:8773/services/Cloud",
+        "id": "1f68f3ce931946c788e487443e772fb2", "publicURL": "http://mc.la-1-2.morphlabs.net:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
+        "http://mc.la-1-2.morphlabs.net:35357/v2.0", "region": "RegionOne", "internalURL":
+        "http://mc.la-1-2.morphlabs.net:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
+        "publicURL": "http://mc.la-1-2.morphlabs.net:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
+        "roles_links": [], "id": "3cb44449b3cb48519641864ca82d1911", "roles": [{"name":
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
+    http_version: 
+  recorded_at: Thu, 12 Sep 2013 10:49:09 GMT
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2642'
+      date:
+      - Thu, 12 Sep 2013 10:49:11 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-12T10:49:11.551440",
+        "expires": "2013-09-12T16:49:11Z", "id": "4ee993c88e844b2399a2273c205b982c",
+        "tenant": {"description": "System account for Morphlabs mCloud administration",
+        "enabled": true, "id": "e7b1b62aa1474f758c4974b8be44cf6c", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "http://mc.la-1-2.morphlabs.net:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c",
+        "region": "RegionOne", "internalURL": "http://mc.la-1-2.morphlabs.net:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c",
+        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "http://mc.la-1-2.morphlabs.net:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://mc.la-1-2.morphlabs.net:9292", "region": "RegionOne", "internalURL":
+        "http://mc.la-1-2.morphlabs.net:9292", "id": "2985945e07b74103bb2dfef7e426cd43",
+        "publicURL": "http://mc.la-1-2.morphlabs.net:9292"}], "endpoints_links": [],
+        "type": "image", "name": "glance"}, {"endpoints": [{"adminURL": "http://mc.la-1-2.morphlabs.net:8777",
+        "region": "RegionOne", "internalURL": "http://mc.la-1-2.morphlabs.net:8777",
+        "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "http://mc.la-1-2.morphlabs.net:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://mc.la-1-2.morphlabs.net:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c",
+        "region": "RegionOne", "internalURL": "http://mc.la-1-2.morphlabs.net:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c",
+        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "http://mc.la-1-2.morphlabs.net:8776/v1/e7b1b62aa1474f758c4974b8be44cf6c"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://mc.la-1-2.morphlabs.net:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "http://mc.la-1-2.morphlabs.net:8773/services/Cloud",
+        "id": "1f68f3ce931946c788e487443e772fb2", "publicURL": "http://mc.la-1-2.morphlabs.net:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
+        "http://mc.la-1-2.morphlabs.net:35357/v2.0", "region": "RegionOne", "internalURL":
+        "http://mc.la-1-2.morphlabs.net:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
+        "publicURL": "http://mc.la-1-2.morphlabs.net:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
+        "roles_links": [], "id": "3cb44449b3cb48519641864ca82d1911", "roles": [{"name":
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
+    http_version: 
+  recorded_at: Thu, 12 Sep 2013 10:49:11 GMT
+- request:
+    method: get
+    uri: http://mc.la-1-2.morphlabs.net:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c/os-hosts
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 4ee993c88e844b2399a2273c205b982c
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-94f072d7-c9fb-4d13-9ba2-21fd25d35129
+      content-type:
+      - application/json
+      content-length:
+      - '520'
+      date:
+      - Thu, 12 Sep 2013 10:49:13 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"hosts": [{"zone": "internal", "host_name": "mc.la-1-2.morphlabs.net",
+        "service": "consoleauth"}, {"zone": "internal", "host_name": "mc.la-1-2.morphlabs.net",
+        "service": "scheduler"}, {"zone": "internal", "host_name": "mc.la-1-2.morphlabs.net",
+        "service": "conductor"}, {"zone": "nova", "host_name": "cn26.la-1-2.morphlabs.net",
+        "service": "compute"}, {"zone": "internal", "host_name": "mc.la-1-2.morphlabs.net",
+        "service": "cert"}, {"zone": "internal", "host_name": "cn26.la-1-2.morphlabs.net",
+        "service": "network"}]}'
+    http_version: 
+  recorded_at: Thu, 12 Sep 2013 10:49:13 GMT
+- request:
+    method: get
+    uri: http://mc.la-1-2.morphlabs.net:8774/v2/e7b1b62aa1474f758c4974b8be44cf6c/os-hosts/cn26.la-1-2.morphlabs.net
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 377edb614c944281867aab9a8ea095d9
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-5c899e15-422f-4c1d-b61c-a9c09c869185
+      content-type:
+      - application/json
+      content-length:
+      - '1967'
+      date:
+      - Thu, 12 Sep 2013 10:49:14 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"host": [{"resource": {"project": "(total)", "memory_mb": 64427,
+        "host": "cn26.la-1-2.morphlabs.net", "cpu": 12, "disk_gb": 1915}}, {"resource":
+        {"project": "(used_now)", "memory_mb": 27136, "host": "cn26.la-1-2.morphlabs.net",
+        "cpu": 13, "disk_gb": 130}}, {"resource": {"project": "(used_max)", "memory_mb":
+        26624, "host": "cn26.la-1-2.morphlabs.net", "cpu": 13, "disk_gb": 130}}, {"resource":
+        {"project": "e7b1b62aa1474f758c4974b8be44cf6c", "memory_mb": 4096, "host":
+        "cn26.la-1-2.morphlabs.net", "cpu": 2, "disk_gb": 20}}, {"resource": {"project":
+        "3ec6ecaff17a41a5bb105a15376c5566", "memory_mb": 2048, "host": "cn26.la-1-2.morphlabs.net",
+        "cpu": 1, "disk_gb": 10}}, {"resource": {"project": "85ea75f214ca4d3f834ca37cc570a8fd",
+        "memory_mb": 2048, "host": "cn26.la-1-2.morphlabs.net", "cpu": 1, "disk_gb":
+        10}}, {"resource": {"project": "713e1b55039d4fd6b91bbeac8914028c", "memory_mb":
+        2048, "host": "cn26.la-1-2.morphlabs.net", "cpu": 1, "disk_gb": 10}}, {"resource":
+        {"project": "d770443fc60a410c843dc12b98ac8135", "memory_mb": 2048, "host":
+        "cn26.la-1-2.morphlabs.net", "cpu": 1, "disk_gb": 10}}, {"resource": {"project":
+        "763d42422d914f0ca6eab905b85c65c5", "memory_mb": 2048, "host": "cn26.la-1-2.morphlabs.net",
+        "cpu": 1, "disk_gb": 10}}, {"resource": {"project": "bfed1ed0079b4cb78abbbbb3257ddc21",
+        "memory_mb": 2048, "host": "cn26.la-1-2.morphlabs.net", "cpu": 1, "disk_gb":
+        10}}, {"resource": {"project": "646fe18d914745eeae0122a24ea653cc", "memory_mb":
+        2048, "host": "cn26.la-1-2.morphlabs.net", "cpu": 1, "disk_gb": 10}}, {"resource":
+        {"project": "1b398a49e78448b3bdb7acf77e584fe5", "memory_mb": 4096, "host":
+        "cn26.la-1-2.morphlabs.net", "cpu": 2, "disk_gb": 20}}, {"resource": {"project":
+        "951659d798a14d5e98a94878760cfe39", "memory_mb": 2048, "host": "cn26.la-1-2.morphlabs.net",
+        "cpu": 1, "disk_gb": 10}}, {"resource": {"project": "89b89207b57a4ac4a9e9d0be628a95b3",
+        "memory_mb": 2048, "host": "cn26.la-1-2.morphlabs.net", "cpu": 1, "disk_gb":
+        10}}]}'
+    http_version: 
+  recorded_at: Thu, 12 Sep 2013 10:49:14 GMT
+recorded_with: VCR 2.5.0
