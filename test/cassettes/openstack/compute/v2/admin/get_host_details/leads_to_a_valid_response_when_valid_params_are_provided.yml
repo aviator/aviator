@@ -1,0 +1,160 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2649'
+      date:
+      - Thu, 12 Sep 2013 18:45:09 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-12T18:45:09.519510",
+        "expires": "2013-09-13T00:45:09Z", "id": "bf67339acaa34925a0775e9e72348148",
+        "tenant": {"description": "Used for Aviator testing/development", "enabled":
+        true, "id": "291e43291289457da59d8f727c46147a", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a",
+        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
+        "id": "2985945e07b74103bb2dfef7e426cd43", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
+        "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a",
+        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        "id": "1f68f3ce931946c788e487443e772fb2", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
+        "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
+        "roles_links": [], "id": "3cb44449b3cb48519641864ca82d1911", "roles": [{"name":
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
+    http_version: 
+  recorded_at: Thu, 12 Sep 2013 18:45:09 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/os-hosts
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - bf67339acaa34925a0775e9e72348148
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-299687bb-f021-432d-8664-efa2535f571f
+      content-type:
+      - application/json
+      content-length:
+      - '520'
+      date:
+      - Thu, 12 Sep 2013 18:45:10 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"hosts": [{"zone": "internal", "host_name": "mc<OPENSTACK_ADMIN_ENV_DOMAIN>",
+        "service": "consoleauth"}, {"zone": "internal", "host_name": "mc<OPENSTACK_ADMIN_ENV_DOMAIN>",
+        "service": "scheduler"}, {"zone": "internal", "host_name": "mc<OPENSTACK_ADMIN_ENV_DOMAIN>",
+        "service": "conductor"}, {"zone": "nova", "host_name": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>",
+        "service": "compute"}, {"zone": "internal", "host_name": "mc<OPENSTACK_ADMIN_ENV_DOMAIN>",
+        "service": "cert"}, {"zone": "internal", "host_name": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>",
+        "service": "network"}]}'
+    http_version: 
+  recorded_at: Thu, 12 Sep 2013 18:45:10 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/os-hosts/cn26<OPENSTACK_ADMIN_ENV_DOMAIN>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - bf67339acaa34925a0775e9e72348148
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-a45eb93b-6d40-4601-9261-84ab0796e2d4
+      content-type:
+      - application/json
+      content-length:
+      - '1967'
+      date:
+      - Thu, 12 Sep 2013 18:45:11 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"host": [{"resource": {"project": "(total)", "memory_mb": 64427,
+        "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 12, "disk_gb": 1915}},
+        {"resource": {"project": "(used_now)", "memory_mb": 27136, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>",
+        "cpu": 13, "disk_gb": 130}}, {"resource": {"project": "(used_max)", "memory_mb":
+        26624, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 13, "disk_gb": 130}},
+        {"resource": {"project": "e7b1b62aa1474f758c4974b8be44cf6c", "memory_mb":
+        4096, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 2, "disk_gb": 20}},
+        {"resource": {"project": "3ec6ecaff17a41a5bb105a15376c5566", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}},
+        {"resource": {"project": "85ea75f214ca4d3f834ca37cc570a8fd", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}},
+        {"resource": {"project": "713e1b55039d4fd6b91bbeac8914028c", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}},
+        {"resource": {"project": "d770443fc60a410c843dc12b98ac8135", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}},
+        {"resource": {"project": "763d42422d914f0ca6eab905b85c65c5", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}},
+        {"resource": {"project": "bfed1ed0079b4cb78abbbbb3257ddc21", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}},
+        {"resource": {"project": "646fe18d914745eeae0122a24ea653cc", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}},
+        {"resource": {"project": "1b398a49e78448b3bdb7acf77e584fe5", "memory_mb":
+        4096, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 2, "disk_gb": 20}},
+        {"resource": {"project": "951659d798a14d5e98a94878760cfe39", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}},
+        {"resource": {"project": "89b89207b57a4ac4a9e9d0be628a95b3", "memory_mb":
+        2048, "host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "cpu": 1, "disk_gb": 10}}]}'
+    http_version: 
+  recorded_at: Thu, 12 Sep 2013 18:45:11 GMT
+recorded_with: VCR 2.5.0
