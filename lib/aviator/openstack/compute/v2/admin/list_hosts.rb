@@ -10,6 +10,9 @@ module Aviator
     link 'documentation',
       'http://api.openstack.org/api-ref.html#ext-os-hosts'
 
+    link 'documentation bug',
+         'https://bugs.launchpad.net/nova/+bug/1224763'
+
     param :service, required: false
     param :zone,    required: false
 
