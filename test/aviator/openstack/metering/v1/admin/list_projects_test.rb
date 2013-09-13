@@ -20,7 +20,7 @@ class Aviator::Test
 
 
     def klass
-      @klass ||= helper.load_request('openstack', 'metering', 'v1', 'admin', 'projects.rb')
+      @klass ||= helper.load_request('openstack', 'metering', 'v1', 'admin', 'list_projects.rb')
     end
 
 
@@ -95,7 +95,7 @@ class Aviator::Test
 
 
     validate_response 'no parameters are provided' do
-      response = session.metering_service.request :projects
+      response = session.metering_service.request :list_projects
 
       response.status.must_equal 200
       response.body.wont_be_nil
