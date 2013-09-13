@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :projects do
+  define_request :list_projects do
 
     meta :provider,      :openstack
     meta :service,       :metering
