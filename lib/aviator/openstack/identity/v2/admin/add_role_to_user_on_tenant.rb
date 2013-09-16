@@ -35,10 +35,10 @@ module Aviator
 
     def url
       service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-      s  = "#{ service_spec[:endpoints][0][:adminURL] }/tenants/#{ params[:tenant_id] }"
-      s += "/users/#{ params[:user_id] }"
-      s += "/roles/OS-KSADM/#{ params[:role_id] }"
-      s
+      "#{ service_spec[:endpoints][0][:adminURL] }" \
+      "/tenants/#{ params[:tenant_id] }" \
+      "/users/#{ params[:user_id] }" \
+      "/roles/OS-KSADM/#{ params[:role_id] }"
     end
 
   end
