@@ -90,8 +90,11 @@ class Aviator::Test
 
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      # must be hardcoded so as not to inadvertently alter random resources
+      # in case the corresponding cassette is deleted
       tenant_id    = '105b09f0b6500d36168480ad84'
+
+      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
       url          = "#{ service_spec[:endpoints][0][:adminURL] }/tenants/#{ tenant_id }"
 
       request = create_request do |params|

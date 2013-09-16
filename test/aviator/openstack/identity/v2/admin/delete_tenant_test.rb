@@ -101,6 +101,8 @@ class Aviator::Test
 
 
     validate_response 'valid params are provided' do
+      # must be hardcoded so as not to inadvertently delete random tenants
+      # in case the corresponding cassette is deleted
       tenant_id = '8edb28f9cb8840c0830073c5831d5c32'
 
       response = session.identity_service.request :delete_tenant do |params|

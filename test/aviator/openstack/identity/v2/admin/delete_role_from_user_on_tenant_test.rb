@@ -107,6 +107,8 @@ class Aviator::Test
 
 
     validate_response 'valid ids are provided' do
+      # must be hardcoded so as not to inadvertently alter random resources
+      # in case the corresponding cassette is deleted
       tenant_id = '3c7492bd83ed43bcb4953c621cfe21be'
       user_id   = 'd5abadb115c2415fa11d5e39bdecb2e6'
       role_id   = '998b01cf9f31410b97412d115eed9c3a'
@@ -124,9 +126,12 @@ class Aviator::Test
 
 
     validate_response 'invalid tenant id is provided' do
-      tenant_id = 'abogustenantidthatdoesnotexist'
+      # must be hardcoded so as not to inadvertently alter random resources
+      # in case the corresponding cassette is deleted
       user_id   = '02abfc09286743f298dde7aa2a4f6850'
       role_id   = 'd4aeb8a6093243fda5bf938f2c0bccfd'
+
+      tenant_id = 'abogustenantidthatdoesnotexist'
 
       response = session.identity_service.request :delete_role_from_user_on_tenant do |params|
         params[:tenant_id] = tenant_id
@@ -141,9 +146,12 @@ class Aviator::Test
 
 
     validate_response 'invalid user id is provided' do
+      # must be hardcoded so as not to inadvertently alter random resources
+      # in case the corresponding cassette is deleted
       tenant_id = '2f2a15ea1edc40b6a7372076acebb097'
-      user_id   = 'abogususeridthatdoesnotexist'
       role_id   = 'd4aeb8a6093243fda5bf938f2c0bccfd'
+
+      user_id   = 'abogususeridthatdoesnotexist'
 
       response = session.identity_service.request :delete_role_from_user_on_tenant do |params|
         params[:tenant_id] = tenant_id
@@ -158,8 +166,11 @@ class Aviator::Test
 
 
     validate_response 'invalid role id is provided' do
+      # must be hardcoded so as not to inadvertently alter random resources
+      # in case the corresponding cassette is deleted
       tenant_id = '2f2a15ea1edc40b6a7372076acebb097'
       user_id   = '02abfc09286743f298dde7aa2a4f6850'
+
       role_id   = 'abogusroleidthatdoesnotexist'
 
       response = session.identity_service.request :delete_role_from_user_on_tenant do |params|
