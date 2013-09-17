@@ -11,6 +11,8 @@ module Aviator
     link 'documentation',
       'http://docs.openstack.org/api/openstack-identity-service/2.0/content/POST_updateUser_v2.0_users__userId__.html'
 
+    link 'documentation bug',
+      'https://bugs.launchpad.net/keystone/+bug/1226475'
 
     param :id,        required: true
     param :name,      required: false

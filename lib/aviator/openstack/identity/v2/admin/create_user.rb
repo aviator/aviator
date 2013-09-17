@@ -11,6 +11,12 @@ module Aviator
     link 'documentation',
       'http://docs.openstack.org/api/openstack-identity-service/2.0/content/POST_addUser_v2.0_users_.html'
 
+    link 'documentation bug',
+      'https://bugs.launchpad.net/keystone/+bug/1110435'
+
+    link 'documentation bug',
+      'https://bugs.launchpad.net/keystone/+bug/1226466'
+
 
     param :name,      required: true
     param :password,  required: true
