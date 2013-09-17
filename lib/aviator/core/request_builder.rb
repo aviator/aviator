@@ -1,10 +1,24 @@
 module Aviator
 
+  class BaseRequestNotFoundError < StandardError
+    attr_reader :base_request_hierarchy,
+                :original_error
+
+    def initialize(base_hierarchy, original_error)
+      @base_request_hierarchy = base_hierarchy
+      @original_error = original_error
+    end
+  end
+
   class << self
-    
+
     def define_request(request_name, base_hierarchy=[:request], &block)
       base_klass = base_hierarchy.inject(Aviator) do |namespace, sym|
-        namespace.const_get(sym.to_s.camelize, false)
+        begin
+          namespace.const_get(sym.to_s.camelize, false)
+        rescue NameError => original_error
+          raise BaseRequestNotFoundError.new(base_hierarchy, original_error)
+        end
       end
 
       class_obj = Class.new(base_klass, &block)

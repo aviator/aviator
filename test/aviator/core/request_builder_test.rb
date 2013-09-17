@@ -100,6 +100,23 @@ class Aviator::Test
         child_request.endpoint_type.must_equal base[:ep_type]
       end
 
+
+      it 'raises a BaseRequestNotFoundError if base request does not exist' do
+        non_existent_base = [:non, :existent, :base]
+
+        the_method = lambda do
+          Aviator.define_request :child, non_existent_base do; end
+        end
+
+        the_method.must_raise Aviator::BaseRequestNotFoundError
+
+        error = the_method.call rescue $!
+
+        error.message.wont_be_nil
+        error.base_request_hierarchy.wont_be_nil
+        error.base_request_hierarchy.must_equal non_existent_base
+      end
+
     end
     
   end
