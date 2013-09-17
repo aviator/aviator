@@ -1,5 +1,5 @@
 module Aviator
-  
+
   define_request :list_servers do
 
     meta :provider,      :openstack
@@ -22,34 +22,34 @@ module Aviator
 
     def headers
       h = {}
-  
+
       unless self.anonymous?
         h['X-Auth-Token'] = session_data[:access][:token][:id]
       end
-  
+
       h
     end
-  
-  
+
+
     def http_method
       :get
     end
-  
-  
+
+
     def url
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
 
       str  = "#{ service_spec[:endpoints][0][:publicURL] }/servers"
       str += "/detail" if params[:details]
-    
+
       filters = []
-    
+
       (optional_params + required_params - [:details]).each do |param_name|
         filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
       end
-    
+
       str += "?#{ filters.join('&') }" unless filters.empty?
-    
+
       str
     end
 
