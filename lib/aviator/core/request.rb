@@ -21,9 +21,9 @@ module Aviator
     private    
     
     def set_class_name(base, obj, *hierarchy)
-      const_name = hierarchy.shift.to_s.camelize
+      const_name = hierarchy.shift.to_s.camelize.to_sym
 
-      const = if base.const_defined?(const_name)
+      const = if base.constants.include?(const_name)
                 base.const_get(const_name)
               else
                 base.const_set(const_name, (hierarchy.empty? ? obj : Module.new))
