@@ -54,6 +54,52 @@ class Aviator::Test
         end   
       end
 
+
+      it 'understands request inheritance' do
+        base = {
+          provider: :base_provider,
+          service:  :base_service,
+          api_ver:  :base_api_ver,
+          ep_type:  :base_ep_type,
+          name:     :base_name
+        }
+
+        Aviator.define_request base[:name] do
+          meta :provider,      base[:provider]
+          meta :service,       base[:service]
+          meta :api_version,   base[:api_ver]
+          meta :endpoint_type, base[:ep_type]
+        end
+
+        base_request = [
+          base[:provider],
+          base[:service],
+          base[:api_ver],
+          base[:ep_type],
+          base[:name]
+        ]
+
+        Aviator.define_request :child_request, base_request do; end
+
+        child_req_hierarchy = [
+          base[:provider],
+          base[:service],
+          base[:api_ver],
+          base[:ep_type],
+          :child_request
+        ]
+
+        child_request = child_req_hierarchy.inject(Aviator) do |namespace, sym|
+          namespace.const_get(sym.to_s.camelize, false)
+        end
+
+        child_request.wont_be_nil
+        child_request.provider.must_equal      base[:provider]
+        child_request.service.must_equal       base[:service]
+        child_request.api_version.must_equal   base[:api_ver]
+        child_request.endpoint_type.must_equal base[:ep_type]
+      end
+
     end
     
   end

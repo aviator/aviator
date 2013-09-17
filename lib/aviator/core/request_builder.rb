@@ -2,8 +2,12 @@ module Aviator
 
   class << self
     
-    def define_request(request_name, &block)
-      class_obj = Class.new(Request, &block)
+    def define_request(request_name, base_hierarchy=[:request], &block)
+      base_klass = base_hierarchy.inject(Aviator) do |namespace, sym|
+        namespace.const_get(sym.to_s.camelize, false)
+      end
+
+      class_obj = Class.new(base_klass, &block)
       
       set_class_name(
         Aviator,
