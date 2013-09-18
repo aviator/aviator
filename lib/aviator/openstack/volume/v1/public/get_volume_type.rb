@@ -8,7 +8,11 @@ module Aviator
 
     link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/Show_Volume.html'
 
-    param :id, required: true
+    param :id,              required: true
+
+    def http_method
+      :get
+    end
 
     def headers
       {}.tap do |h|
@@ -20,7 +24,7 @@ module Aviator
     def url
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
 
-      "#{ service_spec[:endpoints][0][:publicURL] }/type/#{ params[:id] }"
+      "#{ service_spec[:endpoints][0][:publicURL] }/types/#{ params[:id] }"
     end
 
 

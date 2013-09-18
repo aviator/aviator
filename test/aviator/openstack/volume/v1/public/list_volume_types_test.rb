@@ -55,6 +55,18 @@ class Aviator::Test
       klass.endpoint_type.must_equal :public
     end
 
+    validate_attr :optional_params do
+      klass.optional_params.must_equal [
+        :extra_specs,
+        :name
+      ]
+    end
+
+
+    validate_attr :required_params do
+      klass.required_params.must_equal []
+    end
+
 
     validate_attr :headers do
       session_data = new_session_data
