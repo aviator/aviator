@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'aviator/openstack/volume/v2/public/list_volumes' do
+  describe 'aviator/openstack/volume/v1/public/list_volumes' do
 
     def create_request(session_data = new_session_data)
       klass.new(session_data)
@@ -83,6 +83,41 @@ class Aviator::Test
       response.status.must_equal 200
       response.body.wont_be_nil
       response.body[:volumes].length.wont_equal 0
+      response.headers.wont_be_nil
+    end
+
+    validate_response 'parameters are invalid' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'volume',
+        default_session_data: new_session_data
+      )
+
+      response = service.request :list_volumes do |params|
+        params[:display_name] = "derpderp"
+      end
+
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:volumes].length.must_equal 0
+      response.headers.wont_be_nil
+    end
+
+    validate_response 'parameters are valid' do
+      service = Aviator::Service.new(
+        provider: 'openstack',
+        service:  'volume',
+        default_session_data: new_session_data
+      )
+
+      response = service.request :list_volumes do |params|
+        params[:details] = true
+        params[:display_name] = 'test'
+      end
+
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:volumes].length.must_equal 1
       response.headers.wont_be_nil
     end
   end

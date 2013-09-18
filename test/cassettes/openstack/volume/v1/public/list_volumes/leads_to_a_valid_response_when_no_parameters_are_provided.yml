@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2574'
       date:
-      - Wed, 18 Sep 2013 05:06:46 GMT
+      - Wed, 18 Sep 2013 05:48:21 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-18T05:06:46.079738",
-        "expires": "2013-09-18T11:06:46Z", "id": "6a5a7958a9b64c5d910dcf3888b2ba02",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-18T05:48:21.121497",
+        "expires": "2013-09-18T11:48:21Z", "id": "a2b7eda5b9c24ff6b2733158a54bd6f4",
         "tenant": {"description": "testing", "enabled": true, "id": "85ea75f214ca4d3f834ca37cc570a8fd",
         "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
         [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd",
@@ -58,7 +58,7 @@ http_interactions:
         "<OPENSTACK_ADMIN_USERNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
         {"is_<OPENSTACK_ADMIN_USERNAME>": 0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
     http_version: 
-  recorded_at: Wed, 18 Sep 2013 05:06:46 GMT
+  recorded_at: Wed, 18 Sep 2013 05:48:21 GMT
 - request:
     method: get
     uri: <OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd/volumes
@@ -71,20 +71,20 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 6a5a7958a9b64c5d910dcf3888b2ba02
+      - a2b7eda5b9c24ff6b2733158a54bd6f4
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-469722a8-c018-4d37-9766-2836d3ab79c7
+      - req-3428b196-9c69-481e-94a7-4eca2747d032
       content-type:
       - application/json
       content-length:
       - '352'
       date:
-      - Wed, 18 Sep 2013 05:06:47 GMT
+      - Wed, 18 Sep 2013 05:48:23 GMT
       connection:
       - close
     body:
@@ -95,5 +95,5 @@ http_interactions:
         null, "source_volid": null, "metadata": {}, "id": "4c758745-c892-455b-af93-ad9cea0109c2",
         "size": 1}]}'
     http_version: 
-  recorded_at: Wed, 18 Sep 2013 05:06:47 GMT
+  recorded_at: Wed, 18 Sep 2013 05:48:23 GMT
 recorded_with: VCR 2.5.0

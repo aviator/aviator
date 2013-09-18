@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2574'
       date:
-      - Wed, 18 Sep 2013 05:06:40 GMT
+      - Wed, 18 Sep 2013 05:48:29 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-18T05:06:40.373414",
-        "expires": "2013-09-18T11:06:40Z", "id": "e56a8209d20a4f14bfaea523778fd764",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-18T05:48:29.885660",
+        "expires": "2013-09-18T11:48:29Z", "id": "1f812b1292f1499eb6e2912f395e2370",
         "tenant": {"description": "testing", "enabled": true, "id": "85ea75f214ca4d3f834ca37cc570a8fd",
         "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
         [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd",
@@ -58,5 +58,38 @@ http_interactions:
         "<OPENSTACK_ADMIN_USERNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
         {"is_<OPENSTACK_ADMIN_USERNAME>": 0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
     http_version: 
-  recorded_at: Wed, 18 Sep 2013 05:06:40 GMT
+  recorded_at: Wed, 18 Sep 2013 05:48:30 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd/volumes?display_name=derpderp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 1f812b1292f1499eb6e2912f395e2370
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-2b6b2f50-3ea4-4034-a2e5-4a80d365bf83
+      content-type:
+      - application/json
+      content-length:
+      - '15'
+      date:
+      - Wed, 18 Sep 2013 05:48:31 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"volumes": []}'
+    http_version: 
+  recorded_at: Wed, 18 Sep 2013 05:48:32 GMT
 recorded_with: VCR 2.5.0

@@ -9,6 +9,17 @@ module Aviator
 
     link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/List_Volumes_Details.html'
 
+    param :details,             required: false
+    param :status,              required: false
+    param :availability_zone,   required: false
+    param :bootable,            required: false
+    param :display_name,        required: false
+    param :display_description, required: false
+    param :volume_type,         required: false
+    param :snapshot_id,         required: false
+    param :size,                required: false
+
+
     def headers
       {}.tap do |h|
         h['X-Auth-Token'] = session_data[:access][:token][:id] unless self.anonymous?
@@ -23,15 +34,15 @@ module Aviator
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
 
       str  = "#{ service_spec[:endpoints][0][:publicURL] }/volumes"
-      #str += "/details" if params[:details]
+      str += "/detail" if params[:details]
 
-      #filters = []
+      filters = []
 
-      #(optional_params + required_params - [:details]).each do |param_name|
-        #filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
-      #end
+      (optional_params + required_params - [:details]).each do |param_name|
+        filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
+      end
 
-      #str += "?#{ filters.join('&') }" unless filters.empty?
+      str += "?#{ filters.join('&') }" unless filters.empty?
 
       str
     end
