@@ -76,7 +76,7 @@ http_interactions:
       - 940a5c599b164cca89324778b198ff6b
   response:
     status:
-      code: 500
+      code: 400
       message: 
     headers:
       vary:
@@ -91,14 +91,8 @@ http_interactions:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"error": {"message": "An unexpected error prevented the server from
-        fulfilling your request. invalid literal for int() with base 10: ''invalid-type''
-        (original cause: ValueError: invalid literal for int() with base 10: ''invalid-type'')
-        ''INSERT INTO user (id, name, domain_id, password, enabled, extra) VALUES
-        (%s, %s, %s, %s, %s, %s)'' [{''name'': u''username_123'', ''extra'': {}, ''enabled'':
-        u''invalid-type'', ''id'': ''930a7a82ac4f4220bb69c4cded3e426b'', ''password'':
-        ''$6$rounds=40000$.Zxq6I86936gJ9hP$lFQ9oIA65qN/BY659Km/OkBn2uB9VL54PCXDjeRV4KtnS52XBn0gQ2QJxDPEPZBbhRUQNqjyLvwc1/1rmA4sy.'',
-        ''domain_id'': ''default''}]", "code": 500, "title": "Internal Server Error"}}'
+      string: ! '{"error": {"message": "Enabled field must be a boolean", "code": 400,
+        "title": "Bad Request"}}'
     http_version: 
   recorded_at: Tue, 17 Sep 2013 06:18:37 GMT
 recorded_with: VCR 2.5.0

@@ -128,11 +128,7 @@ class Aviator::Test
         params[:enabled]  = 'invalid-type'
       end
 
-      # TODO: Update this test and cassette.
-      #       Status should be 400 and with more user-friendly message
-      #       This bug was fixed on commit 840a0758 in tag 2013.2.b1
-      #       Unfortunately, I only have 2013.1 on my testing environment
-      response.status.must_equal 500
+      response.status.must_equal 400
       response.body.wont_be_nil
       response.headers.wont_be_nil
     end
