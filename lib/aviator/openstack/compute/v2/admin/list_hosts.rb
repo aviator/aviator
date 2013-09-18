@@ -1,6 +1,8 @@
 module Aviator
 
-  define_request :list_hosts do
+  base_request = [:openstack, :common, :v2, :public, :base]
+
+  define_request :list_hosts, base_request do
 
     meta :provider,      :openstack
     meta :service,       :compute
@@ -18,13 +20,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -34,9 +30,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-
-      url = "#{ service_spec[:endpoints][0][:adminURL] }/os-hosts"
+      url = "#{ url_for(:admin) }/os-hosts"
 
       filters = []
 
