@@ -45,7 +45,6 @@ module Aviator
 
 
     def url
-      raise session_data.to_yaml
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
       "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ params[:id] }/action"
     end

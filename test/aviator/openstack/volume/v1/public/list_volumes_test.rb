@@ -66,6 +66,25 @@ class Aviator::Test
       request.headers.must_equal headers
     end
 
+    validate_attr :optional_params do
+      klass.optional_params.must_equal [
+        :details,
+        :status,
+        :availability_zone,
+        :bootable,
+        :display_name,
+        :display_description,
+        :volume_type,
+        :snapshot_id,
+        :size
+      ]
+    end
+
+
+    validate_attr :required_params do
+      klass.required_params.must_equal []
+    end
+
 
     validate_attr :http_method do
       create_request.http_method.must_equal :get
