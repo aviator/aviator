@@ -109,7 +109,7 @@ class Aviator::Test
 
     validate_attr :url do
       service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server[:id] }/action"
+      url          = "#{ service_spec[:endpoints][0][:adminURL] }/servers/#{ server[:id] }/action"
 
       request = create_request do |params|
         params[:id]  = server[:id]
