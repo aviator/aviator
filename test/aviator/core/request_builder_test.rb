@@ -156,6 +156,25 @@ class Aviator::Test
         error.request_name.must_equal request[:name].to_s.camelize
       end
 
+
+      it 'automatically attempts to load the base class if it\'s not yet loaded' do
+        base_arr  = [:openstack, :identity, :v2, :public, :root]
+        child_arr = base_arr.first(base_arr.length - 1) + [:child]
+
+        builder.define_request child_arr.last, base_arr do; end
+
+        base_klass = base_arr.inject(builder) do |namespace, sym|
+          namespace.const_get(sym.to_s.camelize, false)
+        end
+
+        child_klass = child_arr.inject(builder) do |namespace, sym|
+          namespace.const_get(sym.to_s.camelize, false)
+        end
+
+        base_klass.wont_be_nil
+        child_klass.wont_be_nil
+      end
+
     end
     
   end
