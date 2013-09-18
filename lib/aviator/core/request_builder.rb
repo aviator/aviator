@@ -35,13 +35,13 @@ module Aviator
         end
       end
 
-      class_obj = Class.new(base_klass, &block)
+      klass = Class.new(base_klass, &block)
 
       namespace_arr = [
-        class_obj.provider,
-        class_obj.service,
-        class_obj.api_version,
-        class_obj.endpoint_type
+        klass.provider,
+        klass.service,
+        klass.api_version,
+        klass.endpoint_type
       ]
 
       namespace = namespace_arr.inject(self) do |namespace, sym|
@@ -50,13 +50,13 @@ module Aviator
         namespace.const_get(const_name, false)
       end
 
-      request_classname = request_name.to_s.camelize
+      klassname = request_name.to_s.camelize
 
-      if namespace.const_defined?(request_classname, false)
-        raise RequestAlreadyDefinedError.new(namespace, request_classname)
+      if namespace.const_defined?(klassname, false)
+        raise RequestAlreadyDefinedError.new(namespace, klassname)
       end
 
-      namespace.const_set(request_classname, class_obj)
+      namespace.const_set(klassname, klass)
     end
 
   end # class << self
