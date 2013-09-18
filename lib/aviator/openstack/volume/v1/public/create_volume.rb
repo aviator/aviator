@@ -8,25 +8,24 @@ module Aviator
 
     link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/Create_Volume.html'
 
-    param :name,                    required: true
-    param :description,             required: true
-    param :size,                    required: true
-    param :volume_type,             required: true
-    param :availability_zone,       required: false
-    param :metadata,                required: false
+    param :name,                  required: true
+    param :description,           required: true
+    param :size,                  required: true
+    param :volume_type,           required: false
+    param :availability_zone,     required: false
+    param :metadata,              required: false
 
     def body
       p = {
         volume: {
          name:          params[:name],
          description:   params[:description],
-         size:          params[:size],
-         volume_type:   params[:volume_type]
+         size:          params[:size]
         }
       }
 
-      [:availabilty_zone, :metadata].each do |key|
-          p[:volume][key] = params[key] if params[key].present?
+      [:availability_zone, :metadata].each do |key|
+          p[:volume][key] = params[key] if params[key]
       end
 
       p

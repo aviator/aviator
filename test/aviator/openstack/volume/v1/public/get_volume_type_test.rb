@@ -111,17 +111,5 @@ class Aviator::Test
       response.headers.wont_be_nil
     end
 
-    validate_response 'an invalid volume id is provided' do
-      volume_id = 'bogusserveridthatdoesntexist'
-
-      response = session.volume_service.request :get_volume_type do |params|
-        params[:id] = volume_id
-      end
-
-      response.status.must_equal 404
-      response.body.wont_be_nil
-      response.headers.wont_be_nil
-    end
-
   end
 end
