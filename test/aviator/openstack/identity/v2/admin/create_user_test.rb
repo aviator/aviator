@@ -57,7 +57,7 @@ class Aviator::Test
         name:      'username_example',
         password:  'user_password123',
         email:     'sample@email.com',
-        tenant_id: 'sample_tenant_id',
+        tenantId:  'sample_tenant_id',
         enabled:   true
       }
 
@@ -70,8 +70,6 @@ class Aviator::Test
           p[k] = params[k]
         end
       end
-
-      body[:user][:tenantId] = body[:user].delete(:tenant_id)
 
       request.body.must_equal body
     end
@@ -102,7 +100,11 @@ class Aviator::Test
 
 
     validate_attr :optional_params do
-      klass.optional_params.must_equal [:email, :enabled, :tenant_id]
+      klass.optional_params.must_equal [
+        :email,
+        :enabled,
+        :tenantId
+      ]
     end
 
 
@@ -148,7 +150,7 @@ class Aviator::Test
         params[:password]  = 'password_123'
         params[:email]     = 'dump@foo.com'
         params[:enabled]   = true
-        params[:tenant_id] = tenant_id
+        params[:tenantId]  = tenant_id
       end
 
       response.status.must_equal 200

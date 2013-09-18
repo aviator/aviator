@@ -86,7 +86,7 @@ class Aviator::Test
         :password,
         :email,
         :enabled,
-        :tenant_id
+        :tenantId
       ]
     end
 

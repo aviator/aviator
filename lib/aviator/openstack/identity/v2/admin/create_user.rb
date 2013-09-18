@@ -23,7 +23,7 @@ module Aviator
 
     param :email,     required: false
     param :enabled,   required: false
-    param :tenant_id, required: false
+    param :tenantId,  required: false
 
 
     def body
@@ -31,11 +31,9 @@ module Aviator
         user: {}
       }
 
-      (required_params + optional_params - [:tenant_id]).each do |key|
+      (required_params + optional_params).each do |key|
         p[:user][key] = params[key] if params[key]
       end
-
-      p[:user][:tenantId] = params[:tenant_id] if params[:tenant_id]
 
       p
     end
