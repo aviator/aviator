@@ -37,37 +37,28 @@ module Aviator
 
       class_obj = Class.new(base_klass, &block)
 
-      set_class_name(
-        self,
-        class_obj,
-
+      namespace_arr = [
         class_obj.provider,
         class_obj.service,
         class_obj.api_version,
-        class_obj.endpoint_type,
-        request_name
-      )
-    end
-    
-    
-    private    
-    
-    def set_class_name(base, obj, *hierarchy)
-      const_name = hierarchy.shift.to_s.camelize
+        class_obj.endpoint_type
+      ]
 
-      if hierarchy.empty? && base.const_defined?(const_name, false)
-        raise RequestAlreadyDefinedError.new(base, const_name)
+      namespace = namespace_arr.inject(self) do |namespace, sym|
+        const_name = sym.to_s.camelize
+        namespace.const_set(const_name, Module.new) unless namespace.const_defined?(const_name, false)
+        namespace.const_get(const_name, false)
       end
 
-      const = if base.const_defined?(const_name, false)
-                base.const_get(const_name, false)
-              else
-                base.const_set(const_name, (hierarchy.empty? ? obj : Module.new))
-              end
-      
-      hierarchy.empty? ? const : set_class_name(const, obj, *hierarchy)
+      request_classname = request_name.to_s.camelize
+
+      if namespace.const_defined?(request_classname, false)
+        raise RequestAlreadyDefinedError.new(namespace, request_classname)
+      end
+
+      namespace.const_set(request_classname, class_obj)
     end
-    
+
   end # class << self
 
 end
