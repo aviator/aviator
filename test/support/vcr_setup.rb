@@ -14,7 +14,7 @@ VCR.configure do |c|
     end
     @vcr_port_matcher_registered = true
   end
-  
+
   #=========== BEGIN FILTERS FOR SENSITIVE DATA ===========
 
   configs = [:openstack_admin, :openstack_member]
@@ -32,7 +32,7 @@ VCR.configure do |c|
       auth_url = URI(env.send(config)[:auth_service][:host_uri])
       auth_url.scheme + '://' + auth_url.host
      end
-  
+
     # In a multi-host environment, this will come in handy since HOST_URI wont match the
     # URI of services or resources available in a different host but same domain.
     c.filter_sensitive_data("<#{ config.to_s.upcase }_ENV_DOMAIN>") do
@@ -42,7 +42,7 @@ VCR.configure do |c|
         /\.[^\.]+\.\w{2,3}.\w+$/,
         /^\w+$/
       ])
-    
+
       auth_url = URI(env.send(config)[:auth_service][:host_uri])
       auth_url.host.match(domain_patterns)
     end

@@ -2,8 +2,8 @@ module Aviator
 
   define_request :create_volume do
     meta :provider,         :openstack
-    meta :service,          :storage
-    meta :api_version,      :v2
+    meta :service,          :volume
+    meta :api_version,      :v1
     meta :endpoint_type,    :public
 
     link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/Create_Volume.html'
