@@ -135,18 +135,18 @@ class Aviator::Test
 
 
     validate_response 'params are valid' do
-      # must be hardcoded so as not to inadvertently alter random resources
-      # in case the corresponding cassette is deleted
-      tenant_id = '13aad0de723c43e785b8b7ae7e5ea07a'
-
       service = session.identity_service
+
+      tenant  = service.request(:list_tenants).body[:tenants].find do |t|
+                  t[:name] == Environment.openstack_admin[:auth_credentials][:tenantName]
+                end
 
       response = service.request :create_user do |params|
         params[:name]      = 'username_123'
         params[:password]  = 'password_123'
         params[:email]     = 'dump@foo.com'
         params[:enabled]   = true
-        params[:tenantId]  = tenant_id
+        params[:tenantId]  = tenant[:id]
       end
 
       response.status.must_equal 200

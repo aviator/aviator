@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2573'
       date:
-      - Tue, 17 Sep 2013 06:11:05 GMT
+      - Wed, 18 Sep 2013 03:45:13 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-17T06:11:05.195103",
-        "expires": "2013-09-18T06:11:05Z", "id": "4af50faae3e74960bea99b80332c0937",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-18T03:45:13.422131",
+        "expires": "2013-09-19T03:45:13Z", "id": "30a191a2c5844bc981d449b095e268fe",
         "tenant": {"description": null, "enabled": true, "id": "13aad0de723c43e785b8b7ae7e5ea07a",
         "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
         [{"adminURL": "http://127.0.0.1:8774/v2/13aad0de723c43e785b8b7ae7e5ea07a",
@@ -60,7 +60,44 @@ http_interactions:
         "roles": [{"name": "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
         {"is_admin": 0, "roles": ["8f43c676ee2a49f3b1c3d52987b7f544"]}}}'
     http_version: 
-  recorded_at: Tue, 17 Sep 2013 06:11:05 GMT
+  recorded_at: Wed, 18 Sep 2013 03:45:13 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:5000/v2.0/tenants
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 30a191a2c5844bc981d449b095e268fe
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '332'
+      date:
+      - Wed, 18 Sep 2013 03:45:13 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"tenants_links": [], "tenants": [{"description": null, "enabled":
+        true, "id": "13aad0de723c43e785b8b7ae7e5ea07a", "name": "<OPENSTACK_ADMIN_TENANTNAME>"},
+        {"description": null, "enabled": true, "id": "3c7492bd83ed43bcb4953c621cfe21be",
+        "name": "service"}, {"description": null, "enabled": true, "id": "f9400311668a41419dce5c145e8affb2",
+        "name": "admin"}]}'
+    http_version: 
+  recorded_at: Wed, 18 Sep 2013 03:45:13 GMT
 - request:
     method: post
     uri: http://127.0.0.1:35357/v2.0/users
@@ -73,7 +110,7 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 4af50faae3e74960bea99b80332c0937
+      - 30a191a2c5844bc981d449b095e268fe
   response:
     status:
       code: 200
@@ -86,14 +123,14 @@ http_interactions:
       content-length:
       - '166'
       date:
-      - Tue, 17 Sep 2013 06:11:05 GMT
+      - Wed, 18 Sep 2013 03:47:03 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"user": {"name": "username_123", "id": "6ff4073fb3ec4647a004839ce857d105",
+      string: ! '{"user": {"name": "username_123", "id": "15ad5976691143208dea5ea25ed6bf55",
         "tenantId": "13aad0de723c43e785b8b7ae7e5ea07a", "enabled": true, "email":
         "dump@foo.com"}}'
     http_version: 
-  recorded_at: Tue, 17 Sep 2013 06:11:05 GMT
+  recorded_at: Wed, 18 Sep 2013 03:47:03 GMT
 recorded_with: VCR 2.5.0
