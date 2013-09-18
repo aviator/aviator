@@ -3,13 +3,14 @@ require 'test_helper'
 class Aviator::Test
 
   describe 'aviator/core/request_builder' do
-    
+
     def builder
-      @builder ||= Aviator.dup
+      Aviator
     end
 
+
     describe '::define_request' do
-      
+
       it 'places the request class in the right namespace' do
         provider = :dopenstack
         service  = :supermega
@@ -61,7 +62,7 @@ class Aviator::Test
 
       it 'understands request inheritance' do
         base = {
-          provider: :base_provider,
+          provider: :another_provider,
           service:  :base_service,
           api_ver:  :base_api_ver,
           ep_type:  :base_ep_type,
@@ -106,7 +107,7 @@ class Aviator::Test
 
 
       it 'raises a BaseRequestNotFoundError if base request does not exist' do
-        non_existent_base = [:non, :existent, :base]
+        non_existent_base = [:none, :existent, :base]
 
         the_method = lambda do
           builder.define_request :child, non_existent_base do; end
@@ -124,7 +125,7 @@ class Aviator::Test
 
       it 'raises a RequestAlreadyDefinedError if the request is already defined' do
         request = {
-          provider: :base_provider,
+          provider: :existing_provider,
           service:  :base_service,
           api_ver:  :base_api_ver,
           ep_type:  :base_ep_type,
