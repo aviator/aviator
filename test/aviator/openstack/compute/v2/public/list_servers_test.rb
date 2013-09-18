@@ -4,6 +4,20 @@ class Aviator::Test
 
   describe 'aviator/openstack/compute/v2/public/list_servers' do
 
+
+    def admin_session
+      unless @admin_session
+        @admin_session = Aviator::Session.new(
+                           config_file: Environment.path,
+                           environment: 'openstack_admin'
+                         )
+        @admin_session.authenticate
+      end
+
+      @admin_session
+    end
+
+
     def create_request(session_data = new_session_data)
       klass.new(session_data)
     end
@@ -75,6 +89,7 @@ class Aviator::Test
 
     validate_attr :optional_params do
       klass.optional_params.must_equal [
+        :all_tenants,
         :details,
         :flavor,
         :image,
@@ -170,6 +185,20 @@ class Aviator::Test
       response.status.must_equal 200
       response.body.wont_be_nil
       response.body[:servers].length.must_equal 1
+      response.headers.wont_be_nil
+    end
+
+    validate_response 'the all_tenants parameter is provided' do
+      current_tenant = admin_session.send(:auth_info)[:access][:token][:tenant]
+
+      response = admin_session.compute_service.request :list_servers do |params|
+        params[:details]     = true
+        params[:all_tenants] = true
+      end
+
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:servers].find{|s| s[:tenant_id] != current_tenant[:id] }.wont_be_empty
       response.headers.wont_be_nil
     end
 

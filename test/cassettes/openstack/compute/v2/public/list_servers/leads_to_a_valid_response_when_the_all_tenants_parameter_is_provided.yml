@@ -1,0 +1,274 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2649'
+      date:
+      - Wed, 11 Sep 2013 18:11:29 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-11T18:11:29.506538",
+        "expires": "2013-09-12T00:11:29Z", "id": "841fae97289b4cc895fceeeff7002bba",
+        "tenant": {"description": "Used for Aviator testing/development", "enabled":
+        true, "id": "291e43291289457da59d8f727c46147a", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a",
+        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
+        "id": "2985945e07b74103bb2dfef7e426cd43", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
+        "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a",
+        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        "id": "1f68f3ce931946c788e487443e772fb2", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
+        "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
+        "roles_links": [], "id": "3cb44449b3cb48519641864ca82d1911", "roles": [{"name":
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
+    http_version: 
+  recorded_at: Wed, 11 Sep 2013 18:11:29 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/detail?all_tenants=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 841fae97289b4cc895fceeeff7002bba
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-64ec2c74-1592-4097-ab07-f9a89533fdd9
+      content-type:
+      - application/json
+      content-length:
+      - '17426'
+      date:
+      - Wed, 11 Sep 2013 18:11:30 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"servers": [{"status": "ACTIVE", "updated": "2013-09-11T17:08:17Z",
+        "hostId": "200da68e69ac953ccdcab90392549b724fdf66191bcde318d10c2117", "OS-EXT-SRV-ATTR:host":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork": [{"version":
+        4, "addr": "10.2.0.6", "OS-EXT-IPS:type": "fixed"}]}, "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/f2d1acb0-b585-4a44-bc9c-812a9a0f0571",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/f2d1acb0-b585-4a44-bc9c-812a9a0f0571",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-0000005b", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "f2d1acb0-b585-4a44-bc9c-812a9a0f0571", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "test", "created": "2013-09-11T17:08:00Z", "tenant_id": "d770443fc60a410c843dc12b98ac8135",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "progress":
+        0, "OS-EXT-STS:power_state": 1, "config_drive": "", "metadata": {}}, {"status":
+        "ACTIVE", "updated": "2013-09-05T13:22:39Z", "hostId": "885167ac4b295b4155a9546babe042978557bdc96f5fc323ed574993",
+        "OS-EXT-SRV-ATTR:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork":
+        [{"version": 4, "addr": "10.2.0.8", "OS-EXT-IPS:type": "fixed"}]}, "links":
+        [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/5124cc9b-00d7-4aba-a1c2-7000235da149",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/5124cc9b-00d7-4aba-a1c2-7000235da149",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-00000059", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "5124cc9b-00d7-4aba-a1c2-7000235da149", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "test", "created": "2013-09-05T12:40:15Z", "tenant_id": "713e1b55039d4fd6b91bbeac8914028c",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "progress":
+        0, "OS-EXT-STS:power_state": 1, "config_drive": "", "metadata": {}}, {"status":
+        "ACTIVE", "updated": "2013-09-05T13:18:48Z", "hostId": "199dd5dd1a58ad0485af047fe8ef2dbe13ed8bd69283f3aad90fc512",
+        "OS-EXT-SRV-ATTR:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork":
+        [{"version": 4, "addr": "10.2.0.2", "OS-EXT-IPS:type": "fixed"}]}, "links":
+        [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/678ec8b1-f5bc-42b9-8b96-8d2933aa3eaf",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/678ec8b1-f5bc-42b9-8b96-8d2933aa3eaf",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-00000056", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "678ec8b1-f5bc-42b9-8b96-8d2933aa3eaf", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "vcr instance - do not delete", "created": "2013-09-05T12:07:53Z",
+        "tenant_id": "e7b1b62aa1474f758c4974b8be44cf6c", "OS-DCF:diskConfig": "MANUAL",
+        "accessIPv4": "", "accessIPv6": "", "progress": 0, "OS-EXT-STS:power_state":
+        1, "config_drive": "", "metadata": {}}, {"status": "ACTIVE", "updated": "2013-09-02T08:08:47Z",
+        "hostId": "527ab383769b3a87cd6aea64884794655224e593725c77bcbf013f9a", "OS-EXT-SRV-ATTR:host":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork": [{"version":
+        4, "addr": "10.2.0.4", "OS-EXT-IPS:type": "fixed"}]}, "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/e6bfe540-1fb4-4814-8fd1-619d630846df",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/e6bfe540-1fb4-4814-8fd1-619d630846df",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-00000031", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "e6bfe540-1fb4-4814-8fd1-619d630846df", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "sampleinstance", "created": "2013-09-02T08:08:30Z", "tenant_id":
+        "646fe18d914745eeae0122a24ea653cc", "OS-DCF:diskConfig": "MANUAL", "accessIPv4":
+        "", "accessIPv6": "", "progress": 0, "OS-EXT-STS:power_state": 1, "config_drive":
+        "", "metadata": {}}, {"status": "ACTIVE", "updated": "2013-09-02T07:19:05Z",
+        "hostId": "ea6ced4b47bee62a36fac1e3633887d7aa0659846d8990a4dc157f39", "OS-EXT-SRV-ATTR:host":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork": [{"version":
+        4, "addr": "10.2.0.10", "OS-EXT-IPS:type": "fixed"}]}, "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/733596fa-503a-4ec4-9021-3cca0adcbb63",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/733596fa-503a-4ec4-9021-3cca0adcbb63",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-00000030", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "733596fa-503a-4ec4-9021-3cca0adcbb63", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "newinst", "created": "2013-09-02T07:18:49Z", "tenant_id": "89b89207b57a4ac4a9e9d0be628a95b3",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "progress":
+        0, "OS-EXT-STS:power_state": 1, "config_drive": "", "metadata": {}}, {"status":
+        "ACTIVE", "updated": "2013-09-02T07:03:47Z", "hostId": "82d8a604ec285641b66184302191e35831edd75eab0dab568803bd79",
+        "OS-EXT-SRV-ATTR:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork":
+        [{"version": 4, "addr": "10.2.0.9", "OS-EXT-IPS:type": "fixed"}]}, "links":
+        [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/147ae302-93be-471e-a248-2c85a634af22",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/147ae302-93be-471e-a248-2c85a634af22",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-0000002f", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "147ae302-93be-471e-a248-2c85a634af22", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "waaa", "created": "2013-09-02T07:03:19Z", "tenant_id": "bfed1ed0079b4cb78abbbbb3257ddc21",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "progress":
+        0, "OS-EXT-STS:power_state": 1, "config_drive": "", "metadata": {}}, {"status":
+        "ACTIVE", "updated": "2013-09-11T16:03:43Z", "hostId": "4211f9b455738af940f5fd4ce47a12e43d9ba51d5c77add6f83d2aa9",
+        "OS-EXT-SRV-ATTR:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork":
+        [{"version": 4, "addr": "10.2.0.5", "OS-EXT-IPS:type": "fixed"}]}, "links":
+        [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/ab0bcd08-9ed7-4eb0-82b1-6e01a359d26b",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/ab0bcd08-9ed7-4eb0-82b1-6e01a359d26b",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-00000029", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "ab0bcd08-9ed7-4eb0-82b1-6e01a359d26b", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "chos", "created": "2013-08-27T11:42:41Z", "tenant_id": "3ec6ecaff17a41a5bb105a15376c5566",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "progress":
+        0, "OS-EXT-STS:power_state": 1, "config_drive": "", "metadata": {}}, {"status":
+        "ACTIVE", "updated": "2013-08-23T06:07:00Z", "hostId": "5a5117b1fcba6554cdfbde5553dd0b2239e72c10f9e57a3f0cb1198a",
+        "OS-EXT-SRV-ATTR:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork":
+        [{"version": 4, "addr": "10.2.0.7", "OS-EXT-IPS:type": "fixed"}, {"version":
+        4, "addr": "10.55.2.34", "OS-EXT-IPS:type": "floating"}]}, "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/eb3fc15b-bd1d-4920-ae97-7f9b394fe43b",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/eb3fc15b-bd1d-4920-ae97-7f9b394fe43b",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-00000024", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "eb3fc15b-bd1d-4920-ae97-7f9b394fe43b", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "test2", "created": "2013-08-22T07:26:06Z", "tenant_id": "85ea75f214ca4d3f834ca37cc570a8fd",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "progress":
+        0, "OS-EXT-STS:power_state": 1, "config_drive": "", "metadata": {}}, {"status":
+        "ACTIVE", "updated": "2013-09-11T09:17:51Z", "hostId": "f5584d3531321ea9686935447ccc382b2716e884a44e4d1e7fb9186c",
+        "OS-EXT-SRV-ATTR:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork":
+        [{"version": 4, "addr": "10.2.0.21", "OS-EXT-IPS:type": "fixed"}]}, "links":
+        [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/c052d06c-f9bc-475e-9e23-1f20660fa880",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/c052d06c-f9bc-475e-9e23-1f20660fa880",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "active", "OS-EXT-SRV-ATTR:instance_name": "instance-0000001d", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "c052d06c-f9bc-475e-9e23-1f20660fa880", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "test", "created": "2013-08-15T03:42:06Z", "tenant_id": "763d42422d914f0ca6eab905b85c65c5",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "progress":
+        0, "OS-EXT-STS:power_state": 1, "config_drive": "", "metadata": {}}, {"status":
+        "ERROR", "updated": "2013-09-05T12:03:05Z", "hostId": "199dd5dd1a58ad0485af047fe8ef2dbe13ed8bd69283f3aad90fc512",
+        "OS-EXT-SRV-ATTR:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork":
+        [{"version": 4, "addr": "10.2.0.15", "OS-EXT-IPS:type": "fixed"}]}, "links":
+        [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/2b8b852f-df7a-496e-b480-d2eea625016b",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/2b8b852f-df7a-496e-b480-d2eea625016b",
+        "rel": "bookmark"}], "key_name": "", "image": {"id": "c95d4992-24b1-4c9a-93cb-5d2935503148",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/c95d4992-24b1-4c9a-93cb-5d2935503148",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "error", "OS-EXT-SRV-ATTR:instance_name": "instance-00000018", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "2b8b852f-df7a-496e-b480-d2eea625016b", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "ab263d5e1c6343bd9d56d694a71e8ac0",
+        "name": "launching", "created": "2013-08-05T07:08:41Z", "tenant_id": "e7b1b62aa1474f758c4974b8be44cf6c",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "fault":
+        {"message": "ImageNotFound", "code": 404, "details": "Image 85251a6e-6034-48f2-8def-3d41b2d72bb2
+        could not be found.", "created": "2013-09-05T11:57:02Z"}, "OS-EXT-STS:power_state":
+        1, "config_drive": "", "metadata": {}}, {"status": "SUSPENDED", "updated":
+        "2013-08-30T03:49:37Z", "hostId": "41937d6c44ab83c55f72031801e6061449cfcfa4e878d46e6adc93fa",
+        "OS-EXT-SRV-ATTR:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "addresses": {"novanetwork":
+        [{"version": 4, "addr": "10.2.0.12", "OS-EXT-IPS:type": "fixed"}]}, "links":
+        [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a/servers/73264b68-8844-4ede-936e-8186c0b8bb1c",
+        "rel": "self"}, {"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/servers/73264b68-8844-4ede-936e-8186c0b8bb1c",
+        "rel": "bookmark"}], "key_name": "gelPub", "image": {"id": "d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "links": [{"href": "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/images/d4c7103f-f6d9-425e-8435-fc6f11e22ab8",
+        "rel": "bookmark"}]}, "OS-EXT-STS:task_state": null, "OS-EXT-STS:vm_state":
+        "suspended", "OS-EXT-SRV-ATTR:instance_name": "instance-0000000a", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>", "flavor": {"id": "2", "links": [{"href":
+        "<OPENSTACK_ADMIN_HOST_URI>:8774/291e43291289457da59d8f727c46147a/flavors/2",
+        "rel": "bookmark"}]}, "id": "73264b68-8844-4ede-936e-8186c0b8bb1c", "security_groups":
+        [{"name": "default"}], "OS-EXT-AZ:availability_zone": "nova", "user_id": "2284620693204323890a79a167e03a92",
+        "name": "0357PM-1", "created": "2013-08-02T07:57:21Z", "tenant_id": "951659d798a14d5e98a94878760cfe39",
+        "OS-DCF:diskConfig": "MANUAL", "accessIPv4": "", "accessIPv6": "", "OS-EXT-STS:power_state":
+        4, "config_drive": "", "metadata": {}}]}'
+    http_version: 
+  recorded_at: Wed, 11 Sep 2013 18:11:30 GMT
+recorded_with: VCR 2.5.0

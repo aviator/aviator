@@ -149,7 +149,8 @@ module Aviator
 
       elsif session_data.has_key? :access
         service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
-        service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)[1].to_sym
+        version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
+        version ? version[1].to_sym : :v1
       end
     end
 

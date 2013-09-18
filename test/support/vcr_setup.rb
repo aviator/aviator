@@ -52,10 +52,15 @@ VCR.configure do |c|
   #=========== END FILTERS FOR SENSITIVE DATA ===========
 
   c.default_cassette_options = {
-    # If no cassette exists for a spec, VCR will record. Afterwards, VCR will
-    # stop recording for that spec. If new requests are made that are not
-    # matched by anything in the cassette, an error is thrown
-    record: :once,
+    # IF NOT RUNNING IN CI:
+    #   If no cassette exists for a spec, VCR will record. Afterwards, VCR will
+    #   stop recording for that spec. If new requests are made that are not
+    #   matched by anything in the cassette, an error is thrown
+    #
+    # IF RUNNING IN CI:
+    # Test should immediately throw an error if no cassette exists for a 
+    # given example that needs one.
+    record: (ENV['CI'] || ENV['TRAVIS'] ? :none : :once),
 
     match_requests_on: [:method, :port, :path, :query, :headers, :body],
 
