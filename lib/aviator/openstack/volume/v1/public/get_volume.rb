@@ -16,6 +16,9 @@ module Aviator
       end
     end
 
+    def http_method
+      :get
+    end
 
     def url
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
