@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2574'
       date:
-      - Wed, 18 Sep 2013 08:09:55 GMT
+      - Thu, 19 Sep 2013 03:35:22 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-18T08:09:55.839875",
-        "expires": "2013-09-18T14:09:55Z", "id": "8a1c073e09f3492ca6e589a7194ee874",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-19T03:35:22.531652",
+        "expires": "2013-09-19T09:35:22Z", "id": "fb57f872ace64c73adf66baea134905a",
         "tenant": {"description": "testing", "enabled": true, "id": "85ea75f214ca4d3f834ca37cc570a8fd",
         "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
         [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd",
@@ -58,13 +58,13 @@ http_interactions:
         "<OPENSTACK_ADMIN_USERNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
         {"is_<OPENSTACK_ADMIN_USERNAME>": 0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
     http_version: 
-  recorded_at: Wed, 18 Sep 2013 08:09:55 GMT
+  recorded_at: Thu, 19 Sep 2013 03:35:22 GMT
 - request:
     method: post
     uri: <OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd/volumes
     body:
       encoding: UTF-8
-      string: ! '{"volume":{"name":"Aviator Volume Test Name","description":"Aviator
+      string: ! '{"volume":{"display_name":"Aviator Volume Test Name","display_description":"Aviator
         Volume Test Description","size":"1"}}'
     headers:
       Content-Type:
@@ -72,29 +72,30 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 8a1c073e09f3492ca6e589a7194ee874
+      - fb57f872ace64c73adf66baea134905a
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-7a3b8fad-e2c2-4803-9903-e849f8b1337a
+      - req-c7419465-372a-4ccd-9ebd-7f9b2e49760a
       content-type:
       - application/json
       content-length:
-      - '337'
+      - '388'
       date:
-      - Wed, 18 Sep 2013 08:09:57 GMT
+      - Thu, 19 Sep 2013 03:35:24 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"volume": {"status": "creating", "display_name": null, "attachments":
-        [], "availability_zone": "nova", "bootable": "false", "created_at": "2013-09-18T08:09:57.861106",
-        "display_description": null, "volume_type": "None", "snapshot_id": null, "source_volid":
-        null, "metadata": {}, "id": "24f9e97e-4f79-455d-9503-a12c616ea9c5", "size":
+      string: ! '{"volume": {"status": "creating", "display_name": "Aviator Volume
+        Test Name", "attachments": [], "availability_zone": "nova", "bootable": "false",
+        "created_at": "2013-09-19T03:35:24.000572", "display_description": "Aviator
+        Volume Test Description", "volume_type": "None", "snapshot_id": null, "source_volid":
+        null, "metadata": {}, "id": "fcaf906a-ee89-4242-aca5-2045f2eb2905", "size":
         1}}'
     http_version: 
-  recorded_at: Wed, 18 Sep 2013 08:09:58 GMT
+  recorded_at: Thu, 19 Sep 2013 03:35:23 GMT
 recorded_with: VCR 2.5.0

@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2574'
       date:
-      - Wed, 18 Sep 2013 08:01:53 GMT
+      - Thu, 19 Sep 2013 03:35:17 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-18T08:01:53.155643",
-        "expires": "2013-09-18T14:01:53Z", "id": "3488d5031eb24756a78daa24e4929664",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-19T03:35:17.403799",
+        "expires": "2013-09-19T09:35:17Z", "id": "62c46fd6f3d24581a58cfadd30fa7e4c",
         "tenant": {"description": "testing", "enabled": true, "id": "85ea75f214ca4d3f834ca37cc570a8fd",
         "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
         [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd",
@@ -58,5 +58,5 @@ http_interactions:
         "<OPENSTACK_ADMIN_USERNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
         {"is_<OPENSTACK_ADMIN_USERNAME>": 0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
     http_version: 
-  recorded_at: Wed, 18 Sep 2013 08:01:53 GMT
+  recorded_at: Thu, 19 Sep 2013 03:35:16 GMT
 recorded_with: VCR 2.5.0

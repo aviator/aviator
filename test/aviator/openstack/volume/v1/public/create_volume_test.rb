@@ -6,9 +6,9 @@ class Aviator::Test
 
     def create_request(session_data = get_session_data, &block)
       block ||= lambda do |params|
-        params[:name]         = 'Aviator Volume Test Name'
-        params[:description]  = 'Aviator Volume Test Description'
-        params[:size]         = '1'
+        params[:display_name]         = 'Aviator Volume Test Name'
+        params[:display_description]  = 'Aviator Volume Test Description'
+        params[:size]                 = '1'
       end
 
       klass.new(session_data, &block)
@@ -92,8 +92,8 @@ class Aviator::Test
 
     validate_attr :required_params do
       klass.required_params.must_equal [
-        :name,
-        :description,
+        :display_name,
+        :display_description,
         :size
       ]
     end
@@ -109,9 +109,9 @@ class Aviator::Test
 
     validate_response 'parameters are provided' do
       response = session.volume_service.request :create_volume do |params|
-        params[:name]         = 'Aviator Volume Test Name'
-        params[:description]  = 'Aviator Volume Test Description'
-        params[:size]         = '1'
+        params[:display_name]         = 'Aviator Volume Test Name'
+        params[:display_description]  = 'Aviator Volume Test Description'
+        params[:size]                 = '1'
       end
 
       response.status.must_equal 200
