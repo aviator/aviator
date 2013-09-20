@@ -1,0 +1,100 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2574'
+      date:
+      - Wed, 18 Sep 2013 05:48:25 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-18T05:48:25.340436",
+        "expires": "2013-09-18T11:48:25Z", "id": "0ffdb44d4e5a4a4bab17dee34f0136b7",
+        "tenant": {"description": "testing", "enabled": true, "id": "85ea75f214ca4d3f834ca37cc570a8fd",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd",
+        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
+        "id": "2985945e07b74103bb2dfef7e426cd43", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
+        "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd",
+        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        "id": "1f68f3ce931946c788e487443e772fb2", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
+        "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
+        "roles_links": [], "id": "ab263d5e1c6343bd9d56d694a71e8ac0", "roles": [{"name":
+        "<OPENSTACK_ADMIN_USERNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
+        {"is_<OPENSTACK_ADMIN_USERNAME>": 0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
+    http_version: 
+  recorded_at: Wed, 18 Sep 2013 05:48:25 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd/volumes/detail?display_name=test
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 0ffdb44d4e5a4a4bab17dee34f0136b7
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-d89ee586-dc75-42f4-9c08-d19f28f7a66e
+      content-type:
+      - application/json
+      content-length:
+      - '483'
+      date:
+      - Wed, 18 Sep 2013 05:48:27 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"volumes": [{"status": "available", "display_name": "test", "attachments":
+        [], "availability_zone": "nova", "bootable": "false", "created_at": "2013-08-27T09:23:28.000000",
+        "os-vol-tenant-attr:tenant_id": "85ea75f214ca4d3f834ca37cc570a8fd", "display_description":
+        "for testing", "os-vol-host-attr:host": "cn26<OPENSTACK_ADMIN_ENV_DOMAIN>@cinder01",
+        "volume_type": "None", "snapshot_id": null, "source_volid": null, "metadata":
+        {}, "id": "4c758745-c892-455b-af93-ad9cea0109c2", "size": 1}]}'
+    http_version: 
+  recorded_at: Wed, 18 Sep 2013 05:48:27 GMT
+recorded_with: VCR 2.5.0

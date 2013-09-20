@@ -1,11 +1,17 @@
 module Aviator
 
-  define_request :projects do
+  define_request :delete_user do
 
     meta :provider,      :openstack
-    meta :service,       :metering
-    meta :api_version,   :v1
+    meta :service,       :identity
+    meta :api_version,   :v2
     meta :endpoint_type, :admin
+
+    link 'documentation',
+      'http://docs.openstack.org/api/openstack-identity-service/2.0/content/DELETE_deleteUser_v2.0_users__userId__.html'
+
+    param :id, required: true
+
 
     def headers
       h = {}
@@ -19,14 +25,13 @@ module Aviator
 
 
     def http_method
-      :get
+      :delete
     end
 
 
     def url
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-      uri = URI(service_spec[:endpoints][0][:adminURL])
-      "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v1/projects"
+      "#{ service_spec[:endpoints][0][:adminURL] }/users/#{ params[:id]}"
     end
 
   end
