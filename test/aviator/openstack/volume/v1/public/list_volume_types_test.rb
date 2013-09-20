@@ -4,27 +4,14 @@ class Aviator::Test
 
   describe 'aviator/openstack/volume/v1/public/list_volume_types' do
 
-    def create_request(session_data = new_session_data)
+    def create_request(session_data = get_session_data)
       klass.new(session_data)
     end
 
 
-    def new_session_data
-      service = Aviator::Service.new(
-        provider: Environment.openstack_admin[:provider],
-        service:  Environment.openstack_admin[:auth_service][:name]
-      )
-
-      bootstrap = RequestHelper.admin_bootstrap_session_data
-
-      response = service.request :create_token, session_data: bootstrap do |params|
-        auth_credentials = Environment.openstack_admin[:auth_credentials]
-        auth_credentials.each { |key, value| params[key] = auth_credentials[key] }
-      end
-
-      response.body
+    def get_session_data
+      session.send :auth_info
     end
-
 
     def helper
       Aviator::Test::RequestHelper
@@ -35,6 +22,17 @@ class Aviator::Test
       @klass ||= helper.load_request('openstack', 'volume', 'v1', 'public', 'list_volume_types.rb')
     end
 
+    def session
+      unless @session
+        @session = Aviator::Session.new(
+                     config_file: Environment.path,
+                     environment: 'openstack_member'
+                   )
+        @session.authenticate
+      end
+
+      @session
+    end
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
     end
@@ -43,7 +41,6 @@ class Aviator::Test
     validate_attr :api_version do
       klass.api_version.must_equal :v1
     end
-
 
     validate_attr :body do
       klass.body?.must_equal false
@@ -69,11 +66,9 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      session_data = new_session_data
+      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
-
-      request = create_request(session_data)
+      request = create_request
 
       request.headers.must_equal headers
     end
@@ -84,13 +79,7 @@ class Aviator::Test
     end
 
     validate_response 'no parameters are provided' do
-      service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'volume',
-        default_session_data: new_session_data
-      )
-
-      response = service.request :list_volume_types
+      response = session.volume_service.request :list_volume_types
 
       response.status.must_equal 200
       response.body.wont_be_nil
