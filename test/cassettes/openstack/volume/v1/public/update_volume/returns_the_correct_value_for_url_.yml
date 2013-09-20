@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2654'
       date:
-      - Fri, 20 Sep 2013 08:01:22 GMT
+      - Fri, 20 Sep 2013 10:18:54 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-20T08:01:22.310752",
-        "expires": "2013-09-20T14:01:22Z", "id": "6b1417a267404e3bb5f80ac74c0a1ddf",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-20T10:18:54.696708",
+        "expires": "2013-09-20T16:18:54Z", "id": "df02b8a2a4754d3ba0e53ee88441c9ca",
         "tenant": {"description": "Used for Aviator testing/development ", "enabled":
         true, "id": "d770443fc60a410c843dc12b98ac8135", "name": "<OPENSTACK_MEMBER_TENANTNAME>"}},
         "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/d770443fc60a410c843dc12b98ac8135",
@@ -58,84 +58,5 @@ http_interactions:
         "Member"}], "name": "<OPENSTACK_MEMBER_USERNAME>"}, "metadata": {"is_admin":
         0, "roles": ["f970c227c0ee4512899606886348f67f"]}}}'
     http_version: 
-  recorded_at: Fri, 20 Sep 2013 08:01:22 GMT
-- request:
-    method: get
-    uri: <OPENSTACK_ADMIN_HOST_URI>:8776/v1/d770443fc60a410c843dc12b98ac8135/volumes
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - Faraday v0.8.8
-      X-Auth-Token:
-      - 6b1417a267404e3bb5f80ac74c0a1ddf
-  response:
-    status:
-      code: 200
-      message: 
-    headers:
-      x-compute-request-id:
-      - req-f319911c-17ec-45bd-9a1e-6b1d7d8b8425
-      content-type:
-      - application/json
-      content-length:
-      - '3807'
-      date:
-      - Fri, 20 Sep 2013 08:01:23 GMT
-      connection:
-      - close
-    body:
-      encoding: US-ASCII
-      string: ! '{"volumes": [{"status": "available", "display_name": "Aviator Volume
-        Test Name", "attachments": [], "availability_zone": "nova", "bootable": "false",
-        "created_at": "2013-09-20T08:00:35.000000", "display_description": "Aviator
-        Volume Test Description", "volume_type": "None", "snapshot_id": null, "source_volid":
-        null, "metadata": {}, "id": "5d37d30d-f303-4e74-836f-42cc43486d1c", "size":
-        1}, {"status": "available", "display_name": "Aviator Volume Test Name", "attachments":
-        [], "availability_zone": "nova", "bootable": "false", "created_at": "2013-09-20T07:59:55.000000",
-        "display_description": "Aviator Volume Test Description", "volume_type": "None",
-        "snapshot_id": null, "source_volid": null, "metadata": {}, "id": "968ead41-cc9c-4555-9ec1-d8ff08178292",
-        "size": 1}, {"status": "available", "display_name": "Aviator Volume Test Name",
-        "attachments": [], "availability_zone": "nova", "bootable": "false", "created_at":
-        "2013-09-20T07:50:11.000000", "display_description": "Aviator Volume Test
-        Description", "volume_type": "None", "snapshot_id": null, "source_volid":
-        null, "metadata": {}, "id": "ab40c9d1-1503-4993-a5c3-a251cd6453a3", "size":
-        1}, {"status": "available", "display_name": "Aviator Volume Test Name", "attachments":
-        [], "availability_zone": "nova", "bootable": "false", "created_at": "2013-09-20T07:50:01.000000",
-        "display_description": "Aviator Volume Test Description", "volume_type": "None",
-        "snapshot_id": null, "source_volid": null, "metadata": {}, "id": "400eb4b9-2c09-4214-801b-820219f48683",
-        "size": 1}, {"status": "available", "display_name": "Aviator Volume Test Name",
-        "attachments": [], "availability_zone": "nova", "bootable": "false", "created_at":
-        "2013-09-20T07:49:22.000000", "display_description": "Aviator Volume Test
-        Description", "volume_type": "None", "snapshot_id": null, "source_volid":
-        null, "metadata": {}, "id": "ed842538-81f1-4c27-9710-fb3f7e41db10", "size":
-        1}, {"status": "available", "display_name": "Aviator Test Update Volume",
-        "attachments": [], "availability_zone": "nova", "bootable": "false", "created_at":
-        "2013-09-20T07:44:51.000000", "display_description": "Aviator Volume Test
-        Description", "volume_type": "None", "snapshot_id": null, "source_volid":
-        null, "metadata": {}, "id": "64b1046e-4ae4-4457-aefb-30e6d451f432", "size":
-        1}, {"status": "available", "display_name": "Aviator Volume Test Name", "attachments":
-        [], "availability_zone": "nova", "bootable": "false", "created_at": "2013-09-20T07:42:05.000000",
-        "display_description": "Aviator Volume Test Description", "volume_type": "None",
-        "snapshot_id": null, "source_volid": null, "metadata": {}, "id": "c8c3cdb5-e591-44ed-807a-fd9c27493d34",
-        "size": 1}, {"status": "available", "display_name": "Aviator Volume Test Name",
-        "attachments": [], "availability_zone": "nova", "bootable": "false", "created_at":
-        "2013-09-20T07:40:08.000000", "display_description": "Aviator Volume Test
-        Description", "volume_type": "None", "snapshot_id": null, "source_volid":
-        null, "metadata": {}, "id": "cc7b0920-d0a2-4f40-bbad-53a8bbfe3e1d", "size":
-        1}, {"status": "available", "display_name": "Aviator Volume Test Name", "attachments":
-        [], "availability_zone": "nova", "bootable": "false", "created_at": "2013-09-20T07:38:11.000000",
-        "display_description": "Aviator Volume Test Description", "volume_type": "None",
-        "snapshot_id": null, "source_volid": null, "metadata": {}, "id": "c972a0f2-0d58-4ea0-97b8-9fd28899ad9b",
-        "size": 1}, {"status": "available", "display_name": "Aviator Test Update Volume",
-        "attachments": [], "availability_zone": "nova", "bootable": "false", "created_at":
-        "2013-09-20T07:26:00.000000", "display_description": "Aviator Volume Test
-        Description", "volume_type": "None", "snapshot_id": null, "source_volid":
-        null, "metadata": {}, "id": "2d8c7d04-73d4-4266-9c2d-2fa071b39b41", "size":
-        1}]}'
-    http_version: 
-  recorded_at: Fri, 20 Sep 2013 08:01:24 GMT
+  recorded_at: Fri, 20 Sep 2013 10:18:54 GMT
 recorded_with: VCR 2.5.0

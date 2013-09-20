@@ -3,7 +3,9 @@ require 'test_helper'
 class Aviator::Test
   describe 'aviator/openstack/volume/v1/public/update_volume' do
     def create_request(session_data = get_session_data, &block)
-      volume_id  = session.volume_service.request(:list_volumes).body[:volumes].first[:id]
+      block ||= lambda do |params|
+        params[:id] = 0
+      end
 
       klass.new(session_data, &block)
     end
@@ -46,24 +48,27 @@ class Aviator::Test
 
 
     validate_attr :body do
-      request = create_request{|p| p[:id] = 0 }
-
+      request = create_request
       klass.body?.must_equal true
       request.body?.must_equal true
       request.body.wont_be_nil
     end
 
+    validate_attr :endpoint_type do
+      klass.endpoint_type.must_equal :public
+    end
+
     validate_attr :headers do
       headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
 
-      request = create_request{|p| p[:id] = 0 }
+      request = create_request
 
       request.headers.must_equal headers
     end
 
 
     validate_attr :http_method do
-      create_request{|p| p[:id] = 0 }.http_method.must_equal :put
+      create_request.http_method.must_equal :put
     end
 
 

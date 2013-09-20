@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2654'
       date:
-      - Fri, 20 Sep 2013 08:01:18 GMT
+      - Fri, 20 Sep 2013 10:18:56 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-20T08:01:18.182576",
-        "expires": "2013-09-20T14:01:18Z", "id": "17df93cbebdf4e1dbd9cacd1526c0068",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-20T10:18:56.382936",
+        "expires": "2013-09-20T16:18:56Z", "id": "62990d41920944238c9b8fc889e74681",
         "tenant": {"description": "Used for Aviator testing/development ", "enabled":
         true, "id": "d770443fc60a410c843dc12b98ac8135", "name": "<OPENSTACK_MEMBER_TENANTNAME>"}},
         "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/d770443fc60a410c843dc12b98ac8135",
@@ -58,7 +58,7 @@ http_interactions:
         "Member"}], "name": "<OPENSTACK_MEMBER_USERNAME>"}, "metadata": {"is_admin":
         0, "roles": ["f970c227c0ee4512899606886348f67f"]}}}'
     http_version: 
-  recorded_at: Fri, 20 Sep 2013 08:01:18 GMT
+  recorded_at: Fri, 20 Sep 2013 10:18:56 GMT
 - request:
     method: put
     uri: <OPENSTACK_ADMIN_HOST_URI>:8776/v1/d770443fc60a410c843dc12b98ac8135/volumes/ithinkiexist
@@ -71,7 +71,7 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 17df93cbebdf4e1dbd9cacd1526c0068
+      - 62990d41920944238c9b8fc889e74681
   response:
     status:
       code: 404
@@ -82,9 +82,9 @@ http_interactions:
       content-type:
       - application/json; charset=UTF-8
       x-compute-request-id:
-      - req-b5ad6221-02ca-411c-90da-c95eca76b657
+      - req-8481a045-d5d2-4f80-adaa-5922283588cb
       date:
-      - Fri, 20 Sep 2013 08:01:20 GMT
+      - Fri, 20 Sep 2013 10:18:57 GMT
       connection:
       - close
     body:
@@ -92,5 +92,5 @@ http_interactions:
       string: ! '{"itemNotFound": {"message": "The resource could not be found.",
         "code": 404}}'
     http_version: 
-  recorded_at: Fri, 20 Sep 2013 08:01:20 GMT
+  recorded_at: Fri, 20 Sep 2013 10:18:57 GMT
 recorded_with: VCR 2.5.0
