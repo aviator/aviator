@@ -7,7 +7,7 @@ module Aviator
     meta :api_version,        :v1
     meta :endpoint_type,      :public
 
-    link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/List_Volumes_Details.html'
+    link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getVolumeTypes_v1__tenant_id__types_v1__tenant_id__types.html'
 
     param :extra_specs,         required: false
     param :name,                required: false
@@ -24,8 +24,7 @@ module Aviator
 
     def url
       service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-
-      str  = "#{ service_spec[:endpoints][0][:publicURL] }/types"
+      "#{ service_spec[:endpoints][0][:publicURL] }/types"
     end
 
   end
