@@ -5,7 +5,7 @@ http_interactions:
     uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"},"tenantName":"<OPENSTACK_MEMBER_TENANTNAME>"}}'
     headers:
       Content-Type:
       - application/json
@@ -21,47 +21,47 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '2574'
+      - '2654'
       date:
-      - Thu, 19 Sep 2013 03:35:22 GMT
+      - Fri, 20 Sep 2013 07:59:25 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-19T03:35:22.531652",
-        "expires": "2013-09-19T09:35:22Z", "id": "fb57f872ace64c73adf66baea134905a",
-        "tenant": {"description": "testing", "enabled": true, "id": "85ea75f214ca4d3f834ca37cc570a8fd",
-        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
-        [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd",
-        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/85ea75f214ca4d3f834ca37cc570a8fd"}],
-        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+      string: ! '{"access": {"token": {"issued_at": "2013-09-20T07:59:25.380291",
+        "expires": "2013-09-20T13:59:25Z", "id": "1b70353c001b459ab5f7079bf5ab8d10",
+        "tenant": {"description": "Used for Aviator testing/development ", "enabled":
+        true, "id": "d770443fc60a410c843dc12b98ac8135", "name": "<OPENSTACK_MEMBER_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/d770443fc60a410c843dc12b98ac8135",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/d770443fc60a410c843dc12b98ac8135",
+        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/d770443fc60a410c843dc12b98ac8135"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
         "id": "2985945e07b74103bb2dfef7e426cd43", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
-        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
         "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd",
-        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd"}],
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/d770443fc60a410c843dc12b98ac8135",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/d770443fc60a410c843dc12b98ac8135",
+        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/d770443fc60a410c843dc12b98ac8135"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
-        [{"<OPENSTACK_ADMIN_USERNAME>URL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
         "id": "1f68f3ce931946c788e487443e772fb2", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
-        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
         "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
         "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
         "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
-        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
-        "roles_links": [], "id": "ab263d5e1c6343bd9d56d694a71e8ac0", "roles": [{"name":
-        "<OPENSTACK_ADMIN_USERNAME>"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
-        {"is_<OPENSTACK_ADMIN_USERNAME>": 0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_MEMBER_USERNAME>",
+        "roles_links": [], "id": "447527294dae4a1788d36beb0db99c00", "roles": [{"name":
+        "Member"}], "name": "<OPENSTACK_MEMBER_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["f970c227c0ee4512899606886348f67f"]}}}'
     http_version: 
-  recorded_at: Thu, 19 Sep 2013 03:35:22 GMT
+  recorded_at: Fri, 20 Sep 2013 07:59:25 GMT
 - request:
     method: post
-    uri: <OPENSTACK_ADMIN_HOST_URI>:8776/v1/85ea75f214ca4d3f834ca37cc570a8fd/volumes
+    uri: <OPENSTACK_ADMIN_HOST_URI>:8776/v1/d770443fc60a410c843dc12b98ac8135/volumes
     body:
       encoding: UTF-8
       string: ! '{"volume":{"display_name":"Aviator Volume Test Name","display_description":"Aviator
@@ -72,30 +72,30 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - fb57f872ace64c73adf66baea134905a
+      - 1b70353c001b459ab5f7079bf5ab8d10
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-c7419465-372a-4ccd-9ebd-7f9b2e49760a
+      - req-6f7d0cdd-1eb4-46bf-b359-b3709b4feebe
       content-type:
       - application/json
       content-length:
       - '388'
       date:
-      - Thu, 19 Sep 2013 03:35:24 GMT
+      - Fri, 20 Sep 2013 07:59:26 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
       string: ! '{"volume": {"status": "creating", "display_name": "Aviator Volume
         Test Name", "attachments": [], "availability_zone": "nova", "bootable": "false",
-        "created_at": "2013-09-19T03:35:24.000572", "display_description": "Aviator
+        "created_at": "2013-09-20T07:59:26.833673", "display_description": "Aviator
         Volume Test Description", "volume_type": "None", "snapshot_id": null, "source_volid":
-        null, "metadata": {}, "id": "fcaf906a-ee89-4242-aca5-2045f2eb2905", "size":
+        null, "metadata": {}, "id": "4ff48b74-6123-454d-b5b8-60d0c4ffcb2d", "size":
         1}}'
     http_version: 
-  recorded_at: Thu, 19 Sep 2013 03:35:23 GMT
+  recorded_at: Fri, 20 Sep 2013 07:59:27 GMT
 recorded_with: VCR 2.5.0
