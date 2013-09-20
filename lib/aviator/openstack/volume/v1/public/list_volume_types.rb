@@ -9,8 +9,8 @@ module Aviator
 
     link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getVolumeTypes_v1__tenant_id__types_v1__tenant_id__types.html'
 
-    param :extra_specs,         required: false
-    param :name,                required: false
+    param :extra_specs, required: false
+    param :name,        required: false
 
     def headers
       {}.tap do |h|
