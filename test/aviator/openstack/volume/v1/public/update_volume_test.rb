@@ -1,16 +1,12 @@
 require 'test_helper'
 
 class Aviator::Test
-
-  describe 'aviator/openstack/compute/v2/public/update_server' do
-
+  describe 'aviator/openstack/volume/v1/public/update_volume' do
     def create_request(session_data = get_session_data, &block)
-      image_id  = session.compute_service.request(:list_images).body[:images].first[:id]
-      flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
+      volume_id  = session.volume_service.request(:list_volumes).body[:volumes].first[:id]
 
       klass.new(session_data, &block)
     end
-
 
     def get_session_data
       session.send :auth_info
@@ -23,7 +19,7 @@ class Aviator::Test
 
 
     def klass
-      @klass ||= helper.load_request('openstack', 'compute', 'v2', 'public', 'update_server.rb')
+      @klass ||= helper.load_request('openstack', 'volume', 'v1', 'public', 'update_volume.rb')
     end
 
 
@@ -39,14 +35,13 @@ class Aviator::Test
       @session
     end
 
-
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
     end
 
 
     validate_attr :api_version do
-      klass.api_version.must_equal :v2
+      klass.api_version.must_equal :v1
     end
 
 
@@ -57,12 +52,6 @@ class Aviator::Test
       request.body?.must_equal true
       request.body.wont_be_nil
     end
-
-
-    validate_attr :endpoint_type do
-      klass.endpoint_type.must_equal :public
-    end
-
 
     validate_attr :headers do
       headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
@@ -80,12 +69,10 @@ class Aviator::Test
 
     validate_attr :optional_params do
       klass.optional_params.must_equal [
-        :accessIPv4,
-        :accessIPv6,
-        :name
+        :display_name,
+        :display_description
       ]
     end
-
 
     validate_attr :required_params do
       klass.required_params.must_equal [
@@ -93,52 +80,46 @@ class Aviator::Test
       ]
     end
 
-
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-      server_id    = '105b09f0b6500d36168480ad84'
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }"
+      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'volume' }
+      volume_id    = 'doesitmatter'
+      url          = "#{ service_spec[:endpoints][0][:publicURL] }/volumes/#{ volume_id }"
 
       request = create_request do |params|
-        params[:id] = server_id
+        params[:id] = volume_id
       end
 
       request.url.must_equal url
     end
 
+    validate_response 'valid volume id is provided' do
+      volume    = session.volume_service.request(:list_volumes).body[:volumes].first
+      volume_id = volume[:id]
+      new_name  = 'Aviator Test Update Volume'
 
-    validate_response 'valid server id is provided' do
-      server    = session.compute_service.request(:list_servers).body[:servers].first
-      server_id = server[:id]
-      new_name  = 'Updated Server'
-
-      response = session.compute_service.request :update_server do |params|
-        params[:id]   = server_id
-        params[:name] = new_name
+      response = session.volume_service.request :update_volume do |params|
+        params[:id]           = volume_id
+        params[:display_name] = new_name
       end
 
       response.status.must_equal 200
       response.body.wont_be_nil
-      response.body[:server].wont_be_nil
-      response.body[:server][:name].must_equal new_name
+      response.body[:volume].wont_be_nil
+      response.body[:volume][:display_name].must_equal new_name
       response.headers.wont_be_nil
     end
 
+    validate_response 'invalid volume id is provided' do
+      volume_id = 'ithinkiexist'
 
-    validate_response 'invalid server id is provided' do
-      server_id = 'abogusserveridthatdoesnotexist'
-
-      response = session.compute_service.request :update_server do |params|
-        params[:id]   = server_id
-        params[:name] = 'it does not matter'
+      response = session.volume_service.request :update_volume do |params|
+        params[:id]   = volume_id
+        params[:display_name] = 'it does not matter'
       end
 
       response.status.must_equal 404
       response.body.wont_be_nil
       response.headers.wont_be_nil
     end
-
-
   end
-
 end
