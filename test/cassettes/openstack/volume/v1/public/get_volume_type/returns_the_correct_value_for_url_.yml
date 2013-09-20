@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2654'
       date:
-      - Fri, 20 Sep 2013 08:01:00 GMT
+      - Fri, 20 Sep 2013 08:00:17 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-20T08:01:00.561651",
-        "expires": "2013-09-20T14:01:00Z", "id": "edffcbd7040e4ca28aa239ebab689772",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-20T08:00:17.765302",
+        "expires": "2013-09-20T14:00:17Z", "id": "f39336bc4ba74a93840191ac113bc642",
         "tenant": {"description": "Used for Aviator testing/development ", "enabled":
         true, "id": "d770443fc60a410c843dc12b98ac8135", "name": "<OPENSTACK_MEMBER_TENANTNAME>"}},
         "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/d770443fc60a410c843dc12b98ac8135",
@@ -58,5 +58,5 @@ http_interactions:
         "Member"}], "name": "<OPENSTACK_MEMBER_USERNAME>"}, "metadata": {"is_admin":
         0, "roles": ["f970c227c0ee4512899606886348f67f"]}}}'
     http_version: 
-  recorded_at: Fri, 20 Sep 2013 08:01:00 GMT
+  recorded_at: Fri, 20 Sep 2013 08:00:17 GMT
 recorded_with: VCR 2.5.0
