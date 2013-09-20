@@ -8,7 +8,7 @@ module Aviator
 
     link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getVolumeType_v1__tenant_id__types__volume_type_id__v1__tenant_id__types.html'
 
-    param :id,              required: true
+    param :id, required: true
 
     def http_method
       :get
