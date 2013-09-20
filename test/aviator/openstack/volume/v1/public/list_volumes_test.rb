@@ -4,25 +4,43 @@ class Aviator::Test
 
   describe 'aviator/openstack/volume/v1/public/list_volumes' do
 
-    def create_request(session_data = new_session_data)
-      klass.new(session_data)
+    def create_request(session_data = get_session_data, &block)
+      klass.new(session_data, &block)
     end
 
 
-    def new_session_data
-      service = Aviator::Service.new(
-        provider: Environment.openstack_admin[:provider],
-        service:  Environment.openstack_admin[:auth_service][:name]
-      )
-
-      bootstrap = RequestHelper.admin_bootstrap_session_data
-
-      response = service.request :create_token, session_data: bootstrap do |params|
-        auth_credentials = Environment.openstack_admin[:auth_credentials]
-        auth_credentials.each { |key, value| params[key] = auth_credentials[key] }
+    def session
+      unless @session
+        @session = Aviator::Session.new(
+                     config_file: Environment.path,
+                     environment: 'openstack_member'
+                   )
+        @session.authenticate
       end
 
-      response.body
+      @session
+    end
+
+
+    def get_session_data
+      session.send :auth_info
+    end
+
+
+    def helper
+      Aviator::Test::RequestHelper
+    end
+
+    def session
+      unless @session
+        @session = Aviator::Session.new(
+                     config_file: Environment.path,
+                     environment: 'openstack_member'
+                   )
+        @session.authenticate
+      end
+
+      @session
     end
 
 
@@ -33,6 +51,14 @@ class Aviator::Test
 
     def klass
       @klass ||= helper.load_request('openstack', 'volume', 'v1', 'public', 'list_volumes.rb')
+    end
+
+    def create_volume
+      session.volume_service.request :create_volume do |params|
+        params[:display_name]         = 'Aviator Volume Test Name'
+        params[:display_description]  = 'Aviator Volume Test Description'
+        params[:size]                 = '1'
+      end
     end
 
     validate_attr :anonymous? do
@@ -57,11 +83,9 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      session_data = new_session_data
+      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
-
-      request = create_request(session_data)
+      request = create_request
 
       request.headers.must_equal headers
     end
@@ -91,13 +115,9 @@ class Aviator::Test
     end
 
     validate_response 'no parameters are provided' do
-      service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'volume',
-        default_session_data: new_session_data
-      )
+      create_volume
 
-      response = service.request :list_volumes
+      response = session.volume_service.request :list_volumes
 
       response.status.must_equal 200
       response.body.wont_be_nil
@@ -105,14 +125,23 @@ class Aviator::Test
       response.headers.wont_be_nil
     end
 
-    validate_response 'parameters are invalid' do
-      service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'volume',
-        default_session_data: new_session_data
-      )
+    validate_response 'parameters are valid' do
+      create_volume
 
-      response = service.request :list_volumes do |params|
+      response = session.volume_service.request :list_volumes do |params|
+        params[:details]      = true
+        params[:display_name] = 'Aviator Volume Test Name'
+      end
+
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:volumes].length.must_be :>=, 6
+      #assert response.body[:volumes].length >= 1
+      response.headers.wont_be_nil
+    end
+
+    validate_response 'parameters are invalid' do
+      response = session.volume_service.request :list_volumes do |params|
         params[:display_name] = "derpderp"
       end
 
@@ -121,24 +150,5 @@ class Aviator::Test
       response.body[:volumes].length.must_equal 0
       response.headers.wont_be_nil
     end
-
-    validate_response 'parameters are valid' do
-      service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'volume',
-        default_session_data: new_session_data
-      )
-
-      response = service.request :list_volumes do |params|
-        params[:details] = true
-        params[:display_name] = 'test'
-      end
-
-      response.status.must_equal 200
-      response.body.wont_be_nil
-      response.body[:volumes].length.must_equal 1
-      response.headers.wont_be_nil
-    end
   end
-
 end

@@ -36,6 +36,14 @@ class Aviator::Test
       @klass ||= helper.load_request('openstack', 'volume', 'v1', 'public', 'get_volume.rb')
     end
 
+    def create_volume
+      session.volume_service.request :create_volume do |params|
+        params[:display_name]         = 'Aviator Volume Test Name'
+        params[:display_description]  = 'Aviator Volume Test Description'
+        params[:size]                 = '1'
+      end
+    end
+
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -107,6 +115,8 @@ class Aviator::Test
 
 
     validate_response 'a valid volume id is provided' do
+
+      create_volume
 
       volume_id = session.volume_service.request(:list_volumes).body['volumes'].first['id']
 
