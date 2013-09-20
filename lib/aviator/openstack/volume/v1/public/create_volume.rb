@@ -6,13 +6,14 @@ module Aviator
     meta :api_version,      :v1
     meta :endpoint_type,    :public
 
-    link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/Create_Volume.html'
+    link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createVolume_v1__tenant_id__volumes_v1__tenant_id__volumes.html'
 
     param :display_name,                  required: true
     param :display_description,           required: true
     param :size,                          required: true
     param :volume_type,                   required: false
     param :availability_zone,             required: false
+    param :snapshot_id,                   required: false
     param :metadata,                      required: false
 
     def body

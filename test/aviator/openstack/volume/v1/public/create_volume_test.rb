@@ -85,6 +85,7 @@ class Aviator::Test
       klass.optional_params.must_equal [
         :volume_type,
         :availability_zone,
+        :snapshot_id,
         :metadata
       ]
     end

@@ -4,6 +4,10 @@ class Aviator::Test
   describe 'aviator/openstack/volume/v1/public/get_volume_type' do
 
     def create_request(session_data = get_session_data, &block)
+      block ||= lambda do |params|
+        params[:id] = 0
+      end
+
       klass.new(session_data, &block)
     end
 
@@ -49,18 +53,12 @@ class Aviator::Test
     validate_attr :headers do
       headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
 
-      request = create_request do |params|
-                  params[:id] = 'doesntmatter'
-                end
-
+      request = create_request
       request.headers.must_equal headers
     end
 
     validate_attr :http_method do
-      request = create_request do |params|
-                  params[:id] = 'doesntmatter'
-                end
-
+      request = create_request
       request.http_method.must_equal :get
     end
 

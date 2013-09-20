@@ -5,9 +5,12 @@ class Aviator::Test
   describe 'aviator/openstack/volume/v1/public/delete_volume' do
 
     def create_request(session_data = get_session_data, &block)
+      block ||= lambda do |params|
+        params[:id] = 0
+      end
+
       klass.new(session_data, &block)
     end
-
 
     def get_session_data
       session.send :auth_info
@@ -48,8 +51,7 @@ class Aviator::Test
 
 
     validate_attr :body do
-      request = create_request {|p| p[:id] = 0 }
-
+      request = create_request
       klass.body?.must_equal false
       request.body?.must_equal false
     end
@@ -63,14 +65,13 @@ class Aviator::Test
     validate_attr :headers do
       headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
 
-      request = create_request {|p| p[:id] = 0 }
-
+      request = create_request
       request.headers.must_equal headers
     end
 
 
     validate_attr :http_method do
-      create_request{|p| p[:id] = 0 }.http_method.must_equal :delete
+      create_request.http_method.must_equal :delete
     end
 
 

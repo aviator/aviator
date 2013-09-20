@@ -7,7 +7,7 @@ module Aviator
     meta :api_version,   :v1
     meta :endpoint_type, :public
 
-    link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/Update_Volume.html'
+    link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/PUT_renameVolume_v1__tenant_id__volumes__volume_id__v1__tenant_id__volumes.html'
 
     param :id,                  required: true
     param :display_name,        required: false
