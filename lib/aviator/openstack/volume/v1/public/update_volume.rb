@@ -9,15 +9,15 @@ module Aviator
 
     link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/Update_Volume.html'
 
-    param :id,          required: true
-    param :name,        required: false
-    param :description, required: false
+    param :id,                  required: true
+    param :display_name,        required: false
+    param :display_description, required: false
 
     def body
-      p = { server: {} }
+      p = { volume: {} }
 
-      [:name, :description].each do |key|
-        p[:server][key] = params[key] if params[key]
+      [:display_name, :display_description].each do |key|
+        p[:volume][key] = params[key] if params[key]
       end
 
       p
