@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["mmaglana@gmail.com"]
   spec.description   = %q{ A lightweight Ruby library for the OpenStack API }
   spec.summary       = %q{ A lightweight Ruby library for the OpenStack API }
-  spec.homepage      = "https://github.com/aviator/aviator"
+  spec.homepage      = "http://aviator.github.io/www/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
