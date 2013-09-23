@@ -8,19 +8,15 @@ module Aviator
     meta :endpoint_type, :public
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
+      {}.tap do |h|
+        h['X-Auth-Token'] = session_data[:access][:token][:id] unless self.anonymous?
       end
-
-      h
     end
 
 
     private
 
-    def url_for(endpoint_type)
+    def base_url_for(endpoint_type)
       service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
       service_spec[:endpoints][0]["#{ endpoint_type }URL".to_sym]
     end
