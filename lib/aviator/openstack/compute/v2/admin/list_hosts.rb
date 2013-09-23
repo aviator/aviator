@@ -1,8 +1,6 @@
 module Aviator
 
-  base_request = [:openstack, :common, :v2, :public, :base]
-
-  define_request :list_hosts, base_request do
+  define_request :list_hosts, inherit: [:openstack, :common, :v2, :public, :base] do
 
     meta :provider,      :openstack
     meta :service,       :compute

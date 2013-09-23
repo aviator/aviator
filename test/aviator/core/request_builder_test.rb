@@ -84,7 +84,7 @@ class Aviator::Test
           base[:name]
         ]
 
-        builder.define_request :child_request, base_request do; end
+        builder.define_request :child_request, inherit: base_request do; end
 
         child_req_hierarchy = [
           base[:provider],
@@ -110,7 +110,7 @@ class Aviator::Test
         non_existent_base = [:none, :existent, :base]
 
         the_method = lambda do
-          builder.define_request :child, non_existent_base do; end
+          builder.define_request :child, inherit: non_existent_base do; end
         end
 
         the_method.must_raise Aviator::BaseRequestNotFoundError
@@ -161,7 +161,7 @@ class Aviator::Test
         base_arr  = [:openstack, :identity, :v2, :public, :root]
         child_arr = base_arr.first(base_arr.length - 1) + [:child]
 
-        builder.define_request child_arr.last, base_arr do; end
+        builder.define_request child_arr.last, inherit: base_arr do; end
 
         base_klass = base_arr.inject(builder) do |namespace, sym|
           namespace.const_get(sym.to_s.camelize, false)

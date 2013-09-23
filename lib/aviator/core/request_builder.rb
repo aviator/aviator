@@ -26,8 +26,8 @@ module Aviator
 
     class << self
 
-      def define_request(root_namespace, request_name, base_hierarchy=[:request], &block)
-        base_klass = get_request_class(root_namespace, base_hierarchy)
+      def define_request(root_namespace, request_name, options, &block)
+        base_klass = get_request_class(root_namespace, options[:inherit])
 
         klass = Class.new(base_klass, &block)
 
@@ -80,8 +80,8 @@ module Aviator
 
   class << self
 
-    def define_request(request_name, base_hierarchy=[:request], &block)
-      RequestBuilder.define_request self, request_name, base_hierarchy, &block
+    def define_request(request_name, options={ inherit: [:request] }, &block)
+      RequestBuilder.define_request self, request_name, options, &block
     end
 
   end # class << self
