@@ -24,7 +24,7 @@ module Aviator
     param :marker,         required: false
     param :server,         required: false
     param :status,         required: false
-    param 'changes-since', required: false
+    param 'changes-since', required: false, alias: :changes_since
 
 
     def headers

@@ -78,17 +78,28 @@ class Aviator::Test
 
       create_request.url.must_equal url
     end
-    
-    
+
+
     validate_attr :url, 'when the host uri contains the api version' do
       host_uri = 'http://x.y.z:5000/v2.0'
-      
+
       request = klass.new({ auth_service: { host_uri: host_uri } }) do |params|
         params[:username] = Environment.openstack_admin[:auth_credentials][:username]
         params[:password] = Environment.openstack_admin[:auth_credentials][:password]
       end
-      
+
       request.url.must_equal "#{ host_uri }/tokens"
+    end
+
+
+    validate_attr :param_aliases do
+      aliases = {
+        token_id:    :tokenId,
+        tenant_name: :tenantName,
+        tenant_id:   :tenantId
+      }
+
+      klass.param_aliases.must_equal aliases
     end
 
 

@@ -7,11 +7,11 @@ module Aviator
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/Rebuild_Server-d1e3538.html'
 
-    param :accessIPv4,  required: false
-    param :accessIPv6,  required: false
-    param :adminPass,   required: true
+    param :accessIPv4,  required: false, alias: :access_ipv4
+    param :accessIPv6,  required: false, alias: :access_ipv6
+    param :adminPass,   required: true,  alias: :admin_pass
     param :id,          required: true
-    param :imageRef,    required: true
+    param :imageRef,    required: true,  alias: :image_ref
     param :metadata,    required: false
     param :name,        required: true
     param :personality, required: false

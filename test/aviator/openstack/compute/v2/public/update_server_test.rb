@@ -107,6 +107,16 @@ class Aviator::Test
     end
 
 
+    validate_attr :param_aliases do
+      aliases = {
+        access_ipv4: :accessIPv4,
+        access_ipv6: :accessIPv6
+      }
+
+      klass.param_aliases.must_equal aliases
+    end
+
+
     validate_response 'valid server id is provided' do
       server    = session.compute_service.request(:list_servers).body[:servers].first
       server_id = server[:id]

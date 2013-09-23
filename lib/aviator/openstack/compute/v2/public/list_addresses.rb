@@ -12,7 +12,7 @@ module Aviator
 
 
     param :id,        required: true
-    param :networkID, required: false
+    param :networkID, required: false, alias: :network_id
 
 
     def headers
