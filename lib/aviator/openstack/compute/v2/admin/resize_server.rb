@@ -1,11 +1,8 @@
 module Aviator
 
-  define_request :resize_server do
+  define_request :resize_server, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :compute
-    meta :api_version,   :v2
-    meta :endpoint_type, :admin
+    meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/Resize_Server-d1e3707.html'
@@ -26,13 +23,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -42,8 +33,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-      "#{ service_spec[:endpoints][0][:adminURL] }/servers/#{ params[:id] }/action"
+      "#{ base_url_for :admin }/servers/#{ params[:id] }/action"
     end
 
   end

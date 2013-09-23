@@ -1,15 +1,12 @@
 module Aviator
 
-  define_request :delete_role_from_user_on_tenant do
+  define_request :delete_role_from_user_on_tenant, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :identity
-    meta :api_version,   :v2
-    meta :endpoint_type, :admin
+    meta :service, :identity
 
 
     link 'documentation',
-      'http://docs.openstack.org/api/openstack-identity-service/2.0/content/DELETE_deleteRoleFromUserOnTenant_v2.0_tenants__tenantId__users__userId__roles_OS-KSADM__roleId__.html'
+         'http://docs.openstack.org/api/openstack-identity-service/2.0/content/DELETE_deleteRoleFromUserOnTenant_v2.0_tenants__tenantId__users__userId__roles_OS-KSADM__roleId__.html'
 
 
     param :tenant_id, required: true
@@ -18,13 +15,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -34,11 +25,8 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-      s  = "#{ service_spec[:endpoints][0][:adminURL] }/tenants/#{ params[:tenant_id] }"
-      s += "/users/#{ params[:user_id] }"
-      s += "/roles/OS-KSADM/#{ params[:role_id] }"
-      s
+      p = params
+      "#{ base_url_for :admin }/tenants/#{ p[:tenant_id] }/users/#{ p[:user_id] }/roles/OS-KSADM/#{ p[:role_id] }"
     end
 
   end

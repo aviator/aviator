@@ -1,12 +1,8 @@
 module Aviator
 
-  define_request :add_role_to_user_on_tenant do
+  define_request :add_role_to_user_on_tenant, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :identity
-    meta :api_version,   :v2
-    meta :endpoint_type, :admin
-
+    meta :service, :identity
 
     link 'documentation',
       'http://docs.openstack.org/api/openstack-identity-service/2.0/content/PUT_addRolesToUserOnTenant_v2.0_tenants__tenantId__users__userId__roles_OS-KSADM__roleId__.html'
@@ -18,13 +14,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -34,11 +24,8 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-      "#{ service_spec[:endpoints][0][:adminURL] }" \
-      "/tenants/#{ params[:tenant_id] }" \
-      "/users/#{ params[:user_id] }" \
-      "/roles/OS-KSADM/#{ params[:role_id] }"
+      p = params
+      "#{ base_url_for :admin }/tenants/#{ p[:tenant_id] }/users/#{ p[:user_id] }/roles/OS-KSADM/#{ p[:role_id] }"
     end
 
   end

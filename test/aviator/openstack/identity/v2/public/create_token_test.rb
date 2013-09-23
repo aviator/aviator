@@ -52,7 +52,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      create_request.headers?.must_equal false
+      create_request.headers?.must_equal true
     end
 
 

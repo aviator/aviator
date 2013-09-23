@@ -1,10 +1,9 @@
 module Aviator
 
-  define_request :create_volume do
-    meta :provider,       :openstack
+  define_request :create_volume, inherit: [:openstack, :common, :v2, :public, :base] do
+    
     meta :service,        :volume
     meta :api_version,    :v1
-    meta :endpoint_type,  :public
 
     link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createVolume_v1__tenant_id__volumes_v1__tenant_id__volumes.html'
 
@@ -33,9 +32,7 @@ module Aviator
     end
 
     def headers
-      {}.tap do |h|
-        h['X-Auth-Token'] = session_data[:access][:token][:id] unless self.anonymous?
-      end
+      super
     end
 
     def http_method
@@ -43,8 +40,7 @@ module Aviator
     end
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-      "#{ service_spec[:endpoints][0][:publicURL] }/volumes"
+      "#{ base_url_for :public }/volumes"
     end
   end
 

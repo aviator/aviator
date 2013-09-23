@@ -1,11 +1,9 @@
 module Aviator
 
-  define_request :list_volumes do
+  define_request :list_volumes, inherit: [:openstack, :common, :v2, :public, :base] do
 
-    meta :provider,       :openstack
     meta :service,        :volume
     meta :api_version,    :v1
-    meta :endpoint_type,  :public
 
     link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getVolumesSimple_v1__tenant_id__volumes_v1__tenant_id__volumes.html'
 
@@ -21,9 +19,7 @@ module Aviator
 
 
     def headers
-      {}.tap do |h|
-        h['X-Auth-Token'] = session_data[:access][:token][:id] unless self.anonymous?
-      end
+      super
     end
 
     def http_method
@@ -31,20 +27,9 @@ module Aviator
     end
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-
-      str  = "#{ service_spec[:endpoints][0][:publicURL] }/volumes"
+      str  = "#{ base_url_for :public }/volumes"
       str += "/detail" if params[:details]
-
-      filters = []
-
-      (optional_params + required_params - [:details]).each do |param_name|
-        filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
-      end
-
-      str += "?#{ filters.join('&') }" unless filters.empty?
-
-      str
+      str += params_to_querystring(optional_params + required_params - [:details])
     end
 
   end
