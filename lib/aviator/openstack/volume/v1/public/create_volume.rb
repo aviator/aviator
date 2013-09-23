@@ -1,20 +1,20 @@
 module Aviator
 
   define_request :create_volume do
-    meta :provider,         :openstack
-    meta :service,          :volume
-    meta :api_version,      :v1
-    meta :endpoint_type,    :public
+    meta :provider,       :openstack
+    meta :service,        :volume
+    meta :api_version,    :v1
+    meta :endpoint_type,  :public
 
     link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createVolume_v1__tenant_id__volumes_v1__tenant_id__volumes.html'
 
-    param :display_name,                  required: true
-    param :display_description,           required: true
-    param :size,                          required: true
-    param :volume_type,                   required: false
-    param :availability_zone,             required: false
-    param :snapshot_id,                   required: false
-    param :metadata,                      required: false
+    param :display_name,        required: true
+    param :display_description, required: true
+    param :size,                required: true
+    param :volume_type,         required: false
+    param :availability_zone,   required: false
+    param :snapshot_id,         required: false
+    param :metadata,            required: false
 
     def body
       p = {
