@@ -1,10 +1,10 @@
 module Aviator
 
   define_request :get_volume_type do
-    meta :provider,         :openstack
-    meta :service,          :volume
-    meta :api_version,      :v1
-    meta :endpoint_type,    :public
+    meta :provider,       :openstack
+    meta :service,        :volume
+    meta :api_version,    :v1
+    meta :endpoint_type,  :public
 
     link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getVolumeType_v1__tenant_id__types__volume_type_id__v1__tenant_id__types.html'
 
