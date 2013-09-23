@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :get_volume do
+  define_request :get_volume, inherit: [:openstack, :common, :v2, :public, :base] do
     meta :provider,       :openstack
     meta :service,        :volume
     meta :api_version,    :v1
@@ -11,9 +11,7 @@ module Aviator
     param :id, required: true
 
     def headers
-      {}.tap do |h|
-        h['X-Auth-Token'] = session_data[:access][:token][:id] unless self.anonymous?
-      end
+      super
     end
 
     def http_method
@@ -21,9 +19,7 @@ module Aviator
     end
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-
-      "#{ service_spec[:endpoints][0][:publicURL] }/volumes/#{ params[:id] }"
+      "#{ base_url_for :public }/volumes/#{ params[:id] }"
     end
 
 
