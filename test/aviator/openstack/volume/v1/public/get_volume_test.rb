@@ -2,12 +2,15 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'aviator/openstack/compute/v2/public/get_server' do
+  describe 'aviator/openstack/volume/v1/public/get_volume' do
 
     def create_request(session_data = get_session_data, &block)
+      block ||= lambda do |params|
+        params[:id] = 0
+      end
+
       klass.new(session_data, &block)
     end
-
 
     def session
       unless @session
@@ -33,7 +36,15 @@ class Aviator::Test
 
 
     def klass
-      @klass ||= helper.load_request('openstack', 'compute', 'v2', 'public', 'get_server.rb')
+      @klass ||= helper.load_request('openstack', 'volume', 'v1', 'public', 'get_volume.rb')
+    end
+
+    def create_volume
+      session.volume_service.request :create_volume do |params|
+        params[:display_name]         = 'Aviator Volume Test Name'
+        params[:display_description]  = 'Aviator Volume Test Description'
+        params[:size]                 = '1'
+      end
     end
 
 
@@ -43,17 +54,14 @@ class Aviator::Test
 
 
     validate_attr :api_version do
-      klass.api_version.must_equal :v2
+      klass.api_version.must_equal :v1
     end
 
 
     validate_attr :body do
       klass.body?.must_equal false
 
-      request = create_request do |params|
-                  params[:id] = 'doesntmatter'
-                end
-
+      request = create_request
       request.body?.must_equal false
     end
 
@@ -66,19 +74,13 @@ class Aviator::Test
     validate_attr :headers do
       headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
 
-      request = create_request do |params|
-                  params[:id] = 'doesntmatter'
-                end
-
+      request = create_request
       request.headers.must_equal headers
     end
 
 
     validate_attr :http_method do
-      request = create_request do |params|
-                  params[:id] = 'doesntmatter'
-                end
-
+      request = create_request
       request.http_method.must_equal :get
     end
 
@@ -94,38 +96,40 @@ class Aviator::Test
 
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-      server_id    = '52415800-8b69-11e0-9b19-734f000004d2'
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }"
+      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'volume' }
+      volume_id    = '52415800-8b69-11e0-9b19-734f000004d2'
+      url          = "#{ service_spec[:endpoints][0][:publicURL] }/volumes/#{ volume_id }"
 
       request = create_request do |p|
-        p[:id] = server_id
+        p[:id] = volume_id
       end
 
       request.url.must_equal url
     end
 
 
-    validate_response 'a valid server id is provided' do
-      server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
+    validate_response 'a valid volume id is provided' do
 
-      response = session.compute_service.request :get_server do |params|
-        params[:id] = server_id
+      create_volume
+
+      volume_id = session.volume_service.request(:list_volumes).body['volumes'].first['id']
+
+      response = session.volume_service.request :get_volume do |params|
+        params[:id] = volume_id
       end
 
       response.status.must_equal 200
       response.body.wont_be_nil
-      response.body[:server].wont_be_nil
-      response.body[:server][:id].must_equal server_id
+      response.body[:volume].wont_be_nil
+      response.body[:volume][:id].must_equal volume_id
       response.headers.wont_be_nil
     end
 
+    validate_response 'an invalid volume id is provided' do
+      volume_id = 'bogusserveridthatdoesntexist'
 
-    validate_response 'an invalid server id is provided' do
-      server_id = 'bogusserveridthatdoesntexist'
-
-      response = session.compute_service.request :get_server do |params|
-        params[:id] = server_id
+      response = session.volume_service.request :get_volume do |params|
+        params[:id] = volume_id
       end
 
       response.status.must_equal 404
@@ -134,5 +138,4 @@ class Aviator::Test
     end
 
   end
-
 end

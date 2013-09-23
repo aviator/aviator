@@ -35,7 +35,7 @@ module Aviator
     end
 
 
-    class Logger < Faraday::Response::Logger      
+    class Logger < Faraday::Response::Logger
       def initialize(app, logger=nil)
         super(app)
         @logger = logger || begin
@@ -50,7 +50,7 @@ module Aviator
 
     attr_reader :service,
                 :provider
-                
+
 
     def initialize(opts={})
       @provider = opts[:provider] || (raise ProviderNotDefinedError.new)
@@ -88,8 +88,8 @@ module Aviator
     def request_classes
       @request_classes
     end
-    
-    
+
+
     private
 
 
@@ -117,20 +117,20 @@ module Aviator
                        end
 
       namespace = Aviator.const_get(provider.camelize)
-                         .const_get(service.camelize)   
+                         .const_get(service.camelize)
 
       version = infer_version(session_data).to_s.camelize
-            
+
       return nil unless version && namespace.const_defined?(version)
 
       namespace = namespace.const_get(version)
 
       endpoint_types.each do |endpoint_type|
         name = name.to_s.camelize
-        
+
         next unless namespace.const_defined?(endpoint_type)
         next unless namespace.const_get(endpoint_type).const_defined?(name)
-        
+
         return namespace.const_get(endpoint_type).const_get(name)
       end
 
@@ -169,21 +169,21 @@ module Aviator
                            )
 
       request_file_paths.each{ |path| require path }
-      
+
       constant_parts = request_file_paths
                         .map{|rf| rf.to_s.match(/#{provider}\/#{service}\/([\w\/]+)\.rb$/) }
                         .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
-      
-      @request_classes = constant_parts.map do |cp| 
+
+      @request_classes = constant_parts.map do |cp|
         "Aviator::#{provider.camelize}::#{service.camelize}::#{cp}".constantize
       end
     end
-    
-    
+
+
     def log_file
       @log_file
     end
-    
+
   end
 
 end
