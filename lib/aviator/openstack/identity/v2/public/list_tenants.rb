@@ -1,11 +1,8 @@
 module Aviator
   
-  define_request :list_tenants do
+  define_request :list_tenants, inherit: [:openstack, :common, :v2, :public, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :identity
-    meta :api_version,   :v2
-    meta :endpoint_type, :public
+    meta :service, :identity
   
     link 'documentation',
          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/GET_listTenants_v2.0_tokens_tenants_.html'
@@ -19,29 +16,13 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
-      str = "#{ service_spec[:endpoints][0][:publicURL] }/tenants"
-    
-      filters = []
-    
-      (optional_params + required_params).each do |param_name|
-        filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
-      end
-    
-      str += "?#{ filters.join('&') }" unless filters.empty?
-    
-      str
+      str = "#{ base_url_for :public }/tenants"
+      str += params_to_querystring(optional_params + required_params)
     end
 
   
     def headers
-      h = {}
-    
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
   
   

@@ -1,11 +1,8 @@
 module Aviator
   
-  define_request :delete_image do
+  define_request :delete_image, inherit: [:openstack, :common, :v2, :public, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :compute
-    meta :api_version,   :v2
-    meta :endpoint_type, :public
+    meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/Delete_Image-d1e4957.html'
@@ -14,13 +11,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -30,9 +21,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-
-      "#{ service_spec[:endpoints][0][:publicURL] }/images/#{ params[:id]}"
+      "#{ base_url_for :public }/images/#{ params[:id]}"
     end
 
   end

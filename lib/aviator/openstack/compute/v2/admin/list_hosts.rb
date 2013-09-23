@@ -1,14 +1,11 @@
 module Aviator
 
-  define_request :list_hosts do
+  define_request :list_hosts, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :compute
-    meta :api_version,   :v2
-    meta :endpoint_type, :admin
+    meta :service, :compute
 
     link 'documentation',
-      'http://api.openstack.org/api-ref.html#ext-os-hosts'
+         'http://api.openstack.org/api-ref.html#ext-os-hosts'
 
     link 'documentation bug',
          'https://bugs.launchpad.net/nova/+bug/1224763'
@@ -18,13 +15,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -34,9 +25,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-
-      url = "#{ service_spec[:endpoints][0][:adminURL] }/os-hosts"
+      url = "#{ base_url_for :admin }/os-hosts"
 
       filters = []
 
