@@ -48,36 +48,36 @@ class Aviator::Test
     validate_attr :api_version do
       klass.api_version.must_equal :v2
     end
-    
-    
+
+
     validate_attr :body do
       request = create_request{|p| p[:id] = 0 }
-    
+
       klass.body?.must_equal true
       request.body?.must_equal true
       request.body.wont_be_nil
     end
-    
-    
+
+
     validate_attr :endpoint_type do
       klass.endpoint_type.must_equal :public
     end
-    
-    
+
+
     validate_attr :headers do
       headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
-    
+
       request = create_request{|p| p[:id] = 0 }
-    
+
       request.headers.must_equal headers
     end
-    
-    
+
+
     validate_attr :http_method do
       create_request{|p| p[:id] = 0 }.http_method.must_equal :put
     end
-    
-    
+
+
     validate_attr :optional_params do
       klass.optional_params.must_equal [
         :accessIPv4,
@@ -85,38 +85,38 @@ class Aviator::Test
         :name
       ]
     end
-    
-    
+
+
     validate_attr :required_params do
       klass.required_params.must_equal [
         :id
       ]
     end
-    
-    
+
+
     validate_attr :url do
       service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       server_id    = '105b09f0b6500d36168480ad84'
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }"
-        
+
       request = create_request do |params|
         params[:id] = server_id
       end
-    
+
       request.url.must_equal url
     end
-    
-    
+
+
     validate_response 'valid server id is provided' do
       server    = session.compute_service.request(:list_servers).body[:servers].first
       server_id = server[:id]
       new_name  = 'Updated Server'
-      
+
       response = session.compute_service.request :update_server do |params|
         params[:id]   = server_id
         params[:name] = new_name
       end
-    
+
       response.status.must_equal 200
       response.body.wont_be_nil
       response.body[:server].wont_be_nil
@@ -127,18 +127,18 @@ class Aviator::Test
 
     validate_response 'invalid server id is provided' do
       server_id = 'abogusserveridthatdoesnotexist'
-      
+
       response = session.compute_service.request :update_server do |params|
         params[:id]   = server_id
         params[:name] = 'it does not matter'
       end
-    
+
       response.status.must_equal 404
       response.body.wont_be_nil
       response.headers.wont_be_nil
     end
-    
-    
+
+
   end
 
 end

@@ -1,11 +1,8 @@
 module Aviator
-  
-  define_request :list_servers do
 
-    meta :provider,      :openstack
-    meta :service,       :compute
-    meta :api_version,   :v2
-    meta :endpoint_type, :public
+  define_request :list_servers, inherit: [:openstack, :common, :v2, :public, :base] do
+
+    meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/List_Servers-d1e2078.html'
@@ -31,36 +28,28 @@ module Aviator
 
 
     def headers
-      h = {}
-  
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-  
-      h
+      super
     end
-  
-  
+
+
     def http_method
       :get
     end
-  
-  
-    def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
 
-      str  = "#{ service_spec[:endpoints][0][:publicURL] }/servers"
+
+    def url
+      str  = "#{ base_url_for :public }/servers"
       str += "/detail" if params[:details]
-    
+
       filters = []
-    
+
       (optional_params + required_params - [:details]).each do |param_name|
         value = param_name == :all_tenants && params[param_name] ? 1 : params[param_name] 
         filters << "#{ param_name }=#{ value }" if value
       end
-    
+
       str += "?#{ filters.join('&') }" unless filters.empty?
-    
+
       str
     end
 

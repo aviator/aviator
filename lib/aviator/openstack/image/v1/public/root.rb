@@ -1,20 +1,12 @@
 module Aviator
 
-  define_request :root do
+  define_request :root, inherit: [:openstack, :common, :v2, :public, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :image
-    meta :api_version,   :v1
-    meta :endpoint_type, :public
+    meta :service,     :image
+    meta :api_version, :v1
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -24,8 +16,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-      uri = URI(service_spec[:endpoints][0][:publicURL])
+      uri = URI(base_url_for(:public))
       "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v1/"
     end
 

@@ -1,20 +1,14 @@
 module Aviator
 
-  define_request :list_projects do
+  define_request :list_projects, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
     meta :service,       :metering
     meta :api_version,   :v1
     meta :endpoint_type, :admin
 
+
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -24,8 +18,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
-      uri = URI(service_spec[:endpoints][0][:adminURL])
+      uri = URI(base_url_for(:admin))
       "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v1/projects"
     end
 

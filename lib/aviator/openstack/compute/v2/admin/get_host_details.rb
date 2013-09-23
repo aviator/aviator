@@ -1,11 +1,8 @@
 module Aviator
 
-  define_request :get_host_details do
+  define_request :get_host_details, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :compute
-    meta :api_version,   :v2
-    meta :endpoint_type, :admin
+    meta :service, :compute
 
     link 'documentation',
       'http://api.openstack.org/api-ref.html#ext-os-hosts'
@@ -14,13 +11,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -30,9 +21,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-
-      "#{ service_spec[:endpoints][0][:adminURL] }/os-hosts/#{ params[:host_name] }"
+      "#{ base_url_for :admin }/os-hosts/#{ params[:host_name] }"
     end
 
   end

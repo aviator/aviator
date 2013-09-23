@@ -1,11 +1,8 @@
 module Aviator
 
-  define_request :create_tenant do
+  define_request :create_tenant, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :identity
-    meta :api_version,   :v2
-    meta :endpoint_type, :admin
+    meta :service, :identity
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/'
@@ -28,13 +25,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -44,8 +35,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
-      "#{ service_spec[:endpoints][0][:adminURL] }/tenants"
+      "#{ base_url_for :admin }/tenants"
     end
 
   end
