@@ -9,7 +9,7 @@ module Aviator
 
     param :id,        required: true
     param :name,      required: true
-    param :flavorRef, required: true
+    param :flavorRef, required: true, alias: :flavor_ref
 
 
     def body

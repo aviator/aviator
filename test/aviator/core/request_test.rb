@@ -211,6 +211,38 @@ class Aviator::Test
         error.message.wont_be_nil
         error.message.must_include "private method"
       end
+      
+      
+      it 'accepts an alias for a given parameter' do
+        klass = Class.new(Aviator::Request) do
+                  param :the_param, required: true, alias: :the_alias
+                end
+        
+        param_val = 999
+        
+        req = klass.new do |params|
+                params.the_param = param_val
+              end
+        
+        req.params.the_param.must_equal param_val
+        req.params.the_alias.must_equal param_val
+      end
+      
+      
+      it 'makes the param alias assignable' do
+        klass = Class.new(Aviator::Request) do
+                  param :the_param, required: true, alias: :the_alias
+                end
+        
+        param_val = 999
+        
+        req = klass.new do |params|
+                params.the_alias = param_val
+              end
+        
+        req.params.the_param.must_equal param_val
+        req.params.the_alias.must_equal param_val
+      end
     
     end
     

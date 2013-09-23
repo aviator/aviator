@@ -10,7 +10,7 @@ module Aviator
     link 'additional spec',
          'https://answers.launchpad.net/nova/+question/228462'
 
-    param :adminPass, required: true
+    param :adminPass, required: true, alias: :admin_pass
     param :id,        required: true
 
 

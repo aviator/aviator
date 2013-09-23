@@ -53,7 +53,7 @@ module Aviator
     def links
       self.class.links
     end
-    
+
 
     def optional_params
       self.class.optional_params
@@ -83,7 +83,7 @@ module Aviator
     def querystring?
       self.class.querystring?
     end
-    
+
 
     def url?
       self.class.url?
@@ -121,18 +121,34 @@ module Aviator
       def headers?
         instance_methods.include? :headers
       end
-            
-      
+
+
       def links
         @links ||= []
       end
 
 
+      def param_aliases
+        @param_aliases ||= {}
+      end
+
+
       def params_class
-        all_params = required_params + optional_params
+        all_params    = required_params + optional_params
+        param_aliases = self.param_aliases
 
         if all_params.length > 0
-          @params_class ||= Struct.new(*all_params)
+          @params_class ||= Struct.new(*all_params) do
+                              param_aliases.each do |param_alias, param_name|
+                                define_method param_alias do
+                                  self[param_name]
+                                end
+                                
+                                define_method "#{ param_alias }=" do |value|
+                                  self[param_name] = value
+                                end
+                              end
+                            end
         end
 
         @params_class
@@ -147,12 +163,12 @@ module Aviator
       def querystring?
         instance_methods.include? :querystring
       end
-      
+
 
       def required_params
         @required_params ||= []
       end
-      
+
 
       def url?
         instance_methods.include? :url
@@ -176,12 +192,16 @@ module Aviator
           self.class.send(attr_name)
         end
       end
-      
+
 
       def param(param_name, opts={})
         opts  = opts.with_indifferent_access
         list  = (opts[:required] == false ? optional_params : required_params)
         list << param_name unless optional_params.include?(param_name)
+
+        if opts[:alias]
+          self.param_aliases[opts[:alias]] = param_name
+        end
       end
 
     end

@@ -136,6 +136,15 @@ class Aviator::Test
     end
 
 
+    validate_attr :param_aliases do
+      aliases = {
+        changes_since: 'changes-since'
+      }
+
+      klass.param_aliases.must_equal aliases
+    end
+
+
     validate_response 'no parameters are provided' do
       service = Aviator::Service.new(
         provider: 'openstack',

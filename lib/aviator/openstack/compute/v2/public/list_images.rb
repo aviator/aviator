@@ -11,7 +11,7 @@ module Aviator
     param :server,         required: false
     param :name,           required: false
     param :status,         required: false
-    param 'changes-since', required: false
+    param 'changes-since', required: false, alias: :changes_since
     param :marker,         required: false
     param :limit,          required: false
     param :type,           required: false

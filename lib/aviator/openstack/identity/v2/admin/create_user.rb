@@ -23,7 +23,7 @@ module Aviator
 
     param :email,     required: false
     param :enabled,   required: false
-    param :tenantId,  required: false
+    param :tenantId,  required: false, alias: :tenant_id
 
 
     def body

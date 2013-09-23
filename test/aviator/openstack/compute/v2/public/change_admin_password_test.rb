@@ -93,6 +93,15 @@ class Aviator::Test
     end
     
     
+    validate_attr :param_aliases do
+      aliases = {
+        admin_pass: :adminPass
+      }
+      
+      klass.param_aliases.must_equal aliases
+    end
+        
+    
     validate_attr :url do
       service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       server_id    = '105b09f0b6500d36168480ad84'

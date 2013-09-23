@@ -14,9 +14,9 @@ module Aviator
 
     param :username,   required: false
     param :password,   required: false
-    param :tokenId,    required: false
-    param :tenantName, required: false
-    param :tenantId,   required: false
+    param :tokenId,    required: false, alias: :token_id
+    param :tenantName, required: false, alias: :tenant_name
+    param :tenantId,   required: false, alias: :tenant_id
 
 
     def body
