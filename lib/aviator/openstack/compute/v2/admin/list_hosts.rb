@@ -1,14 +1,11 @@
 module Aviator
 
-  define_request :list_hosts, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :list_hosts, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :compute
-    meta :api_version,   :v2
-    meta :endpoint_type, :admin
+    meta :service, :compute
 
     link 'documentation',
-      'http://api.openstack.org/api-ref.html#ext-os-hosts'
+         'http://api.openstack.org/api-ref.html#ext-os-hosts'
 
     link 'documentation bug',
          'https://bugs.launchpad.net/nova/+bug/1224763'
@@ -28,7 +25,7 @@ module Aviator
 
 
     def url
-      url = "#{ base_url_for(:admin) }/os-hosts"
+      url = "#{ base_url_for :admin }/os-hosts"
 
       filters = []
 

@@ -1,12 +1,9 @@
 module Aviator
 
-  define_request :create_token do
+  define_request :create_token, inherit: [:openstack, :common, :v2, :public, :base] do
 
-    meta :anonymous,     true
-    meta :provider,      :openstack
-    meta :service,       :identity
-    meta :api_version,   :v2
-    meta :endpoint_type, :public
+    meta :anonymous, true
+    meta :service,   :identity
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/POST_authenticate_v2.0_tokens_.html'
@@ -58,8 +55,6 @@ module Aviator
       url  = session_data[:auth_service][:host_uri]
       url += '/v2.0' if (URI(url).path =~ /^\/?\w+/).nil?
       url += "/tokens"
-
-      url
     end
 
   end

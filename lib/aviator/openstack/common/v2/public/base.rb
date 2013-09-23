@@ -21,6 +21,17 @@ module Aviator
       service_spec[:endpoints][0]["#{ endpoint_type }URL".to_sym]
     end
 
+
+    def params_to_querystring(param_names)
+      filters = []
+
+      param_names.each do |param_name|
+        filters << "#{ param_name }=#{ params[param_name] }" if params[param_name]
+      end
+
+      filters.empty? ? "" : "?#{ filters.join('&') }"
+    end
+
   end
 
 end

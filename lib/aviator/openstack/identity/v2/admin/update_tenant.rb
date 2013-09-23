@@ -1,11 +1,8 @@
 module Aviator
 
-  define_request :update_tenant do
+  define_request :update_tenant, inherit: [:openstack, :common, :v2, :admin, :base] do
 
-    meta :provider,      :openstack
-    meta :service,       :identity
-    meta :api_version,   :v2
-    meta :endpoint_type, :admin
+    meta :service, :identity
 
 
     link 'documentation',
@@ -32,13 +29,7 @@ module Aviator
 
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -48,8 +39,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-      "#{ service_spec[:endpoints][0][:adminURL] }/tenants/#{ params[:id] }"
+      "#{ base_url_for :admin }/tenants/#{ params[:id] }"
     end
 
   end
