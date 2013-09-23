@@ -188,7 +188,6 @@ class Aviator::Test
       response.headers.wont_be_nil
     end
 
-
     validate_response 'the all_tenants parameter is provided' do
       current_tenant = admin_session.send(:auth_info)[:access][:token][:tenant]
 
