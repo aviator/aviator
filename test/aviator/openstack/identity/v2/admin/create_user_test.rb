@@ -119,6 +119,15 @@ class Aviator::Test
     end
 
 
+    validate_attr :param_aliases do
+      aliases = {
+        tenant_id: :tenantId
+      }
+
+      klass.param_aliases.must_equal aliases
+    end
+
+
     validate_response 'invalid param is provided' do
       service = session.identity_service
 

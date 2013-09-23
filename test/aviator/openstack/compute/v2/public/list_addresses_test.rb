@@ -108,6 +108,15 @@ class Aviator::Test
     end
     
     
+    validate_attr :param_aliases do
+      aliases = {
+        network_id: :networkID
+      }
+      
+      klass.param_aliases.must_equal aliases
+    end
+        
+    
     validate_response 'a valid server id is provided' do
       server_id = session.compute_service.request(:list_servers).body[:servers].first[:id]
       

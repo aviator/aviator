@@ -105,6 +105,15 @@ class Aviator::Test
     end
 
 
+    validate_attr :param_aliases do
+      aliases = {
+        tenant_id: :tenantId
+      }
+
+      klass.param_aliases.must_equal aliases
+    end
+
+
     validate_response 'valid user id is provided' do
       # must be hardcoded so as not to inadvertently alter random resources
       # in case the corresponding cassette is deleted

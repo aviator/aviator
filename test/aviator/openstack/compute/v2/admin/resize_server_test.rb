@@ -117,6 +117,15 @@ class Aviator::Test
         :flavorRef
       ]
     end
+    
+    
+    validate_attr :param_aliases do
+      aliases = {
+        flavor_ref: :flavorRef
+      }
+      
+      klass.param_aliases.must_equal aliases
+    end
 
 
     validate_attr :url do
