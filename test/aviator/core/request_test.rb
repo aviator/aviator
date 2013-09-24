@@ -243,6 +243,38 @@ class Aviator::Test
         req.params.the_param.must_equal param_val
         req.params.the_alias.must_equal param_val
       end
+      
+      
+      it 'allows aliases to be accessible as symbols' do
+        klass = Class.new(Aviator::Request) do
+                  param :the_param, required: true, alias: :the_alias
+                end
+        
+        param_val = 999
+        
+        req = klass.new do |params|
+                params[:the_alias] = param_val
+              end
+        
+        req.params[:the_param].must_equal param_val
+        req.params[:the_alias].must_equal param_val
+      end
+
+
+      it 'allows aliases to be accessible as strings' do
+        klass = Class.new(Aviator::Request) do
+                  param :the_param, required: true, alias: :the_alias
+                end
+        
+        param_val = 999
+        
+        req = klass.new do |params|
+                params['the_alias'] = param_val
+              end
+        
+        req.params['the_param'].must_equal param_val
+        req.params['the_alias'].must_equal param_val
+      end
     
     end
     
