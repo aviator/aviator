@@ -5,7 +5,7 @@ http_interactions:
     uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_USERNAME>_password"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
     headers:
       Content-Type:
       - application/json
@@ -21,15 +21,15 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '2710'
+      - '2652'
       date:
-      - Tue, 24 Sep 2013 03:47:38 GMT
+      - Tue, 24 Sep 2013 05:01:16 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-09-24T03:47:38.012645",
-        "expires": "2013-09-24T09:47:37Z", "id": "64c6949a98d44686b4264d81ebd42c9f",
+      string: ! '{"access": {"token": {"issued_at": "2013-09-24T05:01:16.146909",
+        "expires": "2013-09-24T11:01:16Z", "id": "59df4685b4154e19ae49cad3c1376979",
         "tenant": {"description": "<OPENSTACK_ADMIN_TENANTNAME>", "enabled": true,
         "id": "f8349cebe4d14ff6b27e7038527f4eeb", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
         "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/f8349cebe4d14ff6b27e7038527f4eeb",
@@ -55,9 +55,8 @@ http_interactions:
         "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
         [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_MEMBER_USERNAME>",
         "roles_links": [], "id": "2362489f346a4cf292378283bb0a2f6d", "roles": [{"name":
-        "_member_"}, {"name": "Member"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
-        "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
-        "b9825284e3cf44fcb3c3953034ab2f08"]}}}'
+        "Member"}], "name": "<OPENSTACK_MEMBER_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["b9825284e3cf44fcb3c3953034ab2f08"]}}}'
     http_version: 
-  recorded_at: Tue, 24 Sep 2013 03:47:38 GMT
+  recorded_at: Tue, 24 Sep 2013 05:01:16 GMT
 recorded_with: VCR 2.5.0
