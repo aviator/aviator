@@ -134,21 +134,10 @@ module Aviator
 
 
       def params_class
-        all_params    = required_params + optional_params
-        param_aliases = self.param_aliases
+        all_params = required_params + optional_params
 
-        if all_params.length > 0
-          @params_class ||= Struct.new(*all_params) do
-                              param_aliases.each do |param_alias, param_name|
-                                define_method param_alias do
-                                  self[param_name]
-                                end
-                                
-                                define_method "#{ param_alias }=" do |value|
-                                  self[param_name] = value
-                                end
-                              end
-                            end
+        if all_params.length > 0 && @params_class.nil?
+          @params_class = build_params_class(all_params, self.param_aliases)
         end
 
         @params_class
@@ -176,6 +165,34 @@ module Aviator
 
 
       private
+
+
+      def build_params_class(all_params, param_aliases)
+        Struct.new(*all_params) do
+          alias :param_getter :[]
+          alias :param_setter :[]=
+
+          define_method :[] do |key|
+            key = param_aliases[key.to_sym] if param_aliases.keys.include? key.to_sym
+            param_getter(key)
+          end
+
+          define_method :[]= do |key, value|
+            key = param_aliases[key.to_sym] if param_aliases.keys.include? key.to_sym
+            param_setter(key, value)
+          end
+
+          param_aliases.each do |param_alias, param_name|
+            define_method param_alias do
+              param_getter(param_name)
+            end
+
+            define_method "#{ param_alias }=" do |value|
+              param_setter(param_name, value)
+            end
+          end
+        end
+      end
 
 
       def link(rel, href)
