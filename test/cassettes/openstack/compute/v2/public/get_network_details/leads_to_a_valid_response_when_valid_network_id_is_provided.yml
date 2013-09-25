@@ -1,0 +1,136 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"},"tenantName":"<OPENSTACK_MEMBER_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2722'
+      date:
+      - Tue, 24 Sep 2013 05:59:14 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-24T05:59:14.899689",
+        "expires": "2013-09-24T11:59:14Z", "id": "3531931fffd4469f8d6921a9b27ade1f",
+        "tenant": {"description": "<OPENSTACK_MEMBER_TENANTNAME>", "enabled": true,
+        "id": "6014e5ca913340de90bcd9614320d1f1", "name": "<OPENSTACK_MEMBER_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "http://127.0.0.1:8774/v2/6014e5ca913340de90bcd9614320d1f1",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/6014e5ca913340de90bcd9614320d1f1",
+        "id": "01a3fc1aa6604ce29ff60ccec06e3c21", "publicURL": "http://127.0.0.1:8774/v2/6014e5ca913340de90bcd9614320d1f1"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:9292", "region": "RegionOne", "internalURL":
+        "http://127.0.0.1:9292", "id": "0a2209305d9c4a7d9f73482e2cb71e69",
+        "publicURL": "http://127.0.0.1:9292"}], "endpoints_links":
+        [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL": "http://127.0.0.1:8777",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8777",
+        "id": "13f0bcdb6b254044bc8d509d3b05cf1b", "publicURL": "http://127.0.0.1:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8776/v1/6014e5ca913340de90bcd9614320d1f1",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/6014e5ca913340de90bcd9614320d1f1",
+        "id": "786cb0ca09534f0db5c794e91c7245ab", "publicURL": "http://127.0.0.1:8776/v1/6014e5ca913340de90bcd9614320d1f1"}],
+        "endpoints_links": [], "type": "volume", "name": "nova_volume"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "http://127.0.0.1:8773/services/Cloud",
+        "id": "75fa5594ac97402c8d4bafaba30506ec", "publicURL": "http://127.0.0.1:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:35357/v2.0", "region": "RegionOne", "internalURL":
+        "http://127.0.0.1:5000/v2.0", "id": "8b3b1b6d909b4d0cb88218de568bacae",
+        "publicURL": "http://127.0.0.1:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_MEMBER_USERNAME>",
+        "roles_links": [], "id": "f96e62b4080a486489015b41d42bc4a3", "roles": [{"name":
+        "_member_"}, {"name": "Member"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
+        "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
+        "b9825284e3cf44fcb3c3953034ab2f08"]}}}'
+    http_version: 
+  recorded_at: Tue, 24 Sep 2013 05:59:15 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8774/v2/6014e5ca913340de90bcd9614320d1f1/os-networks
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 3531931fffd4469f8d6921a9b27ade1f
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-47cf019f-965b-400c-a837-c453b172c985
+      content-type:
+      - application/json
+      content-length:
+      - '17382'
+      date:
+      - Tue, 24 Sep 2013 05:59:16 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"networks": [{"cidr_v6": null, "dns2": null, "dns1": "8.8.4.4",
+        "gateway": "127.14.0.1", "broadcast": "127.11.0.255", "netmask": "255.255.255.0",
+        "gateway_v6": null, "cidr": "127.11.0.0/24", "label": "novanetwork_0", "id":
+        "02f12950-a6d3-4a74-975b-1bfad5e0d9fe", "netmask_v6": null}]}'
+    http_version: 
+  recorded_at: Tue, 24 Sep 2013 05:59:16 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8774/v2/6014e5ca913340de90bcd9614320d1f1/os-networks/02f12950-a6d3-4a74-975b-1bfad5e0d9fe
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 3531931fffd4469f8d6921a9b27ade1f
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-34186fd4-ec60-44d6-b7de-3cd486fa629d
+      content-type:
+      - application/json
+      content-length:
+      - '279'
+      date:
+      - Tue, 24 Sep 2013 05:59:22 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"network": {"cidr_v6": null, "dns2": null, "dns1": "8.8.4.4", "gateway":
+        "127.11.0.1", "broadcast": "127.11.0.255", "netmask": "255.255.255.0", "gateway_v6":
+        null, "cidr": "127.11.0.0/24", "label": "novanetwork_0", "id": "02f12950-a6d3-4a74-975b-1bfad5e0d9fe",
+        "netmask_v6": null}}'
+    http_version: 
+  recorded_at: Tue, 24 Sep 2013 05:59:22 GMT
+recorded_with: VCR 2.5.0
