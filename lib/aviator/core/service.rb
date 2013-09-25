@@ -84,6 +84,10 @@ module Aviator
       session_data = options[:session_data] || default_session_data
 
       raise SessionDataNotProvidedError.new unless session_data
+      
+      [:base_url].each do |k|
+        session_data[k] = options[k] if options[k]
+      end
 
       request_class = find_request(request_name, session_data, options[:endpoint_type])
 
@@ -136,11 +140,11 @@ module Aviator
       namespace = Aviator.const_get(provider.camelize)
                          .const_get(service.camelize)
 
-      version = infer_version(session_data).to_s.camelize
+      version = infer_version(session_data, name).to_s.camelize
 
       return nil unless version && namespace.const_defined?(version)
 
-      namespace = namespace.const_get(version)
+      namespace = namespace.const_get(version, name)
 
       endpoint_types.each do |endpoint_type|
         name = name.to_s.camelize
@@ -156,12 +160,16 @@ module Aviator
 
 
     # Candidate for extraction to aviator/openstack
-    def infer_version(session_data)
+    def infer_version(session_data, request_name='sample_request')
       if session_data.has_key?(:auth_service) && session_data[:auth_service][:api_version]
         session_data[:auth_service][:api_version].to_sym
 
       elsif session_data.has_key?(:auth_service) && session_data[:auth_service][:host_uri]
         m = session_data[:auth_service][:host_uri].match(/(v\d+)\.?\d*/)
+        return m[1].to_sym unless m.nil?
+
+      elsif session_data.has_key? :base_url
+        m = session_data[:base_url].match(/(v\d+)\.?\d*/)
         return m[1].to_sym unless m.nil?
 
       elsif session_data.has_key? :access
