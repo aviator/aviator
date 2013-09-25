@@ -1,0 +1,131 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2593'
+      date:
+      - Wed, 25 Sep 2013 02:36:08 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-25T02:36:08.552422",
+        "expires": "2013-09-26T02:36:08Z", "id": "e5167367b5e04f80a259ee7a92346733",
+        "tenant": {"description": "", "enabled": true, "id": "87b582d56d3f4ed19a25c919bb59a6f0",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "http://127.0.0.1:8774/v2/87b582d56d3f4ed19a25c919bb59a6f0",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/87b582d56d3f4ed19a25c919bb59a6f0",
+        "id": "1ee1c2c29f8640ab9c3f8654209873f6", "publicURL": "http://127.0.0.1:8774/v2/87b582d56d3f4ed19a25c919bb59a6f0"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:3333", "region": "RegionOne", "internalURL": "http://127.0.0.1:3333",
+        "id": "3cc6591515c24569bc5342bc82159a77", "publicURL": "http://127.0.0.1:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:9292", "region": "RegionOne", "internalURL": "http://127.0.0.1:9292",
+        "id": "6842e55991f14f66b1ccf7c924d83ca6", "publicURL": "http://127.0.0.1:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:8777", "region": "RegionOne", "internalURL": "http://127.0.0.1:8777",
+        "id": "1edf8d85bb7047beb66c7630b04b01e6", "publicURL": "http://127.0.0.1:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8776/v1/87b582d56d3f4ed19a25c919bb59a6f0",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/87b582d56d3f4ed19a25c919bb59a6f0",
+        "id": "301c46cc88384348a5415d478162d51e", "publicURL": "http://127.0.0.1:8776/v1/87b582d56d3f4ed19a25c919bb59a6f0"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8773/services/Admin", "region": "RegionOne",
+        "internalURL": "http://127.0.0.1:8773/services/Cloud", "id": "3c91fce7434e4a798e8093841d09c6cc",
+        "publicURL": "http://127.0.0.1:8773/services/Cloud"}], "endpoints_links":
+        [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://127.0.0.1:35357/v2.0",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:5000/v2.0", "id":
+        "836cef616b644e2da8b0f39dd1aa78e1", "publicURL": "http://127.0.0.1:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "<OPENSTACK_ADMIN_USERNAME>", "roles_links": [], "id": "b0924472662c43919761ec5274f67a1a",
+        "roles": [{"name": "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata":
+        {"is_admin": 0, "roles": ["564b9bfe08954d8483f6b3cdafbd0518"]}}}'
+    http_version: 
+  recorded_at: Wed, 25 Sep 2013 02:36:08 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8774/v2/87b582d56d3f4ed19a25c919bb59a6f0/servers
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - e5167367b5e04f80a259ee7a92346733
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-1177ad4a-a5ad-4fc6-b4ea-dad0a4f74522
+      content-type:
+      - application/json
+      content-length:
+      - '360'
+      date:
+      - Wed, 25 Sep 2013 02:36:08 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"servers": [{"id": "910917a0-bb2c-499e-b81f-90fe8192bc06", "links":
+        [{"href": "http://127.0.0.1:8774/v2/87b582d56d3f4ed19a25c919bb59a6f0/servers/910917a0-bb2c-499e-b81f-90fe8192bc06",
+        "rel": "self"}, {"href": "http://127.0.0.1:8774/87b582d56d3f4ed19a25c919bb59a6f0/servers/910917a0-bb2c-499e-b81f-90fe8192bc06",
+        "rel": "bookmark"}], "name": "test-instance"}]}'
+    http_version: 
+  recorded_at: Wed, 25 Sep 2013 02:36:08 GMT
+- request:
+    method: post
+    uri: http://127.0.0.1:8774/v2/87b582d56d3f4ed19a25c919bb59a6f0/servers/910917a0-bb2c-499e-b81f-90fe8192bc06/action
+    body:
+      encoding: UTF-8
+      string: ! '{"lock":null}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - e5167367b5e04f80a259ee7a92346733
+  response:
+    status:
+      code: 202
+      message: 
+    headers:
+      content-type:
+      - text/html; charset=UTF-8
+      content-length:
+      - '0'
+      date:
+      - Wed, 25 Sep 2013 02:36:08 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Wed, 25 Sep 2013 02:36:08 GMT
+recorded_with: VCR 2.5.0
