@@ -35,6 +35,23 @@ module Aviator
     end
 
 
+    class MissingServiceEndpointError < StandardError
+      def initialize(service_name, request_name)
+        request_name = request_name.to_s.split('::').last.underscore
+        super "The session's service catalog does not have an entry for the #{ service_name } "\
+              "service. Therefore, I don't know to which base URL the request should be sent. "\
+              "This may be because you are using a default or unscoped token. If this is not your "\
+              "intention, please authenticate with a scoped token. If using a default token is your "\
+              "intention, make sure to provide a base url when you call the request. For example: \n\n"\
+              "session.#{ service_name }_service.request :#{ request_name }, base_url: 'http://myenv.com:9999/v2.0' do |params|\n"\
+              "  params[:example1] = 'example1'\n"\
+              "  params[:example2] = 'example2'\n"\
+              "end\n\n"
+      end
+    end
+
+
+
     class Logger < Faraday::Response::Logger
       def initialize(app, logger=nil)
         super(app)
@@ -67,6 +84,10 @@ module Aviator
       session_data = options[:session_data] || default_session_data
 
       raise SessionDataNotProvidedError.new unless session_data
+      
+      [:base_url].each do |k|
+        session_data[k] = options[k] if options[k]
+      end
 
       request_class = find_request(request_name, session_data, options[:endpoint_type])
 
@@ -119,11 +140,11 @@ module Aviator
       namespace = Aviator.const_get(provider.camelize)
                          .const_get(service.camelize)
 
-      version = infer_version(session_data).to_s.camelize
+      version = infer_version(session_data, name).to_s.camelize
 
       return nil unless version && namespace.const_defined?(version)
 
-      namespace = namespace.const_get(version)
+      namespace = namespace.const_get(version, name)
 
       endpoint_types.each do |endpoint_type|
         name = name.to_s.camelize
@@ -139,7 +160,7 @@ module Aviator
 
 
     # Candidate for extraction to aviator/openstack
-    def infer_version(session_data)
+    def infer_version(session_data, request_name='sample_request')
       if session_data.has_key?(:auth_service) && session_data[:auth_service][:api_version]
         session_data[:auth_service][:api_version].to_sym
 
@@ -147,8 +168,13 @@ module Aviator
         m = session_data[:auth_service][:host_uri].match(/(v\d+)\.?\d*/)
         return m[1].to_sym unless m.nil?
 
+      elsif session_data.has_key? :base_url
+        m = session_data[:base_url].match(/(v\d+)\.?\d*/)
+        return m[1].to_sym unless m.nil?
+
       elsif session_data.has_key? :access
         service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
+        raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
         version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
         version ? version[1].to_sym : :v1
       end

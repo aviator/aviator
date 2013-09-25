@@ -74,6 +74,24 @@ class Aviator::Test
       end
 
 
+      it 'raises an error if session data does not have the endpoint information' do
+        request_name = config[:auth_service][:request].to_sym
+
+        bootstrap = JSON.parse('{"access": {"token": {"issued_at": "2013-09-25T20:21:55.453783",
+          "expires": "2013-09-26T02:21:55Z", "id": "2f6bdec6cd0f49b4a60ede0cd4bf2c0d"},
+          "serviceCatalog": [], "user": {"username": "bogus",
+          "roles_links": [], "id": "447527294dae4a1788d36beb0db99c00", "roles": [],
+          "name": "bogus"}, "metadata": {"is_admin": 0, "roles":
+          []}}}').with_indifferent_access
+          
+        s = service(bootstrap)
+
+        the_method = lambda { s.request request_name }
+
+        the_method.must_raise Aviator::Service::MissingServiceEndpointError
+      end
+            
+
       it 'can find the correct request based on non-bootstrapped session data' do
         session_data = do_auth_request.body
 

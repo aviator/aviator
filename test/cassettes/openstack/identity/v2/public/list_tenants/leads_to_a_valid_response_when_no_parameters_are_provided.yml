@@ -1,0 +1,143 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2649'
+      date:
+      - Wed, 25 Sep 2013 19:00:22 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-25T19:00:22.822563",
+        "expires": "2013-09-26T01:00:22Z", "id": "9db5bd6b0022494f8bb97ceea0ce4b68",
+        "tenant": {"description": "Used for Aviator testing/development", "enabled":
+        true, "id": "291e43291289457da59d8f727c46147a", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a",
+        "id": "6bb597a3738045f4b2c51a7702037cab", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/291e43291289457da59d8f727c46147a"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
+        "id": "2985945e07b74103bb2dfef7e426cd43", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
+        "id": "370119dd80e84894bfe83d766fd467dd", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a",
+        "id": "2492a6f5fa80466d9312e51a8f79b638", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/291e43291289457da59d8f727c46147a"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        "id": "1f68f3ce931946c788e487443e772fb2", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "12c722e9b9fb471fbea83c6157c0123a",
+        "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>",
+        "roles_links": [], "id": "3cb44449b3cb48519641864ca82d1911", "roles": [{"name":
+        "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"}, "metadata": {"is_admin":
+        0, "roles": ["a0d6ba8f41b746b495a6d25c69962489"]}}}'
+    http_version: 
+  recorded_at: Wed, 25 Sep 2013 19:00:22 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tenants
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 9db5bd6b0022494f8bb97ceea0ce4b68
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '4062'
+      date:
+      - Wed, 25 Sep 2013 19:00:23 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"tenants_links": [], "tenants": [{"description": "Description",
+        "enabled": true, "id": "1113967479ea4426a4c80a1b109daee2", "name": "Permanent
+        Project"}, {"description": "", "enabled": true, "id": "1b398a49e78448b3bdb7acf77e584fe5",
+        "name": "alvintest"}, {"description": "Tenant for the openstack services",
+        "enabled": true, "id": "1c386cddb0604535ba1f372a1c971550", "name": "services"},
+        {"description": "My Project", "enabled": true, "id": "25f6138692a5497982e0a9185b6925eb",
+        "name": "Project"}, {"description": "", "enabled": true, "id": "27779ee35855440cbbed49e93bb068f5",
+        "name": "alvintest3"}, {"description": "Used for Aviator testing/development",
+        "enabled": true, "id": "291e43291289457da59d8f727c46147a", "name": "<OPENSTACK_ADMIN_TENANTNAME>"},
+        {"description": "asdf", "enabled": true, "id": "3abf2f47fb194ecc9977362e5d1a8c09",
+        "name": "mmaglana"}, {"description": "testing", "enabled": true, "id": "3ec6ecaff17a41a5bb105a15376c5566",
+        "name": "ninja"}, {"description": "This is a test", "enabled": true, "id":
+        "4170d3aef0ff4fdcb0287496f5eb3a61", "name": "Test Project Too"}, {"description":
+        "My Project", "enabled": true, "id": "47c27e66021546c8b39fe9a2cf0d0935", "name":
+        "Xample"}, {"description": "This is a test", "enabled": true, "id": "5a15648e5483474aa8d6fa13dbe37a4b",
+        "name": "Test Project"}, {"description": "sample", "enabled": true, "id":
+        "646fe18d914745eeae0122a24ea653cc", "name": "newprojtest"}, {"description":
+        "test", "enabled": true, "id": "6bad4d3fe00c43d3ad3c2dcca4ff3eb0", "name":
+        "elmer"}, {"description": "My Project", "enabled": true, "id": "6f2c8fc3dda7430c9c1adbdf8c769b9c",
+        "name": "WWProject"}, {"description": "Test Project", "enabled": true, "id":
+        "713e1b55039d4fd6b91bbeac8914028c", "name": "a_test_project"}, {"description":
+        "", "enabled": true, "id": "763d42422d914f0ca6eab905b85c65c5", "name": "Fonsy
+        Test 1"}, {"description": "lalala", "enabled": true, "id": "7dfb270af41245c4911cce903532cdde",
+        "name": "jason_test"}, {"description": "testing", "enabled": true, "id": "85ea75f214ca4d3f834ca37cc570a8fd",
+        "name": "ann"}, {"description": "test", "enabled": true, "id": "89b89207b57a4ac4a9e9d0be628a95b3",
+        "name": "projet"}, {"description": "admin tenant", "enabled": true, "id":
+        "8a42fc89e6fb41a0b676d7b502b35c81", "name": "admin"}, {"description": "My
+        Project", "enabled": true, "id": "8f6e20e1ad2a4ffb98da9450dc804891", "name":
+        "Aviator Project"}, {"description": "one instance in SUSPENDED state cannot
+        be \"resumed\" and deleted", "enabled": true, "id": "951659d798a14d5e98a94878760cfe39",
+        "name": "admgelProject"}, {"description": "sample", "enabled": true, "id":
+        "a0d20724cd2d475e99b01b2b9a03f71e", "name": "projecttest"}, {"description":
+        "lalala", "enabled": true, "id": "a0e37889b3eb4e319992c5b29ef8c5fe", "name":
+        "jason_testxxx"}, {"description": "lalala", "enabled": true, "id": "aadac34ef5f44c869151d9f62851ea1b",
+        "name": "jason_testxxxxx"}, {"description": "DELETEME", "enabled": true, "id":
+        "b7d51b17bbc144b3991d94d3a715fe7b", "name": "DELETEME"}, {"description": "test",
+        "enabled": true, "id": "bd57591e188f438ba53b19228e156358", "name": "test123"},
+        {"description": "", "enabled": true, "id": "bfaebc8688fc48a2b227509173c934e3",
+        "name": "aviator_test"}, {"description": "sample", "enabled": true, "id":
+        "bfed1ed0079b4cb78abbbbb3257ddc21", "name": "another test project"}, {"description":
+        "My Project", "enabled": true, "id": "c764b14c998040d6ad1fb98831b31754", "name":
+        "Project 1377582007"}, {"description": "Used for Aviator testing/development
+        ", "enabled": true, "id": "d770443fc60a410c843dc12b98ac8135", "name": "<OPENSTACK_MEMBER_TENANTNAME>"},
+        {"description": "System account for Morphlabs mCloud administration", "enabled":
+        true, "id": "e7b1b62aa1474f758c4974b8be44cf6c", "name": "demo"}, {"description":
+        "", "enabled": true, "id": "ecc997fefbb24691b14ff16ebe900f17", "name": "alvintest2"},
+        {"description": "", "enabled": true, "id": "f10664c00326466b98707ce4d5cff470",
+        "name": "alvintest4"}, {"description": "lalala", "enabled": true, "id": "f74461b5bd9e4740b2d4fb3df0e07b51",
+        "name": "jason_testxxxx"}]}'
+    http_version: 
+  recorded_at: Wed, 25 Sep 2013 19:00:23 GMT
+recorded_with: VCR 2.5.0
