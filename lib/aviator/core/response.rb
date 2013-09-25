@@ -1,39 +1,31 @@
 module Aviator
 
   class Response
+    extend Forwardable
     
+    def_delegators :@response, :headers, :status
+    
+    attr_reader :request
+    
+    def initialize(response, request)
+      @response = response
+      @request  = request
+    end
+
 
     def body
-      @body ||= if response.body.length > 0
-                  JSON.parse(response.body).with_indifferent_access
-                else
-                  {}
-                end
-                
-      @body.dup
-    end
-    
-    
-    def method_missing(name, *args)
-      case name
-      when :headers, :status
-        response.send(name)
-      when :request
-        request
+      if raw_body.length > 0
+        JSON.parse(raw_body).with_indifferent_access
       else
-        super(name, *args)
+        {}
       end
     end
     
     
     private
     
-    attr_reader :response,
-                :request
-    
-    def initialize(response, request)
-      @response = response
-      @request  = request
+    def raw_body
+      @response.body
     end
     
   end
