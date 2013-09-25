@@ -35,6 +35,23 @@ module Aviator
     end
 
 
+    class MissingServiceEndpointError < StandardError
+      def initialize(service_name, request_name)
+        request_name = request_name.to_s.split('::').last.underscore
+        super "The session's service catalog does not have an entry for the #{ service_name } "\
+              "service. Therefore, I don't know to which base URL the request should be sent. "\
+              "This may be because you are using a default or unscoped token. If this is not your "\
+              "intention, please authenticate with a scoped token. If using a default token is your "\
+              "intention, make sure to provide a base url when you call the request. For example: \n\n"\
+              "session.#{ service_name }_service.request :#{ request_name }, base_url: 'http://myenv.com:9999/v2.0' do |params|\n"\
+              "  params[:example1] = 'example1'\n"\
+              "  params[:example2] = 'example2'\n"\
+              "end\n\n"
+      end
+    end
+
+
+
     class Logger < Faraday::Response::Logger
       def initialize(app, logger=nil)
         super(app)

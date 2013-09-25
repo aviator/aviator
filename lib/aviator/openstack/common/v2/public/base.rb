@@ -16,9 +16,15 @@ module Aviator
 
     private
 
+
     def base_url_for(endpoint_type)
-      service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-      service_spec[:endpoints][0]["#{ endpoint_type }URL".to_sym]
+      if session_data[:base_url]
+        session_data[:base_url]
+      else
+        service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
+        raise Aviator::Service::MissingServiceEndpointError.new(service.to_s, self.class) unless service_spec
+        service_spec[:endpoints][0]["#{ endpoint_type }URL".to_sym]
+      end
     end
 
 
