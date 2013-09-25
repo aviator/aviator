@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"}}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '355'
+      date:
+      - Wed, 25 Sep 2013 19:11:57 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-09-25T19:11:57.208475",
+        "expires": "2013-09-26T01:11:57Z", "id": "c81d9e4730e94b018147b80960120c56"},
+        "serviceCatalog": [], "user": {"username": "<OPENSTACK_MEMBER_USERNAME>",
+        "roles_links": [], "id": "447527294dae4a1788d36beb0db99c00", "roles": [],
+        "name": "<OPENSTACK_MEMBER_USERNAME>"}, "metadata": {"is_admin": 0, "roles":
+        []}}}'
+    http_version: 
+  recorded_at: Wed, 25 Sep 2013 19:11:57 GMT
+recorded_with: VCR 2.5.0

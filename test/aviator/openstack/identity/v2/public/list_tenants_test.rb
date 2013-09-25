@@ -96,6 +96,26 @@ class Aviator::Test
     end
 
 
+    validate_response 'session is using a default token' do
+      s = Aviator::Session.new(
+          config_file: Environment.path,
+          environment: 'openstack_admin'
+        )
+
+      s.authenticate do |creds|
+        creds.username = Environment.openstack_member[:auth_credentials][:username]
+        creds.password = Environment.openstack_member[:auth_credentials][:password]
+      end
+
+      response = s.identity_service.request :list_tenants
+      
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:tenants].length.wont_equal 0
+      response.headers.wont_be_nil
+    end
+
+
   end
 
 end
