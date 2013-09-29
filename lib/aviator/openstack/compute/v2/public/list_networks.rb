@@ -19,7 +19,7 @@ module Aviator
 
 
     def url
-      "#{ base_url_for :public }/os-networks"
+      "#{ base_url }/os-networks"
     end
 
   end

@@ -17,7 +17,7 @@ module Aviator
     private
 
 
-    def base_url_for(endpoint_type)
+    def base_url
       if session_data[:base_url]
         session_data[:base_url]
       else

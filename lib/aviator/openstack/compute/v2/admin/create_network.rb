@@ -48,7 +48,7 @@ module Aviator
 
 
     def url
-      "#{ base_url_for :admin }/os-networks"
+      "#{ base_url }/os-networks"
     end
 
   end

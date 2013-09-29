@@ -34,7 +34,7 @@ module Aviator
 
 
     def url
-      "#{ base_url_for :public }/volumes/#{ params[:id] }"
+      "#{ base_url }/volumes/#{ params[:id] }"
     end
 
   end

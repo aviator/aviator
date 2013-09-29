@@ -16,7 +16,7 @@ module Aviator
 
 
     def url
-      uri = URI(base_url_for(:public))
+      uri = URI(base_url)
       "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v1/"
     end
 

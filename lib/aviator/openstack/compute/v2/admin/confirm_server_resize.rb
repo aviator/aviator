@@ -28,7 +28,7 @@ module Aviator
 
 
     def url
-      "#{ base_url_for :admin }/servers/#{ params[:id] }/action"
+      "#{ base_url }/servers/#{ params[:id] }/action"
     end
 
   end
