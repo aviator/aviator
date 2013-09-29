@@ -21,7 +21,7 @@ module Aviator
 
 
     def url
-      "#{ base_url_for :admin }/os-hosts/#{ params[:host_name] }"
+      "#{ base_url }/os-hosts/#{ params[:host_name] }"
     end
 
   end
