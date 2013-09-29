@@ -21,7 +21,7 @@ module Aviator
     end
 
     def url
-      "#{ base_url_for :public }/types"
+      "#{ base_url }/types"
     end
 
   end

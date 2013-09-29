@@ -26,7 +26,7 @@ module Aviator
 
 
     def url
-      str  = "#{ base_url_for :admin }/tenants"
+      str  = "#{ base_url }/tenants"
       str += params_to_querystring(optional_params + required_params)
     end
 

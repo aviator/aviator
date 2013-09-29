@@ -40,7 +40,7 @@ module Aviator
     end
 
     def url
-      "#{ base_url_for :public }/volumes"
+      "#{ base_url }/volumes"
     end
   end
 

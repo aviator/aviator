@@ -67,7 +67,7 @@ class Aviator::Test
     end
 
 
-    describe '::base_url_for' do
+    describe '::base_url' do
 
       it 'must throw a MissingServiceEndpointError when the service\'s endpoint can\'t be found' do
         default_session_data = JSON.parse('{"access": {"token": {"issued_at": "2013-09-25T20:21:55.453783",
@@ -79,7 +79,7 @@ class Aviator::Test
 
         request = klass.new(default_session_data)
 
-        the_method = lambda { request.send(:base_url_for, :public) }
+        the_method = lambda { request.send(:base_url) }
 
         the_method.must_raise Aviator::Service::MissingServiceEndpointError
       end
@@ -99,7 +99,7 @@ class Aviator::Test
 
         request = klass.new(default_session_data)
 
-        request.send(:base_url_for, :public).must_equal base_url
+        request.send(:base_url).must_equal base_url
       end
 
     end

@@ -21,7 +21,7 @@ module Aviator
 
 
     def url
-      "#{ base_url_for :admin }/tenants/#{ params[:id]}"
+      "#{ base_url }/tenants/#{ params[:id]}"
     end
 
   end

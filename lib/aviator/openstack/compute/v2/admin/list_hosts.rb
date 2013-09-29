@@ -25,7 +25,7 @@ module Aviator
 
 
     def url
-      url = "#{ base_url_for :admin }/os-hosts"
+      url = "#{ base_url }/os-hosts"
 
       filters = []
 

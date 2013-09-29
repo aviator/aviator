@@ -21,7 +21,7 @@ module Aviator
 
 
     def url
-      "#{ base_url_for :public }/images/#{ params[:id]}"
+      "#{ base_url }/images/#{ params[:id]}"
     end
 
   end

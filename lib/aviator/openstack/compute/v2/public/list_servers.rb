@@ -38,7 +38,7 @@ module Aviator
 
 
     def url
-      str  = "#{ base_url_for :public }/servers"
+      str  = "#{ base_url }/servers"
       str += "/detail" if params[:details]
 
       filters = []

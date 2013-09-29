@@ -26,7 +26,7 @@ module Aviator
 
 
     def url
-      url  = "#{ base_url_for :public }/servers/#{ params[:id] }/ips"
+      url  = "#{ base_url }/servers/#{ params[:id] }/ips"
       url += "/#{ params[:networkID] }" if params[:networkID]
       url
     end

@@ -22,7 +22,7 @@ module Aviator
 
 
     def url
-      "#{ base_url_for :public }/os-networks/#{ params[:id] }"
+      "#{ base_url }/os-networks/#{ params[:id] }"
     end
 
   end

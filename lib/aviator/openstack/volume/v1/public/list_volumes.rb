@@ -27,7 +27,7 @@ module Aviator
     end
 
     def url
-      str  = "#{ base_url_for :public }/volumes"
+      str  = "#{ base_url }/volumes"
       str += "/detail" if params[:details]
       str += params_to_querystring(optional_params + required_params - [:details])
     end
