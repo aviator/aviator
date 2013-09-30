@@ -32,6 +32,45 @@ class Aviator::Test
         .map{|c| c.basename.to_s }
     end
     
+    
+    def build_display(provider_name, service_name, request_name, request_class)
+      display  = "Request: #{ request_name }\n\n"
+      
+      display << "Parameters:\n"
+
+      params = request_class.optional_params.map{|p| [p, :optional]} + 
+               request_class.required_params.map{|p| [p, :required]}
+      
+      aliases = request_class.param_aliases
+
+      params.sort{|a,b| a[0].to_s <=> b[0].to_s }.each do |param|
+        param_name = (aliases.find{|a,p| p == param[0] } || param)[0]
+        display << "  (#{ param[1].to_s }) #{ param_name }\n"
+      end
+      
+      display << "\nSample Code:\n"
+
+      display << "  session.#{ service_name }_service.request(:#{ request_name }, endpoint_type: '#{ request_class.endpoint_type }')"
+      if params
+        display << " do |params|\n"
+        params.each do |pair|
+          display << "     params['#{ pair[0] }'] = value\n"
+        end
+        display << "  end\n"
+      end
+      
+      if request_class.links
+        display << "\nLinks:\n"
+        
+        request_class.links.each do |link|
+          display << "  #{ link[:rel] }:\n"
+          display << "    #{ link[:href] }\n"
+        end
+      end
+      
+      display
+    end
+    
 
     describe '::describe_aviator' do
       
@@ -95,41 +134,14 @@ class Aviator::Test
         request_class = get_random_entry(get_request_classes(provider_name, service_name))
         request_name  = request_class.name.split('::').last.underscore
         
-        display  = "Request: #{ request_name }\n\n"
-        
-        display << "Parameters:\n"
-
-        params = request_class.optional_params.map{|p| [p, :optional]} + 
-                 request_class.required_params.map{|p| [p, :required]}
-        
-        params.sort{|a,b| a[0].to_s <=> b[0].to_s }.each do |param|
-          display << "  (#{ param[1].to_s }) #{ param[0] }\n"
-        end
-        
-        display << "\nSample Code:\n"
-
-        display << "  session.#{ service_name }_service.request(:#{ request_name }, endpoint_type: '#{ request_class.endpoint_type }')"
-        if params
-          display << " do |params|\n"
-          params.each do |pair|
-            display << "     params['#{ pair[0] }'] = value\n"
-          end
-          display << "  end\n"
-        end
-        
-        if request_class.links
-          display << "\nLinks:\n"
-          
-          request_class.links.each do |link|
-            display << "  #{ link[:rel] }:\n"
-            display << "    #{ link[:href] }\n"
-          end
-        end
+        expected = build_display(provider_name, service_name, request_name, request_class)
               
-        Aviator::Describer.describe_request(
+        output = Aviator::Describer.describe_request(
           provider_name, service_name, request_class.api_version.to_s, 
           request_class.endpoint_type.to_s, request_name
-        ).must_equal display
+        )
+        
+        output.must_equal expected
       end
       
     end # describe '::describe_request'    
