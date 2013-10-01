@@ -1,140 +1,262 @@
 require 'test_helper'
 
 class Aviator::Test
-  
+
   describe 'aviator/core/cli/describer' do
-    
-    def get_provider_names
-      Pathname.new(__FILE__)
-        .join('..', '..', '..', '..', '..', 'lib', 'aviator')
-        .children
-        .select{|c| c.directory? && c.basename.to_s != 'core' }
-        .map{|c| c.basename.to_s }
-    end
-    
-    
-    def get_random_entry(array)
-      array[rand(array.length)]
+
+    def build_request(provider_name, service_name, request_name, &block)
+      base_name = :sample_base
+      base_ver  = :v999
+      base_ept  = :public
+
+      unless @base
+        request_path = [provider_name, service_name, base_ver, base_ept, base_name]
+
+        @base = request_path.inject(Aviator) do |namespace, sym|
+          const_name = sym.to_s.camelize
+
+          if namespace && namespace.const_defined?(const_name, false)
+            namespace.const_get(const_name, false)
+          else
+            nil
+          end
+        end
+
+        @base ||= Aviator.define_request base_name do
+                    meta :provider,      provider_name
+                    meta :service,       service_name
+                    meta :api_version,   base_ver
+                    meta :endpoint_type, base_ept
+                  end
+      end
+
+      inherit = [provider_name.to_sym, service_name.to_sym, base_ver, base_ept, base_name]
+
+      Aviator.define_request request_name, inherit: inherit, &block
     end
 
 
-    def get_request_classes(provider_name, service_name)
-      service = Aviator::Service.new(provider: provider_name, service: service_name)
-      service.request_classes
+    def klass
+      Aviator::Describer
     end
-    
-    
-    def get_service_names(provider_name)
-      Pathname.new(__FILE__)
-        .join('..', '..', '..', '..', '..', 'lib', 'aviator', provider_name)
-        .children
-        .select{|c| c.directory? }
-        .map{|c| c.basename.to_s }
+
+    def provider_names
+      klass.send(:provider_names)
     end
-    
+
+
+    def request_classes(provider_name, service_name)
+      klass.send(:request_classes, provider_name, service_name)
+    end
+
+
+    def service_names(provider_name)
+      klass.send(:service_names, provider_names.first)
+    end
+
 
     describe '::describe_aviator' do
-      
-      it 'describes the aviator gem' do
-        provider_names = get_provider_names
-        
-        display = "Available providers:\n"
-      
-        provider_names.each do |provider_name|
-          display << "  #{ provider_name }\n"
-        end
 
-        Aviator::Describer.describe_aviator.must_equal display
+      it 'shows a list of providers' do
+        expected = "Available providers:\n"
+        expected << provider_names.map{|p| "  #{ p }" }.join("\n") + "\n"
+
+        klass.describe_aviator.must_equal expected
       end
-      
+
     end # describe '::describe_aviator'
-    
-    
+
+
     describe '::describe_provider' do
-      
-      it 'describes the given provider' do
-        provider_name = get_random_entry(get_provider_names)
-        service_names = get_service_names(provider_name)
-        
-        display = "Available services for #{ provider_name }:\n"
-      
-        service_names.each do |service_name|
-          display << "  #{ service_name }\n"
-        end
 
-        Aviator::Describer.describe_provider('openstack').must_equal display
+      it 'shows a list of available provider services' do
+        provider = provider_names.first
+
+        expected = "Available services for #{ provider }:\n"
+        expected << service_names(provider).map{|s| "  #{ s }" }.join("\n") + "\n"
+
+        klass.describe_provider(provider).must_equal expected
       end
-      
+
     end # describe '::describe_provider'
-    
-    
+
+
     describe '::describe_service' do
-      
-      it 'describes a given service for a given provider' do
-        provider_name   = get_random_entry(get_provider_names)
-        service_name    = get_random_entry(get_service_names(provider_name))
-        request_classes = get_request_classes(provider_name, service_name)
-                
-        display = "Available requests for #{ provider_name } #{ service_name }_service:\n"
 
-        request_classes.each do |klass|
-          display << "  #{ klass.api_version } #{ klass.endpoint_type } #{ klass.name.split('::').last.underscore }\n"
+      it 'shows a list of available service requests' do
+        provider = provider_names.first
+        service  = service_names(provider).first
+        requests = request_classes(provider, service)
+
+        expected  = "Available requests for #{ provider } #{ service }_service:\n"
+
+        requests.each do |klass|
+          expected << "  #{ klass.api_version } #{ klass.endpoint_type } #{ klass.name.split('::').last.underscore }\n"
         end
-      
-        Aviator::Describer.describe_service(provider_name, service_name).must_equal display
+
+        klass.describe_service(provider, service).must_equal expected
       end
-      
-    end # describe '::describe_service'    
-    
-    
+
+    end # describe '::describe_service'
+
+
     describe '::describe_request' do
-      
-      it 'describes a given request' do
-        provider_name = get_random_entry(get_provider_names)
-        service_name  = get_random_entry(get_service_names(provider_name))
-        request_class = get_random_entry(get_request_classes(provider_name, service_name))
-        request_name  = request_class.name.split('::').last.underscore
-        
-        display  = "Request: #{ request_name }\n\n"
-        
-        display << "Parameters:\n"
 
-        params = request_class.optional_params.map{|p| [p, :optional]} + 
-                 request_class.required_params.map{|p| [p, :required]}
-        
-        params.sort{|a,b| a[0].to_s <=> b[0].to_s }.each do |param|
-          display << "  (#{ param[1].to_s }) #{ param[0] }\n"
-        end
-        
-        display << "\nSample Code:\n"
+      it 'shows the request name and sample code' do
+        provider     = provider_names.first
+        service      = service_names(provider).first
+        request_name = 'sample_request1'
 
-        display << "  session.#{ service_name }_service.request(:#{ request_name }, endpoint_type: '#{ request_class.endpoint_type }')"
-        if params
-          display << " do |params|\n"
-          params.each do |pair|
-            display << "     params['#{ pair[0] }'] = value\n"
-          end
-          display << "  end\n"
-        end
-        
-        if request_class.links
-          display << "\nLinks:\n"
-          
-          request_class.links.each do |link|
-            display << "  #{ link[:rel] }:\n"
-            display << "    #{ link[:href] }\n"
-          end
-        end
-              
-        Aviator::Describer.describe_request(
-          provider_name, service_name, request_class.api_version.to_s, 
-          request_class.endpoint_type.to_s, request_name
-        ).must_equal display
+        request_class = build_request(provider, service, request_name)
+
+        expected = <<-EOF
+Request: #{ request_name }
+
+Sample Code:
+  session.#{ service }_service.request(:#{ request_name })
+EOF
+
+        output = klass.describe_request(
+          provider,
+          service,
+          request_class.api_version.to_s,
+          request_class.endpoint_type.to_s,
+          request_name.to_s
+        )
+
+        output.must_equal expected
       end
-      
-    end # describe '::describe_request'    
-    
-    
+
+
+      it "shows parameters when provided" do
+        provider     = provider_names.first
+        service      = service_names(provider).first
+        request_name = 'sample_request2'
+
+        request_class = build_request(provider, service, request_name) do
+                          param :theParam, required: true
+                          param :another, required: false
+                        end
+
+        expected = <<-EOF
+Request: #{ request_name }
+
+Parameters:
+ +----------+----------+
+ | NAME     | REQUIRED |
+ +----------+----------+
+ | another  |    N     |
+ | theParam |    Y     |
+ +----------+----------+
+
+Sample Code:
+  session.#{ service }_service.request(:#{ request_name }) do |params|
+    params.another = value
+    params.theParam = value
+  end
+EOF
+
+        output = klass.describe_request(
+          provider,
+          service,
+          request_class.api_version.to_s,
+          request_class.endpoint_type.to_s,
+          request_name.to_s
+        )
+
+        output.must_equal expected
+      end
+
+
+      it "display aliases when available" do
+        provider     = provider_names.first
+        service      = service_names(provider).first
+        request_name = 'sample_request3'
+
+        request_class = build_request(provider, service, request_name) do
+                          param :theParam, required: true, alias: :the_param
+                          param :anotherParam, required: false, alias: :another_param
+                        end
+
+        expected = <<-EOF
+Request: #{ request_name }
+
+Parameters:
+ +--------------+----------+---------------+
+ | NAME         | REQUIRED | ALIAS         |
+ +--------------+----------+---------------+
+ | anotherParam |    N     | another_param |
+ | theParam     |    Y     | the_param     |
+ +--------------+----------+---------------+
+
+Sample Code:
+  session.#{ service }_service.request(:#{ request_name }) do |params|
+    params.another_param = value
+    params.the_param = value
+  end
+EOF
+
+        output = klass.describe_request(
+          provider,
+          service,
+          request_class.api_version.to_s,
+          request_class.endpoint_type.to_s,
+          request_name.to_s
+        )
+
+        output.must_equal expected
+      end
+
+
+      it "display links when available" do
+        provider     = provider_names.first
+        service      = service_names(provider).first
+        request_name = 'sample_request4'
+
+        request_class = build_request(provider, service, request_name) do
+                          param :theParam, required: true, alias: :the_param
+                          param :anotherParam, required: false, alias: :another_param
+
+                          link 'link1', 'http://www.link.com'
+                        end
+
+        expected = <<-EOF
+Request: #{ request_name }
+
+Parameters:
+ +--------------+----------+---------------+
+ | NAME         | REQUIRED | ALIAS         |
+ +--------------+----------+---------------+
+ | anotherParam |    N     | another_param |
+ | theParam     |    Y     | the_param     |
+ +--------------+----------+---------------+
+
+Sample Code:
+  session.#{ service }_service.request(:#{ request_name }) do |params|
+    params.another_param = value
+    params.the_param = value
+  end
+
+Links:
+  link1:
+    http://www.link.com
+EOF
+
+        output = klass.describe_request(
+          provider,
+          service,
+          request_class.api_version.to_s,
+          request_class.endpoint_type.to_s,
+          request_name.to_s
+        )
+
+        output.must_equal expected
+      end
+
+
+    end # describe '::describe_request'
+
+
   end # describe 'aviator/core/cli/describe'
-  
+
 end # class Aviator::Test
