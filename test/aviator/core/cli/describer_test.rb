@@ -142,12 +142,12 @@ EOF
 Request: #{ request_name }
 
 Parameters:
- +----------+----------+
- | NAME     | REQUIRED |
- +----------+----------+
- | another  |    N     |
- | theParam |    Y     |
- +----------+----------+
+ +----------+-----------+
+ | NAME     | REQUIRED? |
+ +----------+-----------+
+ | another  |     N     |
+ | theParam |     Y     |
+ +----------+-----------+
 
 Sample Code:
   session.#{ service }_service.request(:#{ request_name }) do |params|
@@ -182,12 +182,12 @@ EOF
 Request: #{ request_name }
 
 Parameters:
- +--------------+----------+---------------+
- | NAME         | REQUIRED | ALIAS         |
- +--------------+----------+---------------+
- | anotherParam |    N     | another_param |
- | theParam     |    Y     | the_param     |
- +--------------+----------+---------------+
+ +--------------+-----------+---------------+
+ | NAME         | REQUIRED? | ALIAS         |
+ +--------------+-----------+---------------+
+ | anotherParam |     N     | another_param |
+ | theParam     |     Y     | the_param     |
+ +--------------+-----------+---------------+
 
 Sample Code:
   session.#{ service }_service.request(:#{ request_name }) do |params|
@@ -224,12 +224,12 @@ EOF
 Request: #{ request_name }
 
 Parameters:
- +--------------+----------+---------------+
- | NAME         | REQUIRED | ALIAS         |
- +--------------+----------+---------------+
- | anotherParam |    N     | another_param |
- | theParam     |    Y     | the_param     |
- +--------------+----------+---------------+
+ +--------------+-----------+---------------+
+ | NAME         | REQUIRED? | ALIAS         |
+ +--------------+-----------+---------------+
+ | anotherParam |     N     | another_param |
+ | theParam     |     Y     | the_param     |
+ +--------------+-----------+---------------+
 
 Sample Code:
   session.#{ service }_service.request(:#{ request_name }) do |params|

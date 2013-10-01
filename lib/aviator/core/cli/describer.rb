@@ -41,7 +41,7 @@ module Aviator
       if params.length > 0
         display << "\n"
 
-        headings = ['NAME', 'REQUIRED']
+        headings = ['NAME', 'REQUIRED?']
 
         headings << 'ALIAS' if aliases.length > 0
 
