@@ -20,9 +20,11 @@ VCR.configure do |c|
   configs = [:openstack_admin, :openstack_member]
   env     = Aviator::Test::Environment
 
-  [:username, :password, :tenantName].each do |key|
+  [:username, :password, :tenantName, :tokenId].each do |key|
     configs.each do |config|
-      c.filter_sensitive_data("<#{ config.to_s.upcase }_#{key.to_s.upcase}>") { env.send(config)[:auth_credentials][key]  }
+      c.filter_sensitive_data("<#{ config.to_s.upcase }_#{key.to_s.upcase}>") do
+        env.send(config)[:auth_credentials][key] || env.send(config)[:auth_credentials][key.to_s.underscore]
+      end
     end
   end
 

@@ -147,7 +147,8 @@ class Aviator::Test
       service = session.identity_service
 
       tenant  = service.request(:list_tenants).body[:tenants].find do |t|
-                  t[:name] == Environment.openstack_admin[:auth_credentials][:tenantName]
+                  t[:name] == Environment.openstack_admin[:auth_credentials][:tenantName] ||
+                              Environment.openstack_admin[:auth_credentials][:tenant_name]
                 end
 
       response = service.request :create_user do |params|
