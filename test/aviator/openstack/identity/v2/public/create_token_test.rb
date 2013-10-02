@@ -155,7 +155,8 @@ class Aviator::Test
 
       response = service.request :create_token do |params|
         params[:tokenId]    = token
-        params[:tenantName] = Environment.openstack_admin[:auth_credentials][:tenantName]
+        params[:tenantName] = Environment.openstack_admin[:auth_credentials][:tenantName] ||
+                              Environment.openstack_admin[:auth_credentials][:tenant_name]
       end
 
       response.status.must_equal 200
