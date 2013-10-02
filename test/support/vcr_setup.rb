@@ -60,7 +60,7 @@ VCR.configure do |c|
     #   matched by anything in the cassette, an error is thrown
     #
     # IF RUNNING IN CI:
-    # Test should immediately throw an error if no cassette exists for a 
+    # Test should immediately throw an error if no cassette exists for a
     # given example that needs one.
     record: (ENV['CI'] || ENV['TRAVIS'] ? :none : :once),
 

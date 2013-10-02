@@ -7,8 +7,8 @@ module Aviator
         super("Authentication failed. The server returned #{ last_auth_body }")
       end
     end
-    
-    
+
+
     class EnvironmentNotDefinedError < ArgumentError
       def initialize(path, env)
         super("The environment '#{ env }' is not defined in #{ path }.")
@@ -21,8 +21,8 @@ module Aviator
         super("The config file at #{ path } does not exist!")
       end
     end
-    
-    
+
+
     class NotAuthenticatedError < StandardError
       def initialize
         super("Session is not authenticated. Please authenticate before proceeding.")
@@ -41,18 +41,18 @@ module Aviator
       config_path  = opts[:config_file]
       environment  = opts[:environment]
       session_dump = opts[:session_dump]
-      
+
       if session_dump
         initialize_with_dump(session_dump)
       else
         initialize_with_config(config_path, environment)
       end
-      
+
       @log_file = opts[:log_file]
     end
-    
-    
-    def authenticate(&block)      
+
+
+    def authenticate(&block)
       block ||= lambda do |params|
         environment[:auth_credentials].each do |key, value|
           params[key] = value
@@ -60,7 +60,7 @@ module Aviator
       end
 
       response = auth_service.request environment[:auth_service][:request].to_sym, &block
-      
+
       if response.status == 200
         @auth_info = response.body
         update_services_session_data
@@ -73,59 +73,59 @@ module Aviator
     def authenticated?
       !auth_info.nil?
     end
-    
-    
+
+
     def dump
       JSON.generate({
         environment: environment,
         auth_info:   auth_info
       })
     end
-    
-    
+
+
     def load(session_dump)
       initialize_with_dump(session_dump)
       update_services_session_data
       self
     end
-    
-    
+
+
     def method_missing(name, *args, &block)
       service_name_parts = name.to_s.match(/^(\w+)_service$/)
-      
+
       if service_name_parts
         get_service_obj(service_name_parts[1])
       else
         super name, *args, &block
       end
     end
-    
-    
+
+
     def self.load(session_dump, opts={})
       opts[:session_dump] = session_dump
-      
+
       new(opts)
     end
-    
-    
+
+
     def validate
       raise NotAuthenticatedError.new unless authenticated?
       raise ValidatorNotDefinedError.new unless environment[:auth_service][:validator]
-      
+
       response = auth_service.request environment[:auth_service][:validator].to_sym, session_data: auth_info
-      
+
       response.status == 200 || response.status == 203
     end
-    
-    
+
+
     private
 
 
     def auth_info
       @auth_info
     end
-    
-    
+
+
     def auth_service
       @auth_service ||= Service.new(
         provider: environment[:provider],
@@ -134,8 +134,8 @@ module Aviator
         log_file: log_file
       )
     end
-    
-        
+
+
     def environment
       @environment
     end
@@ -143,16 +143,16 @@ module Aviator
 
     def get_service_obj(service_name)
       raise NotAuthenticatedError.new unless self.authenticated?
-      
+
       @services ||= {}
-      
+
       @services[service_name] ||= Service.new(
         provider: environment[:provider],
         service:  service_name,
         default_session_data: auth_info,
         log_file: log_file
       )
-      
+
       @services[service_name]
     end
 
@@ -167,28 +167,28 @@ module Aviator
 
       @environment = config[environment]
     end
-    
-    
+
+
     def initialize_with_dump(session_dump)
       session_info = JSON.parse(session_dump).with_indifferent_access
       @environment = session_info[:environment]
       @auth_info   = session_info[:auth_info]
     end
-        
-    
+
+
     def log_file
       @log_file
     end
-    
-    
+
+
     def update_services_session_data
       return unless @services
-      
+
       @services.each do |name, obj|
         obj.default_session_data = auth_info
       end
     end
-      
+
   end
 
 end
