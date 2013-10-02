@@ -30,7 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'guard-rake', '~> 0.0.0'
   spec.add_development_dependency 'guard-minitest', '~> 0.5.0'
   spec.add_development_dependency 'ruby_gntp', '~> 0.3.0'
-  spec.add_development_dependency 'debugger', '~> 1.6.0'
   spec.add_development_dependency 'pry', '~> 0.9.0'
   spec.add_development_dependency 'yard', '~> 0.8.0'
   spec.add_development_dependency 'redcarpet', '~> 2.3.0'
