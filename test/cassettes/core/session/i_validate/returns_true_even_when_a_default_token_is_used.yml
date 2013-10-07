@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"}}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '353'
+      date:
+      - Mon, 07 Oct 2013 23:31:07 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T23:31:07.964949",
+        "expires": "2013-10-08T23:31:07Z", "id": "4c75a72240fa4ad2b5922756eb4f0db8"},
+        "serviceCatalog": [], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>", "roles_links":
+        [], "id": "4088b95fef9e49059a303a853f33c3c1", "roles": [], "name": "<OPENSTACK_ADMIN_USERNAME>"},
+        "metadata": {"is_admin": 0, "roles": []}}}'
+    http_version: 
+  recorded_at: Mon, 07 Oct 2013 23:45:43 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tenants
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 4c75a72240fa4ad2b5922756eb4f0db8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '176'
+      date:
+      - Mon, 07 Oct 2013 23:31:07 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"tenants_links": [], "tenants": [{"description": "<OPENSTACK_ADMIN_TENANTNAME>",
+        "enabled": true, "id": "4a35c4710f7a4efaa348947fdb1b858f", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}]}'
+    http_version: 
+  recorded_at: Mon, 07 Oct 2013 23:45:43 GMT
+recorded_with: VCR 2.5.0
