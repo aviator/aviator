@@ -112,7 +112,9 @@ module Aviator
       raise NotAuthenticatedError.new unless authenticated?
       raise ValidatorNotDefinedError.new unless environment[:auth_service][:validator]
 
-      response = auth_service.request environment[:auth_service][:validator].to_sym, session_data: auth_info
+      auth_with_bootstrap = auth_info.merge({ auth_service: environment[:auth_service] })
+
+      response = auth_service.request environment[:auth_service][:validator].to_sym, session_data: auth_with_bootstrap
 
       response.status == 200 || response.status == 203
     end
