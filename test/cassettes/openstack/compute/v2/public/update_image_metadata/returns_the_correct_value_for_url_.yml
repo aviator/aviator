@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2693'
+      date:
+      - Mon, 07 Oct 2013 08:25:59 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T08:25:59.469847",
+        "expires": "2013-10-07T14:25:59Z", "id": "d779612c93774249b3c21b1648932dd4",
+        "tenant": {"description": "for cassettes", "enabled": true, "id": "61ffee18d4d844b8a505758ed4be5679",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/61ffee18d4d844b8a505758ed4be5679",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/61ffee18d4d844b8a505758ed4be5679",
+        "id": "291d395892b9435db9c7955ea37b61db", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/61ffee18d4d844b8a505758ed4be5679"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
+        "id": "2846d01bbd3149ae906ef244acf1f151", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
+        "id": "445e9301c8894b7496d53f7b8f46a1e1", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/61ffee18d4d844b8a505758ed4be5679",
+        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/61ffee18d4d844b8a505758ed4be5679",
+        "id": "04c792be6af4479ea80a9ec4d6fb2101", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/61ffee18d4d844b8a505758ed4be5679"}],
+        "endpoints_links": [], "type": "volume", "name": "nova_volume"}, {"endpoints":
+        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
+        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
+        "id": "59e830138f1d4d07994ded440b7609db", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
+        "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "104ef87e466e4905a85f3abef12afb88",
+        "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
+        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_MEMBER_USERNAME>",
+        "roles_links": [], "id": "1ad17b9685f247188a1c51d70ba9cf11", "roles": [{"name":
+        "Member"}, {"name": "_member_"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
+        "metadata": {"is_admin": 0, "roles": ["9129432554bd4b479601fbab03dacde8",
+        "9fe2ff9ee4384b1894a90878d3e92bab"]}}}'
+    http_version: 
+  recorded_at: Mon, 07 Oct 2013 08:26:00 GMT
+recorded_with: VCR 2.5.0
