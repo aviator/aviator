@@ -23,48 +23,48 @@ http_interactions:
       content-length:
       - '2677'
       date:
-      - Mon, 07 Oct 2013 03:21:35 GMT
+      - Mon, 07 Oct 2013 10:20:59 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-10-07T03:21:35.885601",
-        "expires": "2013-10-08T03:21:35Z", "id": "d407e763c70e49a08160b92ddeccd326",
-        "tenant": {"description": "", "enabled": true, "id": "06e7f3f00b4f4539a09d0cfa5566ac64",
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T10:20:59.343490",
+        "expires": "2013-10-08T10:20:59Z", "id": "42c73796f6264011b55b47752e7461ca",
+        "tenant": {"description": "", "enabled": true, "id": "5eaedfd28a054b6189750bc1ccb8be5a",
         "name": "<OPENSTACK_MEMBER_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
-        [{"adminURL": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64",
-        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64",
-        "id": "022de17aac0041aa9573bc202140170f", "publicURL": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64"}],
+        [{"adminURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
+        "id": "058dfe093abb4befbe686c0332a68463", "publicURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a"}],
         "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
         "http://127.0.0.1:3333", "region": "RegionOne", "internalURL": "http://127.0.0.1:3333",
-        "id": "552e4b26b0b94415bbc9854ab880b89a", "publicURL": "http://127.0.0.1:3333"}],
+        "id": "24fc6aff470e4feabec22cfaad00d8e8", "publicURL": "http://127.0.0.1:3333"}],
         "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
         "http://127.0.0.1:9292", "region": "RegionOne", "internalURL": "http://127.0.0.1:9292",
-        "id": "51ecf86d265f4161947c52ed1574671e", "publicURL": "http://127.0.0.1:9292"}],
+        "id": "00bcfe025b504085911dfbf6cf445348", "publicURL": "http://127.0.0.1:9292"}],
         "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
         "http://127.0.0.1:8777", "region": "RegionOne", "internalURL": "http://127.0.0.1:8777",
-        "id": "5a63059db9574df0999b8c17a6c5a837", "publicURL": "http://127.0.0.1:8777"}],
+        "id": "266f73a4319a4f659052bc4a49d395d2", "publicURL": "http://127.0.0.1:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"adminURL": "http://127.0.0.1:8776/v1/06e7f3f00b4f4539a09d0cfa5566ac64",
-        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/06e7f3f00b4f4539a09d0cfa5566ac64",
-        "id": "51ff66edec414eb391b9530ad33c1053", "publicURL": "http://127.0.0.1:8776/v1/06e7f3f00b4f4539a09d0cfa5566ac64"}],
+        [{"adminURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a",
+        "id": "17ad473a2a5e420ca5eee8367cc6eb5d", "publicURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
         [{"adminURL": "http://127.0.0.1:8773/services/Admin", "region": "RegionOne",
-        "internalURL": "http://127.0.0.1:8773/services/Cloud", "id": "69f9375834b44c5994020f7dc19dd06c",
+        "internalURL": "http://127.0.0.1:8773/services/Cloud", "id": "3d71ad35bb07412d9903f1a1b5637d91",
         "publicURL": "http://127.0.0.1:8773/services/Cloud"}], "endpoints_links":
         [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://127.0.0.1:35357/v2.0",
         "region": "RegionOne", "internalURL": "http://127.0.0.1:5000/v2.0", "id":
-        "1d26f3b865154d33b3a30081c85350ff", "publicURL": "http://127.0.0.1:5000/v2.0"}],
+        "3f99e67e2aab474fbd8952e2684ad6c3", "publicURL": "http://127.0.0.1:5000/v2.0"}],
         "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
-        "<OPENSTACK_MEMBER_USERNAME>", "roles_links": [], "id": "b7d25bb4ecb146d48dc51d3111c4613f",
+        "<OPENSTACK_MEMBER_USERNAME>", "roles_links": [], "id": "64a1ac655882436e8c5a404a69f42f10",
         "roles": [{"name": "_member_"}, {"name": "project_manager"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
         "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
-        "a2f4ee8b8bbe401fa06f6388b9e18cc9"]}}}'
+        "59153b1dfbca414bb60731d217b8bade"]}}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:21:36 GMT
+  recorded_at: Mon, 07 Oct 2013 10:20:59 GMT
 - request:
     method: get
-    uri: http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64/images
+    uri: http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/images
     body:
       encoding: US-ASCII
       string: ''
@@ -74,42 +74,46 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - d407e763c70e49a08160b92ddeccd326
+      - 42c73796f6264011b55b47752e7461ca
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-2971eda9-89ba-44cb-9f64-75e550ff213c
+      - req-28d5167b-c62e-47fc-a894-8acb99c7bfcb
       content-type:
       - application/json
       content-length:
-      - '1617'
+      - '2135'
       date:
-      - Mon, 07 Oct 2013 03:21:36 GMT
+      - Mon, 07 Oct 2013 10:20:59 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"images": [{"id": "a2c0c748-2c4e-4162-9ff2-04d32f392436", "links":
-        [{"href": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64/images/a2c0c748-2c4e-4162-9ff2-04d32f392436",
-        "rel": "self"}, {"href": "http://127.0.0.1:8774/06e7f3f00b4f4539a09d0cfa5566ac64/images/a2c0c748-2c4e-4162-9ff2-04d32f392436",
-        "rel": "bookmark"}, {"href": "http://127.0.0.1:9292/06e7f3f00b4f4539a09d0cfa5566ac64/images/a2c0c748-2c4e-4162-9ff2-04d32f392436",
+      string: ! '{"images": [{"id": "2755c6d2-2978-4053-a728-f77388e24bec", "links":
+        [{"href": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/images/2755c6d2-2978-4053-a728-f77388e24bec",
+        "rel": "self"}, {"href": "http://127.0.0.1:8774/5eaedfd28a054b6189750bc1ccb8be5a/images/2755c6d2-2978-4053-a728-f77388e24bec",
+        "rel": "bookmark"}, {"href": "http://127.0.0.1:9292/5eaedfd28a054b6189750bc1ccb8be5a/images/2755c6d2-2978-4053-a728-f77388e24bec",
+        "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "my-snapshot"},
+        {"id": "c5da2307-0a45-40ad-9889-aad7a3f03436", "links": [{"href": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/images/c5da2307-0a45-40ad-9889-aad7a3f03436",
+        "rel": "self"}, {"href": "http://127.0.0.1:8774/5eaedfd28a054b6189750bc1ccb8be5a/images/c5da2307-0a45-40ad-9889-aad7a3f03436",
+        "rel": "bookmark"}, {"href": "http://127.0.0.1:9292/5eaedfd28a054b6189750bc1ccb8be5a/images/c5da2307-0a45-40ad-9889-aad7a3f03436",
         "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "cirros-0.3.1-x86_64-uec"},
-        {"id": "ab1ce3b0-e2a8-4b3b-8c0e-3ccd7fd9e118", "links": [{"href": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64/images/ab1ce3b0-e2a8-4b3b-8c0e-3ccd7fd9e118",
-        "rel": "self"}, {"href": "http://127.0.0.1:8774/06e7f3f00b4f4539a09d0cfa5566ac64/images/ab1ce3b0-e2a8-4b3b-8c0e-3ccd7fd9e118",
-        "rel": "bookmark"}, {"href": "http://127.0.0.1:9292/06e7f3f00b4f4539a09d0cfa5566ac64/images/ab1ce3b0-e2a8-4b3b-8c0e-3ccd7fd9e118",
-        "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "cirros-0.3.1-x86_64-uec-kernel"},
-        {"id": "54594e46-28b2-4286-9108-c5f861c6148a", "links": [{"href": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64/images/54594e46-28b2-4286-9108-c5f861c6148a",
-        "rel": "self"}, {"href": "http://127.0.0.1:8774/06e7f3f00b4f4539a09d0cfa5566ac64/images/54594e46-28b2-4286-9108-c5f861c6148a",
-        "rel": "bookmark"}, {"href": "http://127.0.0.1:9292/06e7f3f00b4f4539a09d0cfa5566ac64/images/54594e46-28b2-4286-9108-c5f861c6148a",
-        "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "cirros-0.3.1-x86_64-uec-ramdisk"}]}'
+        {"id": "a7d0c249-decb-421b-896f-135cd429cd73", "links": [{"href": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/images/a7d0c249-decb-421b-896f-135cd429cd73",
+        "rel": "self"}, {"href": "http://127.0.0.1:8774/5eaedfd28a054b6189750bc1ccb8be5a/images/a7d0c249-decb-421b-896f-135cd429cd73",
+        "rel": "bookmark"}, {"href": "http://127.0.0.1:9292/5eaedfd28a054b6189750bc1ccb8be5a/images/a7d0c249-decb-421b-896f-135cd429cd73",
+        "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "cirros-0.3.1-x86_64-uec-ramdisk"},
+        {"id": "27eb9b65-0e56-44c2-9d23-835e35646ba7", "links": [{"href": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/images/27eb9b65-0e56-44c2-9d23-835e35646ba7",
+        "rel": "self"}, {"href": "http://127.0.0.1:8774/5eaedfd28a054b6189750bc1ccb8be5a/images/27eb9b65-0e56-44c2-9d23-835e35646ba7",
+        "rel": "bookmark"}, {"href": "http://127.0.0.1:9292/5eaedfd28a054b6189750bc1ccb8be5a/images/27eb9b65-0e56-44c2-9d23-835e35646ba7",
+        "type": "application/vnd.openstack.image", "rel": "alternate"}], "name": "cirros-0.3.1-x86_64-uec-kernel"}]}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:21:36 GMT
+  recorded_at: Mon, 07 Oct 2013 10:20:59 GMT
 - request:
     method: get
-    uri: http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64/images/a2c0c748-2c4e-4162-9ff2-04d32f392436/metadata
+    uri: http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/images/2755c6d2-2978-4053-a728-f77388e24bec/metadata
     body:
       encoding: US-ASCII
       string: ''
@@ -119,26 +123,25 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - d407e763c70e49a08160b92ddeccd326
+      - 42c73796f6264011b55b47752e7461ca
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-5a08df40-fad1-4543-a41e-e016b616e480
+      - req-65d61ed7-7469-486e-90a5-e62c447aa401
       content-type:
       - application/json
       content-length:
-      - '121'
+      - '46'
       date:
-      - Mon, 07 Oct 2013 03:21:36 GMT
+      - Mon, 07 Oct 2013 10:20:59 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"metadata": {"kernel_id": "ab1ce3b0-e2a8-4b3b-8c0e-3ccd7fd9e118",
-        "ramdisk_id": "54594e46-28b2-4286-9108-c5f861c6148a"}}'
+      string: ! '{"metadata": {"foo": "lorem", "bar": "ipsum"}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:21:36 GMT
+  recorded_at: Mon, 07 Oct 2013 10:20:59 GMT
 recorded_with: VCR 2.5.0

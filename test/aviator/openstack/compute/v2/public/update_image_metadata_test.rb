@@ -112,7 +112,7 @@ class Aviator::Test
       # must be hardcoded so as not to inadvertently alter random resources
       # in case the corresponding cassette is deleted and
       # this requires image that the user has modify access
-      image_id = '8955fc58-5543-49e8-8f55-314444b978be'
+      image_id = '2755c6d2-2978-4053-a728-f77388e24bec'
 
       service  = session.compute_service
 

@@ -23,48 +23,48 @@ http_interactions:
       content-length:
       - '2677'
       date:
-      - Mon, 07 Oct 2013 03:22:49 GMT
+      - Mon, 07 Oct 2013 10:20:58 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-10-07T03:22:49.012957",
-        "expires": "2013-10-08T03:22:48Z", "id": "f7af7da06d3a446e9c67f20d27b6200f",
-        "tenant": {"description": "", "enabled": true, "id": "06e7f3f00b4f4539a09d0cfa5566ac64",
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T10:20:58.509103",
+        "expires": "2013-10-08T10:20:58Z", "id": "48dcc54d7e574dbd951e75cf03e844d7",
+        "tenant": {"description": "", "enabled": true, "id": "5eaedfd28a054b6189750bc1ccb8be5a",
         "name": "<OPENSTACK_MEMBER_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
-        [{"adminURL": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64",
-        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64",
-        "id": "022de17aac0041aa9573bc202140170f", "publicURL": "http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64"}],
+        [{"adminURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
+        "id": "058dfe093abb4befbe686c0332a68463", "publicURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a"}],
         "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
         "http://127.0.0.1:3333", "region": "RegionOne", "internalURL": "http://127.0.0.1:3333",
-        "id": "552e4b26b0b94415bbc9854ab880b89a", "publicURL": "http://127.0.0.1:3333"}],
+        "id": "24fc6aff470e4feabec22cfaad00d8e8", "publicURL": "http://127.0.0.1:3333"}],
         "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
         "http://127.0.0.1:9292", "region": "RegionOne", "internalURL": "http://127.0.0.1:9292",
-        "id": "51ecf86d265f4161947c52ed1574671e", "publicURL": "http://127.0.0.1:9292"}],
+        "id": "00bcfe025b504085911dfbf6cf445348", "publicURL": "http://127.0.0.1:9292"}],
         "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
         "http://127.0.0.1:8777", "region": "RegionOne", "internalURL": "http://127.0.0.1:8777",
-        "id": "5a63059db9574df0999b8c17a6c5a837", "publicURL": "http://127.0.0.1:8777"}],
+        "id": "266f73a4319a4f659052bc4a49d395d2", "publicURL": "http://127.0.0.1:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"adminURL": "http://127.0.0.1:8776/v1/06e7f3f00b4f4539a09d0cfa5566ac64",
-        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/06e7f3f00b4f4539a09d0cfa5566ac64",
-        "id": "51ff66edec414eb391b9530ad33c1053", "publicURL": "http://127.0.0.1:8776/v1/06e7f3f00b4f4539a09d0cfa5566ac64"}],
+        [{"adminURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a",
+        "id": "17ad473a2a5e420ca5eee8367cc6eb5d", "publicURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a"}],
         "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
         [{"adminURL": "http://127.0.0.1:8773/services/Admin", "region": "RegionOne",
-        "internalURL": "http://127.0.0.1:8773/services/Cloud", "id": "69f9375834b44c5994020f7dc19dd06c",
+        "internalURL": "http://127.0.0.1:8773/services/Cloud", "id": "3d71ad35bb07412d9903f1a1b5637d91",
         "publicURL": "http://127.0.0.1:8773/services/Cloud"}], "endpoints_links":
         [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://127.0.0.1:35357/v2.0",
         "region": "RegionOne", "internalURL": "http://127.0.0.1:5000/v2.0", "id":
-        "1d26f3b865154d33b3a30081c85350ff", "publicURL": "http://127.0.0.1:5000/v2.0"}],
+        "3f99e67e2aab474fbd8952e2684ad6c3", "publicURL": "http://127.0.0.1:5000/v2.0"}],
         "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
-        "<OPENSTACK_MEMBER_USERNAME>", "roles_links": [], "id": "b7d25bb4ecb146d48dc51d3111c4613f",
+        "<OPENSTACK_MEMBER_USERNAME>", "roles_links": [], "id": "64a1ac655882436e8c5a404a69f42f10",
         "roles": [{"name": "_member_"}, {"name": "project_manager"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
         "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
-        "a2f4ee8b8bbe401fa06f6388b9e18cc9"]}}}'
+        "59153b1dfbca414bb60731d217b8bade"]}}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:22:49 GMT
+  recorded_at: Mon, 07 Oct 2013 10:20:58 GMT
 - request:
     method: get
-    uri: http://127.0.0.1:8774/v2/06e7f3f00b4f4539a09d0cfa5566ac64/images/invalidimageid/metadata
+    uri: http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/images/invalidimageid/metadata
     body:
       encoding: US-ASCII
       string: ''
@@ -74,7 +74,7 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - f7af7da06d3a446e9c67f20d27b6200f
+      - 48dcc54d7e574dbd951e75cf03e844d7
   response:
     status:
       code: 404
@@ -85,14 +85,14 @@ http_interactions:
       content-type:
       - application/json; charset=UTF-8
       x-compute-request-id:
-      - req-79afa8ed-2caf-4e1b-83a2-ad38cf403dad
+      - req-8e8d50d4-4793-4b52-827a-6ef6d3139c6c
       date:
-      - Mon, 07 Oct 2013 03:22:49 GMT
+      - Mon, 07 Oct 2013 10:20:58 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
       string: ! '{"itemNotFound": {"message": "Image not found.", "code": 404}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:22:49 GMT
+  recorded_at: Mon, 07 Oct 2013 10:20:58 GMT
 recorded_with: VCR 2.5.0

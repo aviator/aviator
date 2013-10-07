@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2677'
       date:
-      - Mon, 07 Oct 2013 03:51:06 GMT
+      - Mon, 07 Oct 2013 10:21:01 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-10-07T03:51:06.092629",
-        "expires": "2013-10-08T03:51:06Z", "id": "a45d4fb35245454e8577ea5bcc91af84",
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T10:21:01.430541",
+        "expires": "2013-10-08T10:21:01Z", "id": "4b9db4ca75ad421089229ae5571e4d9f",
         "tenant": {"description": "", "enabled": true, "id": "5eaedfd28a054b6189750bc1ccb8be5a",
         "name": "<OPENSTACK_MEMBER_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
         [{"adminURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
@@ -61,5 +61,5 @@ http_interactions:
         "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
         "59153b1dfbca414bb60731d217b8bade"]}}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:51:13 GMT
+  recorded_at: Mon, 07 Oct 2013 10:21:01 GMT
 recorded_with: VCR 2.5.0

@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2677'
       date:
-      - Mon, 07 Oct 2013 03:51:06 GMT
+      - Mon, 07 Oct 2013 10:21:02 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-10-07T03:51:06.697016",
-        "expires": "2013-10-08T03:51:06Z", "id": "177fdd8ad90a4457ad1c2d583ccb14bd",
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T10:21:02.224128",
+        "expires": "2013-10-08T10:21:02Z", "id": "bcfd88f4b6ed4cfeb400be927382b9db",
         "tenant": {"description": "", "enabled": true, "id": "5eaedfd28a054b6189750bc1ccb8be5a",
         "name": "<OPENSTACK_MEMBER_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
         [{"adminURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
@@ -61,7 +61,7 @@ http_interactions:
         "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
         "59153b1dfbca414bb60731d217b8bade"]}}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:51:14 GMT
+  recorded_at: Mon, 07 Oct 2013 10:21:02 GMT
 - request:
     method: get
     uri: http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/servers/invalidserverid/metadata
@@ -74,7 +74,7 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 177fdd8ad90a4457ad1c2d583ccb14bd
+      - bcfd88f4b6ed4cfeb400be927382b9db
   response:
     status:
       code: 404
@@ -85,14 +85,14 @@ http_interactions:
       content-type:
       - application/json; charset=UTF-8
       x-compute-request-id:
-      - req-3a155e8a-737c-45f5-837c-7aef2e3b53d1
+      - req-0a9aca79-5ce1-49b2-9a4e-24fe5b2fed95
       date:
-      - Mon, 07 Oct 2013 03:51:06 GMT
+      - Mon, 07 Oct 2013 10:21:02 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
       string: ! '{"itemNotFound": {"message": "Server does not exist", "code": 404}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:51:14 GMT
+  recorded_at: Mon, 07 Oct 2013 10:21:02 GMT
 recorded_with: VCR 2.5.0

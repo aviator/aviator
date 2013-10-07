@@ -23,13 +23,13 @@ http_interactions:
       content-length:
       - '2677'
       date:
-      - Mon, 07 Oct 2013 03:51:05 GMT
+      - Mon, 07 Oct 2013 10:21:01 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-10-07T03:51:05.532092",
-        "expires": "2013-10-08T03:51:05Z", "id": "463ce8861c71409ca98a0a132f1de2aa",
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T10:21:01.625965",
+        "expires": "2013-10-08T10:21:01Z", "id": "41670a6ff18247bba96372c9f748d1c2",
         "tenant": {"description": "", "enabled": true, "id": "5eaedfd28a054b6189750bc1ccb8be5a",
         "name": "<OPENSTACK_MEMBER_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
         [{"adminURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
@@ -61,7 +61,7 @@ http_interactions:
         "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
         "59153b1dfbca414bb60731d217b8bade"]}}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:51:13 GMT
+  recorded_at: Mon, 07 Oct 2013 10:21:01 GMT
 - request:
     method: get
     uri: http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/servers
@@ -74,20 +74,20 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 463ce8861c71409ca98a0a132f1de2aa
+      - 41670a6ff18247bba96372c9f748d1c2
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-7fe32e8a-72db-4e1d-9602-d2ae011f9810
+      - req-c59c078e-214d-4d44-8b51-ccc3c1310e53
       content-type:
       - application/json
       content-length:
       - '351'
       date:
-      - Mon, 07 Oct 2013 03:51:05 GMT
+      - Mon, 07 Oct 2013 10:21:01 GMT
       connection:
       - close
     body:
@@ -97,7 +97,7 @@ http_interactions:
         "rel": "self"}, {"href": "http://127.0.0.1:8774/5eaedfd28a054b6189750bc1ccb8be5a/servers/37a966b0-6b19-4731-a7ae-f50a482b1a5a",
         "rel": "bookmark"}], "name": "test"}]}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:51:13 GMT
+  recorded_at: Mon, 07 Oct 2013 10:21:01 GMT
 - request:
     method: get
     uri: http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/servers/37a966b0-6b19-4731-a7ae-f50a482b1a5a/metadata
@@ -110,25 +110,25 @@ http_interactions:
       User-Agent:
       - Faraday v0.8.8
       X-Auth-Token:
-      - 463ce8861c71409ca98a0a132f1de2aa
+      - 41670a6ff18247bba96372c9f748d1c2
   response:
     status:
       code: 200
       message: 
     headers:
       x-compute-request-id:
-      - req-3f777436-397c-4502-a1bc-c6513335ed80
+      - req-43a0be34-2d40-45fb-923e-c4d9a3649022
       content-type:
       - application/json
       content-length:
-      - '16'
+      - '46'
       date:
-      - Mon, 07 Oct 2013 03:51:05 GMT
+      - Mon, 07 Oct 2013 10:21:01 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"metadata": {"test": "foobar"}}'
+      string: ! '{"metadata": {"foo": "lorem", "bar": "ipsum"}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 03:51:13 GMT
+  recorded_at: Mon, 07 Oct 2013 10:21:01 GMT
 recorded_with: VCR 2.5.0

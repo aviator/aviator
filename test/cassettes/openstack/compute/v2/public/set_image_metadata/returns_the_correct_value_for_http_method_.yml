@@ -5,7 +5,7 @@ http_interactions:
     uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"},"tenantName":"<OPENSTACK_MEMBER_TENANTNAME>"}}'
     headers:
       Content-Type:
       - application/json
@@ -21,43 +21,45 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '2693'
+      - '2677'
       date:
-      - Mon, 07 Oct 2013 08:19:48 GMT
+      - Mon, 07 Oct 2013 10:21:05 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"access": {"token": {"issued_at": "2013-10-07T08:19:48.470831",
-        "expires": "2013-10-07T14:19:48Z", "id": "5d84aa0532f24c8e9670398a2c3eeba6",
-        "tenant": {"description": "for cassettes", "enabled": true, "id": "61ffee18d4d844b8a505758ed4be5679",
-        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
-        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/61ffee18d4d844b8a505758ed4be5679",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/61ffee18d4d844b8a505758ed4be5679",
-        "id": "291d395892b9435db9c7955ea37b61db", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8774/v2/61ffee18d4d844b8a505758ed4be5679"}],
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T10:21:05.747984",
+        "expires": "2013-10-08T10:21:05Z", "id": "0a6598d3f72141b3881f64bae2d1cdf3",
+        "tenant": {"description": "", "enabled": true, "id": "5eaedfd28a054b6189750bc1ccb8be5a",
+        "name": "<OPENSTACK_MEMBER_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
+        "id": "058dfe093abb4befbe686c0332a68463", "publicURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a"}],
         "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
-        "<OPENSTACK_ADMIN_HOST_URI>:9292", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:9292",
-        "id": "2846d01bbd3149ae906ef244acf1f151", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:9292"}],
+        "http://127.0.0.1:3333", "region": "RegionOne", "internalURL": "http://127.0.0.1:3333",
+        "id": "24fc6aff470e4feabec22cfaad00d8e8", "publicURL": "http://127.0.0.1:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:9292", "region": "RegionOne", "internalURL": "http://127.0.0.1:9292",
+        "id": "00bcfe025b504085911dfbf6cf445348", "publicURL": "http://127.0.0.1:9292"}],
         "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
-        "<OPENSTACK_ADMIN_HOST_URI>:8777", "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8777",
-        "id": "445e9301c8894b7496d53f7b8f46a1e1", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8777"}],
+        "http://127.0.0.1:8777", "region": "RegionOne", "internalURL": "http://127.0.0.1:8777",
+        "id": "266f73a4319a4f659052bc4a49d395d2", "publicURL": "http://127.0.0.1:8777"}],
         "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
-        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/61ffee18d4d844b8a505758ed4be5679",
-        "region": "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/61ffee18d4d844b8a505758ed4be5679",
-        "id": "04c792be6af4479ea80a9ec4d6fb2101", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8776/v1/61ffee18d4d844b8a505758ed4be5679"}],
-        "endpoints_links": [], "type": "volume", "name": "nova_volume"}, {"endpoints":
-        [{"adminURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Admin", "region":
-        "RegionOne", "internalURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud",
-        "id": "59e830138f1d4d07994ded440b7609db", "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:8773/services/Cloud"}],
-        "endpoints_links": [], "type": "ec2", "name": "nova_ec2"}, {"endpoints": [{"adminURL":
-        "<OPENSTACK_ADMIN_HOST_URI>:35357/v2.0", "region": "RegionOne", "internalURL":
-        "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0", "id": "104ef87e466e4905a85f3abef12afb88",
-        "publicURL": "<OPENSTACK_ADMIN_HOST_URI>:5000/v2.0"}], "endpoints_links":
-        [], "type": "identity", "name": "keystone"}], "user": {"username": "<OPENSTACK_MEMBER_USERNAME>",
-        "roles_links": [], "id": "1ad17b9685f247188a1c51d70ba9cf11", "roles": [{"name":
-        "Member"}, {"name": "_member_"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
-        "metadata": {"is_admin": 0, "roles": ["9129432554bd4b479601fbab03dacde8",
-        "9fe2ff9ee4384b1894a90878d3e92bab"]}}}'
+        [{"adminURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a",
+        "id": "17ad473a2a5e420ca5eee8367cc6eb5d", "publicURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8773/services/Admin", "region": "RegionOne",
+        "internalURL": "http://127.0.0.1:8773/services/Cloud", "id": "3d71ad35bb07412d9903f1a1b5637d91",
+        "publicURL": "http://127.0.0.1:8773/services/Cloud"}], "endpoints_links":
+        [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://127.0.0.1:35357/v2.0",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:5000/v2.0", "id":
+        "3f99e67e2aab474fbd8952e2684ad6c3", "publicURL": "http://127.0.0.1:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "<OPENSTACK_MEMBER_USERNAME>", "roles_links": [], "id": "64a1ac655882436e8c5a404a69f42f10",
+        "roles": [{"name": "_member_"}, {"name": "project_manager"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
+        "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
+        "59153b1dfbca414bb60731d217b8bade"]}}}'
     http_version: 
-  recorded_at: Mon, 07 Oct 2013 08:19:50 GMT
+  recorded_at: Mon, 07 Oct 2013 10:21:05 GMT
 recorded_with: VCR 2.5.0
