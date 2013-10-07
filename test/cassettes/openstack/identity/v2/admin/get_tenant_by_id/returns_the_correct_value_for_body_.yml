@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2773'
+      date:
+      - Mon, 07 Oct 2013 21:40:58 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-10-07T21:40:58.691815",
+        "expires": "2013-10-08T21:40:58Z", "id": "7fe030c3ed7945dfbdb69d55c2998192",
+        "tenant": {"description": "<OPENSTACK_ADMIN_TENANTNAME>", "enabled": true,
+        "id": "4a35c4710f7a4efaa348947fdb1b858f", "name": "<OPENSTACK_ADMIN_TENANTNAME>"}},
+        "serviceCatalog": [{"endpoints": [{"adminURL": "http://192.168.56.11:8774/v2/4a35c4710f7a4efaa348947fdb1b858f",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/4a35c4710f7a4efaa348947fdb1b858f",
+        "id": "3b72a66bf2f0491bb8dba827cade0d48", "publicURL": "http://192.168.56.11:8774/v2/4a35c4710f7a4efaa348947fdb1b858f"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:3333", "region": "RegionOne", "internalURL": "http://192.168.56.11:3333",
+        "id": "482f749b370c40eab8788d6d0bc47f48", "publicURL": "http://192.168.56.11:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:9292", "region": "RegionOne", "internalURL": "http://192.168.56.11:9292",
+        "id": "0cd5d5d5a0c24721a0392b47c89e3640", "publicURL": "http://192.168.56.11:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:8777", "region": "RegionOne", "internalURL": "http://192.168.56.11:8777",
+        "id": "4eb4edec1d2647bfb8ba4f9a5757169d", "publicURL": "http://192.168.56.11:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://192.168.56.11:8776/v1/4a35c4710f7a4efaa348947fdb1b858f",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/4a35c4710f7a4efaa348947fdb1b858f",
+        "id": "009e8a41953d439f845b2a0c0dc28b73", "publicURL": "http://192.168.56.11:8776/v1/4a35c4710f7a4efaa348947fdb1b858f"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://192.168.56.11:8773/services/Admin", "region": "RegionOne",
+        "internalURL": "http://192.168.56.11:8773/services/Cloud", "id": "6820836ec6834548bf7b54da0271dded",
+        "publicURL": "http://192.168.56.11:8773/services/Cloud"}], "endpoints_links":
+        [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://192.168.56.11:35357/v2.0",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:5000/v2.0", "id":
+        "24a95f51f67949e784971e97463ee4d8", "publicURL": "http://192.168.56.11:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "<OPENSTACK_ADMIN_USERNAME>", "roles_links": [], "id": "4088b95fef9e49059a303a853f33c3c1",
+        "roles": [{"name": "admin"}, {"name": "_member_"}], "name": "<OPENSTACK_ADMIN_USERNAME>"},
+        "metadata": {"is_admin": 0, "roles": ["01a81f2dbb3441f1aaa8fe68a7c6f546",
+        "9fe2ff9ee4384b1894a90878d3e92bab"]}}}'
+    http_version: 
+  recorded_at: Mon, 07 Oct 2013 21:40:58 GMT
+recorded_with: VCR 2.5.0
