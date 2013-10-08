@@ -18,14 +18,16 @@ module Aviator
 
 
     def base_url
-      if session_data[:auth_service] && session_data[:auth_service][:host_uri]
-        "#{ session_data[:auth_service][:host_uri] }/v2.0"
-      elsif session_data[:base_url]
+      if session_data[:base_url]
         session_data[:base_url]
-      else
-        service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
-        raise Aviator::Service::MissingServiceEndpointError.new(service.to_s, self.class) unless service_spec
+      elsif service_spec = session_data[:access][:serviceCatalog].find { |s| s[:type] == service.to_s }
         service_spec[:endpoints][0]["#{ endpoint_type }URL".to_sym]
+      elsif session_data[:auth_service] && session_data[:auth_service][:host_uri] && session_data[:auth_service][:api_version]
+        "#{ session_data[:auth_service][:host_uri] }/v2.0"
+      elsif session_data[:auth_service] && session_data[:auth_service][:host_uri]
+        session_data[:auth_service][:host_uri]
+      else
+        raise Aviator::Service::MissingServiceEndpointError.new(service.to_s, self.class)
       end
     end
 
