@@ -1,0 +1,98 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"},"tenantName":"<OPENSTACK_MEMBER_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2677'
+      date:
+      - Tue, 08 Oct 2013 05:18:50 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2013-10-08T05:18:50.621406",
+        "expires": "2013-10-09T05:18:50Z", "id": "8343a171a3f2419697a317acbf3cef20",
+        "tenant": {"description": "", "enabled": true, "id": "5eaedfd28a054b6189750bc1ccb8be5a",
+        "name": "<OPENSTACK_MEMBER_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a",
+        "id": "058dfe093abb4befbe686c0332a68463", "publicURL": "http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:3333", "region": "RegionOne", "internalURL": "http://127.0.0.1:3333",
+        "id": "24fc6aff470e4feabec22cfaad00d8e8", "publicURL": "http://127.0.0.1:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:9292", "region": "RegionOne", "internalURL": "http://127.0.0.1:9292",
+        "id": "00bcfe025b504085911dfbf6cf445348", "publicURL": "http://127.0.0.1:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "http://127.0.0.1:8777", "region": "RegionOne", "internalURL": "http://127.0.0.1:8777",
+        "id": "266f73a4319a4f659052bc4a49d395d2", "publicURL": "http://127.0.0.1:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a",
+        "id": "17ad473a2a5e420ca5eee8367cc6eb5d", "publicURL": "http://127.0.0.1:8776/v1/5eaedfd28a054b6189750bc1ccb8be5a"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://127.0.0.1:8773/services/Admin", "region": "RegionOne",
+        "internalURL": "http://127.0.0.1:8773/services/Cloud", "id": "3d71ad35bb07412d9903f1a1b5637d91",
+        "publicURL": "http://127.0.0.1:8773/services/Cloud"}], "endpoints_links":
+        [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://127.0.0.1:35357/v2.0",
+        "region": "RegionOne", "internalURL": "http://127.0.0.1:5000/v2.0", "id":
+        "3f99e67e2aab474fbd8952e2684ad6c3", "publicURL": "http://127.0.0.1:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "<OPENSTACK_MEMBER_USERNAME>", "roles_links": [], "id": "64a1ac655882436e8c5a404a69f42f10",
+        "roles": [{"name": "_member_"}, {"name": "project_manager"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
+        "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
+        "59153b1dfbca414bb60731d217b8bade"]}}}'
+    http_version: 
+  recorded_at: Tue, 08 Oct 2013 05:18:50 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8774/v2/5eaedfd28a054b6189750bc1ccb8be5a/servers/invalidserverid/metadata/doesntmatter
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 8343a171a3f2419697a317acbf3cef20
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      content-length:
+      - '67'
+      content-type:
+      - application/json; charset=UTF-8
+      x-compute-request-id:
+      - req-02306856-c4b5-4bc4-919e-73ce2fd62e54
+      date:
+      - Tue, 08 Oct 2013 05:18:50 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"itemNotFound": {"message": "Server does not exist", "code": 404}}'
+    http_version: 
+  recorded_at: Tue, 08 Oct 2013 05:18:50 GMT
+recorded_with: VCR 2.5.0
