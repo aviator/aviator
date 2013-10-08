@@ -115,8 +115,8 @@ class Aviator::Test
       image_id = '2755c6d2-2978-4053-a728-f77388e24bec'
 
       new_metadata = {
-        'foo' => 'lorem',
-        'bar' => 'ipsum'
+        foo: 'lorem',
+        bar: 'ipsum'
       }
 
       response = session.compute_service.request :set_image_metadata do |params|
@@ -127,7 +127,7 @@ class Aviator::Test
       response.status.must_equal 200
       response.body.wont_be_nil
       response.body[:metadata].wont_be_nil
-      response.body[:metadata].must_equal new_metadata
+      response.body[:metadata].must_equal new_metadata.stringify_keys
       response.headers.wont_be_nil
     end
 
