@@ -33,7 +33,8 @@ class Aviator::Test
       unless @session
         @session = Aviator::Session.new(
           config_file: Environment.path,
-          environment: 'openstack_admin'
+          environment: 'openstack_admin',
+          log_file:    Environment.log_file_path
         )
         @session.authenticate
       end

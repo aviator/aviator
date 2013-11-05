@@ -8,11 +8,13 @@ class Test
     class << self
 
       attr_reader :config,
+                  :log_file_path,
                   :path
 
       def init!
-        @path = Pathname.new(__FILE__).join('..', '..', 'environment.yml').expand_path
-        
+        @path          = Pathname.new(__FILE__).join('..', '..', 'environment.yml').expand_path
+        @log_file_path = Pathname.new(__FILE__).join('..', '..', '..', 'tmp', 'aviator.log').expand_path
+
         unless path.file?
           raise <<-EOF
 
@@ -30,7 +32,7 @@ copying the contents of environment.yml.example.
 
 EOF
         end
-        
+
         @config = YAML.load_file(path).with_indifferent_access
       end
 
