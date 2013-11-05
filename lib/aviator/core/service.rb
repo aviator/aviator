@@ -50,19 +50,6 @@ module Aviator
       end
     end
 
-
-
-    class Logger < Faraday::Response::Logger
-      def initialize(app, logger=nil)
-        super(app)
-        @logger = logger || begin
-          require 'logger'
-          ::Logger.new(self.class::LOG_FILE_PATH)
-        end
-      end
-    end
-
-
     attr_accessor :default_session_data
 
     attr_reader :service,
@@ -84,7 +71,7 @@ module Aviator
       session_data = options[:session_data] || default_session_data
 
       raise SessionDataNotProvidedError.new unless session_data
-      
+
       [:base_url].each do |k|
         session_data[k] = options[k] if options[k]
       end
@@ -116,14 +103,9 @@ module Aviator
 
     def http_connection
       @http_connection ||= Faraday.new do |conn|
-        if log_file
-          # Ugly hack to make logger configurable
-          const_name = 'LOG_FILE_PATH'
-          Logger.send(:remove_const, const_name) if Logger.const_defined?(const_name)
-          Logger.const_set(const_name, log_file)
-          conn.use     Logger.dup
-        end
+        conn.use     Logger.configure(log_file) if log_file
         conn.adapter Faraday.default_adapter
+
         conn.headers['Content-Type'] = 'application/json'
       end
     end
