@@ -141,7 +141,7 @@ class Aviator::Test
         provider_name = config[:provider]
         service_name  = config[:auth_service][:name]
         service_path  = Pathname.new(__FILE__).join(
-                          '..', '..', '..', '..', 'lib', 'aviator', provider_name, service_name
+                          '..', '..', '..', '..', 'lib', 'aviator', 'providers', provider_name, service_name
                         ).expand_path
                        
         request_files = Pathname.glob(service_path.join('**', '*.rb'))
@@ -149,7 +149,7 @@ class Aviator::Test
                           .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
         
         classes = request_files.map do |rf| 
-          "Aviator::#{provider_name.camelize}::#{service_name.camelize}::#{rf}".constantize
+          "Aviator::Providers::#{provider_name.camelize}::#{service_name.camelize}::#{rf}".constantize
         end
         
         service.request_classes.must_equal classes

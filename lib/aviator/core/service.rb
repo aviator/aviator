@@ -119,8 +119,9 @@ module Aviator
                          ['Public', 'Admin']
                        end
 
-      namespace = Aviator.const_get(provider.camelize)
-                         .const_get(service.camelize)
+      namespace = Aviator::Providers
+                    .const_get(provider.camelize)
+                    .const_get(service.camelize)
 
       version = infer_version(session_data, name).to_s.camelize
 
@@ -169,6 +170,7 @@ module Aviator
       request_file_paths = Dir.glob(Pathname.new(__FILE__).join(
                              '..',
                              '..',
+                             'providers',
                              provider.to_s,
                              service.to_s,
                              '**',
@@ -183,7 +185,7 @@ module Aviator
                         .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
 
       @request_classes = constant_parts.map do |cp|
-        "Aviator::#{provider.camelize}::#{service.camelize}::#{cp}".constantize
+        "Aviator::Providers::#{provider.camelize}::#{service.camelize}::#{cp}".constantize
       end
     end
 

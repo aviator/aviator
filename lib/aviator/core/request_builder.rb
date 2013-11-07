@@ -4,7 +4,7 @@ module Aviator
     attr_reader :base_request_hierarchy
 
     def initialize(base_hierarchy)
-      @base_request_hierarchy = base_hierarchy
+      @base_request_hierarchy = base_hierarchy - [:providers]
       super("#{ base_request_hierarchy } could not be found!")
     end
   end
@@ -32,6 +32,7 @@ module Aviator
         klass = Class.new(base_klass, &block)
 
         namespace_arr = [
+         :providers,
           klass.provider,
           klass.service,
           klass.api_version,
@@ -55,6 +56,11 @@ module Aviator
 
 
       def get_request_class(root_namespace, request_class_arr)
+        # Clone the array because we're calling #unshift
+        # which is a destructive method.
+        request_class_arr = request_class_arr.dup
+        request_class_arr.unshift(:providers) unless request_class_arr == [:request]
+        
         request_class_arr.inject(root_namespace) do |namespace, sym|
           namespace.const_get(sym.to_s.camelize, false)
         end
@@ -62,7 +68,7 @@ module Aviator
         arr = ['..', '..'] + request_class_arr
         arr[-1,1] = arr.last.to_s + '.rb'
         path = Pathname.new(__FILE__).join(*arr.map{|i| i.to_s }).expand_path
-
+        
         if path.exist?
           require path
           request_class_arr.inject(root_namespace) do |namespace, sym|

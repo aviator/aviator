@@ -25,7 +25,7 @@ class Aviator::Test
           meta :endpoint_type, ep_type
         end
         
-        [provider, service, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
+        ['providers', provider, service, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
           const_name = sym.to_s.camelize
           
           namespace.const_defined?(const_name, false).must_equal true
@@ -49,7 +49,7 @@ class Aviator::Test
           meta :endpoint_type, ep_type
         end
 
-        [provider, service, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
+        ['providers', provider, service, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
           const_name = sym.to_s.camelize
 
           namespace.const_defined?(const_name, false).must_equal true,
@@ -87,6 +87,7 @@ class Aviator::Test
         builder.define_request :child_request, inherit: base_request do; end
 
         child_req_hierarchy = [
+         'providers',
           base[:provider],
           base[:service],
           base[:api_ver],
@@ -163,11 +164,11 @@ class Aviator::Test
 
         builder.define_request child_arr.last, inherit: base_arr do; end
 
-        base_klass = base_arr.inject(builder) do |namespace, sym|
+        base_klass = base_arr.unshift(:providers).inject(builder) do |namespace, sym|
           namespace.const_get(sym.to_s.camelize, false)
         end
-
-        child_klass = child_arr.inject(builder) do |namespace, sym|
+        
+        child_klass = child_arr.unshift(:providers).inject(builder) do |namespace, sym|
           namespace.const_get(sym.to_s.camelize, false)
         end
 
