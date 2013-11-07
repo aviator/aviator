@@ -169,6 +169,7 @@ module Aviator
       request_file_paths = Dir.glob(Pathname.new(__FILE__).join(
                              '..',
                              '..',
+                             'providers',
                              provider.to_s,
                              service.to_s,
                              '**',

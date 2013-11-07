@@ -60,7 +60,9 @@ class Test
 
       
       def load_request(*path)
-        require request_path(*path)
+        file_path = path.dup.unshift('providers')
+        
+        require request_path(*file_path)
         get_request_class(Aviator, *path)
       end
     

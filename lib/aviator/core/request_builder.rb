@@ -59,7 +59,7 @@ module Aviator
           namespace.const_get(sym.to_s.camelize, false)
         end
       rescue NameError => e
-        arr = ['..', '..'] + request_class_arr
+        arr = ['..', '..', 'providers'] + request_class_arr
         arr[-1,1] = arr.last.to_s + '.rb'
         path = Pathname.new(__FILE__).join(*arr.map{|i| i.to_s }).expand_path
 

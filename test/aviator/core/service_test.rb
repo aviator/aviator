@@ -141,7 +141,7 @@ class Aviator::Test
         provider_name = config[:provider]
         service_name  = config[:auth_service][:name]
         service_path  = Pathname.new(__FILE__).join(
-                          '..', '..', '..', '..', 'lib', 'aviator', provider_name, service_name
+                          '..', '..', '..', '..', 'lib', 'aviator', 'providers', provider_name, service_name
                         ).expand_path
                        
         request_files = Pathname.glob(service_path.join('**', '*.rb'))
