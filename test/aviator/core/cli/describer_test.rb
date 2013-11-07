@@ -10,7 +10,7 @@ class Aviator::Test
       base_ept  = :public
 
       unless @base
-        request_path = [provider_name, service_name, base_ver, base_ept, base_name]
+        request_path = [:providers, provider_name, service_name, base_ver, base_ept, base_name]
 
         @base = request_path.inject(Aviator) do |namespace, sym|
           const_name = sym.to_s.camelize

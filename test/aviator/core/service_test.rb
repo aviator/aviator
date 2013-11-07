@@ -149,7 +149,7 @@ class Aviator::Test
                           .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
         
         classes = request_files.map do |rf| 
-          "Aviator::#{provider_name.camelize}::#{service_name.camelize}::#{rf}".constantize
+          "Aviator::Providers::#{provider_name.camelize}::#{service_name.camelize}::#{rf}".constantize
         end
         
         service.request_classes.must_equal classes

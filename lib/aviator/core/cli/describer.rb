@@ -26,7 +26,7 @@ module Aviator
 
     def self.describe_request(provider_name, service_name, api_version, endpoint_type, request_name)
       service = Aviator::Service.new provider: provider_name, service: service_name
-      request_class = "Aviator::#{ provider_name.camelize }::#{ service_name.camelize }::"\
+      request_class = "Aviator::Providers::#{ provider_name.camelize }::#{ service_name.camelize }::"\
                       "#{ api_version.camelize }::#{ endpoint_type.camelize }::#{ request_name.camelize }".constantize
 
       display = "Request: #{ request_name }\n"
@@ -119,7 +119,7 @@ module Aviator
 
       def provider_names
         Pathname.new(__FILE__)
-          .join('..', '..', '..')
+          .join('..', '..', '..', 'providers')
           .children
           .select{|c| c.directory? && c.basename.to_s != 'core' }
           .map{|c| c.basename.to_s }
@@ -134,7 +134,7 @@ module Aviator
 
       def service_names(provider_name)
         Pathname.new(__FILE__)
-          .join('..', '..', '..', provider_name)
+          .join('..', '..', '..', 'providers', provider_name)
           .children
           .select{|c| c.directory? }
           .map{|c| c.basename.to_s }
