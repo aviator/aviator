@@ -24,7 +24,7 @@ module Aviator
         }
       }
 
-      [:availability_zone, :metadata].each do |key|
+      optional_params.each do |key|
           p[:volume][key] = params[key] if params[key]
       end
 
