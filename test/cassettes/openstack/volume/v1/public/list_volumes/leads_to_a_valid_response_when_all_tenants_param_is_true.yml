@@ -1,0 +1,139 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_ADMIN_USERNAME>","password":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_ADMIN_TENANTNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '2748'
+      date:
+      - Mon, 13 Jan 2014 19:50:40 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2014-01-13T19:50:40.932648",
+        "expires": "2014-01-14T19:50:40Z", "id": "2eba17df3d9f4b588216d7d46ab7a190",
+        "tenant": {"description": "", "enabled": true, "id": "48aee3419d144bff8b52dfa9ecc77f56",
+        "name": "<OPENSTACK_ADMIN_TENANTNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"adminURL": "http://192.168.56.11:8774/v2/48aee3419d144bff8b52dfa9ecc77f56",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/48aee3419d144bff8b52dfa9ecc77f56",
+        "id": "385eff0d00e649f5ad4681886d76f997", "publicURL": "http://192.168.56.11:8774/v2/48aee3419d144bff8b52dfa9ecc77f56"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:3333", "region": "RegionOne", "internalURL": "http://192.168.56.11:3333",
+        "id": "0d4ab1f95c13456a9d7a3d027e76c964", "publicURL": "http://192.168.56.11:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:9292", "region": "RegionOne", "internalURL": "http://192.168.56.11:9292",
+        "id": "0bdc5ce8ec68435ab750943d540904eb", "publicURL": "http://192.168.56.11:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"adminURL":
+        "http://192.168.56.11:8777", "region": "RegionOne", "internalURL": "http://192.168.56.11:8777",
+        "id": "9dbbda6e77ca43218cba4d9ed73ba1c1", "publicURL": "http://192.168.56.11:8777"}],
+        "endpoints_links": [], "type": "metering", "name": "ceilometer"}, {"endpoints":
+        [{"adminURL": "http://192.168.56.11:8776/v1/48aee3419d144bff8b52dfa9ecc77f56",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/48aee3419d144bff8b52dfa9ecc77f56",
+        "id": "0d82a40198944f0eae9f159fa5f6a3a8", "publicURL": "http://192.168.56.11:8776/v1/48aee3419d144bff8b52dfa9ecc77f56"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"adminURL": "http://192.168.56.11:8773/services/Admin", "region": "RegionOne",
+        "internalURL": "http://192.168.56.11:8773/services/Cloud", "id": "2e9360daaf9841128035b4e3d9a4e134",
+        "publicURL": "http://192.168.56.11:8773/services/Cloud"}], "endpoints_links":
+        [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"adminURL": "http://192.168.56.11:35357/v2.0",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:5000/v2.0", "id":
+        "554549b6bfc149e69570c225ba6883f6", "publicURL": "http://192.168.56.11:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "<OPENSTACK_ADMIN_USERNAME>", "roles_links": [], "id": "8672f6120b7a49ff9895ac72dc20c86f",
+        "roles": [{"name": "_member_"}, {"name": "admin"}], "name": "<OPENSTACK_ADMIN_USERNAME>"},
+        "metadata": {"is_admin": 0, "roles": ["9fe2ff9ee4384b1894a90878d3e92bab",
+        "6be5442773c6459c917c0373bc58f6c4"]}}}'
+    http_version: 
+  recorded_at: Mon, 13 Jan 2014 19:50:40 GMT
+- request:
+    method: get
+    uri: http://192.168.56.11:8776/v1/48aee3419d144bff8b52dfa9ecc77f56/volumes
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 2eba17df3d9f4b588216d7d46ab7a190
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-b7d2453e-25b8-4e70-b451-8d25292f98a5
+      content-type:
+      - application/json
+      content-length:
+      - '15'
+      date:
+      - Mon, 13 Jan 2014 19:50:41 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"volumes": []}'
+    http_version: 
+  recorded_at: Mon, 13 Jan 2014 19:50:40 GMT
+- request:
+    method: get
+    uri: http://192.168.56.11:8776/v1/48aee3419d144bff8b52dfa9ecc77f56/volumes?all_tenants=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - 2eba17df3d9f4b588216d7d46ab7a190
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      x-compute-request-id:
+      - req-9a7f5708-c04f-4f22-ba28-3271b8fe4a9a
+      content-type:
+      - application/json
+      content-length:
+      - '675'
+      date:
+      - Mon, 13 Jan 2014 19:50:41 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"volumes": [{"status": "available", "display_name": "admin_test",
+        "attachments": [], "availability_zone": "nova", "bootable": "false", "created_at":
+        "2014-01-13T19:34:36.000000", "display_description": "", "volume_type": "None",
+        "snapshot_id": null, "source_volid": null, "metadata": {}, "id": "73f88b98-480c-4a47-a660-65aeeb46559d",
+        "size": 1}, {"status": "available", "display_name": "Test", "attachments":
+        [], "availability_zone": "nova", "bootable": "false", "created_at": "2013-12-11T19:04:52.000000",
+        "display_description": "", "volume_type": "None", "snapshot_id": null, "source_volid":
+        null, "metadata": {}, "id": "225c700b-3f2f-4ee1-99f3-a61d749bdcff", "size":
+        1}]}'
+    http_version: 
+  recorded_at: Mon, 13 Jan 2014 19:50:40 GMT
+recorded_with: VCR 2.5.0

@@ -7,6 +7,7 @@ module Aviator
 
     link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getVolumesSimple_v1__tenant_id__volumes_v1__tenant_id__volumes.html'
 
+    param :all_tenants,         required: false
     param :details,             required: false
     param :status,              required: false
     param :availability_zone,   required: false
@@ -29,7 +30,17 @@ module Aviator
     def url
       str  = "#{ base_url }/volumes"
       str += "/detail" if params[:details]
-      str += params_to_querystring(optional_params + required_params - [:details])
+
+      filters = []
+
+      (optional_params + required_params - [:details]).each do |param_name|
+        value = param_name == :all_tenants && params[param_name] ? 1 : params[param_name]
+        filters << "#{ param_name }=#{ value }" if value
+      end
+
+      str += "?#{ filters.join('&') }" unless filters.empty?
+
+      str
     end
 
   end
