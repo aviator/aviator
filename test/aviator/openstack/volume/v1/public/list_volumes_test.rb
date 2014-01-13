@@ -92,6 +92,7 @@ class Aviator::Test
 
     validate_attr :optional_params do
       klass.optional_params.must_equal [
+        :all_tenants,
         :details,
         :status,
         :availability_zone,
