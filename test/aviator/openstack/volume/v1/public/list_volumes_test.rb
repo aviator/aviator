@@ -4,6 +4,7 @@ class Aviator::Test
 
   describe 'aviator/openstack/volume/v1/public/list_volumes' do
 
+
     def create_request(session_data = get_session_data, &block)
       klass.new(session_data, &block)
     end
@@ -31,6 +32,7 @@ class Aviator::Test
       Aviator::Test::RequestHelper
     end
 
+
     def session
       unless @session
         @session = Aviator::Session.new(
@@ -53,6 +55,7 @@ class Aviator::Test
       @klass ||= helper.load_request('openstack', 'volume', 'v1', 'public', 'list_volumes.rb')
     end
 
+
     def create_volume
       session.volume_service.request :create_volume do |params|
         params[:display_name]         = 'Aviator Volume Test Name'
@@ -60,6 +63,7 @@ class Aviator::Test
         params[:size]                 = '1'
       end
     end
+
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -90,6 +94,7 @@ class Aviator::Test
       request.headers.must_equal headers
     end
 
+
     validate_attr :optional_params do
       klass.optional_params.must_equal [
         :all_tenants,
@@ -115,6 +120,7 @@ class Aviator::Test
       create_request.http_method.must_equal :get
     end
 
+
     validate_response 'no parameters are provided' do
       create_volume
 
@@ -125,6 +131,7 @@ class Aviator::Test
       response.body[:volumes].length.wont_equal 0
       response.headers.wont_be_nil
     end
+
 
     validate_response 'parameters are valid' do
       create_volume
@@ -141,6 +148,7 @@ class Aviator::Test
       response.headers.wont_be_nil
     end
 
+
     validate_response 'parameters are invalid' do
       response = session.volume_service.request :list_volumes do |params|
         params[:display_name] = "derpderp"
@@ -151,5 +159,8 @@ class Aviator::Test
       response.body[:volumes].length.must_equal 0
       response.headers.wont_be_nil
     end
+
+
   end
+
 end
