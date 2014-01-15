@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'faraday', '~> 0.8.0'
+  spec.add_dependency 'faraday', '0.8.8'
   spec.add_dependency 'activesupport', '>= 3.2.8'
   spec.add_dependency 'thor', '~> 0.18.1'
   spec.add_dependency 'terminal-table', '>= 1.4.5'
