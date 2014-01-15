@@ -13,5 +13,5 @@ group :test do
   gem 'json', '~> 1.7.0'
   gem 'minitest', '~> 4.7.0'
   gem 'minitest-reporters', '~> 0.14.20'
-  gem 'vcr', '~> 2.5.0'
+  gem 'vcr', '~> 2.8.0'
 end
