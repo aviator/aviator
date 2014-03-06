@@ -9,19 +9,6 @@ class Aviator::Test
     end
 
 
-    def session
-      unless @session
-        @session = Aviator::Session.new(
-                     config_file: Environment.path,
-                     environment: 'openstack_member'
-                   )
-        @session.authenticate
-      end
-
-      @session
-    end
-
-
     def get_session_data
       session.send :auth_info
     end
@@ -41,11 +28,6 @@ class Aviator::Test
       end
 
       @session
-    end
-
-
-    def helper
-      Aviator::Test::RequestHelper
     end
 
 
