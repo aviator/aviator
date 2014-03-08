@@ -99,7 +99,7 @@ class Aviator::Test
     end
 
 
-    validate_response 'no parameters are provided' do
+    validate_response 'id parameter is provided' do
       service = session.identity_service
 
       response = service.request :get_user do |p|
@@ -110,7 +110,24 @@ class Aviator::Test
       response.status.must_equal 200
       response.body.wont_be_nil
       response.body[:user].length.wont_equal 0
-      response.body[:user]['name'] = get_user_name
+      #since we can't send an email to somebody
+      email_regex = %r{
+         ^ # Start of string
+
+         [0-9a-z] # First character
+         [0-9a-z.+]+ # Middle characters
+         [0-9a-z] # Last character
+
+         @ # Separating @ character
+
+         [0-9a-z] # Domain name begin
+         [0-9a-z.-]+ # Domain name middle
+         [0-9a-z] # Domain name end
+
+         $ # End of string
+      }xi # Case insensitive
+      response.body[:user]['name'].must_equal get_user_name
+      (response.body[:user]['email'] =~ email_regex).must_equal 0
       response.headers.wont_be_nil
     end
 
