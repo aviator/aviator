@@ -5,6 +5,7 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 # Set-up coverage reporting (local and Coveralls.com)
 require 'simplecov'
 require 'coveralls'
+
 SimpleCov.command_name 'MiniTest'
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,
@@ -12,7 +13,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 ]
 SimpleCov.start do
   add_filter '/test/'
-  
+
   add_group 'Core', 'lib/aviator/core'
   add_group 'OpenStack', 'lib/aviator/openstack'
 end
