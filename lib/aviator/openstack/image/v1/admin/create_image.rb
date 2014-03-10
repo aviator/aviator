@@ -13,12 +13,13 @@ module Aviator
     param :container_format,  required: false
     param :store,             required: false
     param :owner,             required: false
-    param :size,              required: false
     param :min_ram,           required: false
     param :min_disk,          required: false
     param :checksum,          required: false
     param :is_public,         required: false
+    param :is_protected,      required: false
     param :copy_from,         required: false
+    param :file,              required: false
     param :properties,        required: false
 
     def headers
@@ -31,19 +32,31 @@ module Aviator
         'x-image-meta-container-format' => params[:container_format],
         'x-image-meta-store'            => params[:store],
         'x-image-meta-owner'            => params[:owner],
-        'x-image-meta-size'             => params[:size],
         'x-image-meta-min-ram'          => params[:min_ram],
         'x-image-meta-min-disk'         => params[:min_disk],
         'x-image-meta-checksum'         => params[:checksum],
         'x-image-meta-is-public'        => params[:is_public],
+        'x-image-meta-protected'        => params[:is_protected],
         'x-glance-api-copy-from'        => params[:copy_from]
       }
+
+      @request_body = nil
+
+      if params[:copy_from].nil? and not params[:file].nil?
+        file                    = Faraday::UploadIO.new(params[:file], 'application/octet-stream')
+        @request_body           = file.io
+        h['x-image-meta-size']  = file.size.to_s
+      end
 
       unless params[:properties].nil?
         params[:properties].each { |k, v| h["x-image-meta-property-#{k}"] = v }
       end
 
       h.reject { |k,v| v.nil? }
+    end
+
+    def body
+      { file: @request_body }
     end
 
     def http_method
@@ -54,6 +67,8 @@ module Aviator
       uri = URI(base_url)
       "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v1/images"
     end
+
+    undef_method :body unless @request_body
 
   end
 

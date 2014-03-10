@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'open-uri'
 
 class Aviator::Test
 
@@ -35,7 +36,6 @@ class Aviator::Test
 
       @session
     end
-
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -85,12 +85,13 @@ class Aviator::Test
         :container_format,
         :store,
         :owner,
-        :size,
         :min_ram,
         :min_disk,
         :checksum,
         :is_public,
+        :is_protected,
         :copy_from,
+        :file,
         :properties
       ]
     end
@@ -171,6 +172,51 @@ class Aviator::Test
 
       response.status.must_equal 409
       response.headers.wont_be_nil
+    end
+
+    validate_response 'existing image id is provided' do
+      image = session.image_service.request(:create_image).body[:image]
+
+      response = session.image_service.request :create_image do |params|
+        params[:name] = 'test image'
+        params[:id]   = image[:id]
+      end
+
+      response.status.must_equal 409
+      response.headers.wont_be_nil
+    end
+
+    validate_response 'valid file parameter is provided' do
+      tmp_file = "/tmp/" << Digest::SHA256.hexdigest("aviator-image-test-#{Socket.gethostname}")
+      file = nil
+
+      File.open(tmp_file, "wb") do |saved_file|
+        open('http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img', 'rb') do |read_file|
+          saved_file.write(read_file.read)
+        end
+
+        file = saved_file
+      end
+
+      response = session.image_service.request :create_image do |params|
+        params[:name]         = 'test image'
+        params[:file]         = file.path
+        params[:disk_format]  = 'ami'
+      end
+
+      response.status.must_equal 201
+      response.headers.wont_be_nil
+    end
+
+    validate_response 'invalid file parameter is provided' do
+      request = lambda do
+        response = session.image_service.request :create_image do |params|
+          params[:name] = 'test image'
+          params[:file] = 'imagedoesntexist'
+        end
+      end
+
+      request.must_raise Errno::ENOENT
     end
 
   end
