@@ -15,7 +15,7 @@ module Aviator
     param :size_max,         required: false
     param :sort_key,         required: false
     param :sort_dir,         required: false
-
+    param :details,          required: false
 
     def headers
       super
@@ -28,6 +28,7 @@ module Aviator
     def url
       uri = URI(base_url)
       url = "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v1/images"
+      url << "/detail" if params[:details]
 
       filters = []
 
