@@ -16,6 +16,7 @@ module Aviator
     param :name,        required: true
     param :networks,    required: false
     param :personality, required: false
+    param :key_name,    required: false
 
 
     def body
@@ -27,7 +28,7 @@ module Aviator
         }
       }
 
-      [:adminPass, :metadata, :personality, :networks, :accessIPv4, :accessIPv6].each do |key|
+      [:adminPass, :metadata, :personality, :networks, :accessIPv4, :accessIPv6, :key_name].each do |key|
         p[:server][key] = params[key] if params[key]
       end
 

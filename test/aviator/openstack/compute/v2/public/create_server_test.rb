@@ -89,7 +89,8 @@ class Aviator::Test
         :adminPass,
         :metadata,
         :networks,
-        :personality
+        :personality,
+        :key_name
       ]
     end
 
@@ -119,8 +120,8 @@ class Aviator::Test
 
       request.url.must_equal url
     end
-    
-    
+
+
     validate_attr :param_aliases do
       aliases = {
         access_ipv4: :accessIPv4,
@@ -129,10 +130,10 @@ class Aviator::Test
         image_ref:   :imageRef,
         flavor_ref:  :flavorRef
       }
-      
+
       klass.param_aliases.must_equal aliases
     end
-    
+
 
     validate_response 'parameters are provided' do
       image_id  = session.compute_service.request(:list_images).body[:images].first[:id]
@@ -182,6 +183,22 @@ class Aviator::Test
       response.body.wont_be_nil
       response.body[:server].wont_be_nil
       response.body[:server][:adminPass].must_equal admin_pass
+      response.headers.wont_be_nil
+    end
+
+    validate_response 'the key_name parameter is invalid' do
+      image_id  = session.compute_service.request(:list_images).body[:images].first[:id]
+      flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
+
+      response = session.compute_service.request :create_server do |params|
+        params[:imageRef]  = image_id
+        params[:flavorRef] = flavor_id
+        params[:name] = 'Aviator Server'
+        params[:key_name] = 'nonexistentkeypairname'
+      end
+
+      response.status.must_equal 400
+      response.body.wont_be_nil
       response.headers.wont_be_nil
     end
 
