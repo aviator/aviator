@@ -1,0 +1,70 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"<OPENSTACK_ADMIN_PASSWORD>Credentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","<OPENSTACK_ADMIN_PASSWORD>":"<OPENSTACK_ADMIN_PASSWORD>"},"tenantName":"<OPENSTACK_MEMBER_USERNAME>"}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '7751'
+      date:
+      - Thu, 06 Mar 2014 11:18:44 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2014-03-06T11:18:44.607701",
+        "expires": "2014-03-07T11:18:44Z", "id": "MIINuwYJKoZIhvcNAQcCoIINrDCCDagCAQExCTAHBgUrDgMCGjCCDBEGCSqGSIb3DQEHAaCCDAIEggv+eyJhY2Nlc3MiOiB7InRva2VuIjogeyJpc3N1ZWRfYXQiOiAiMjAxNC0wMy0wNlQxMToxODo0NC42MDc3MDEiLCAiZXhwaXJlcyI6ICIyMDE0LTAzLTA3VDExOjE4OjQ0WiIsICJpZCI6ICJwbGFjZWhvbGRlciIsICJ0ZW5hbnQiOiB7ImRlc2NyaXB0aW9uIjogbnVsbCwgImVuYWJsZWQiOiB0cnVlLCAiaWQiOiAiM2JmMGNlNzg3MzdlNGJjZjk4NTg4NTljOTIwOGE3NmMiLCAibmFtZSI6ICJkZW1vIn19LCAic2VydmljZUNhdGFsb2ciOiBbeyJlbmRwb2ludHMiOiBbeyJhZG1pblVSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo4Nzc0L3YyLzNiZjBjZTc4NzM3ZTRiY2Y5ODU4ODU5YzkyMDhhNzZjIiwgInJlZ2lvbiI6ICJSZWdpb25PbmUiLCAiaW50ZXJuYWxVUkwiOiAiaHR0cDovLzE5Mi4xNjguNTYuMTE6ODc3NC92Mi8zYmYwY2U3ODczN2U0YmNmOTg1ODg1OWM5MjA4YTc2YyIsICJpZCI6ICI1YWJhY2NhMjhkMzM0ZWE2ODkxMTlkMzJmZmIxYjY0NiIsICJwdWJsaWNVUkwiOiAiaHR0cDovLzE5Mi4xNjguNTYuMTE6ODc3NC92Mi8zYmYwY2U3ODczN2U0YmNmOTg1ODg1OWM5MjA4YTc2YyJ9XSwgImVuZHBvaW50c19saW5rcyI6IFtdLCAidHlwZSI6ICJjb21wdXRlIiwgIm5hbWUiOiAibm92YSJ9LCB7ImVuZHBvaW50cyI6IFt7ImFkbWluVVJMIjogImh0dHA6Ly8xOTIuMTY4LjU2LjExOjg3NzYvdjIvM2JmMGNlNzg3MzdlNGJjZjk4NTg4NTljOTIwOGE3NmMiLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo4Nzc2L3YyLzNiZjBjZTc4NzM3ZTRiY2Y5ODU4ODU5YzkyMDhhNzZjIiwgImlkIjogIjZlYjI3ODI4ZjA5MDQxYmRhZDA5NjU5MTkwNzA2MmQyIiwgInB1YmxpY1VSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo4Nzc2L3YyLzNiZjBjZTc4NzM3ZTRiY2Y5ODU4ODU5YzkyMDhhNzZjIn1dLCAiZW5kcG9pbnRzX2xpbmtzIjogW10sICJ0eXBlIjogInZvbHVtZXYyIiwgIm5hbWUiOiAiY2luZGVyIn0sIHsiZW5kcG9pbnRzIjogW3siYWRtaW5VUkwiOiAiaHR0cDovLzE5Mi4xNjguNTYuMTE6ODc3NC92MyIsICJyZWdpb24iOiAiUmVnaW9uT25lIiwgImludGVybmFsVVJMIjogImh0dHA6Ly8xOTIuMTY4LjU2LjExOjg3NzQvdjMiLCAiaWQiOiAiNzc2MzllZjc0ZmY3NGViZDkxNjkyZjUxY2QzMWFiNWMiLCAicHVibGljVVJMIjogImh0dHA6Ly8xOTIuMTY4LjU2LjExOjg3NzQvdjMifV0sICJlbmRwb2ludHNfbGlua3MiOiBbXSwgInR5cGUiOiAiY29tcHV0ZXYzIiwgIm5hbWUiOiAibm92YSJ9LCB7ImVuZHBvaW50cyI6IFt7ImFkbWluVVJMIjogImh0dHA6Ly8xOTIuMTY4LjU2LjExOjMzMzMiLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTozMzMzIiwgImlkIjogIjJiMTk0YmU2NGJiNjRjOGFiMzU3N2I5Y2EyNjQxMjkxIiwgInB1YmxpY1VSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTozMzMzIn1dLCAiZW5kcG9pbnRzX2xpbmtzIjogW10sICJ0eXBlIjogInMzIiwgIm5hbWUiOiAiczMifSwgeyJlbmRwb2ludHMiOiBbeyJhZG1pblVSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo5MjkyIiwgInJlZ2lvbiI6ICJSZWdpb25PbmUiLCAiaW50ZXJuYWxVUkwiOiAiaHR0cDovLzE5Mi4xNjguNTYuMTE6OTI5MiIsICJpZCI6ICIxNjdmMmE1MmFmMDI0YmM4OWYyNTEwZjJhNzI5N2ZmMyIsICJwdWJsaWNVUkwiOiAiaHR0cDovLzE5Mi4xNjguNTYuMTE6OTI5MiJ9XSwgImVuZHBvaW50c19saW5rcyI6IFtdLCAidHlwZSI6ICJpbWFnZSIsICJuYW1lIjogImdsYW5jZSJ9LCB7ImVuZHBvaW50cyI6IFt7ImFkbWluVVJMIjogImh0dHA6Ly8xOTIuMTY4LjU2LjExOjg3NzYvdjEvM2JmMGNlNzg3MzdlNGJjZjk4NTg4NTljOTIwOGE3NmMiLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo4Nzc2L3YxLzNiZjBjZTc4NzM3ZTRiY2Y5ODU4ODU5YzkyMDhhNzZjIiwgImlkIjogIjMyMDU2MzFjNGZjNjRjMTU5NDRhMGIxOThmNjZmYjEzIiwgInB1YmxpY1VSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo4Nzc2L3YxLzNiZjBjZTc4NzM3ZTRiY2Y5ODU4ODU5YzkyMDhhNzZjIn1dLCAiZW5kcG9pbnRzX2xpbmtzIjogW10sICJ0eXBlIjogInZvbHVtZSIsICJuYW1lIjogImNpbmRlciJ9LCB7ImVuZHBvaW50cyI6IFt7ImFkbWluVVJMIjogImh0dHA6Ly8xOTIuMTY4LjU2LjExOjg3NzMvc2VydmljZXMvQWRtaW4iLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo4NzczL3NlcnZpY2VzL0Nsb3VkIiwgImlkIjogIjA4YjQ5N2ViNWNiODRiN2ZiM2E0ZDI2N2U4YWY5NTQyIiwgInB1YmxpY1VSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo4NzczL3NlcnZpY2VzL0Nsb3VkIn1dLCAiZW5kcG9pbnRzX2xpbmtzIjogW10sICJ0eXBlIjogImVjMiIsICJuYW1lIjogImVjMiJ9LCB7ImVuZHBvaW50cyI6IFt7ImFkbWluVVJMIjogImh0dHA6Ly8xOTIuMTY4LjU2LjExOjM1MzU3L3YyLjAiLCAicmVnaW9uIjogIlJlZ2lvbk9uZSIsICJpbnRlcm5hbFVSTCI6ICJodHRwOi8vMTkyLjE2OC41Ni4xMTo1MDAwL3YyLjAiLCAiaWQiOiAiMGI0N2NlYmE4MWJlNGViNjlkMzkxOTQzYjFkYjJlOTciLCAicHVibGljVVJMIjogImh0dHA6Ly8xOTIuMTY4LjU2LjExOjUwMDAvdjIuMCJ9XSwgImVuZHBvaW50c19saW5rcyI6IFtdLCAidHlwZSI6ICJpZGVudGl0eSIsICJuYW1lIjogImtleXN0b25lIn1dLCAidXNlciI6IHsidXNlcm5hbWUiOiAiZGVtbyIsICJyb2xlc19saW5rcyI6IFtdLCAiaWQiOiAiNWY1MzMxMzc0N2YxNGIwZDhiMTczYWU4ZTc4OGJhN2EiLCAicm9sZXMiOiBbeyJuYW1lIjogIk1lbWJlciJ9LCB7Im5hbWUiOiAiYW5vdGhlcnJvbGUifV0sICJuYW1lIjogImRlbW8ifSwgIm1ldGFkYXRhIjogeyJpc19hZG1pbiI6IDAsICJyb2xlcyI6IFsiMTRiZGZjN2FjOGVkNDBmM2EzN2ZlOTE2ODk3YzhmYmMiLCAiNmI3Y2M5ZTlhMzY0NDg5Yjk5ODJlOTIxNTQyZDMxMmEiXX19fTGCAYEwggF9AgEBMFwwVzELMAkGA1UEBhMCVVMxDjAMBgNVBAgMBVVuc2V0MQ4wDAYDVQQHDAVVbnNldDEOMAwGA1UECgwFVW5zZXQxGDAWBgNVBAMMD3d3dy5leGFtcGxlLmNvbQIBATAHBgUrDgMCGjANBgkqhkiG9w0BAQEFAASCAQArQpR1wXVCKtg-gYEtn2kWEEr6jBGvDDy7IvT9SKV5LwWStkWgwZAK2tGJ694KnFK62jo-JFBRvQm6oPtG925-yciXw4IY7jQgPAvgWoAsrbhbk8Wc+AXQEhleoGX-K32D6ZrnL5O4PP1janv+XyMqc-T0-mxo1571gr3oiKOkPnQNqn7TX5VKQL5WDyXS66i+wTTiwDxWpN2QFwO8dp0LbYcdLHhrliZ77MU7nWLVsrUtwThUtiIl8PLgH-EBNuoywk6oEVk6qw4qryBscgtcyQ1g0cCpRvmY5ZHTCYlBFY9MlTXlbcpSGtw-IyhO58Ma9rQA6+PkyeqIZidpXWJc",
+        "tenant": {"description": null, "enabled": true, "id": "3bf0ce78737e4bcf9858859c9208a76c",
+        "name": "<OPENSTACK_MEMBER_USERNAME>"}}, "serviceCatalog": [{"endpoints":
+        [{"<OPENSTACK_ADMIN_USERNAME>URL": "http://192.168.56.11:8774/v2/3bf0ce78737e4bcf9858859c9208a76c",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8774/v2/3bf0ce78737e4bcf9858859c9208a76c",
+        "id": "5abacca28d334ea689119d32ffb1b646", "publicURL": "http://192.168.56.11:8774/v2/3bf0ce78737e4bcf9858859c9208a76c"}],
+        "endpoints_links": [], "type": "compute", "name": "nova"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "http://192.168.56.11:8776/v2/3bf0ce78737e4bcf9858859c9208a76c", "region":
+        "RegionOne", "internalURL": "http://192.168.56.11:8776/v2/3bf0ce78737e4bcf9858859c9208a76c",
+        "id": "6eb27828f09041bdad096591907062d2", "publicURL": "http://192.168.56.11:8776/v2/3bf0ce78737e4bcf9858859c9208a76c"}],
+        "endpoints_links": [], "type": "volumev2", "name": "cinder"}, {"endpoints":
+        [{"<OPENSTACK_ADMIN_USERNAME>URL": "http://192.168.56.11:8774/v3", "region":
+        "RegionOne", "internalURL": "http://192.168.56.11:8774/v3", "id": "77639ef74ff74ebd91692f51cd31ab5c",
+        "publicURL": "http://192.168.56.11:8774/v3"}], "endpoints_links": [], "type":
+        "computev3", "name": "nova"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "http://192.168.56.11:3333", "region": "RegionOne", "internalURL": "http://192.168.56.11:3333",
+        "id": "2b194be64bb64c8ab3577b9ca2641291", "publicURL": "http://192.168.56.11:3333"}],
+        "endpoints_links": [], "type": "s3", "name": "s3"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "http://192.168.56.11:9292", "region": "RegionOne", "internalURL": "http://192.168.56.11:9292",
+        "id": "167f2a52af024bc89f2510f2a7297ff3", "publicURL": "http://192.168.56.11:9292"}],
+        "endpoints_links": [], "type": "image", "name": "glance"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "http://192.168.56.11:8776/v1/3bf0ce78737e4bcf9858859c9208a76c", "region":
+        "RegionOne", "internalURL": "http://192.168.56.11:8776/v1/3bf0ce78737e4bcf9858859c9208a76c",
+        "id": "3205631c4fc64c15944a0b198f66fb13", "publicURL": "http://192.168.56.11:8776/v1/3bf0ce78737e4bcf9858859c9208a76c"}],
+        "endpoints_links": [], "type": "volume", "name": "cinder"}, {"endpoints":
+        [{"<OPENSTACK_ADMIN_USERNAME>URL": "http://192.168.56.11:8773/services/Admin",
+        "region": "RegionOne", "internalURL": "http://192.168.56.11:8773/services/Cloud",
+        "id": "08b497eb5cb84b7fb3a4d267e8af9542", "publicURL": "http://192.168.56.11:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "ec2"}, {"endpoints": [{"<OPENSTACK_ADMIN_USERNAME>URL":
+        "http://192.168.56.11:35357/v2.0", "region": "RegionOne", "internalURL": "http://192.168.56.11:5000/v2.0",
+        "id": "0b47ceba81be4eb69d391943b1db2e97", "publicURL": "http://192.168.56.11:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
+        "<OPENSTACK_MEMBER_USERNAME>", "roles_links": [], "id": "5f53313747f14b0d8b173ae8e788ba7a",
+        "roles": [{"name": "Member"}, {"name": "anotherrole"}], "name": "<OPENSTACK_MEMBER_USERNAME>"},
+        "metadata": {"is_<OPENSTACK_ADMIN_USERNAME>": 0, "roles": ["14bdfc7ac8ed40f3a37fe916897c8fbc",
+        "6b7cc9e9a364489b9982e921542d312a"]}}}'
+    http_version: 
+  recorded_at: Thu, 06 Mar 2014 11:18:44 GMT
+recorded_with: VCR 2.8.0
