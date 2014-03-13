@@ -9,19 +9,6 @@ class Aviator::Test
     end
 
 
-    def session
-      unless @session
-        @session = Aviator::Session.new(
-                     config_file: Environment.path,
-                     environment: 'openstack_member'
-                   )
-        @session.authenticate
-      end
-
-      @session
-    end
-
-
     def get_session_data
       session.send :auth_info
     end
@@ -41,11 +28,6 @@ class Aviator::Test
       end
 
       @session
-    end
-
-
-    def helper
-      Aviator::Test::RequestHelper
     end
 
 
@@ -93,7 +75,8 @@ class Aviator::Test
         :size_min,
         :size_max,
         :sort_key,
-        :sort_dir
+        :sort_dir,
+        :details
       ]
     end
 
@@ -139,6 +122,30 @@ class Aviator::Test
       response.body.wont_be_nil
       response.body[:images].length.must_equal 0
       response.headers.wont_be_nil
+    end
+
+    validate_response 'detailed list with details parameter provided' do
+      complete_details = [
+        "status", "name", "deleted", "container_format", "created_at", "disk_format",
+        "updated_at", "min_disk", "protected", "id", "min_ram", "checksum",
+        "owner", "is_public", "deleted_at", "properties", "size"
+      ].sort
+
+      response = session.image_service.request :list_public_images
+
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+      response.body[:images].first.keys.sort.wont_equal complete_details
+
+      detailed_response = session.image_service.request :list_public_images do |p|
+        p[:details] = true
+      end
+
+      detailed_response.status.must_equal 200
+      detailed_response.body.wont_be_nil
+      detailed_response.headers.wont_be_nil
+      detailed_response.body[:images].first.keys.sort.must_equal complete_details
     end
 
   end
