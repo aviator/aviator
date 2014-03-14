@@ -135,5 +135,80 @@ class Aviator::Test
       response.body["badRequest"]["message"].must_match /^This rule already exists/
       response.headers.wont_be_nil
     end
+
+    validate_response 'invalid IP protocol is provided' do
+      invalid_protocol = 'XXX'
+
+      response = session.compute_service.request :create_security_group_rule do |params|
+        params[:ip_protocol]      = invalid_protocol
+        params[:from_port]        = '6789'
+        params[:to_port]          = '6789'
+        params[:cidr]             = '0.0.0.0/0'
+        params[:parent_group_id]  = 1
+      end
+
+      response.status.must_equal 400
+      response.headers.wont_be_nil
+      response.body.wont_be_nil
+      response.body["badRequest"].wont_be_nil
+      response.body["badRequest"]["message"].must_equal "Invalid IP protocol #{ invalid_protocol }."
+    end
+
+    validate_response 'invalid CIDR is provided' do
+      invalid_cidr = 'malformedinvalid~!'
+
+      response = session.compute_service.request :create_security_group_rule do |params|
+        params[:ip_protocol]      = 'TCP'
+        params[:from_port]        = '6789'
+        params[:to_port]          = '6789'
+        params[:cidr]             = invalid_cidr
+        params[:parent_group_id]  = 1
+      end
+
+      response.status.must_equal 400
+      response.headers.wont_be_nil
+      response.body.wont_be_nil
+      response.body["badRequest"].wont_be_nil
+      response.body["badRequest"]["message"].must_equal "Invalid cidr #{ invalid_cidr }."
+    end
+
+    validate_response 'from port is greater than to port' do
+      from_port = 50
+      to_port   = 30
+
+      response = session.compute_service.request :create_security_group_rule do |params|
+        params[:ip_protocol]      = 'TCP'
+        params[:from_port]        = from_port
+        params[:to_port]          = to_port
+        params[:cidr]             = '0.0.0.0/0'
+        params[:parent_group_id]  = 1
+      end
+
+      response.status.must_equal 400
+      response.headers.wont_be_nil
+      response.body.wont_be_nil
+      response.body["badRequest"].wont_be_nil
+      response.body["badRequest"]["message"].must_equal "Invalid port range #{ from_port }:#{ to_port }. Former value cannot be greater than the later"
+    end
+
+    validate_response 'port range is beyond allowed port numbers' do
+      from_port = 80
+      to_port   = 65536
+
+      response = session.compute_service.request :create_security_group_rule do |params|
+        params[:ip_protocol]      = 'TCP'
+        params[:from_port]        = from_port
+        params[:to_port]          = to_port
+        params[:cidr]             = '0.0.0.0/0'
+        params[:parent_group_id]  = 1
+      end
+
+      response.status.must_equal 400
+      response.headers.wont_be_nil
+      response.body.wont_be_nil
+      response.body["badRequest"].wont_be_nil
+      response.body["badRequest"]["message"].must_equal "Invalid port range #{ from_port }:#{ to_port }. Valid TCP ports should be between 1-65535"
+    end
+
   end
 end
