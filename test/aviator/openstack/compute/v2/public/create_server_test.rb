@@ -119,8 +119,8 @@ class Aviator::Test
 
       request.url.must_equal url
     end
-    
-    
+
+
     validate_attr :param_aliases do
       aliases = {
         access_ipv4: :accessIPv4,
@@ -129,10 +129,10 @@ class Aviator::Test
         image_ref:   :imageRef,
         flavor_ref:  :flavorRef
       }
-      
+
       klass.param_aliases.must_equal aliases
     end
-    
+
 
     validate_response 'parameters are provided' do
       image_id  = session.compute_service.request(:list_images).body[:images].first[:id]
