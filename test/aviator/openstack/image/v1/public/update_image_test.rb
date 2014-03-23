@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'aviator/openstack/image/v1/admin/update_image' do
+  describe 'aviator/openstack/image/v1/public/update_image' do
 
     def create_request(session_data = get_session_data, &block)
       block ||= lambda do |params|
@@ -23,7 +23,7 @@ class Aviator::Test
 
 
     def klass
-      @klass ||= helper.load_request('openstack', 'image', 'v1', 'admin', 'update_image.rb')
+      @klass ||= helper.load_request('openstack', 'image', 'v1', 'public', 'update_image.rb')
     end
 
 
@@ -31,7 +31,7 @@ class Aviator::Test
       unless @session
         @session = Aviator::Session.new(
                      config_file: Environment.path,
-                     environment: 'openstack_admin'
+                     environment: 'openstack_member'
                    )
         @session.authenticate
       end
@@ -58,7 +58,7 @@ class Aviator::Test
 
 
     validate_attr :endpoint_type do
-      klass.endpoint_type.must_equal :admin
+      klass.endpoint_type.must_equal :public
     end
 
 
