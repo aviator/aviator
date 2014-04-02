@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :create_or_import_keypair, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :create_or_import_keypair, inherit: [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
@@ -33,8 +33,7 @@ module Aviator
     end
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
-      "#{ service_spec[:endpoints][0][:adminURL] }/os-keypairs"
+      "#{ base_url }/os-keypairs"
     end
 
   end
