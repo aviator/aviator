@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'aviator/openstack/compute/v2/admin/create_or_import_keypair' do
+  describe 'aviator/openstack/compute/v2/public/create_or_import_keypair' do
 
     def create_request(session_data = get_session_data, &block)
       block ||= lambda do |params|
@@ -20,14 +20,14 @@ class Aviator::Test
     end
 
     def klass
-      @klass ||= helper.load_request('openstack', 'compute', 'v2', 'admin', 'create_or_import_keypair.rb')
+      @klass ||= helper.load_request('openstack', 'compute', 'v2', 'public', 'create_or_import_keypair.rb')
     end
 
     def session
       unless @session
         @session = Aviator::Session.new(
                      config_file: Environment.path,
-                     environment: 'openstack_admin'
+                     environment: 'openstack_member'
                    )
         @session.authenticate
       end
@@ -52,7 +52,7 @@ class Aviator::Test
     end
 
     validate_attr :endpoint_type do
-      klass.endpoint_type.must_equal :admin
+      klass.endpoint_type.must_equal :public
     end
 
     validate_attr :headers do
@@ -77,7 +77,7 @@ class Aviator::Test
 
     validate_attr :url do
       service_spec = get_session_data[:access][:serviceCatalog].find{ |s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:adminURL] }/os-keypairs"
+      url          = "#{ service_spec[:endpoints][0][:publicURL] }/os-keypairs"
 
       request = create_request
 
