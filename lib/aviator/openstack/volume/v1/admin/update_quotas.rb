@@ -7,6 +7,8 @@ module Aviator
 
     link 'documentation',
       'http://docs.openstack.org/trunk/openstack-ops/content/projects_users.html'
+    link 'documentation',
+      'https://github.com/openstack/python-cinderclient/blob/master/cinderclient/v1/quotas.py'
 
     param :tenant_id, required: true
     param :gigabytes, required: false
