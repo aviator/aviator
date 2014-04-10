@@ -102,7 +102,7 @@ class Aviator::Test
     end
 
 
-    validate_response 'no params are provided' do
+    validate_response 'valid params are provided' do
       response = session.volume_service.request :get_default_quotas do |params|
         params[:tenant_id] = tenant_id
       end
