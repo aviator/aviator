@@ -190,12 +190,16 @@ class Aviator::Test
       tmp_file = "/tmp/" << Digest::SHA256.hexdigest("aviator-image-test-#{Socket.gethostname}")
       file = nil
 
-      File.open(tmp_file, "wb") do |saved_file|
-        open('http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img', 'rb') do |read_file|
-          saved_file.write(read_file.read)
-        end
+      if File.exists? tmp_file
+        file = File.open(tmp_file, "rb")
+      else
+        File.open(tmp_file, "wb") do |saved_file|
+          open('http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img', 'rb') do |read_file|
+            saved_file.write(read_file.read)
+          end
 
-        file = saved_file
+          file = saved_file
+        end
       end
 
       response = session.image_service.request :create_image do |params|
