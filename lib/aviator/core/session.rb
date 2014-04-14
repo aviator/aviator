@@ -2,6 +2,8 @@ module Aviator
 
   class Session
 
+    require 'erb'
+
     class AuthenticationError < StandardError
       def initialize(last_auth_body)
         super("Authentication failed. The server returned #{ last_auth_body }")
