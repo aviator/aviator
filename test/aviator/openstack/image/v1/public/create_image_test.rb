@@ -3,7 +3,7 @@ require 'open-uri'
 
 class Aviator::Test
 
-  describe 'aviator/openstack/image/v1/admin/create_image' do
+  describe 'aviator/openstack/image/v1/public/create_image' do
 
     def create_request(session_data = get_session_data)
       klass.new(session_data)
@@ -21,7 +21,7 @@ class Aviator::Test
 
 
     def klass
-      @klass ||= helper.load_request('openstack', 'image', 'v1', 'admin', 'create_image.rb')
+      @klass ||= helper.load_request('openstack', 'image', 'v1', 'public', 'create_image.rb')
     end
 
 
@@ -29,7 +29,7 @@ class Aviator::Test
       unless @session
         @session = Aviator::Session.new(
                      config_file: Environment.path,
-                     environment: 'openstack_admin'
+                     environment: 'openstack_member'
                    )
         @session.authenticate
       end
@@ -56,7 +56,7 @@ class Aviator::Test
 
 
     validate_attr :endpoint_type do
-      klass.endpoint_type.must_equal :admin
+      klass.endpoint_type.must_equal :public
     end
 
 
@@ -187,20 +187,9 @@ class Aviator::Test
     end
 
     validate_response 'valid file parameter is provided' do
-      tmp_file = "/tmp/" << Digest::SHA256.hexdigest("aviator-image-test-#{Socket.gethostname}")
-      file = nil
-
-      if File.exists? tmp_file
-        file = File.open(tmp_file, "rb")
-      else
-        File.open(tmp_file, "wb") do |saved_file|
-          open('http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img', 'rb') do |read_file|
-            saved_file.write(read_file.read)
-          end
-
-          file = saved_file
-        end
-      end
+      test_file = Pathname.new(__FILE__).join('..', '..', '..', '..', '..', '..', 'data', 'cirros-0.3.0-x86_64-initrd').expand_path
+      file = File.open(test_file, 'r')
+      file.close
 
       response = session.image_service.request :create_image do |params|
         params[:name]         = 'test image'

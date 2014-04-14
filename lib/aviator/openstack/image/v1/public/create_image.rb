@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :create_image, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :create_image, inherit: [:openstack, :common, :v2, :public, :base] do
 
     meta :service,      :image
     meta :api_version,  :v1
