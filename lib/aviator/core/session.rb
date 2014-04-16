@@ -2,6 +2,8 @@ module Aviator
 
   class Session
 
+    require 'erb'
+
     class AuthenticationError < StandardError
       def initialize(last_auth_body)
         super("Authentication failed. The server returned #{ last_auth_body }")
@@ -160,9 +162,10 @@ module Aviator
 
 
     def initialize_with_config(config_path, environment)
-      raise InvalidConfigFilePathError.new(config_path) unless Pathname.new(config_path).file?
-
-      config = YAML.load_file(config_path).with_indifferent_access
+      path = Pathname.new(config_path)
+      raise InvalidConfigFilePathError.new(config_path) unless path.file?
+      content = ERB.new(path.read)
+      config = YAML.load(content.result).with_indifferent_access
 
 
       raise EnvironmentNotDefinedError.new(config_path, environment) unless config[environment]
