@@ -61,7 +61,7 @@ module Aviator
 
       response = auth_service.request environment[:auth_service][:request].to_sym, &block
 
-      if response.status == 200
+      if response.status >= 200 && response.status < 300
         @auth_info = response.body
         update_services_session_data
       else

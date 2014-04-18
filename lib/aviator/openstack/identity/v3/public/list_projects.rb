@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :get_projects_by_user_id, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :list_projects, inherit: [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :identity
     meta :api_version,   :v3
@@ -10,6 +10,8 @@ module Aviator
 
 
     param :id, required: true
+    param :page, required: false
+    param :per_page, required: false
 
     def headers
       super
@@ -22,7 +24,8 @@ module Aviator
 
 
     def url
-      "#{ base_url }/users/#{ params[:id] }/projects"
+      str = "#{ base_url }/projects"
+      str += params_to_querystring(optional_params + required_params)
     end
 
   end
