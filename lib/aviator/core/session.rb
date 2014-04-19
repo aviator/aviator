@@ -63,6 +63,10 @@ module Aviator
 
       if response.status >= 200 && response.status < 300
         @auth_info = response.body
+        @auth_headers = response.headers
+        if response.headers["x-subject-token"]
+          @auth_info['access'] = {"token" => {"id" => response.headers["x-subject-token"]}}
+        end
         update_services_session_data
       else
         raise AuthenticationError.new(response.body)
@@ -116,7 +120,7 @@ module Aviator
 
       response = auth_service.request environment[:auth_service][:validator].to_sym, session_data: auth_with_bootstrap
 
-      response.status == 200 || response.status == 203
+      response.status >= 200 && response.status < 300
     end
 
 

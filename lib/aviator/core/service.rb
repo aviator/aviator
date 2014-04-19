@@ -86,7 +86,7 @@ module Aviator
         r.url        request.url
         r.headers.merge!(request.headers)        if request.headers?
         r.query    = request.querystring         if request.querystring?
-        r.body     = JSON.generate(request.body) if request.body?
+        r.body     = JSON.generate(request.body) if request.body? && !request.body.empty?
       end
 
       Aviator::Response.send(:new, response, request)
@@ -153,11 +153,24 @@ module Aviator
       elsif session_data.has_key? :base_url
         m = session_data[:base_url].match(/(v\d+)\.?\d*/)
         return m[1].to_sym unless m.nil?
-
-      elsif session_data.has_key? :access
+      #keystone v2
+      elsif session_data.has_key?(:access) && session_data[:access].has_key?(:serviceCatalog)
         service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
         raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
         version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
+        version ? version[1].to_sym : :v1
+      #keystone v3 support
+      elsif session_data.has_key? :token
+        api_version = 'v3'
+        service_with_version = session_data[:token][:catalog].find { |s| s[:type] == ("%s%s" % [service, api_version]) }
+        return api_version if service_with_version
+
+        puts service_with_version
+        service = session_data[:token][:catalog].find { |s| s[:type] == service.to_s }
+        service_spec = service_with_version || service
+        raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
+        version = service_spec[:endpoints].find{|a| a[:interface] == 'public'}["url"].match(/(v\d+)\.?\d*/)
+        #version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
         version ? version[1].to_sym : :v1
       end
     end

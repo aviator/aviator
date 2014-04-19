@@ -6,7 +6,7 @@ module Aviator
     meta :api_version,   :v3
 
     link 'documentation',
-      'http://api.openstack.org/api-ref-identity.html#User_Calls'
+      'http://api.openstack.org/api-ref-identity-v3.html#User_Calls'
 
 
     param :id, required: true

@@ -7,11 +7,7 @@ module Aviator
     meta :api_version,   :v3
 
     link 'documentation',
-         'http://docs.openstack.org/api/openstack-identity-service/2.0/content/POST_authenticate_v2.0_tokens_.html'
-
-    link 'documentation bug',
-         'https://bugs.launchpad.net/keystone/+bug/1208607'
-
+         'http://api.openstack.org/api-ref-identity-v3.html#Token_Calls'
 
     param :userId,     required: false, alias: :user_id
     param :username,   required: false
@@ -25,11 +21,20 @@ module Aviator
     param :domainId,   required: false, alias: :domain_id
 
     def body
-      p = params[:tokenId] ? token_auth(params) : password_auth(params)
-      puts p
-      p
+      params[:tokenId] ? token_auth(params) : password_auth(params)
     end
 
+    def http_method
+      :post
+    end
+
+    def url
+      url  = session_data[:auth_service][:host_uri]
+      url += '/v3' if (URI(url).path =~ /^\/?\w+/).nil?
+      url += "/auth/tokens"
+    end
+
+    private
     def token_auth(local_params)
       p = {
         auth: {
@@ -51,23 +56,15 @@ module Aviator
           identity: {
             methods: ['password'],
             password: {
-              user: {
-                password: local_params[:password]
-              }
+              user: user_object(params)
             }
           }
 
         }
       }
 
-      p[:auth][:identity][:password][:user][:name] =  local_params[:username] if local_params[:username]
-      #p[:auth][:identity][:password][:user][:password] = local_params[:password] if local_params[:password]
-      p[:auth][:identity][:password][:user][:id] = local_params[:userId] if local_params[:userId]
-
       if local_params[:domainName] || local_params[:domainId]
-        p[:auth][:identity][:password][:user][:domain] = {}
-        p[:auth][:identity][:password][:user][:domain][:id] = local_params[:domainId] if local_params[:domainId]
-        p[:auth][:identity][:password][:user][:domain][:name] = local_params[:domainName] if local_params[:domainName]
+        p[:auth][:identity][:password][:user][:domain] = domain_object(params)
       end
 
       if local_params[:tenantName] || local_params[:tenantId] || local_params[:domainName] || local_params[:domainId]
@@ -76,40 +73,47 @@ module Aviator
       p
     end
 
-
     def scope(local_params)
       p = {}
       if local_params[:tenantName] || local_params[:tenantId]
-        p = {project: {}}
-        p[:project][:name] = local_params[:tenantName] if local_params[:tenantName]
-        p[:project][:id] = local_params[:tenantId] if local_params[:tenantId]
-        if local_params[:domainName] || local_params[:domainId]
-          p[:project][:domain] = {}
-          p[:project][:domain][:id] = local_params[:domainId] if local_params[:domainId]
-          p[:project][:domain][:name] = local_params[:domainName] if local_params[:domainName]
-        end
+        p = {project: project_object(local_params)}
+        p[:project][:domain] = domain_object(local_params) if local_params[:domainName] || local_params[:domainId]
       elsif local_params[:domainName] || local_params[:domainId]
-        p = {domain: {}}
-        p[:domain][:id] = local_params[:domainId] if local_params[:domainId]
-        p[:domain][:name] = local_params[:domainName] if local_params[:domainName]
+        p = {domain: domain_object(local_params)}
       end
       p
     end
 
     def domain_object(local_params)
-
-
+      compact_hash({
+        id: local_params[:domainId],
+        name: local_params[:domainName]
+      })
     end
 
-    def http_method
-      :post
+    def project_object(local_params)
+      compact_hash({
+        id: local_params[:tenantId],
+        name: local_params[:tenantName]
+      })
     end
 
+    def user_object(local_params)
+      compact_hash({
+        id: local_params[:userId],
+        name: local_params[:username],
+        password: local_params[:password]
+      })
+    end
 
-    def url
-      url  = session_data[:auth_service][:host_uri]
-      url += '/v3' if (URI(url).path =~ /^\/?\w+/).nil?
-      url += "/auth/tokens"
+    def compact_hash(hash, opts = {})
+      opts[:recurse] = true if opts[:recurse].nil?
+      hash.inject({}) do |new_hash, (k,v)|
+        if !v.nil?
+          new_hash[k] = opts[:recurse] && v.kind_of?(Hash) ? compact_hash(v, opts) : v
+        end
+        new_hash
+      end
     end
 
   end
