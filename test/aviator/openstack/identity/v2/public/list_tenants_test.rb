@@ -106,19 +106,19 @@ class Aviator::Test
         creds.username = Environment.openstack_member[:auth_credentials][:username]
         creds.password = Environment.openstack_member[:auth_credentials][:password]
       end
-      
+
       base_url = URI(Environment.openstack_admin[:auth_service][:host_uri])
-      
+
       api_version = Environment.openstack_admin[:auth_service][:api_version]
-      
-      if api_version 
+
+      if api_version
         base_url.path = (api_version == 'v2' ? '/v2.0' : "/#{ api_version }")
       end
 
       # base_url should have the form 'https://<domain>:<port>/<api_version>'
 
       response = s.identity_service.request :list_tenants, base_url: base_url.to_s
-      
+
       response.status.must_equal 200
       response.body.wont_be_nil
       response.body[:tenants].length.wont_equal 0

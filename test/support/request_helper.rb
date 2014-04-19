@@ -1,8 +1,8 @@
 module Aviator
 class Test
-  
+
   module RequestHelper
-    
+
     class << self
 
       def admin_session_data
@@ -44,7 +44,13 @@ class Test
           auth_service: Environment.openstack_admin[:auth_service]
         }
       end
-      
+
+      def admin_bootstrap_v3_session_data
+        {
+          auth_service: V3::Environment.openstack_admin[:auth_service]
+        }
+      end
+
 
       def get_request_class(parent, *path)
         const_name = path.shift.to_s.camelize.gsub(/\.rb$/, '')
@@ -54,23 +60,23 @@ class Test
                else
                  raise "Constant #{ const_name } could not be found."
                end
-      
+
         path.empty? ? const : get_request_class(const, *path)
       end
 
-      
+
       def load_request(*path)
         require request_path(*path)
         get_request_class(Aviator, *path)
       end
-    
-    
+
+
       def request_path(*path)
         Pathname.new(__FILE__).join('..', '..', '..', 'lib', 'aviator').expand_path.join(*path)
       end
-      
+
     end
   end
-  
+
 end
 end
