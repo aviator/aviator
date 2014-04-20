@@ -157,24 +157,19 @@ module Aviator
       elsif session_data.has_key?(:access) && session_data[:access].has_key?(:serviceCatalog)
         service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
         raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
-        version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
-        version ? version[1].to_sym : :v1
+        version_from_url(service_spec[:endpoints][0][:publicURL])
       #keystone v3 support
       elsif session_data.has_key? :token
         api_version = 'v3'
         service_with_version = session_data[:token][:catalog].find { |s| s[:type] == ("%s%s" % [service, api_version]) }
         return api_version if service_with_version
 
-        puts service_with_version
-        service = session_data[:token][:catalog].find { |s| s[:type] == service.to_s }
-        service_spec = service_with_version || service
+        service_spec = session_data[:token][:catalog].find { |s| s[:type] == service.to_s }
         raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
-        version = service_spec[:endpoints].find{|a| a[:interface] == 'public'}["url"].match(/(v\d+)\.?\d*/)
-        #version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
-        version ? version[1].to_sym : :v1
+        url = service_spec[:endpoints].find{|a| a[:interface] == 'public'}["url"]
+        version_from_url(url)
       end
     end
-
 
     def load_requests
       # TODO: This should be determined by a provider-specific module.
@@ -200,9 +195,13 @@ module Aviator
       end
     end
 
-
     def log_file
       @log_file
+    end
+
+    def version_from_url(url)
+      version = url.match(/(v\d+)\.?\d*/)
+      version ? version[1].to_sym : :v1
     end
 
   end
