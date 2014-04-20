@@ -63,7 +63,7 @@ module Aviator
 
       if response.status >= 200 && response.status < 300
         @auth_info = response.body
-        @auth_headers = response.headers
+        #@auth_headers = response.headers
         if response.headers["x-subject-token"]
           @auth_info['access'] = {"token" => {"id" => response.headers["x-subject-token"]}}
         end

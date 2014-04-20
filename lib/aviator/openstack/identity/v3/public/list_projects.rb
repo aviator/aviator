@@ -9,6 +9,9 @@ module Aviator
 
     param :page, required: false
     param :per_page, required: false
+    param :domain_id, required: false
+    param :name, required: false
+    param :enabled, required: false
 
     def headers
       super

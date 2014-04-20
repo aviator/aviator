@@ -71,12 +71,11 @@ module Aviator
       session_data = options[:session_data] || default_session_data
 
       raise SessionDataNotProvidedError.new unless session_data
-
       [:base_url].each do |k|
         session_data[k] = options[k] if options[k]
       end
 
-      request_class = find_request(request_name, session_data, options[:endpoint_type])
+      request_class = find_request(request_name, session_data, options[:endpoint_type], options[:api_version])
 
       raise UnknownRequestError.new(request_name) unless request_class
 
@@ -112,7 +111,7 @@ module Aviator
 
 
     # Candidate for extraction to aviator/openstack
-    def find_request(name, session_data, endpoint_type=nil)
+    def find_request(name, session_data, endpoint_type=nil, api_version = nil)
       endpoint_types = if endpoint_type
                          [endpoint_type.to_s.camelize]
                        else
@@ -122,7 +121,7 @@ module Aviator
       namespace = Aviator.const_get(provider.camelize)
                          .const_get(service.camelize)
 
-      version = infer_version(session_data, name).to_s.camelize
+      version = (api_version || infer_version(session_data, name)).to_s.camelize
 
       return nil unless version && namespace.const_defined?(version)
 

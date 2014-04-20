@@ -46,7 +46,7 @@ module Aviator
           }
         }
       }
-      p[:auth][:scope] = scope(local_params) if local_params[:tenantName] || local_params[:tenantId]
+      p[:auth][:scope] = scope_object(local_params) if local_params[:tenantName] || local_params[:tenantId]
       p
     end
 
@@ -68,12 +68,12 @@ module Aviator
       end
 
       if local_params[:tenantName] || local_params[:tenantId] || local_params[:domainName] || local_params[:domainId]
-        p[:auth][:scope] = scope(local_params)
+        p[:auth][:scope] = scope_object(local_params)
       end
       p
     end
 
-    def scope(local_params)
+    def scope_object(local_params)
       p = {}
       if local_params[:tenantName] || local_params[:tenantId]
         p = {project: project_object(local_params)}
