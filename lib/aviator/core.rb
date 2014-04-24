@@ -1,6 +1,8 @@
 require 'yaml'
 require 'json'
 require 'pathname'
+require 'hashie/mash'
+
 require 'active_support/inflector'
 require 'active_support/core_ext/hash/indifferent_access'
 require 'faraday'

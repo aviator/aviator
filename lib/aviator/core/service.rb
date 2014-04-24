@@ -71,13 +71,12 @@ module Aviator
       session_data = options[:session_data] || default_session_data
 
       raise SessionDataNotProvidedError.new unless session_data
-
       [:base_url].each do |k|
         session_data[k] = options[k] if options[k]
       end
 
       request_class = find_request(request_name, session_data, options[:endpoint_type], options[:api_version])
-
+      #binding.pry
       raise UnknownRequestError.new(request_name) unless request_class
 
       request  = request_class.new(session_data, &params)
@@ -86,7 +85,7 @@ module Aviator
         r.url        request.url
         r.headers.merge!(request.headers)        if request.headers?
         r.query    = request.querystring         if request.querystring?
-        r.body     = JSON.generate(request.body) if request.body?
+        r.body     = JSON.generate(request.body) if request.body? && !request.body.empty?
       end
       #binding.pry
 
@@ -121,26 +120,30 @@ module Aviator
                          ['Public', 'Admin']
                        end
 
-      namespace = Aviator.const_get(provider.camelize)
+      base_namespace = Aviator.const_get(provider.camelize)
                          .const_get(service.camelize)
       # binding.pry
-      version = (api_version ? api_version.to_s.camelize : nil) || infer_version(session_data, name).to_s.camelize
-      # binding.pry
-      #return nil unless version && namespace.const_defined?(version)
-      versions = if version
-        [version]
+      chosen_version = (api_version ? api_version.to_s.camelize : nil)
+      inferred_version = infer_version(session_data, name).to_sym
+      #binding.pry
+
+      #if the version has been passed, use that,
+      #otherwise, see if the inferred version has it and use that,
+      #else, use any other that supports it
+      versions = if chosen_version
+        [chosen_version]
       else
-        [:v3, :v2, :v1]
+        [inferred_version, :v3, :v2, :v1]
       end
 
       versions.each do |version|
         version_name = version.to_s.camelize
-        next unless namespace.const_defined?(version_name)
-        namespace = namespace.const_get(version_name, name)
-        # binding.pry
+        next unless base_namespace.const_defined?(version_name)
+        namespace = base_namespace.const_get(version_name, name)
+
         endpoint_types.each do |endpoint_type|
           name = name.to_s.camelize
-
+          #binding.pry
           next unless namespace.const_defined?(endpoint_type)
           next unless namespace.const_get(endpoint_type).const_defined?(name)
 
@@ -176,7 +179,6 @@ module Aviator
       end
     end
 
-
     def load_requests
       # TODO: This should be determined by a provider-specific module.
       # e.g. Aviator::OpenStack::requests_base_dir
@@ -200,7 +202,6 @@ module Aviator
         "Aviator::#{provider.camelize}::#{service.camelize}::#{cp}".constantize
       end
     end
-
 
     def log_file
       @log_file

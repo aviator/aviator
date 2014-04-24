@@ -18,5 +18,6 @@ tmp/*.*
 !tmp/.gitignore
 .DS_Store
 test/environment.yml
+test/v3_environment.yml
 vcr.log
 

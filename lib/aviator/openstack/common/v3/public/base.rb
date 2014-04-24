@@ -16,7 +16,6 @@ module Aviator
 
     private
 
-
     def base_url
       if session_data[:base_url]
         session_data[:base_url]

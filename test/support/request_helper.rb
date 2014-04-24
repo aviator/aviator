@@ -46,6 +46,12 @@ class Test
       end
 
 
+      def admin_bootstrap_v3_session_data
+        {
+          auth_service: V3::Environment.openstack_admin[:auth_service]
+        }
+      end
+
       def get_request_class(parent, *path)
         const_name = path.shift.to_s.camelize.gsub(/\.rb$/, '')
 

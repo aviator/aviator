@@ -27,7 +27,8 @@ module Aviator
       end
 
       def from_keystone_v3(body, headers = {})
-        new(:token => body['access']["token"]["id"], :catalog => body["access"]["serviceCatalog"], :user => body["access"]["user"], :expiry => body['access']["token"]["expires"])
+        token = body[:token]
+        new(:token => headers['x-subject-token'], :catalog => token["catalog"], :user => token["user"], :expiry => token["expires_at"], :domain => token['domain'], :extra => token['extra'], :roles => token["roles"])
       end
 
       def from_hash(hash)
