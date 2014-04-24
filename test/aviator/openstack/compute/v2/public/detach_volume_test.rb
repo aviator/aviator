@@ -80,8 +80,9 @@ class Aviator::Test
         server_id = servers[-1][:id]  
       end
       device     = '/dev/vdc'
-  
-      sleep(10) # Sleep for 10 seconds to for the volume status to be available.
+      
+      # Un-comment to generate successful cassettes. 
+      # sleep(10) # Sleep for 10 seconds to for the volume status to be available.
       
       response = session.compute_service.request :attach_volume do |params|
         params[:server_id]  = server_id
