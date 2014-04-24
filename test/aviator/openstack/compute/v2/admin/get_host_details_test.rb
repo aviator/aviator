@@ -92,7 +92,7 @@ class Aviator::Test
     validate_attr :url do
       session_data = get_session_data
       service_spec = session_data[:catalog].find { |s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:adminURL] }/os-hosts/#{ host_name }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/os-hosts/#{ host_name }"
 
       request = klass.new(session_data) do |p|
         p[:host_name] = host_name

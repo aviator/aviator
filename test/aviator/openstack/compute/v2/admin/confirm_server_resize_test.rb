@@ -43,7 +43,7 @@ class Aviator::Test
 
     def server
       unless @server
-        response = session.compute_service.request(:list_servers) do |params|
+        response = session.compute_service.request(:list_servers, :api_version => :v2) do |params|
                      params[:details]     = true
                      params[:all_tenants] = true
                    end
@@ -109,7 +109,7 @@ class Aviator::Test
 
     validate_attr :url do
       service_spec = get_session_data[:catalog].find{|s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server[:id] }/action"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/servers/#{ server[:id] }/action"
 
       request = create_request do |params|
         params[:id]  = server[:id]
@@ -120,7 +120,7 @@ class Aviator::Test
 
 
     validate_response 'parameters are provided' do
-      response = session.compute_service.request :confirm_server_resize do |params|
+      response = session.compute_service.request :confirm_server_resize, :api_version => :v2 do |params|
         params[:id] = server[:id]
       end
 
@@ -130,7 +130,7 @@ class Aviator::Test
 
 
     validate_response 'the id parameter is invalid' do
-      response = session.compute_service.request :confirm_server_resize do |params|
+      response = session.compute_service.request :confirm_server_resize, :api_version => :v2 do |params|
         params[:id] = 'invalidvalue'
       end
 

@@ -96,7 +96,7 @@ class Aviator::Test
     validate_attr :url do
       service_spec = get_session_data[:catalog].find{|s| s[:type] == 'compute' }
       server_id    = '52415800-8b69-11e0-9b19-734f000004d2'
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/servers/#{ server_id }"
 
       request = create_request do |p|
         p[:id] = server_id

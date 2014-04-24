@@ -77,7 +77,7 @@ class Aviator::Test
     validate_attr :url do
       session_data = get_session_data
       service_spec = session_data[:catalog].find{|s| s[:type] == 'identity' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/tenants"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/tenants"
       request      = klass.new(session_data)
 
       request.url.must_equal url

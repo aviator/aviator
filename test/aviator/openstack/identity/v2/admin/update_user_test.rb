@@ -95,7 +95,7 @@ class Aviator::Test
       user_id = 'thisdoesntneedtobevalidinthistest'
 
       service_spec = get_session_data[:catalog].find { |s| s[:type] == 'identity' }
-      url          = "#{ service_spec[:endpoints][0][:adminURL] }/users/#{ user_id }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/users/#{ user_id }"
 
       request = create_request do |params|
         params[:id] = user_id

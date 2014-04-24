@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'pry'
+
 class Aviator::Test
 
   describe 'aviator/openstack/compute/v2/public/list_security_groups_by_server' do
@@ -75,7 +75,7 @@ class Aviator::Test
     validate_attr :url do
       service_spec = get_session_data[:catalog].find{ |s| s[:type] == 'compute' }
       server_id = "serverID"
-      url = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }/os-security-groups"
+      url = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/servers/#{ server_id }/os-security-groups"
 
       request = create_request do |params|
         params[:server_id] = server_id

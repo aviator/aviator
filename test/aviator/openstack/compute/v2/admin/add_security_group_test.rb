@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -102,7 +102,7 @@ class Aviator::Test
     validate_attr :url do
       service_spec = get_session_data[:catalog].find{ |s| s[:type] == 'compute' }
       server_id    = 'sampleId'
-      url          = "#{ service_spec[:endpoints][0][:adminURL] }/servers/#{ server_id }/action"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/servers/#{ server_id }/action"
 
       request = create_request do |params|
         params[:id]   = server_id
@@ -115,14 +115,14 @@ class Aviator::Test
 
     validate_response 'valid params are provided' do
       service   = session.compute_service
-      server_id = service.request(:list_servers).body[:servers].first[:id]
+      server_id = service.request(:list_servers, :api_version => :v2).body[:servers].first[:id]
 
-      sec_group_response = service.request :create_security_group do |params|
+      sec_group_response = service.request :create_security_group, :api_version => :v2 do |params|
         params[:name]         = 'securitea'
         params[:description]  = 'security with a tea'
       end
 
-      response = service.request :add_security_group do |params|
+      response = service.request :add_security_group, :api_version => :v2 do |params|
         params[:id]   = server_id
         params[:name] = sec_group_response.body[:security_group][:name]
       end
@@ -135,10 +135,10 @@ class Aviator::Test
 
     validate_response 'associated instance and security group are provided' do
       service   = session.compute_service
-      server    = service.request(:list_servers).body[:servers].first
-      sec_group = service.request(:list_security_groups).body[:security_groups].last
+      server    = service.request(:list_servers, :api_version => :v2).body[:servers].first
+      sec_group = service.request(:list_security_groups, :api_version => :v2).body[:security_groups].last
 
-      response = service.request :add_security_group do |params|
+      response = service.request :add_security_group, :api_version => :v2 do |params|
         params[:id]   = server[:id]
         params[:name] = sec_group[:name]
       end
@@ -153,9 +153,9 @@ class Aviator::Test
     validate_response 'non existent server is provided' do
       service   = session.compute_service
       server_id = 'bogus-doesnt-exist'
-      sec_group = service.request(:list_security_groups).body[:security_groups].last
+      sec_group = service.request(:list_security_groups, :api_version => :v2).body[:security_groups].last
 
-      response = service.request :add_security_group do |params|
+      response = service.request :add_security_group, :api_version => :v2 do |params|
         params[:id]   = server_id
         params[:name] = sec_group[:name]
       end
@@ -169,11 +169,11 @@ class Aviator::Test
 
     validate_response 'non existent security group is provided' do
       service        = session.compute_service
-      server_id      = service.request(:list_servers).body[:servers].first[:id]
+      server_id      = service.request(:list_servers, :api_version => :v2).body[:servers].first[:id]
       sec_group_name = 'bogus-doesnt-exist'
       project_id     = session.send(:auth_info).project[:id]
 
-      response = service.request :add_security_group do |params|
+      response = service.request :add_security_group, :api_version => :v2 do |params|
         params[:id]   = server_id
         params[:name] = sec_group_name
       end

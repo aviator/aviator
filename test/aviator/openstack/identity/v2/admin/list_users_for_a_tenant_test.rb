@@ -82,7 +82,7 @@ class Aviator::Test
       tenant_id = 'sample_tenant_id'
       session_data = get_session_data
       service_spec = session_data[:catalog].find{|s| s[:type] == 'identity' }
-      url          = "#{ service_spec[:endpoints][0][:adminURL] }/tenants/#{ tenant_id }/users"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/tenants/#{ tenant_id }/users"
       request = create_request do |p|
         p[:tenant_id] = tenant_id
       end

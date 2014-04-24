@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'pry'
+require_relative '../../../../../test_helper'
+
 class Aviator::Test
 
   describe 'aviator/openstack/volume/v2/admin/get_default_quotas' do
@@ -51,7 +51,7 @@ class Aviator::Test
 
     def v2_base_url
       unless @v2_base_url
-        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints][0][:adminURL]
+        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints].find{|e| e[:interface] == 'admin'}[:url]
       end
 
       @v2_base_url
@@ -112,7 +112,7 @@ class Aviator::Test
 
     validate_response 'existing tenant is provided' do
       tenant = tenant_id
-      response = session.volume_service.request(:get_default_quotas, base_url: v2_base_url) do |params|
+      response = session.volume_service.request(:get_default_quotas, :api_version => :v2) do |params|
         params[:tenant_id] = tenant
       end
 
@@ -126,7 +126,7 @@ class Aviator::Test
 
     validate_response 'non-existent tenant is provided' do
       tenant = 'tenantDoesntExist'
-      response = session.volume_service.request(:get_default_quotas, base_url: v2_base_url) do |params|
+      response = session.volume_service.request(:get_default_quotas, :api_version => :v2) do |params|
         params[:tenant_id] = tenant
       end
 

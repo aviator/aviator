@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -80,7 +80,7 @@ class Aviator::Test
     validate_attr :url do
       session_data = get_session_data
       service_spec = session_data[:catalog].find { |s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:adminURL] }/os-quota-sets/defaults"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/os-quota-sets/defaults"
 
       request = klass.new(session_data)
 
@@ -89,7 +89,7 @@ class Aviator::Test
 
 
     validate_response 'no params are provided' do
-      response = session.compute_service.request :get_default_quotas
+      response = session.compute_service.request :get_default_quotas, :api_version => :v2
 
       response.status.must_equal 200
       response.body.wont_be_nil

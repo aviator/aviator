@@ -92,7 +92,7 @@ class Aviator::Test
       session_data  = get_session_data
       service_spec  = session_data[:catalog].find{|s| s[:type] == 'compute' }
       bogus_id      = 'xxx'
-      url           = "#{ service_spec[:endpoints][0][:publicURL] }/os-floating-ips/#{ bogus_id }"
+      url           = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/os-floating-ips/#{ bogus_id }"
 
       request = klass.new(session_data) do |p|
         p[:id] = bogus_id

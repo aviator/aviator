@@ -88,7 +88,7 @@ class Aviator::Test
       image_id     = 'doesnt matter'
       metadata_key = 'doesnt matter'
       service_spec = get_session_data[:catalog].find { |s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/images/#{ image_id }/metadata/#{ metadata_key }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/images/#{ image_id }/metadata/#{ metadata_key }"
 
       request = create_request do |p|
                   p[:id]  = image_id

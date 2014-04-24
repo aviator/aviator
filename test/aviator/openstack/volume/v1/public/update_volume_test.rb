@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
   describe 'aviator/openstack/volume/v1/public/update_volume' do
@@ -88,7 +88,7 @@ class Aviator::Test
     validate_attr :url do
       service_spec = get_session_data[:catalog].find{|s| s[:type] == 'volume' }
       volume_id    = 'doesitmatter'
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/volumes/#{ volume_id }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/volumes/#{ volume_id }"
 
       request = create_request do |params|
         params[:id] = volume_id

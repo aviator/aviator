@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -51,7 +51,7 @@ class Aviator::Test
 
     def v2_base_url
       unless @v2_base_url
-        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints][0][:adminURL]
+        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints].find{|e| e[:interface] == 'admin'}[:url]
       end
 
       @v2_base_url
@@ -112,7 +112,7 @@ class Aviator::Test
 
     validate_response 'a valid param is provided' do
       tenant = tenant_id
-      response = session.volume_service.request :get_quotas do |params|
+      response = session.volume_service.request :get_quotas, :api_version => :v1 do |params|
         params[:tenant_id] = tenant
       end
 
@@ -124,7 +124,7 @@ class Aviator::Test
 
 
     validate_response 'non existent tenant is provided' do
-      response = session.volume_service.request :get_quotas do |params|
+      response = session.volume_service.request :get_quotas, :api_version => :v1 do |params|
         params[:tenant_id] = 'nonExistenTenant'
       end
 

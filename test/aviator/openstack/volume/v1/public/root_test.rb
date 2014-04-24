@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -86,7 +86,7 @@ class Aviator::Test
 
     validate_attr :url do
       service_spec = get_session_data[:catalog].find{|s| s[:type] == 'volume' }
-      uri          = URI(service_spec[:endpoints][0][:publicURL])
+      uri          = URI(service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url])
       url          = "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v1/"
 
       create_request.url.must_equal url

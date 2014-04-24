@@ -90,7 +90,7 @@ class Aviator::Test
       session_data = get_session_data
       service_spec = get_session_data[:catalog].find{|s| s[:type] == 'compute' }
       flavor_id    = 3
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/flavors/#{ flavor_id }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/flavors/#{ flavor_id }"
 
       request = klass.new(session_data) do |p|
         p[:id] = flavor_id

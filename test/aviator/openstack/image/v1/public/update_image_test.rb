@@ -103,7 +103,7 @@ class Aviator::Test
       session_data = get_session_data
       service_spec = session_data[:catalog].find{|s| s[:type] == 'image' }
       image_id     = "some-image-id"
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/v1/images/#{ image_id }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/v1/images/#{ image_id }"
 
       request = klass.new(session_data) do |p|
         p[:id] = image_id

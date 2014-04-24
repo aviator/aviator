@@ -92,7 +92,7 @@ class Aviator::Test
       role_id   = 'sample_role_id'
 
       service_spec = get_session_data[:catalog].find { |s| s[:type] == 'identity' }
-      url          = "#{ service_spec[:endpoints][0][:adminURL] }/tenants/#{ tenant_id }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/tenants/#{ tenant_id }"
       url         += "/users/#{ user_id }"
       url         += "/roles/OS-KSADM/#{ role_id }"
 

@@ -66,7 +66,7 @@ class Aviator::Test
     validate_attr :url do
       keypair_name = "keypair to delete".gsub(' ', '%20')
       service_spec = get_session_data[:catalog].find{ |s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/os-keypairs/#{ keypair_name }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/os-keypairs/#{ keypair_name }"
 
       request = create_request
 

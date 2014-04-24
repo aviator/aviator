@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -100,7 +100,7 @@ class Aviator::Test
     validate_attr :url do
       session_data = get_session_data
       service_spec = session_data[:catalog].find { |s| s[:type] == 'volume' }
-      url          = "#{ service_spec[:endpoints][0][:adminURL] }/os-quota-sets/#{ tenant_id }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/os-quota-sets/#{ tenant_id }"
 
       request = klass.new(session_data) do |p|
         p[:tenant_id] = tenant_id
@@ -115,7 +115,7 @@ class Aviator::Test
       validate_response "valid #{param} params is provided" do
         value = 10
 
-        response = session.volume_service.request :update_quotas do |params|
+        response = session.volume_service.request :update_quotas, :api_version => :v1 do |params|
           params[:tenant_id]  = tenant_id
           params[param]       = value
         end
@@ -133,7 +133,7 @@ class Aviator::Test
       validate_response "invalid #{param} params is provided" do
         value = 'stringyValue'
 
-        response = session.volume_service.request :update_quotas do |params|
+        response = session.volume_service.request :update_quotas, :api_version => :v1 do |params|
           params[:tenant_id]  = tenant_id
           params[param]       = value
         end

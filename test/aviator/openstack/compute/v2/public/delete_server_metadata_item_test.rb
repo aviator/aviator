@@ -88,7 +88,7 @@ class Aviator::Test
       server_id    = 'doesnt matter'
       metadata_key = 'doesnt matter'
       service_spec = delete_session_data[:catalog].find { |s| s[:type] == 'compute' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }/metadata/#{ metadata_key }"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/servers/#{ server_id }/metadata/#{ metadata_key }"
 
       request = create_request do |p|
                   p[:id]  = server_id

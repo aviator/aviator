@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -51,7 +51,7 @@ class Aviator::Test
 
     def v3_base_url
       unless @v3_base_url
-        @v3_base_url = get_session_data[:catalog].find { |s| s[:type] == 'computev3' }[:endpoints][0][:adminURL]
+        @v3_base_url = get_session_data[:catalog].find { |s| s[:type] == 'computev3' }[:endpoints].find{|e| e[:interface] == 'admin'}[:url]
       end
 
       @v3_base_url

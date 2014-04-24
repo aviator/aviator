@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -101,7 +101,7 @@ class Aviator::Test
 
     validate_attr :url do
       service_spec = get_session_data[:catalog].find{|s| s[:type] == 'volume' }
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/volumes"
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'public'}[:url] }/volumes"
 
       request = create_request
 
