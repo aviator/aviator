@@ -87,7 +87,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data.token }
 
       request = create_request
 
@@ -123,13 +123,13 @@ class Aviator::Test
 
     validate_response 'all_tenants param is true' do
       # Manually create the volumes in more than one tenant for now
-      
+
       control_response = admin_session.volume_service.request :list_volumes
-      
+
       all_tenants_response = admin_session.volume_service.request :list_volumes do |params|
         params[:all_tenants] = true
       end
-      
+
       all_tenants_response.body[:volumes].length.must_be :>, control_response.body[:volumes].length
     end
 

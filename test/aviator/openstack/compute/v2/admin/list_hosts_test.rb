@@ -7,8 +7,8 @@ class Aviator::Test
     def create_request(session_data = get_session_data, &block)
       klass.new(session_data, &block)
     end
-    
-    
+
+
     def get_session_data
       session.send :auth_info
     end
@@ -32,10 +32,10 @@ class Aviator::Test
                    )
         @session.authenticate
       end
-      
+
       @session
     end
-    
+
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -61,7 +61,7 @@ class Aviator::Test
     validate_attr :headers do
       session_data = get_session_data
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => session_data.token }
 
       request = create_request(session_data)
 
@@ -81,7 +81,7 @@ class Aviator::Test
 
     validate_attr :url do
       session_data = get_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:adminURL] }/os-hosts"
       request      = klass.new(session_data)
 

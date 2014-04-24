@@ -88,7 +88,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data.token }
 
       request = create_request
 
@@ -124,7 +124,7 @@ class Aviator::Test
 
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{ |s| s[:type] == 'compute' }
+      service_spec = get_session_data[:catalog].find{ |s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:adminURL] }/os-networks"
 
       request = create_request

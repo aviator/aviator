@@ -1,5 +1,5 @@
 #require 'test_helper'
-require_relative "../../../../../test_helper"
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -19,11 +19,11 @@ class Aviator::Test
     end
 
     def get_user_id
-      get_session_data['access']['user']['id']
+      get_session_data['user']['id']
     end
 
     def get_user_name
-      get_session_data['access']['user']['username']
+      get_session_data['user']['username']
     end
 
 
@@ -74,7 +74,7 @@ class Aviator::Test
     validate_attr :headers do
       session_data = get_session_data
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => session_data.token }
 
       request = create_request(session_data)
 
@@ -89,7 +89,7 @@ class Aviator::Test
 
     validate_attr :url do
       session_data = get_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'identity' }
       url          = "#{ service_spec[:endpoints][0][:adminURL] }/users/#{get_user_id}"
       request      = klass.new(session_data) do |p|
         p.id = get_user_id

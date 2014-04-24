@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -48,7 +48,7 @@ class Aviator::Test
                      params[:all_tenants] = true
                    end
 
-        current_tenant = get_session_data[:access][:token][:tenant]
+        current_tenant = get_session_data.project
 
         resized_servers = response.body[:servers].select do |server|
                            server[:status] == 'VERIFY_RESIZE' && server[:tenant_id] == current_tenant[:id]
@@ -89,7 +89,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data.token }
 
       request = create_request
 
@@ -108,7 +108,7 @@ class Aviator::Test
 
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = get_session_data[:catalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:adminURL] }/servers/#{ server[:id] }/action"
 
       request = create_request do |params|

@@ -39,6 +39,8 @@ module Aviator
     end
 
 
+
+
     def initialize(opts={})
       config_path  = opts[:config_file]
       environment  = opts[:environment]
@@ -64,7 +66,8 @@ module Aviator
       response = auth_service.request environment[:auth_service][:request].to_sym, &block
 
       if response.status == 200
-        @auth_info = response.body
+        #@auth_info = response.body
+        @auth_info = ::Aviator::SessionData.from_response(response)
         update_services_session_data
       else
         raise AuthenticationError.new(response.body)
@@ -121,15 +124,11 @@ module Aviator
       response.status == 200 || response.status == 203
     end
 
-
-    private
-
-
     def auth_info
       @auth_info
     end
 
-
+    private
     def auth_service
       @auth_service ||= Service.new(
         provider: environment[:provider],
@@ -177,7 +176,7 @@ module Aviator
     def initialize_with_dump(session_dump)
       session_info = JSON.parse(session_dump).with_indifferent_access
       @environment = session_info[:environment]
-      @auth_info   = session_info[:auth_info]
+      @auth_info   = Aviator::SessionData.from_hash(session_info[:auth_info])
     end
 
 
@@ -195,5 +194,6 @@ module Aviator
     end
 
   end
+
 
 end

@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -30,13 +30,12 @@ class Aviator::Test
       )
 
       bootstrap = RequestHelper.admin_bootstrap_session_data
-
       response = service.request :create_token, session_data: bootstrap do |params|
         auth_credentials = Environment.openstack_admin[:auth_credentials]
         auth_credentials.each { |key, value| params[key] = auth_credentials[key] }
       end
 
-      response.body
+      Aviator::SessionData.from_response(response)
     end
 
 
@@ -74,7 +73,7 @@ class Aviator::Test
     validate_attr :headers do
       session_data = new_session_data
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => session_data.token }
 
       request = create_request(session_data)
 
@@ -109,7 +108,7 @@ class Aviator::Test
 
     validate_attr :url do
       session_data = new_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers"
 
       params = [
@@ -198,7 +197,7 @@ class Aviator::Test
     end
 
     validate_response 'the all_tenants parameter is provided' do
-      current_tenant = admin_session.send(:auth_info)[:access][:token][:tenant]
+      current_tenant = admin_session.auth_info.project
 
       response = admin_session.compute_service.request :list_servers do |params|
         params[:details]     = true

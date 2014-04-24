@@ -62,7 +62,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data.token }
 
       request = create_request
 
@@ -87,7 +87,7 @@ class Aviator::Test
 
     validate_attr :url do
       session_data = get_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/os-floating-ips"
       request      = klass.new(session_data)
 

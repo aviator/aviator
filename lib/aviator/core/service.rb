@@ -143,6 +143,8 @@ module Aviator
 
     # Candidate for extraction to aviator/openstack
     def infer_version(session_data, request_name='sample_request')
+      #puts "##############"
+      #puts session_data.inspect
       if session_data.has_key?(:auth_service) && session_data[:auth_service][:api_version]
         session_data[:auth_service][:api_version].to_sym
 
@@ -154,8 +156,9 @@ module Aviator
         m = session_data[:base_url].match(/(v\d+)\.?\d*/)
         return m[1].to_sym unless m.nil?
 
-      elsif session_data.has_key? :access
-        service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
+      elsif session_data.has_key? :catalog
+
+        service_spec = session_data[:catalog].find{|s| s[:type] == service }
         raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
         version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
         version ? version[1].to_sym : :v1

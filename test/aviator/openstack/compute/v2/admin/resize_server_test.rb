@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -49,17 +49,17 @@ class Aviator::Test
                      params[:all_tenants] = true
                    end
 
-        current_tenant = get_session_data[:access][:token][:tenant]
-        active_servers = response.body[:servers].select do |server| 
+        current_tenant = get_session_data.project
+        active_servers = response.body[:servers].select do |server|
                            server[:status] == 'ACTIVE' && server[:tenant_id] == current_tenant[:id]
                          end
-        
+
         raise "\n\nProject '#{ current_tenant[:name] }' should have at least 1 server with "\
               "a status of ACTIVE\n\n" if active_servers.empty?
 
         @server = active_servers.first
       end
-      
+
       @server
     end
 
@@ -97,7 +97,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data.token }
 
       request = create_request
 
@@ -117,19 +117,19 @@ class Aviator::Test
         :flavorRef
       ]
     end
-    
-    
+
+
     validate_attr :param_aliases do
       aliases = {
         flavor_ref: :flavorRef
       }
-      
+
       klass.param_aliases.must_equal aliases
     end
 
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = get_session_data[:catalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server[:id] }/action"
 
       request = create_request do |params|

@@ -66,7 +66,7 @@ class Aviator::Test
     validate_attr :headers do
       session_data = get_session_data
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => session_data.token }
 
       request = create_request(session_data)
 
@@ -83,7 +83,7 @@ class Aviator::Test
       tenant_id = 'sample_tenant_id'
       user_id = 'sample_user_id'
       session_data = get_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'identity' }
       url          = "#{ service_spec[:endpoints][0][:adminURL] }/tenants/#{ tenant_id }"
       url         += "/users/#{ user_id }"
       url         += "/roles"

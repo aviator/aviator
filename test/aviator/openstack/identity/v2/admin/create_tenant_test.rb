@@ -18,15 +18,15 @@ class Aviator::Test
         provider: 'openstack',
         service:  'identity'
       )
-      
+
       bootstrap = RequestHelper.admin_bootstrap_session_data
-      
+
       response = service.request :create_token, session_data: bootstrap do |params|
         auth_credentials = Environment.openstack_admin[:auth_credentials]
         auth_credentials.each { |key, value| params[key] = auth_credentials[key] }
       end
-      
-      response.body
+
+      Aviator::SessionData.from_response response
     end
 
 
@@ -77,7 +77,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => helper.admin_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => helper.admin_session_data.token }
 
       request = create_request
 
@@ -97,7 +97,7 @@ class Aviator::Test
 
     validate_attr :url do
       session_data = helper.admin_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'identity' }
       url = "#{ service_spec[:endpoints][0][:adminURL] }/tenants"
 
       request = create_request
@@ -112,32 +112,32 @@ class Aviator::Test
         service:  'identity',
         default_session_data: new_session_data
       )
-      
+
       response = service.request :create_tenant do |params|
         params[:name]        = ""
         params[:description] = ""
         params[:enabled]     = true
       end
-      
+
       response.status.must_equal 400
       response.body.wont_be_nil
       response.headers.wont_be_nil
     end
-    
-    
+
+
     validate_response 'params are valid' do
       service = Aviator::Service.new(
         provider: 'openstack',
         service:  'identity',
         default_session_data: new_session_data
       )
-      
+
       response = service.request :create_tenant do |params|
         params[:name]        = "Aviator Project"
         params[:description] = 'My Project'
         params[:enabled]     = true
       end
-      
+
       response.status.must_equal 200
       response.body.wont_be_nil
       response.headers.wont_be_nil

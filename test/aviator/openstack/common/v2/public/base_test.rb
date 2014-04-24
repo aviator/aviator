@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../../../../test_helper'
 
 class Aviator::Test
 
@@ -59,7 +59,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data.token }
 
       request = create_request
 
@@ -70,12 +70,12 @@ class Aviator::Test
     describe '::base_url' do
 
       it 'must throw a MissingServiceEndpointError when the service\'s endpoint can\'t be found' do
-        default_session_data = JSON.parse('{"access": {"token": {"issued_at": "2013-09-25T20:21:55.453783",
+        default_session_data = Aviator::SessionData.from_body_and_headers(JSON.parse('{"access": {"token": {"issued_at": "2013-09-25T20:21:55.453783",
           "expires": "2013-09-26T02:21:55Z", "id": "2f6bdec6cd0f49b4a60ede0cd4bf2c0d"},
           "serviceCatalog": [], "user": {"username": "bogus",
           "roles_links": [], "id": "447527294dae4a1788d36beb0db99c00", "roles": [],
           "name": "bogus"}, "metadata": {"is_admin": 0, "roles":
-          []}}}').with_indifferent_access
+          []}}}').with_indifferent_access, {})
 
         request = klass.new(default_session_data)
 
@@ -85,8 +85,8 @@ class Aviator::Test
       end
 
 
-      it 'must use the base_url value if provided.' do        
-        default_session_data = JSON.parse('{"access": {"token": {"issued_at": "2013-09-25T20:21:55.453783",
+      it 'must use the base_url value if provided.' do
+        default_session_data = Aviator::SessionData.from_body_and_headers JSON.parse('{"access": {"token": {"issued_at": "2013-09-25T20:21:55.453783",
           "expires": "2013-09-26T02:21:55Z", "id": "2f6bdec6cd0f49b4a60ede0cd4bf2c0d"},
           "serviceCatalog": [], "user": {"username": "bogus",
           "roles_links": [], "id": "447527294dae4a1788d36beb0db99c00", "roles": [],

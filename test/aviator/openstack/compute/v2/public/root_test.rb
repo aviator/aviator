@@ -40,55 +40,55 @@ class Aviator::Test
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
     end
-    
-    
+
+
     validate_attr :api_version do
       klass.api_version.must_equal :v2
     end
-    
-    
+
+
     validate_attr :body do
       request = create_request
-    
+
       klass.body?.must_equal false
       request.body?.must_equal false
     end
-    
-    
+
+
     validate_attr :endpoint_type do
       klass.endpoint_type.must_equal :public
     end
-    
-    
+
+
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
-    
+      headers = { 'X-Auth-Token' => get_session_data.token }
+
       request = create_request
-    
+
       request.headers.must_equal headers
     end
-    
-    
+
+
     validate_attr :http_method do
       create_request.http_method.must_equal :get
     end
-    
-    
+
+
     validate_attr :optional_params do
       klass.optional_params.must_equal []
     end
-    
-    
+
+
     validate_attr :required_params do
       klass.required_params.must_equal []
     end
-    
-    
+
+
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = get_session_data[:catalog].find{|s| s[:type] == 'compute' }
       uri          = URI(service_spec[:endpoints][0][:publicURL])
       url          = "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v2/"
-    
+
       create_request.url.must_equal url
     end
 

@@ -24,7 +24,7 @@ module Aviator
 
     def headers
       h = {
-        'X-Auth-Token'                  => session_data[:access][:token][:id],
+        'X-Auth-Token'                  => session_data.token,
         'Content-Type'                  =>'application/octet-stream',
         'x-image-meta-id'               => params[:id],
         'x-image-meta-name'             => params[:name],

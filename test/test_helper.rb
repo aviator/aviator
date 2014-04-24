@@ -1,6 +1,6 @@
 # Add the gem's lib folder to the load path
 $:.unshift File.expand_path('../../lib', __FILE__)
-
+require 'pathname'
 
 # Set-up coverage reporting (local and Coveralls.com)
 require 'simplecov'

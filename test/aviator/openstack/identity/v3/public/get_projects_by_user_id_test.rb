@@ -18,7 +18,7 @@ class Aviator::Test
     end
 
     def get_session_id
-      get_session_data[:access][:user][:id]
+      get_session_data[:user][:id]
     end
 
 
@@ -69,7 +69,7 @@ class Aviator::Test
     validate_attr :headers do
       session_data = get_session_data
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => session_data.token }
 
       request = create_request(session_data)
 
@@ -84,7 +84,7 @@ class Aviator::Test
 
     validate_attr :url do
       session_data = get_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'identity' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/users/#{get_session_id}/projects"
       request      = create_request(session_data)
 
@@ -106,7 +106,7 @@ class Aviator::Test
         creds.password = Environment.openstack_admin[:auth_credentials][:password]
       end
       auth_info = session.send :auth_info
-      id = auth_info[:access][:user][:id]
+      id = auth_info[:user][:id]
       base_url = URI(Environment.openstack_admin[:auth_service][:host_uri])
       base_url.path = "/v3"
 

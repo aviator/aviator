@@ -49,7 +49,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'computev3' }
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'computev3' }
       v3_url = service_spec[:endpoints][0][:adminURL]
       "#{ v3_url }/os-quota-sets/#{ params[:tenant_id] }"
     end

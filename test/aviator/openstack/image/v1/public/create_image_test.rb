@@ -62,7 +62,7 @@ class Aviator::Test
 
     validate_attr :headers do
       headers = {
-        'X-Auth-Token' => get_session_data[:access][:token][:id],
+        'X-Auth-Token' => get_session_data.token,
         'Content-Type' => 'application/octet-stream'
       }
 
@@ -103,7 +103,7 @@ class Aviator::Test
 
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'image' }
+      service_spec = get_session_data[:catalog].find{|s| s[:type] == 'image' }
       uri          = URI(service_spec[:endpoints][0][:publicURL])
       url          = "#{ uri.scheme }://#{ uri.host }:#{ uri.port.to_s }/v1/images"
 
