@@ -4,6 +4,7 @@ module Aviator
 
     meta :endpoint_type, :admin
 
+
   end
 
 end

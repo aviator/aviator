@@ -20,10 +20,10 @@ module Aviator
     def base_url
       if session_data[:base_url]
         session_data[:base_url]
-      elsif service_spec = session_data[:catalog].find { |s| s[:type] == service.to_s }
-        service_spec[:endpoints][0]["#{ endpoint_type }URL".to_sym]
+      elsif service_spec = session_data.catalog.find { |s| s[:type] == "%s%s" % [service, api_version] } || session_data.catalog.find { |s| s[:type] == service.to_s }
+        service_spec[:endpoints].find{|a| a[:interface] == endpoint_type.to_s}["url"]
       elsif session_data[:auth_service] && session_data[:auth_service][:host_uri] && session_data[:auth_service][:api_version]
-        "#{ session_data[:auth_service][:host_uri] }/v2.0"
+        "#{ session_data[:auth_service][:host_uri] }/v3"
       elsif session_data[:auth_service] && session_data[:auth_service][:host_uri]
         session_data[:auth_service][:host_uri]
       else

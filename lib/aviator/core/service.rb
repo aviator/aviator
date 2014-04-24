@@ -76,18 +76,20 @@ module Aviator
         session_data[k] = options[k] if options[k]
       end
 
-      request_class = find_request(request_name, session_data, options[:endpoint_type])
+      request_class = find_request(request_name, session_data, options[:endpoint_type], options[:api_version])
 
       raise UnknownRequestError.new(request_name) unless request_class
 
       request  = request_class.new(session_data, &params)
-
+      #binding.pry
       response = http_connection.send(request.http_method) do |r|
         r.url        request.url
         r.headers.merge!(request.headers)        if request.headers?
         r.query    = request.querystring         if request.querystring?
         r.body     = JSON.generate(request.body) if request.body?
       end
+      #binding.pry
+
 
       Aviator::Response.send(:new, response, request)
     end
@@ -112,7 +114,7 @@ module Aviator
 
 
     # Candidate for extraction to aviator/openstack
-    def find_request(name, session_data, endpoint_type=nil)
+    def find_request(name, session_data, endpoint_type=nil, api_version = nil)
       endpoint_types = if endpoint_type
                          [endpoint_type.to_s.camelize]
                        else
@@ -121,20 +123,29 @@ module Aviator
 
       namespace = Aviator.const_get(provider.camelize)
                          .const_get(service.camelize)
+      # binding.pry
+      version = (api_version ? api_version.to_s.camelize : nil) || infer_version(session_data, name).to_s.camelize
+      # binding.pry
+      #return nil unless version && namespace.const_defined?(version)
+      versions = if version
+        [version]
+      else
+        [:v3, :v2, :v1]
+      end
 
-      version = infer_version(session_data, name).to_s.camelize
+      versions.each do |version|
+        version_name = version.to_s.camelize
+        next unless namespace.const_defined?(version_name)
+        namespace = namespace.const_get(version_name, name)
+        # binding.pry
+        endpoint_types.each do |endpoint_type|
+          name = name.to_s.camelize
 
-      return nil unless version && namespace.const_defined?(version)
+          next unless namespace.const_defined?(endpoint_type)
+          next unless namespace.const_get(endpoint_type).const_defined?(name)
 
-      namespace = namespace.const_get(version, name)
-
-      endpoint_types.each do |endpoint_type|
-        name = name.to_s.camelize
-
-        next unless namespace.const_defined?(endpoint_type)
-        next unless namespace.const_get(endpoint_type).const_defined?(name)
-
-        return namespace.const_get(endpoint_type).const_get(name)
+          return namespace.const_get(endpoint_type).const_get(name)
+        end
       end
 
       nil
@@ -143,8 +154,6 @@ module Aviator
 
     # Candidate for extraction to aviator/openstack
     def infer_version(session_data, request_name='sample_request')
-      #puts "##############"
-      #puts session_data.inspect
       if session_data.has_key?(:auth_service) && session_data[:auth_service][:api_version]
         session_data[:auth_service][:api_version].to_sym
 
@@ -155,13 +164,15 @@ module Aviator
       elsif session_data.has_key? :base_url
         m = session_data[:base_url].match(/(v\d+)\.?\d*/)
         return m[1].to_sym unless m.nil?
+      elsif session_data.catalog
+        api_version = 'v2'
+        service_with_version = session_data.catalog.find { |s| s[:type] == ("%s%s" % [service, api_version]) }
+        return api_version if service_with_version
 
-      elsif session_data.has_key? :catalog
-
-        service_spec = session_data[:catalog].find{|s| s[:type] == service }
+        service_spec = session_data.catalog.find { |s| s[:type] == service.to_s }
         raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
-        version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
-        version ? version[1].to_sym : :v1
+        url = service_spec[:endpoints].find{|a| a[:interface] == 'public'}["url"]
+        version_from_url(url)
       end
     end
 
@@ -194,6 +205,13 @@ module Aviator
     def log_file
       @log_file
     end
+
+    private
+
+     def version_from_url(url)
+       version = url.match(/(v\d+)\.?\d*/)
+       version ? version[1].to_sym : :v1
+     end
 
   end
 

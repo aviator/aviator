@@ -29,7 +29,7 @@ module Aviator
 
     def url
       service_spec = session_data[:catalog].find{|s| s[:type] == 'identity' }
-      "#{ service_spec[:endpoints][0][:adminURL] }/OS-KSADM/roles/"
+      "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/OS-KSADM/roles/"
     end
 
   end

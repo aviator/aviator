@@ -48,11 +48,9 @@ module Aviator
     end
 
     def [](k)
-      puts k
       v = super(k)
       case k.to_s
       when 'catalog'
-        puts v.first['endpoints'].first.with_indifferent_access.has_key?('publicURL')
         if v.first && v.first['endpoints'].first.has_key?('publicURL')
           normalize_v2_catalogs(v)
         else
@@ -77,7 +75,7 @@ module Aviator
     def normalize_v2_catalog(catalog)
       {
         'type' => catalog[:type],
-        'id' => catalog[:id],
+        # 'id' => catalog[:id],
         'name'=> catalog[:name],
         'endpoints' =>normalize_v2_endpoints(catalog[:endpoints].first)
       }.with_indifferent_access

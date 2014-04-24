@@ -1,9 +1,8 @@
 module Aviator
 
-  define_request :get_default_quotas, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :get_default_quotas, inherit: [:openstack, :common, :v3, :admin, :base] do
 
     meta :service,      :compute
-    meta :api_version,  :v3
 
     link 'documentation',
       'http://api.openstack.org/api-ref-compute-v3.html#v3quotasets'
@@ -22,8 +21,9 @@ module Aviator
 
 
     def url
+
       service_spec = session_data[:catalog].find{|s| s[:type] == 'computev3' }
-      v3_url = service_spec[:endpoints][0][:adminURL]
+      v3_url = service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url]
       "#{ v3_url }/os-quota-sets/#{ params[:tenant_id] }/defaults"
     end
 

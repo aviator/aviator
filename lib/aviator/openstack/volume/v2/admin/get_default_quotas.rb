@@ -25,7 +25,7 @@ module Aviator
 
     def url
       service_spec = session_data[:catalog].find{|s| s[:type] == 'volumev2' }
-      v2_url = service_spec[:endpoints][0][:adminURL]
+      v2_url = service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url]
       "#{ v2_url }/os-quota-sets/#{ params[:tenant_id] }/defaults"
     end
 
