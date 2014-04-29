@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :get_projects_by_user_id, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :get_projects_by_user_id, inherit: [:openstack, :common, :v3, :public, :base] do
 
     meta :service, :identity
     meta :api_version,   :v3

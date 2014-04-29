@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :create_token, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :create_token, inherit: [:openstack, :common, :v3, :public, :base] do
 
     meta :anonymous, true
     meta :service, :identity

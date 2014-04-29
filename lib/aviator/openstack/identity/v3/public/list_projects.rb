@@ -9,7 +9,7 @@ module Aviator
 
     param :page, required: false
     param :per_page, required: false
-    param :domain_id, required: false
+    param :domain_id, required: false, alias: :domainId
     param :name, required: false
     param :enabled, required: false
 
@@ -21,7 +21,6 @@ module Aviator
     def http_method
       :get
     end
-
 
     def url
       str = "#{ base_url }/projects"

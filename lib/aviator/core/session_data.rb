@@ -1,6 +1,6 @@
 module Aviator
 
-  class SessionData < HashWithIndifferentAccess
+  class SessionData < Hashie::Mash
 
     class << self
 
@@ -38,6 +38,13 @@ module Aviator
 
     end
 
+    def initialize(*args)
+      super(*args)
+      each do |k,v|
+        self.send("#{k}=".to_sym, v) if respond_to?("#{k}=".to_sym)
+      end
+    end
+
     [:user, :token, :project, :catalog, :expiry].each do |attr|
       define_method(attr.to_sym) do
         self[attr.to_sym]
@@ -60,6 +67,21 @@ module Aviator
       else
         v
       end
+    end
+
+    def []=(k,v)
+      #v = super(k)
+      v = case k.to_s
+      when 'catalog'
+        if v.first && v.first['endpoints'].first.has_key?('publicURL')
+          normalize_v2_catalogs(v)
+        else
+          normalize_v3_catalogs(v)
+        end
+      else
+        v
+      end
+      super(k, v)
     end
 
     private
