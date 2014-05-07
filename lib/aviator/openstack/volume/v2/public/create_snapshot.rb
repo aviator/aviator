@@ -7,7 +7,6 @@ module Aviator
 
     link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createSnapshot_v1__tenant_id__snapshots_snapshots.html'
 
-    #param :snapshot,            required: true
     param :volume_id,           required: true
     param :force,               required: false
     param :display_name,        required: true
