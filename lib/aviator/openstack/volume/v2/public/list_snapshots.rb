@@ -24,6 +24,7 @@ module Aviator
       v2_url = service_spec[:endpoints][0][:adminURL]
       str = "#{ v2_url }/snapshots"
       str += "/detail" if params[:detail]
+      str
     end
   end
 
