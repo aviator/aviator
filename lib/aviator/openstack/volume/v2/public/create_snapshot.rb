@@ -1,17 +1,17 @@
 module Aviator
 
   define_request :create_snapshot, inherit: [:openstack, :common, :v2, :public, :base] do
-    
+
     meta :service,        :volume
     meta :api_version,    :v2
 
-    link 'documentation', 'http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createSnapshot_v1__tenant_id__snapshots_snapshots.html'
+    link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/POST_createSnapshot__v2__tenant_id__snapshots_Snapshots.html'
 
     param :volume_id,           required: true
     param :force,               required: false
     param :display_name,        required: true
     param :display_description, required: true
-    
+
     def body
       {
         snapshot: {
@@ -21,7 +21,6 @@ module Aviator
          force:                 params[:force] || false
         }
       }
-      
     end
 
     def headers
