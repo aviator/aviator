@@ -74,20 +74,20 @@ module Aviator
       [:base_url].each do |k|
         session_data[k] = options[k] if options[k]
       end
-
+      # binding.pry
       request_class = find_request(request_name, session_data, options[:endpoint_type], options[:api_version])
-      #binding.pry
+      # binding.pry
       raise UnknownRequestError.new(request_name) unless request_class
 
       request  = request_class.new(session_data, &params)
-      #binding.pry
+      # binding.pry
       response = http_connection.send(request.http_method) do |r|
         r.url        request.url
         r.headers.merge!(request.headers)        if request.headers?
         r.query    = request.querystring         if request.querystring?
         r.body     = JSON.generate(request.body) if request.body? && !request.body.empty?
       end
-      #binding.pry
+      # binding.pry
 
 
       Aviator::Response.send(:new, response, request)

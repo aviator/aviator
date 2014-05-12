@@ -117,11 +117,13 @@ module Aviator
       raise ValidatorNotDefinedError.new unless environment[:auth_service][:validator]
 
       auth_with_bootstrap = auth_info.merge({ auth_service: environment[:auth_service] })
+      #binding.pry
+      api_version = (environment[:auth_service][:api_version] || 'v2').to_sym
       validator_params = environment[:validator_service]
       params = lambda{|a| (validator_params || {}).each{|k,v| a[k] = v }}
       #binding.pry
-      response = auth_service.request environment[:auth_service][:validator].to_sym, session_data: auth_with_bootstrap, &params
-
+      response = auth_service.request environment[:auth_service][:validator].to_sym, session_data: auth_with_bootstrap, :api_version => api_version, &params
+      #binding.pry
       response.status >= 200 && response.status < 300
     end
 

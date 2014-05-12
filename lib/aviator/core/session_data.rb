@@ -33,6 +33,7 @@ module Aviator
 
       def from_hash(hash)
         h = hash.with_indifferent_access
+        #binding.pry
         new(:token => h[:token], :catalog => h[:catalog], :user => h[:user], :expiry => h[:expiry], :project => h[:project])
       end
 
@@ -70,9 +71,10 @@ module Aviator
     end
 
     def []=(k,v)
-      #v = super(k)
+      raise "index for session data is null" if k.nil?
       v = case k.to_s
       when 'catalog'
+        #binding.pry
         if v.first && v.first['endpoints'].first.has_key?('publicURL')
           normalize_v2_catalogs(v)
         else
