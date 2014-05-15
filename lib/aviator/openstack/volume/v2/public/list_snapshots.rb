@@ -20,8 +20,8 @@ module Aviator
     end
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'volumev2' }
-      v2_url = service_spec[:endpoints][0][:adminURL]
+      service_spec = session_data[:catalog].find{|s| s[:type] == 'volumev2' }
+      v2_url = service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url]
       str = "#{ v2_url }/snapshots"
       str += "/detail" if params[:detail]
       str
