@@ -21,15 +21,15 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '100'
+      - '101'
       date:
-      - Wed, 04 Sep 2013 21:36:53 GMT
+      - Mon, 14 Apr 2014 13:42:25 GMT
       connection:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"error": {"message": "Could not find user: invalidusername", "code":
+      string: ! '{"error": {"message": "Could not find user, invalidusername.", "code":
         401, "title": "Unauthorized"}}'
     http_version: 
-  recorded_at: Wed, 04 Sep 2013 21:36:45 GMT
-recorded_with: VCR 2.5.0
+  recorded_at: Mon, 14 Apr 2014 13:42:08 GMT
+recorded_with: VCR 2.8.0
