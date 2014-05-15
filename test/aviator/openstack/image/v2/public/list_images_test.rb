@@ -39,7 +39,8 @@ class Aviator::Test
 
     def v2_base_url
       unless @v2_base_url
-        @v2_base_url = get_session_data[:access][:serviceCatalog].find { |s| s[:type] == 'image' }[:endpoints][0][:publicURL]
+        #binding.pry
+        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'image' }[:endpoints].find{|a| a[:interface] == 'public'}[:url]
         @v2_base_url << '/v2'
       end
 
@@ -69,7 +70,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data.token }
 
       request = create_request
 

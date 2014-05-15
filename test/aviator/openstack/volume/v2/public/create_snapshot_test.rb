@@ -30,7 +30,7 @@ class Aviator::Test
 
     def v2_base_url
       unless @v2_base_url
-        @v2_base_url = get_session_data[:access][:serviceCatalog].find { |s| s[:type] == 'volumev2' }[:endpoints][0][:adminURL]
+        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints].find{|a| a[:interface] == 'admin'}[:url]
       end
 
       @v2_base_url

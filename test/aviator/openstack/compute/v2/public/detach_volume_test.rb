@@ -115,7 +115,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data.token }
 
       request = create_request
       request.headers.must_equal headers
@@ -137,10 +137,10 @@ class Aviator::Test
     end
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = get_session_data[:catalog].find{|s| s[:type] == 'compute' }
       server_id    = 'a6d2cdcb-test-test-test-0833c30e968e'
       volume_id    = '56121be0-test-test-test-77e5c21449c5'
-      url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }/os-volume_attachments/#{ volume_id}"
+      url          = "#{ service_spec[:endpoints].find{|a| a[:interface] == 'public'}[:url] }/servers/#{ server_id }/os-volume_attachments/#{ volume_id}"
       			     
       request = create_request do |params|
         params[:server_id] = server_id
