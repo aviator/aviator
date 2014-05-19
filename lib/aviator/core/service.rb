@@ -68,9 +68,9 @@ module Aviator
 
 
     def request(request_name, options={}, &params)
-      session_data = options[:session_data] || default_session_data
+      session_data = Hashie::Mash.new(options[:session_data] || default_session_data)
 
-      raise SessionDataNotProvidedError.new unless session_data
+      raise SessionDataNotProvidedError.new if session_data.empty?
       [:base_url].each do |k|
         session_data[k] = options[k] if options[k]
       end

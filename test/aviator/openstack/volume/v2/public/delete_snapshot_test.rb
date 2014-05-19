@@ -19,7 +19,7 @@ class Aviator::Test
         params[:force]                =  true
       end
 
-      sleep 5
+      #sleep 5
       response.body[:snapshot]
     end
 
@@ -85,12 +85,12 @@ class Aviator::Test
       end
       response.status.must_equal 202
 
-      sleep 5
+      #sleep 5
 
       list = session.volume_service.request(:list_snapshots, base_url: v2_base_url)
       list.body[:snapshots].collect{ |s| s[:id] }.include?(snapshot[:id]).must_equal false
 
-      sleep 5
+      #sleep 5
       #delete volume
       response = session.volume_service.request(:delete_volume, base_url: v1_base_url) do |params|
         params[:id] = @volume[:id]
