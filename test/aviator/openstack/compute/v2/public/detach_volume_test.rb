@@ -156,7 +156,7 @@ class Aviator::Test
       server_id = attached_volume.body[:volumeAttachment][:serverId]
       volume_id = attached_volume.body[:volumeAttachment][:volumeId]
       
-      sleep(10) # Sleep 10 seconds to wait for the volume to be attach.
+      #sleep(10) # Sleep 10 seconds to wait for the volume to be attach.
 
       response = session.compute_service.request :detach_volume do |params|
         params[:server_id] = server_id
