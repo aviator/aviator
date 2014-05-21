@@ -9,14 +9,14 @@ module Aviator
 
     param :volume_id,           required: true
     param :force,               required: false
-    param :display_name,        required: true
-    param :display_description, required: true
+    param :name,        required: true
+    param :description, required: true
 
     def body
       {
         snapshot: {
-         display_name:          params[:display_name],
-         display_description:   params[:display_description],
+         name:          params[:name],
+         description:   params[:description],
          volume_id:             params[:volume_id],
          force:                 params[:force] || false
         }

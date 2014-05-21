@@ -7,15 +7,15 @@ class Aviator::Test
 
     def create_snapshot
       response = session.volume_service.request :create_volume, base_url: v1_base_url do |params|
-        params[:display_name]         = 'Volume for Update Snapshot'
-        params[:display_description]  = 'Volume for Update Snapshot Description'
+        params[:name]         = 'Volume for Update Snapshot'
+        params[:description]  = 'Volume for Update Snapshot Description'
         params[:size]                 = '1'
       end
       @volume = response.body[:volume]
 
       response = session.volume_service.request(:create_snapshot, base_url: v2_base_url) do |params|
-        params[:display_name]         = 'Snapshot for Update Test'
-        params[:display_description]  = 'Snapshot for Update Test Description'
+        params[:name]         = 'Snapshot for Update Test'
+        params[:description]  = 'Snapshot for Update Test Description'
         params[:volume_id]            =  @volume[:id]
         params[:force]                =  true
       end
@@ -84,7 +84,7 @@ class Aviator::Test
       #update snapshot
       response = session.volume_service.request(:update_snapshot, base_url: v2_base_url) do |params|
         params[:snapshot_id] = snapshot[:id]
-        params[:display_name] = snapshot_name
+        params[:name] = snapshot_name
       end
 
       response.status.must_equal 200

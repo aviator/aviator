@@ -8,8 +8,8 @@ module Aviator
     link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/PUT_updateSnapshot__v2__tenant_id__snapshots__snapshot_id__Snapshots.html'
 
     param :snapshot_id,         required: true, alias: :id
-    param :display_name,        required: false
-    param :display_description, required: false
+    param :name,        required: false
+    param :description, required: false
 
     def body
       p = {
