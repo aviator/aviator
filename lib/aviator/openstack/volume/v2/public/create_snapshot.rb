@@ -7,18 +7,18 @@ module Aviator
 
     link 'documentation', 'http://docs.openstack.org/api/openstack-block-storage/2.0/content/POST_createSnapshot__v2__tenant_id__snapshots_Snapshots.html'
 
-    param :volume_id,           required: true
-    param :force,               required: false
+    param :volume_id,   required: true
+    param :force,       required: false
     param :name,        required: true
     param :description, required: true
 
     def body
       {
         snapshot: {
-         name:          params[:name],
-         description:   params[:description],
-         volume_id:             params[:volume_id],
-         force:                 params[:force] || false
+          name:          params[:name],
+          description:   params[:description],
+          volume_id:     params[:volume_id],
+          force:         params[:force] || false
         }
       }
     end

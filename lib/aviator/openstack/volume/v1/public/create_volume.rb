@@ -1,7 +1,7 @@
 module Aviator
 
   define_request :create_volume, inherit: [:openstack, :common, :v2, :public, :base] do
-    
+
     meta :service,        :volume
     meta :api_version,    :v1
 
@@ -25,7 +25,7 @@ module Aviator
       }
 
       optional_params.each do |key|
-          p[:volume][key] = params[key] if params[key]
+        p[:volume][key] = params[key] if params[key]
       end
 
       p

@@ -13,10 +13,10 @@ class Aviator::Test
       @volume = response.body[:volume]
 
       response = session.volume_service.request(:create_snapshot, base_url: v2_base_url) do |params|
-        params[:display_name]         = 'Snapshot for List Test'
-        params[:display_description]  = 'Snapshot for List Test Description'
-        params[:volume_id]            =  @volume[:id]
-        params[:force]                =  true
+        params[:name]         = 'Snapshot for List Test'
+        params[:description]  = 'Snapshot for List Test Description'
+        params[:volume_id]    =  @volume[:id]
+        params[:force]        =  true
       end
 
       #sleep 5
