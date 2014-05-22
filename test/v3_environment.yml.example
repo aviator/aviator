@@ -6,6 +6,8 @@ common: &common
     request:     create_token
     validator:   list_projects
     api_version: v3
+  validator_service:
+    domainId: default
 
 
 # This is expected by the test suite. You may change its values freely

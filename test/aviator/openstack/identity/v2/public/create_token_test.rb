@@ -41,7 +41,7 @@ class Aviator::Test
           }
         }
       }
-
+      
       create_request.body.must_equal p
     end
 

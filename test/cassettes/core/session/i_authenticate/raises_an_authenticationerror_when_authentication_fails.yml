@@ -5,7 +5,7 @@ http_interactions:
     uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"invalidusername","password":"invalidpassword"}}}'
+      string: ! '{"auth":{"<OPENSTACK_ADMIN_PASSWORD>Credentials":{"username":"invalidusername","<OPENSTACK_ADMIN_PASSWORD>":"invalid<OPENSTACK_ADMIN_PASSWORD>"}}}'
     headers:
       Content-Type:
       - application/json
@@ -16,6 +16,8 @@ http_interactions:
       code: 401
       message: 
     headers:
+      www-authenticate:
+      - Keystone uri="<OPENSTACK_ADMIN_HOST_URI>:5000/"
       vary:
       - X-Auth-Token
       content-type:
@@ -23,7 +25,7 @@ http_interactions:
       content-length:
       - '101'
       date:
-      - Mon, 14 Apr 2014 13:42:25 GMT
+      - Thu, 22 May 2014 03:28:38 GMT
       connection:
       - close
     body:
@@ -31,5 +33,5 @@ http_interactions:
       string: ! '{"error": {"message": "Could not find user, invalidusername.", "code":
         401, "title": "Unauthorized"}}'
     http_version: 
-  recorded_at: Mon, 14 Apr 2014 13:42:08 GMT
+  recorded_at: Thu, 22 May 2014 03:28:38 GMT
 recorded_with: VCR 2.8.0

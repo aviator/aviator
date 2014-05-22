@@ -19,7 +19,7 @@ class Aviator::Test
         params[:force]                =  true
       end
 
-      sleep 5
+      #sleep 5
       response.body[:snapshot]
     end
 
@@ -94,7 +94,7 @@ class Aviator::Test
         params[:snapshot_id] = snapshot[:id]
       end
 
-      sleep 5
+      #sleep 5
       #delete volume
       response = session.volume_service.request(:delete_volume, base_url: v1_base_url) do |params|
         params[:id] = @volume[:id]

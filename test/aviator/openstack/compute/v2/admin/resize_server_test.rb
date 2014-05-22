@@ -53,7 +53,7 @@ class Aviator::Test
         active_servers = response.body[:servers].select do |server|
                            server[:status] == 'ACTIVE' && server[:tenant_id] == current_tenant[:id]
                          end
-
+        #binding.pry
         raise "\n\nProject '#{ current_tenant[:name] }' should have at least 1 server with "\
               "a status of ACTIVE\n\n" if active_servers.empty?
 
@@ -170,11 +170,14 @@ class Aviator::Test
 
 
     validate_response 'the flavorRef parameter is invalid' do
+      #binding.pry
       response = session.compute_service.request :resize_server do |params|
         params[:id]        = server[:id]
         params[:flavorRef] = 'invalidvalue'
         params[:name]      = 'Aviator Server'
       end
+
+      #binding.pry
 
       response.status.must_equal 400
       response.body.wont_be_nil

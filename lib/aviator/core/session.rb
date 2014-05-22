@@ -167,7 +167,7 @@ module Aviator
       path = Pathname.new(config_path)
       raise InvalidConfigFilePathError.new(config_path) unless path.file?
       content = ERB.new(path.read)
-      config = YAML.load(content.result).with_indifferent_access
+      config = Hashie::Mash.new YAML.load(content.result)
 
 
       raise EnvironmentNotDefinedError.new(config_path, environment) unless config[environment]
