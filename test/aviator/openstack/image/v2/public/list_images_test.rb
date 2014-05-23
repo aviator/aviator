@@ -101,8 +101,9 @@ class Aviator::Test
 
 
     validate_attr :url do
-      url     = "#{ v2_base_url }/images"
-      request = klass.new(get_session_data)
+      v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'image' }[:endpoints].find{|a| a[:interface] == 'public'}[:url]
+      url         = "#{ v2_base_url }/v2/images"
+      request     = klass.new(get_session_data)
 
       request.url.must_equal url
     end
@@ -114,7 +115,7 @@ class Aviator::Test
 
 
     validate_response 'no parameters are provided' do
-      response = session.image_service.request(:list_images, base_url: v2_base_url)
+      response = session.image_service.request(:list_images, api_version: :v2)
 
       response.status.must_equal 200
       response.body.wont_be_nil
@@ -124,7 +125,7 @@ class Aviator::Test
 
 
     validate_response 'filtering with matches' do
-      response = session.image_service.request(:list_images, base_url: v2_base_url) do |p|
+      response = session.image_service.request(:list_images, api_version: :v2) do |p|
         p[:name] = 'cirros-0.3.1-x86_64-uec'
       end
 
@@ -136,7 +137,7 @@ class Aviator::Test
 
 
     validate_response 'filtering with sort keys' do
-      response = session.image_service.request(:list_images, base_url: v2_base_url) do |p|
+      response = session.image_service.request(:list_images, api_version: :v2) do |p|
         p[:sort_keys] = {
           min_disk: 0,
           min_ram: 0
@@ -152,7 +153,7 @@ class Aviator::Test
 
 
     validate_response 'filtering with no matches' do
-      response = session.image_service.request(:list_images, base_url: v2_base_url) do |p|
+      response = session.image_service.request(:list_images, api_version: :v2) do |p|
         p[:name] = 'does-not-match-any-image'
       end
 

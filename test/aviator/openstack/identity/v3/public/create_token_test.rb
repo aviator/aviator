@@ -42,7 +42,7 @@ class Aviator::Test
         log_file: V3::Environment.log_file_path
       )
       @session.authenticate
-      
+
       @session.validate.must_equal true
 
     end

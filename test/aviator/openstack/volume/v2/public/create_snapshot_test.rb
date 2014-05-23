@@ -28,14 +28,6 @@ class Aviator::Test
       @session
     end
 
-    def v2_base_url
-      unless @v2_base_url
-        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints].find{|a| a[:interface] == 'admin'}[:url]
-      end
-
-      @v2_base_url
-    end
-
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -52,7 +44,7 @@ class Aviator::Test
 
       volume    = session.volume_service.request(:list_volumes).body['volumes'].first
 
-      response = session.volume_service.request(:create_snapshot, base_url: v2_base_url) do |params|
+      response = session.volume_service.request(:create_snapshot, api_version: :v2) do |params|
         params[:name]         = 'Aviator Volume Test Snapshot Name'
         params[:description]  = 'Aviator Volume Test Description'
         params[:volume_id]    =  volume[:id]

@@ -5,21 +5,21 @@ class Aviator::Test
   describe 'aviator/openstack/volume/v2/public/get_snapshot_details' do
 
     def create_snapshot
-      response = session.volume_service.request :create_volume, base_url: v1_base_url do |params|
+      response = session.volume_service.request :create_volume, api_version: :v1 do |params|
         params[:display_name]         = 'Volume for Get Snapshot Details'
         params[:display_description]  = 'Volume for Get Snapshot Details Description'
         params[:size]                 = '1'
       end
       @volume = response.body[:volume]
 
-      response = session.volume_service.request(:create_snapshot, base_url: v2_base_url) do |params|
+      response = session.volume_service.request(:create_snapshot, api_version: :v2) do |params|
         params[:name]         = 'Snapshot for Get Details Test'
         params[:description]  = 'Snapshot for Get Details Test Description'
         params[:volume_id]    =  @volume[:id]
         params[:force]        =  true
       end
 
-      #sleep 5
+      # sleep 5
       response.body[:snapshot]
     end
 
@@ -47,22 +47,6 @@ class Aviator::Test
       @session
     end
 
-    def v1_base_url
-      unless @v1_base_url
-        @v1_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volume' }[:endpoints].find{|a| a[:interface] == 'admin'}[:url]
-      end
-
-      @v1_base_url
-    end
-
-    def v2_base_url
-      unless @v2_base_url
-        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints].find{|a| a[:interface] == 'admin'}[:url]
-      end
-
-      @v2_base_url
-    end
-
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -80,7 +64,7 @@ class Aviator::Test
       snapshot.wont_be_empty
 
       #get_snapshot_details
-      response = session.volume_service.request(:get_snapshot_details, base_url: v2_base_url) do |params|
+      response = session.volume_service.request(:get_snapshot_details, api_version: :v2) do |params|
         params[:snapshot_id] = snapshot[:id]
       end
 
@@ -90,13 +74,13 @@ class Aviator::Test
 
 
       #delete snapshot
-      response = session.volume_service.request(:delete_snapshot, base_url: v2_base_url) do |params|
+      response = session.volume_service.request(:delete_snapshot, api_version: :v2) do |params|
         params[:snapshot_id] = snapshot[:id]
       end
 
-      #sleep 5
+      # sleep 5
       #delete volume
-      response = session.volume_service.request(:delete_volume, base_url: v1_base_url) do |params|
+      response = session.volume_service.request(:delete_volume, api_version: :v1) do |params|
         params[:id] = @volume[:id]
       end
     end
