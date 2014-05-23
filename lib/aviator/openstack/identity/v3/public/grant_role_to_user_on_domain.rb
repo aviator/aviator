@@ -6,7 +6,7 @@ module Aviator
     meta :api_version,  :v3
 
     link 'documentation',
-      'https://github.com/openstack/identity-api/blob/master/openstack-identity-api/v3/src/markdown/identity-api-v3.md#grant-role-to-user-on-domain-put-domainsdomain_idusersuser_idrolesrole_id'
+      'https://github.com/openstack/identity-api/blob/master/v3/src/markdown/identity-api-v3.md#grant-role-to-user-on-domain-put-domainsdomain_idusersuser_idrolesrole_id'
 
     param :domain_id, required: true
     param :role_id,   required: true
