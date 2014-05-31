@@ -44,4 +44,8 @@ class Test
 end
 end
 
-MiniTest::Reporters.use! Aviator::Test::ProgressReporter.new
+if running_in_ci
+  MiniTest::Reporters.use! Aviator::Test::SpecReporter.new
+else
+  MiniTest::Reporters.use! Aviator::Test::ProgressReporter.new
+end
