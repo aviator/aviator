@@ -60,6 +60,24 @@ class Hashish
     @hash.to_json(obj)
   end
 
+  def to_s
+    str = "{"
+    @hash.each do |key, value|
+      if value.kind_of? String
+        value = "'#{value}'"
+      elsif value.nil?
+        value = "nil"
+      elsif value.kind_of? Array
+        value = "[#{value.join(", ")}]"
+      end
+
+      str += " #{key}: #{value},"
+    end
+
+    str = str[0...-1] + " }"
+    str
+  end
+
   private
 
   # Hashishify all the things!
