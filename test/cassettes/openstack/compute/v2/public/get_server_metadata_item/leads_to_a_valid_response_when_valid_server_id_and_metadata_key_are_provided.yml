@@ -128,8 +128,8 @@ http_interactions:
       - close
     body:
       encoding: US-ASCII
-      string: ! '{"metadata": {"foo": "lorem", "bar": "ipsum"}}'
-    http_version: 
+      string: ! '{"metadata": {"foo": "lorem"}}'
+    http_version:
   recorded_at: Tue, 08 Oct 2013 05:18:49 GMT
 - request:
     method: get
