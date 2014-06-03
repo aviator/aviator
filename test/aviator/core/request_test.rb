@@ -8,7 +8,7 @@ class Aviator::Test
 
       it 'raises an error when a required param is not provided' do
         klass = Class.new(Aviator::Request) do
-                  param :someparamname, required: true
+                  param :someparamname, :required => true
                 end
 
         the_method = lambda { klass.new }
@@ -23,7 +23,7 @@ class Aviator::Test
 
       it 'does not raise any error when the required param is provided' do
         klass = Class.new(Aviator::Request) do
-                  param :someparamname, required: true
+                  param :someparamname, :required => true
                 end
       
         obj = klass.new do |params|
@@ -190,7 +190,7 @@ class Aviator::Test
                 end
     
         expected = [
-          { rel: rel, href: href }
+          { :rel => rel, :href => href }
         ]
         
         klass.links.must_equal expected
@@ -215,7 +215,7 @@ class Aviator::Test
       
       it 'accepts an alias for a given parameter' do
         klass = Class.new(Aviator::Request) do
-                  param :the_param, required: true, alias: :the_alias
+                  param :the_param, :required => true, :alias => :the_alias
                 end
         
         param_val = 999
@@ -231,7 +231,7 @@ class Aviator::Test
       
       it 'makes the param alias assignable' do
         klass = Class.new(Aviator::Request) do
-                  param :the_param, required: true, alias: :the_alias
+                  param :the_param, :required => true, :alias => :the_alias
                 end
         
         param_val = 999
@@ -247,7 +247,7 @@ class Aviator::Test
       
       it 'allows aliases to be accessible as symbols' do
         klass = Class.new(Aviator::Request) do
-                  param :the_param, required: true, alias: :the_alias
+                  param :the_param, :required => true, :alias => :the_alias
                 end
         
         param_val = 999
@@ -263,7 +263,7 @@ class Aviator::Test
 
       it 'allows aliases to be accessible as strings' do
         klass = Class.new(Aviator::Request) do
-                  param :the_param, required: true, alias: :the_alias
+                  param :the_param, :required => true, :alias => :the_alias
                 end
         
         param_val = 999
@@ -283,7 +283,7 @@ class Aviator::Test
     
       it 'returns an array' do
         klass = Class.new(Aviator::Request) do
-                  param :whatever, required: false
+                  param :whatever, :required => false
                 end
     
         klass.optional_params.must_equal [:whatever]
@@ -296,7 +296,7 @@ class Aviator::Test
     
       it 'returns an array' do
         klass = Class.new(Aviator::Request) do
-                  param :whatever, required: false
+                  param :whatever, :required => false
                 end
     
         klass.new.optional_params.must_equal [:whatever]
@@ -309,7 +309,7 @@ class Aviator::Test
     
       it 'returns an array' do
         klass = Class.new(Aviator::Request) do
-                  param :whatever, required: true
+                  param :whatever, :required => true
                 end
     
         klass.required_params.must_equal [:whatever]
@@ -322,7 +322,7 @@ class Aviator::Test
     
       it 'returns an array' do
         klass = Class.new(Aviator::Request) do
-                  param :whatever, required: true
+                  param :whatever, :required => true
                 end
     
         request = klass.new do |params|

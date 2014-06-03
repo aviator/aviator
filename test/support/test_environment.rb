@@ -1,4 +1,4 @@
-require 'active_support/core_ext/hash/indifferent_access'
+require 'aviator/hashish'
 
 module Aviator
 class Test
@@ -33,7 +33,7 @@ copying the contents of environment.yml.example.
 EOF
         end
 
-        @config = YAML.load_file(path).with_indifferent_access
+        @config = Hashish.new(YAML.load_file(path))
       end
 
 

@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :list_addresses, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :list_addresses, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
@@ -11,8 +11,8 @@ module Aviator
          'http://docs.openstack.org/api/openstack-compute/2/content/List_Addresses_by_Network-d1e3118.html'
 
 
-    param :id,        required: true
-    param :networkID, required: false, alias: :network_id
+    param :id,        :required => true
+    param :networkID, :required => false, :alias => :network_id
 
 
     def headers

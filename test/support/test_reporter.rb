@@ -1,47 +1,55 @@
-require "minitest/reporters"
+if not Aviator::Compatibility::RUBY_1_8_MODE
 
-module Aviator
-class Test
+  require "minitest/reporters"
 
-  class SpecReporter < MiniTest::Reporters::SpecReporter
+  module Aviator
+  class Test
 
-    private
+    class SpecReporter < MiniTest::Reporters::SpecReporter
 
-    def pad_test(test)
-      str = test.to_s.gsub(/(test_)/, '').gsub(/_/, ' ')
-      pad("%-#{TEST_SIZE}s" % str, TEST_PADDING)[0..TEST_SIZE]
+      private
+
+      def pad_test(test)
+        str = test.to_s.gsub(/(test_)/, '').gsub(/_/, ' ')
+        pad("%-#{TEST_SIZE}s" % str, TEST_PADDING)[0..TEST_SIZE]
+      end
+
+      def print_info(e)
+        print "       #{e.exception.class.to_s}:\n"
+        e.message.each_line { |line| print_with_info_padding(line) }
+
+        trace = filter_backtrace(e.backtrace)
+
+        # :TODO => Use the proper MiniTest way of customizing the filter
+        trace.each { |line| print_with_info_padding(line) unless line =~ /\.rvm|gems|_run_anything/ }
+      end
+
+      def print_suite(suite)
+        puts suite.name.gsub('::#', '#')
+        @suites << suite
+      end
     end
 
-    def print_info(e)
-      print "       #{e.exception.class.to_s}:\n"
-      e.message.each_line { |line| print_with_info_padding(line) }
 
-      trace = filter_backtrace(e.backtrace)
+    class ProgressReporter < MiniTest::Reporters::ProgressReporter
 
-      # TODO: Use the proper MiniTest way of customizing the filter
-      trace.each { |line| print_with_info_padding(line) unless line =~ /\.rvm|gems|_run_anything/ }
+      private
+
+      def print_test_with_time(suite, test)
+        total_time = Time.now - (runner.test_start_time || Time.now)
+        suite_name = suite.name.gsub('::#', '#').gsub('::::', '::')
+        test_name  = test.to_s.gsub(/test_\d+|_/, ' ').strip
+        print(" %s %s (%.2fs)%s" % [suite_name, test_name, total_time, clr])
+      end
     end
 
-    def print_suite(suite)
-      puts suite.name.gsub('::#', '#')
-      @suites << suite
-    end
+  end
   end
 
-
-  class ProgressReporter < MiniTest::Reporters::ProgressReporter
-
-    private
-
-    def print_test_with_time(suite, test)
-      total_time = Time.now - (runner.test_start_time || Time.now)
-      suite_name = suite.name.gsub('::#', '#').gsub('::::', '::')
-      test_name  = test.to_s.gsub(/test_\d+|_/, ' ').strip
-      print(" %s %s (%.2fs)%s" % [suite_name, test_name, total_time, clr])
-    end
+  if running_in_ci
+    MiniTest::Reporters.use! Aviator::Test::SpecReporter.new
+  else
+    MiniTest::Reporters.use! Aviator::Test::ProgressReporter.new
   end
 
 end
-end
-
-MiniTest::Reporters.use! Aviator::Test::ProgressReporter.new

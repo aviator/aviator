@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :create_token, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :create_token, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :anonymous, true
     meta :service,   :identity
@@ -12,28 +12,28 @@ module Aviator
          'https://bugs.launchpad.net/keystone/+bug/1208607'
 
 
-    param :username,   required: false
-    param :password,   required: false
-    param :tokenId,    required: false, alias: :token_id
-    param :tenantName, required: false, alias: :tenant_name
-    param :tenantId,   required: false, alias: :tenant_id
+    param :username,   :required => false
+    param :password,   :required => false
+    param :tokenId,    :required => false, :alias => :token_id
+    param :tenantName, :required => false, :alias => :tenant_name
+    param :tenantId,   :required => false, :alias => :tenant_id
 
 
     def body
       p = if params[:tokenId]
             {
-              auth: {
-                token: {
-                  id: params[:tokenId]
+              :auth => {
+                :token => {
+                  :id => params[:tokenId]
                 }
               }
             }
           else
             {
-              auth: {
-                passwordCredentials: {
-                  username: params[:username],
-                  password: params[:password]
+              :auth => {
+                :passwordCredentials => {
+                  :username => params[:username],
+                  :password => params[:password]
                 }
               }
             }

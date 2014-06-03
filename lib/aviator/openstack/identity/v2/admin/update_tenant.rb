@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :update_tenant, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :update_tenant, :inherit => [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :identity
 
@@ -9,15 +9,15 @@ module Aviator
       'http://docs.openstack.org/api/openstack-identity-service/2.0/content/POST_updateTenant_v2.0_tenants__tenantId__.html'
 
 
-    param :id,          required: true
-    param :name,        required: false
-    param :enabled,     required: false
-    param :description, required: false
+    param :id,          :required => true
+    param :name,        :required => false
+    param :enabled,     :required => false
+    param :description, :required => false
 
 
     def body
       p = {
-        tenant: {}
+        :tenant => {}
       }
 
       [:name, :enabled, :description].each do |key|

@@ -32,8 +32,8 @@ class Aviator::Test
     def session
       unless @session
         @session = Aviator::Session.new(
-          config_file: Environment.path,
-          environment: 'openstack_admin'
+          :config_file => Environment.path,
+          :environment => 'openstack_admin'
         )
         @session.authenticate
       end
@@ -54,22 +54,22 @@ class Aviator::Test
 
     validate_attr :body do
       params = {
-        label:            'mynetwork',
-        bridge:           'dummy-value-for-test',
-        bridge_interface: 'dummy-value-for-test',
-        cidr:             'dummy-value-for-test',
-        cidr_v6:          'dummy-value-for-test',
-        dns1:             'dummy-value-for-test',
-        dns2:             'dummy-value-for-test',
-        gateway:          'dummy-value-for-test',
-        gateway_v6:       'dummy-value-for-test',
-        multi_host:       'dummy-value-for-test',
-        project_id:       'dummy-value-for-test',
-        vlan:             'dummy-value-for-test'
+        :label            => 'mynetwork',
+        :bridge           => 'dummy-value-for-test',
+        :bridge_interface => 'dummy-value-for-test',
+        :cidr             => 'dummy-value-for-test',
+        :cidr_v6          => 'dummy-value-for-test',
+        :dns1             => 'dummy-value-for-test',
+        :dns2             => 'dummy-value-for-test',
+        :gateway          => 'dummy-value-for-test',
+        :gateway_v6       => 'dummy-value-for-test',
+        :multi_host       => 'dummy-value-for-test',
+        :project_id       => 'dummy-value-for-test',
+        :vlan             => 'dummy-value-for-test'
       }
 
       body = {
-        network: params
+        :network => params
       }
 
       request = klass.new(helper.admin_session_data) do |p|

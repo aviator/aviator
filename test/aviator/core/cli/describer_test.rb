@@ -32,7 +32,7 @@ class Aviator::Test
 
       inherit = [provider_name.to_sym, service_name.to_sym, base_ver, base_ept, base_name]
 
-      Aviator.define_request request_name, inherit: inherit, &block
+      Aviator.define_request request_name, :inherit => inherit, &block
     end
 
 
@@ -110,7 +110,7 @@ class Aviator::Test
         request_class = build_request(provider, service, request_name)
 
         expected = <<-EOF
-Request: #{ request_name }
+:Request => #{ request_name }
 
 Sample Code:
   session.#{ service }_service.request(:#{ request_name })
@@ -134,12 +134,12 @@ EOF
         request_name = 'sample_request2'
 
         request_class = build_request(provider, service, request_name) do
-                          param :theParam, required: true
-                          param :another, required: false
+                          param :theParam, :required => true
+                          param :another, :required => false
                         end
 
         expected = <<-EOF
-Request: #{ request_name }
+:Request => #{ request_name }
 
 Parameters:
  +----------+-----------+
@@ -174,12 +174,12 @@ EOF
         request_name = 'sample_request3'
 
         request_class = build_request(provider, service, request_name) do
-                          param :theParam, required: true, alias: :the_param
-                          param :anotherParam, required: false, alias: :another_param
+                          param :theParam, :required => true, :alias => :the_param
+                          param :anotherParam, :required => false, :alias => :another_param
                         end
 
         expected = <<-EOF
-Request: #{ request_name }
+:Request => #{ request_name }
 
 Parameters:
  +--------------+-----------+---------------+
@@ -214,14 +214,14 @@ EOF
         request_name = 'sample_request4'
 
         request_class = build_request(provider, service, request_name) do
-                          param :theParam, required: true, alias: :the_param
-                          param :anotherParam, required: false, alias: :another_param
+                          param :theParam, :required => true, :alias => :the_param
+                          param :anotherParam, :required => false, :alias => :another_param
 
                           link 'link1', 'http://www.link.com'
                         end
 
         expected = <<-EOF
-Request: #{ request_name }
+:Request => #{ request_name }
 
 Parameters:
  +--------------+-----------+---------------+

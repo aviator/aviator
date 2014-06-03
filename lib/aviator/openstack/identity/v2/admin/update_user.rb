@@ -14,17 +14,17 @@ module Aviator
     link 'bug',
       'https://bugs.launchpad.net/keystone/+bug/1226475'
 
-    param :id,        required: true
-    param :name,      required: false
-    param :password,  required: false
-    param :email,     required: false
-    param :enabled,   required: false
-    param :tenantId,  required: false, alias: :tenant_id
+    param :id,        :required => true
+    param :name,      :required => false
+    param :password,  :required => false
+    param :email,     :required => false
+    param :enabled,   :required => false
+    param :tenantId,  :required => false, :alias => :tenant_id
 
 
     def body
       p = {
-        user: {}
+        :user => {}
       }
 
       optional_params.each do |key|

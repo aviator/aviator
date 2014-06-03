@@ -1,6 +1,6 @@
 module Aviator
   
-  define_request :list_tenants, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :list_tenants, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :identity
   
@@ -11,8 +11,8 @@ module Aviator
          'https://bugs.launchpad.net/keystone/+bug/1218601'
 
 
-    param :marker, required: false
-    param :limit,  required: false
+    param :marker, :required => false
+    param :limit,  :required => false
 
 
     def url

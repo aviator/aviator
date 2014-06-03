@@ -25,11 +25,11 @@ module Aviator
 
 
     def self.describe_request(provider_name, service_name, api_version, endpoint_type, request_name)
-      service = Aviator::Service.new provider: provider_name, service: service_name
+      service = Aviator::Service.new :provider => provider_name, :service => service_name
       request_class = "Aviator::#{ provider_name.camelize }::#{ service_name.camelize }::"\
                       "#{ api_version.camelize }::#{ endpoint_type.camelize }::#{ request_name.camelize }".constantize
 
-      display = "Request: #{ request_name }\n"
+      display = ":Request => #{ request_name }\n"
 
 
       # Build the parameters
@@ -57,13 +57,13 @@ module Aviator
         end
 
         widths = [
-          rows.map{|row| row[0].length }.max,
-          rows.map{|row| row[1].length }.max
+          rows.map{|row| row[0].to_s.length }.max,
+          rows.map{|row| row[1].to_s.length }.max
         ]
 
-        widths << rows.map{|row| row[2].length }.max if aliases.length > 0
+        widths << rows.map{|row| row[2].to_s.length }.max if aliases.length > 0
 
-        table = Terminal::Table.new(headings: headings, rows: rows)
+        table = Terminal::Table.new(:headings => headings, :rows => rows)
 
         table.align_column(1, :center)
 
@@ -118,25 +118,25 @@ module Aviator
       private
 
       def provider_names
-        Pathname.new(__FILE__)
-          .join('..', '..', '..')
-          .children
-          .select{|c| c.directory? && c.basename.to_s != 'core' }
+        Pathname.new(__FILE__) \
+          .join('..', '..', '..') \
+          .children \
+          .select{|c| c.directory? && c.basename.to_s != 'core' } \
           .map{|c| c.basename.to_s }
       end
 
 
       def request_classes(provider_name, service_name)
-        service = Aviator::Service.new(provider: provider_name, service: service_name)
+        service = Aviator::Service.new(:provider => provider_name, :service => service_name)
         service.request_classes
       end
 
 
       def service_names(provider_name)
-        Pathname.new(__FILE__)
-          .join('..', '..', '..', provider_name)
-          .children
-          .select{|c| c.directory? }
+        Pathname.new(__FILE__) \
+          .join('..', '..', '..', provider_name) \
+          .children \
+          .select{|c| c.directory? } \
           .map{|c| c.basename.to_s }
       end
     end

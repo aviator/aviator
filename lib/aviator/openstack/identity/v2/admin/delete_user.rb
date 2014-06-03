@@ -10,7 +10,7 @@ module Aviator
     link 'documentation',
       'http://docs.openstack.org/api/openstack-identity-service/2.0/content/DELETE_deleteUser_v2.0_users__userId__.html'
 
-    param :id, required: true
+    param :id, :required => true
 
 
     def headers

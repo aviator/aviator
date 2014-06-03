@@ -196,12 +196,13 @@ module Aviator
 
 
       def link(rel, href)
-        links << { rel: rel, href: href }
+        links << { :rel => rel, :href => href }
       end
 
 
       def meta(attr_name, attr_value)
-        define_singleton_method(attr_name) do
+        eigenclass = class << self; self; end
+        eigenclass.send(:define_method, attr_name) do
           attr_value
         end
 
@@ -212,7 +213,7 @@ module Aviator
 
 
       def param(param_name, opts={})
-        opts  = opts.with_indifferent_access
+        opts  = Hashish.new(opts)
         list  = (opts[:required] == false ? optional_params : required_params)
         list << param_name unless optional_params.include?(param_name)
 

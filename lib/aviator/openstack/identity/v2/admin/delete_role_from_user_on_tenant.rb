@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :delete_role_from_user_on_tenant, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :delete_role_from_user_on_tenant, :inherit => [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :identity
 
@@ -9,9 +9,9 @@ module Aviator
          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/DELETE_deleteRoleFromUserOnTenant_v2.0_tenants__tenantId__users__userId__roles_OS-KSADM__roleId__.html'
 
 
-    param :tenant_id, required: true
-    param :user_id,   required: true
-    param :role_id,   required: true
+    param :tenant_id, :required => true
+    param :user_id,   :required => true
+    param :role_id,   :required => true
 
 
     def headers

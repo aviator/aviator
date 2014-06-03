@@ -1,20 +1,20 @@
 module Aviator
 
-  define_request :reboot_server, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :reboot_server, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/Reboot_Server-d1e3371.html'
 
-    param :id,   required: true
-    param :type, required: false
+    param :id,   :required => true
+    param :type, :required => false
 
 
     def body
       p = {
-        reboot: {
-          type: params[:type] || 'SOFT'
+        :reboot => {
+          :type => params[:type] || 'SOFT'
         }
       }
 

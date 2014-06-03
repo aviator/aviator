@@ -6,12 +6,18 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 require 'simplecov'
 require 'coveralls'
 SimpleCov.command_name 'MiniTest'
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-]
+SimpleCov.formatter = if ENV['TRAVIS']
+                        SimpleCov::Formatter::MultiFormatter[
+                          SimpleCov::Formatter::HTMLFormatter,
+                          Coveralls::SimpleCov::Formatter
+                        ]
+                      else
+                        SimpleCov::Formatter::HTMLFormatter
+                      end
+
 SimpleCov.start do
   add_filter '/test/'
+  add_filter '/.bundled_gems/'
   
   add_group 'Core', 'lib/aviator/core'
   add_group 'OpenStack', 'lib/aviator/openstack'
@@ -19,8 +25,12 @@ end
 
 require 'minitest/autorun'
 
-# Do not require these gems when running in the CI
-unless ENV['CI'] || ENV['TRAVIS']
+# May be used by other test helpers under test/support
+def running_in_ci
+  ['BUILD_NUMBER', 'CI', 'JENKINS_URL'].any? { |name| ENV.key? name }
+end
+
+unless running_in_ci
   require 'pry'
 end
 
