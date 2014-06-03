@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :create_tenant, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :create_tenant, :inherit => [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :identity
 
@@ -8,17 +8,17 @@ module Aviator
          'http://docs.openstack.org/api/openstack-identity-service/2.0/content/'
 
 
-    param :name,        required: true
-    param :description, required: true
-    param :enabled,     required: true
+    param :name,        :required => true
+    param :description, :required => true
+    param :enabled,     :required => true
 
 
     def body
       {
-        tenant: {
-          name:        params[:name],
-          description: params[:description],
-          enabled:     params[:enabled]
+        :tenant => {
+          :name        => params[:name],
+          :description => params[:description],
+          :enabled     => params[:enabled]
         }
       }
     end

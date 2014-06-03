@@ -1,7 +1,9 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'aviator/version'
+require 'aviator/compatibility'
 require 'rbconfig'
 
 Gem::Specification.new do |spec|
@@ -20,7 +22,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'faraday', '0.8.8'
-  spec.add_dependency 'activesupport', '>= 3.2.8'
+
+  if Aviator::Compatibility::RUBY_1_8_MODE
+    spec.add_dependency 'activesupport', '~> 2.0'
+  else
+    spec.add_dependency 'activesupport', '>= 3.2.8'
+  end
+
   spec.add_dependency 'thor', '~> 0.18.1'
   spec.add_dependency 'terminal-table', '>= 1.4.5'
 

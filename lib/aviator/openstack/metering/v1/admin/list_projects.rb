@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :list_projects, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :list_projects, :inherit => [:openstack, :common, :v2, :admin, :base] do
 
     meta :service,       :metering
     meta :api_version,   :v1

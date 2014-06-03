@@ -32,9 +32,9 @@ class Aviator::Test
     def session
       unless @session
         @session = Aviator::Session.new(
-          config_file: Environment.path,
-          environment: 'openstack_admin',
-          log_file:    Environment.log_file_path
+          :config_file => Environment.path,
+          :environment => 'openstack_admin',
+          :log_file    => Environment.log_file_path
         )
         @session.authenticate
       end
@@ -55,15 +55,15 @@ class Aviator::Test
 
     validate_attr :body do
       params = {
-        name:      'username_example',
-        password:  'user_password123',
-        email:     'sample@email.com',
-        tenantId:  'sample_tenant_id',
-        enabled:   true
+        :name      => 'username_example',
+        :password  => 'user_password123',
+        :email     => 'sample@email.com',
+        :tenantId  => 'sample_tenant_id',
+        :enabled   => true
       }
 
       body = {
-        user: params
+        :user => params
       }
 
       request = klass.new(get_session_data) do |p|
@@ -122,7 +122,7 @@ class Aviator::Test
 
     validate_attr :param_aliases do
       aliases = {
-        tenant_id: :tenantId
+        :tenant_id => :tenantId
       }
 
       klass.param_aliases.must_equal aliases

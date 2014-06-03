@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :root, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :root, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 

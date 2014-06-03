@@ -34,8 +34,8 @@ class Aviator::Test
     def session
       unless @session
         @session = Aviator::Session.new(
-                     config_file: Environment.path,
-                     environment: 'openstack_member'
+                     :config_file => Environment.path,
+                     :environment => 'openstack_member'
                    )
         @session.authenticate
       end
@@ -120,10 +120,10 @@ class Aviator::Test
 
     validate_attr :param_aliases do
       aliases = {
-        access_ipv4: :accessIPv4,
-        access_ipv6: :accessIPv6,
-        admin_pass:  :adminPass,
-        image_ref:   :imageRef
+        :access_ipv4 => :accessIPv4,
+        :access_ipv6 => :accessIPv6,
+        :admin_pass  => :adminPass,
+        :image_ref   => :imageRef
       }
 
       klass.param_aliases.must_equal aliases

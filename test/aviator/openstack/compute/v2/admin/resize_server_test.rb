@@ -31,8 +31,8 @@ class Aviator::Test
     def session
       unless @session
         @session = Aviator::Session.new(
-                     config_file: Environment.path,
-                     environment: 'openstack_admin'
+                     :config_file => Environment.path,
+                     :environment => 'openstack_admin'
                    )
 
         @session.authenticate
@@ -121,7 +121,7 @@ class Aviator::Test
     
     validate_attr :param_aliases do
       aliases = {
-        flavor_ref: :flavorRef
+        :flavor_ref => :flavorRef
       }
       
       klass.param_aliases.must_equal aliases

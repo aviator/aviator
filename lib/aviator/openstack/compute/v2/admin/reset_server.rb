@@ -1,14 +1,14 @@
 module Aviator
 
-  define_request :reset_server, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :reset_server, :inherit => [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/POST_os-resetState_v2__tenant_id__servers__server_id__action_ext-os-admin-actions.html'
 
-    param :id,    required: true
-    param :state, required: true
+    param :id,    :required => true
+    param :state, :required => true
 
 
     def body

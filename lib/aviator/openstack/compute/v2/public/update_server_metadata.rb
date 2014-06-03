@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :update_server_metadata, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :update_server_metadata, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
@@ -8,13 +8,13 @@ module Aviator
          'http://docs.openstack.org/api/openstack-compute/2/content/Update_Metadata-d1e5208.html'
 
 
-    param :id,       required: true
-    param :metadata, required: true
+    param :id,       :required => true
+    param :metadata, :required => true
 
 
     def body
       {
-        metadata: params[:metadata]
+        :metadata => params[:metadata]
       }
     end
 

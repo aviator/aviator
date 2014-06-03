@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :list_servers, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :list_servers, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
@@ -10,21 +10,21 @@ module Aviator
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/GET_listServers_v2__tenant_id__servers_compute_servers.html'
 
-    link 'github issue: getting all servers',
+    link 'github :issue => getting all servers',
          'https://github.com/aviator/aviator/issues/35'
          
     link 'related mailing list discussion',
          'https://lists.launchpad.net/openstack/msg24695.html'
 
-    param :all_tenants,    required: false
-    param :details,        required: false
-    param :flavor,         required: false
-    param :image,          required: false
-    param :limit,          required: false
-    param :marker,         required: false
-    param :server,         required: false
-    param :status,         required: false
-    param 'changes-since', required: false, alias: :changes_since
+    param :all_tenants,    :required => false
+    param :details,        :required => false
+    param :flavor,         :required => false
+    param :image,          :required => false
+    param :limit,          :required => false
+    param :marker,         :required => false
+    param :server,         :required => false
+    param :status,         :required => false
+    param 'changes-since', :required => false, :alias => :changes_since
 
 
     def headers

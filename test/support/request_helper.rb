@@ -1,12 +1,12 @@
 module Aviator
 class Test
-  
+
   module RequestHelper
-    
+
     class << self
 
       def admin_session_data
-        @admin_session_data ||= JSON.parse('{"access": {"token": {"issued_at": "2013-08-26T22:27:13.886315",
+        @admin_session_data ||= Hashish.new(JSON.parse('{"access": {"token": {"issued_at": "2013-08-26T22:27:13.886315",
           "expires": "2013-08-27T22:27:13Z", "id": "3396443734194600ba8b976415fc8b7a",
           "tenant": {"description": null, "enabled": true, "id": "3cab25130620477b8b03f1bfa8741603",
           "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://192.168.56.11:8774/v2/3cab25130620477b8b03f1bfa8741603",
@@ -35,16 +35,16 @@ class Test
           "endpoints_links": [], "type": "identity", "name": "keystone"}], "user": {"username":
           "admin", "roles_links": [], "id": "cbbcc4f7aef6435fa2da7e5f0b2f1e97", "roles":
           [{"name": "admin"}], "name": "admin"}, "metadata": {"is_admin": 0, "roles":
-          ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}').with_indifferent_access
+          ["01a81f2dbb3441f1aaa8fe68a7c6f546"]}}}'))
       end
 
 
       def admin_bootstrap_session_data
         {
-          auth_service: Environment.openstack_admin[:auth_service]
+          :auth_service => Environment.openstack_admin[:auth_service]
         }
       end
-      
+
 
       def get_request_class(parent, *path)
         const_name = path.shift.to_s.camelize.gsub(/\.rb$/, '')
@@ -54,23 +54,23 @@ class Test
                else
                  raise "Constant #{ const_name } could not be found."
                end
-      
+
         path.empty? ? const : get_request_class(const, *path)
       end
 
-      
+
       def load_request(*path)
         require request_path(*path)
         get_request_class(Aviator, *path)
       end
-    
-    
+
+
       def request_path(*path)
         Pathname.new(__FILE__).join('..', '..', '..', 'lib', 'aviator').expand_path.join(*path)
       end
-      
+
     end
   end
-  
+
 end
 end

@@ -28,8 +28,8 @@ class Aviator::Test
     def session
       unless @session
         @session = Aviator::Session.new(
-                     config_file: Environment.path,
-                     environment: 'openstack_member'
+                     :config_file => Environment.path,
+                     :environment => 'openstack_member'
                    )
         @session.authenticate
       end

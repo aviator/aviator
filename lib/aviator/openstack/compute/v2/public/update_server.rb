@@ -1,21 +1,21 @@
 module Aviator
 
-  define_request :update_server, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :update_server, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/ServerUpdate.html'
 
-    param :accessIPv4, required: false, alias: :access_ipv4
-    param :accessIPv6, required: false, alias: :access_ipv6
-    param :id,         required: true
-    param :name,       required: false
+    param :accessIPv4, :required => false, :alias => :access_ipv4
+    param :accessIPv6, :required => false, :alias => :access_ipv6
+    param :id,         :required => true
+    param :name,       :required => false
 
 
     def body
       p = {
-        server: { }
+        :server => { }
       }
 
       [:name, :accessIPv4, :accessIPv6].each do |key|

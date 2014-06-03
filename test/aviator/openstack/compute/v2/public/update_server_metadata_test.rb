@@ -32,8 +32,8 @@ class Aviator::Test
     def session
       unless @session
         @session = Aviator::Session.new(
-                     config_file: Environment.path,
-                     environment: 'openstack_member'
+                     :config_file => Environment.path,
+                     :environment => 'openstack_member'
                    )
         @session.authenticate
       end
@@ -54,12 +54,12 @@ class Aviator::Test
 
     validate_attr :body do
       metadata = {
-        foo: 'lorem',
-        bar: 'ipsum'
+        :foo => 'lorem',
+        :bar => 'ipsum'
       }
 
       body = {
-        metadata: metadata
+        :metadata => metadata
       }
 
       request = klass.new(get_session_data) do |p|
@@ -113,8 +113,8 @@ class Aviator::Test
       server_id = service.request(:list_servers).body[:servers].first[:id]
 
       new_metadata = {
-        foo: 'lorem',
-        bar: 'ipsum'
+        :foo => 'lorem',
+        :bar => 'ipsum'
       }
 
       response = service.request :update_server_metadata do |params|
@@ -136,7 +136,7 @@ class Aviator::Test
 
       response = session.compute_service.request :update_server_metadata do |params|
         params[:id]       = server_id
-        params[:metadata] = { any: 'value' }
+        params[:metadata] = { :any => 'value' }
       end
 
       response.status.must_equal 404

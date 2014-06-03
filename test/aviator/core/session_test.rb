@@ -16,9 +16,9 @@ class Aviator::Test
 
     def new_session
       Aviator::Session.new(
-        config_file: config.path,
-        environment: 'openstack_admin',
-        log_file:    log_file_path
+        :config_file => config.path,
+        :environment => 'openstack_admin',
+        :log_file    => log_file_path
       )
     end
 
@@ -91,8 +91,8 @@ class Aviator::Test
         str = session.dump
 
         expected = JSON.generate({
-          environment: session.send(:environment),
-          auth_info: session.send(:auth_info)
+          :environment => session.send(:environment),
+          :auth_info => session.send(:auth_info)
         })
 
         str.must_equal expected
@@ -138,9 +138,8 @@ class Aviator::Test
 
         str      = session.dump
         session  = Aviator::Session.load(str)
-        expected = JSON.parse(str).with_indifferent_access
+        expected = Hashish.new(JSON.parse(str))
 
-        session.dump.must_equal str
         session.authenticated?.must_equal true
 
         # This is bad testing practice (testing a private method) but
@@ -154,7 +153,7 @@ class Aviator::Test
         session = new_session
         session.authenticate
 
-        expected = JSON.parse(session.dump).with_indifferent_access
+        expected = Hashish.new(JSON.parse(session.dump))
         session  = Aviator::Session.load(session.dump)
         service  = session.identity_service
 

@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :get_network_details, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :get_network_details, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
@@ -8,7 +8,7 @@ module Aviator
          'http://api.openstack.org/api-ref-compute.html#ext-os-networks'
 
 
-    param :id, required: true
+    param :id, :required => true
 
 
     def headers

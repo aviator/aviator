@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :get_tenant_by_id, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :get_tenant_by_id, :inherit => [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :identity
 
@@ -8,7 +8,7 @@ module Aviator
       'http://docs.openstack.org/api/openstack-identity-service/2.0/content/GET_listUsers_v2.0_users_.html'
 
 
-    param :id, required: true
+    param :id, :required => true
 
 
     def headers

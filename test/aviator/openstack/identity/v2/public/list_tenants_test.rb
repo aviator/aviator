@@ -27,8 +27,8 @@ class Aviator::Test
     def session
       unless @session
         @session = Aviator::Session.new(
-          config_file: Environment.path,
-          environment: 'openstack_admin'
+          :config_file => Environment.path,
+          :environment => 'openstack_admin'
         )
         @session.authenticate
       end
@@ -98,8 +98,8 @@ class Aviator::Test
 
     validate_response 'session is using a default token' do
       s = Aviator::Session.new(
-          config_file: Environment.path,
-          environment: 'openstack_admin'
+          :config_file => Environment.path,
+          :environment => 'openstack_admin'
         )
 
       s.authenticate do |creds|
@@ -117,7 +117,7 @@ class Aviator::Test
 
       # base_url should have the form 'https://<domain>:<port>/<api_version>'
 
-      response = s.identity_service.request :list_tenants, base_url: base_url.to_s
+      response = s.identity_service.request :list_tenants, :base_url => base_url.to_s
       
       response.status.must_equal 200
       response.body.wont_be_nil

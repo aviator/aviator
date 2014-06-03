@@ -42,8 +42,8 @@ module Aviator
               "service. Therefore, I don't know to which base URL the request should be sent. "\
               "This may be because you are using a default or unscoped token. If this is not your "\
               "intention, please authenticate with a scoped token. If using a default token is your "\
-              "intention, make sure to provide a base url when you call the request. For example: \n\n"\
-              "session.#{ service_name }_service.request :#{ request_name }, base_url: 'http://myenv.com:9999/v2.0' do |params|\n"\
+              "intention, make sure to provide a base url when you call the request. For :example => \n\n"\
+              "session.#{ service_name }_service.request :#{ request_name }, :base_url => 'http://myenv.com:9999/v2.0' do |params|\n"\
               "  params[:example1] = 'example1'\n"\
               "  params[:example2] = 'example2'\n"\
               "end\n\n"
@@ -119,7 +119,7 @@ module Aviator
                          ['Public', 'Admin']
                        end
 
-      namespace = Aviator.const_get(provider.camelize)
+      namespace = Aviator.const_get(provider.camelize) \
                          .const_get(service.camelize)
 
       version = infer_version(session_data, name).to_s.camelize
@@ -164,7 +164,7 @@ module Aviator
 
 
     def load_requests
-      # TODO: This should be determined by a provider-specific module.
+      # :TODO => This should be determined by a provider-specific module.
       # e.g. Aviator::OpenStack::requests_base_dir
       request_file_paths = Dir.glob(Pathname.new(__FILE__).join(
                              '..',
@@ -178,8 +178,8 @@ module Aviator
 
       request_file_paths.each{ |path| require path }
 
-      constant_parts = request_file_paths
-                        .map{|rf| rf.to_s.match(/#{provider}\/#{service}\/([\w\/]+)\.rb$/) }
+      constant_parts = request_file_paths \
+                        .map{|rf| rf.to_s.match(/#{provider}\/#{service}\/([\w\/]+)\.rb$/) } \
                         .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
 
       @request_classes = constant_parts.map do |cp|
