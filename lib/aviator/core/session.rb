@@ -15,6 +15,12 @@ module Aviator
       end
     end
 
+    class InitializationError < StandardError
+      def initialize
+        super("The session could not find :session_dump, :config_file, and " \
+              ":config in the constructor arguments provided")
+      end
+    end
 
     class InvalidConfigFilePathError < ArgumentError
       def initialize(path)
@@ -38,14 +44,14 @@ module Aviator
 
 
     def initialize(opts={})
-      config_path  = opts[:config_file]
-      environment  = opts[:environment]
-      session_dump = opts[:session_dump]
-
-      if session_dump
-        initialize_with_dump(session_dump)
+      if opts.has_key? :session_dump
+        initialize_with_dump(opts[:session_dump])
+      elsif opts.has_key? :config_file
+        initialize_with_config(opts[:config_file], opts[:environment])
+      elsif opts.has_key? :config
+        initialize_with_hash(opts[:config])
       else
-        initialize_with_config(config_path, environment)
+        raise InitializationError.new
       end
 
       @log_file = opts[:log_file]
@@ -176,6 +182,9 @@ module Aviator
       @auth_info   = session_info[:auth_info]
     end
 
+    def initialize_with_hash(hash_obj)
+      @environment = Hashish.new(hash_obj)
+    end
 
     def log_file
       @log_file

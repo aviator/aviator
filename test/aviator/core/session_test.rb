@@ -9,6 +9,11 @@ class Aviator::Test
     end
 
 
+    def klass
+      Aviator::Session
+    end
+
+
     def log_file_path
       Pathname.new(__FILE__).expand_path.join('..', '..', '..', '..', 'tmp', 'aviator.log')
     end
@@ -165,6 +170,31 @@ class Aviator::Test
 
     describe '::new' do
 
+      it 'can accept a hash object as configuration' do
+        config = {
+          :provider => 'openstack',
+          :auth_service => {
+            :name      => 'identity',
+            :host_uri  => 'http://devstack:5000/v2.0',
+            :request   => 'create_token',
+            :validator => 'list_tenants'
+          },
+          :auth_credentials => {
+            :username    => 'myusername',
+            :password    => 'mypassword',
+            :tenant_name => 'myproject'
+          }
+        }
+
+        session = klass.new(:config => config)
+
+        session.send(:environment).must_equal Hashish.new(config)
+
+        auth_service = session.send(:auth_service)
+        auth_service.send(:service).must_equal config[:auth_service][:name]
+      end
+
+
       it 'directs log entries to the given log file' do
         log_file_path.delete if log_file_path.file?
 
@@ -172,6 +202,16 @@ class Aviator::Test
         session.authenticate
 
         log_file_path.file?.must_equal true
+      end
+
+
+      it 'raises an error when constructor keys are missing' do
+        the_method = lambda { klass.new }
+        the_method.must_raise Aviator::Session::InitializationError
+
+        error = the_method.call rescue $!
+
+        error.message.wont_be_nil
       end
 
     end
