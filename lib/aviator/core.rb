@@ -1,8 +1,8 @@
 require 'yaml'
 require 'json'
-require 'active_support/inflector'
 require 'faraday'
 
+require "aviator/string"
 require "aviator/version"
 require "aviator/compatibility"
 require "aviator/hashish"
