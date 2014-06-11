@@ -87,17 +87,18 @@ class Aviator::Test
         :accessIPv4,
         :accessIPv6,
         :adminPass,
+        :imageRef,
         :metadata,
         :networks,
         :personality,
-        :key_name
+        :key_name,
+        :block_device_mapping_v2
       ]
     end
 
 
     validate_attr :required_params do
       klass.required_params.must_equal [
-        :imageRef,
         :flavorRef,
         :name
       ]
