@@ -41,16 +41,6 @@ class Aviator::Test
     end
 
 
-    def v2_base_url
-      unless @v2_base_url
-        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'image' }[:endpoints].find{|a| a[:interface] == 'public'}[:url]
-        @v2_base_url << '/v2'
-      end
-
-      @v2_base_url
-    end
-
-
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
     end
@@ -99,8 +89,9 @@ class Aviator::Test
 
 
     validate_attr :url do
-      image_id     = 'it does not matter for this test'
-      url          = "#{ v2_base_url }/images/#{ image_id }"
+      v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'image' }[:endpoints].find{|a| a[:interface] == 'public'}[:url]
+      image_id    = 'it does not matter for this test'
+      url         = "#{ v2_base_url }/v2/images/#{ image_id }"
 
       request = klass.new(get_session_data) do |p|
         p[:id] = image_id
@@ -111,10 +102,10 @@ class Aviator::Test
 
 
     validate_response 'valid params are provided' do
-      image    = session.image_service.request(:list_images, base_url: v2_base_url).body[:images].first
+      image    = session.image_service.request(:list_images, api_version: :v2).body[:images].first
       image_id = image[:id]
 
-      response = session.image_service.request(:get_image, base_url: v2_base_url) do |params|
+      response = session.image_service.request(:get_image, api_version: :v2) do |params|
         params[:id] = image_id
       end
 
@@ -127,7 +118,7 @@ class Aviator::Test
     validate_response 'invalid params are provided' do
       image_id = 'bogusimageid'
 
-      response = session.image_service.request(:get_image, base_url: v2_base_url) do |params|
+      response = session.image_service.request(:get_image, api_version: :v2) do |params|
         params[:id] = image_id
       end
 

@@ -49,15 +49,6 @@ class Aviator::Test
     end
 
 
-    def v3_base_url
-      unless @v3_base_url
-        @v3_base_url = get_session_data[:catalog].find { |s| s[:type] == 'computev3' }[:endpoints].find{|e| e[:interface] == 'admin'}[:url]
-      end
-
-      @v3_base_url
-    end
-
-
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
     end
@@ -103,8 +94,9 @@ class Aviator::Test
 
 
     validate_attr :url do
-      url    = "#{ v3_base_url }/os-quota-sets/#{ tenant_id }"
-      tenant = tenant_id
+      v3_base_url = get_session_data[:catalog].find { |s| s[:type] == 'computev3' }[:endpoints].find{|e| e[:interface] == 'admin'}[:url]
+      url         = "#{ v3_base_url }/os-quota-sets/#{ tenant_id }"
+      tenant      = tenant_id
 
       request = klass.new(get_session_data) do |p|
         p[:tenant_id] = tenant
@@ -117,7 +109,7 @@ class Aviator::Test
     validate_response 'a valid param is provided' do
       tenant = tenant_id
 
-      response = session.compute_service.request(:get_quotas, base_url: v3_base_url) do |params|
+      response = session.compute_service.request(:get_quotas, api_version: :v3) do |params|
         params[:tenant_id] = tenant
       end
 
@@ -129,7 +121,7 @@ class Aviator::Test
 
 
     validate_response 'non existent tenant is provided' do
-      response = session.compute_service.request(:get_quotas, base_url: v3_base_url) do |params|
+      response = session.compute_service.request(:get_quotas, api_version: :v3) do |params|
         params[:tenant_id] = 'nonExistenTenant'
       end
 
@@ -141,7 +133,7 @@ class Aviator::Test
 
 
     validate_response 'details are requested' do
-      response = session.compute_service.request(:get_quotas, base_url: v3_base_url) do |params|
+      response = session.compute_service.request(:get_quotas, api_version: :v3) do |params|
         params[:tenant_id] = 'nonExistenTenant'
         params[:detail]    = true
       end

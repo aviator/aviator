@@ -5,22 +5,22 @@ class Aviator::Test
   describe 'aviator/openstack/volume/v2/public/delete_snapshot' do
 
     def create_snapshot
-      response = session.volume_service.request :create_volume, base_url: v1_base_url do |params|
+      response = session.volume_service.request :create_volume, api_version: :v1 do |params|
         params[:display_name]         = 'Volume for Delete Snapshot'
         params[:display_description]  = 'Volume for Delete Snapshot Description'
         params[:size]                 = '1'
       end
       @volume = response.body[:volume]
 
-      response = session.volume_service.request(:create_snapshot, base_url: v2_base_url) do |params|
-        params[:display_name]         = 'Snapshot for Delete Test'
-        params[:display_description]  = 'Snapshot for Delete Test Description'
-        params[:volume_id]            =  @volume[:id]
-        params[:force]                =  true
+      response = session.volume_service.request(:create_snapshot, api_version: :v2) do |params|
+        params[:name]         = 'Snapshot for Delete Test'
+        params[:description]  = 'Snapshot for Delete Test Description'
+        params[:volume_id]    =  @volume[:id]
+        params[:force]        =  true
       end
 
-      #sleep 5
-      response.body[:snapshot]
+      # sleep 5
+      @snapshot = response.body[:snapshot]
     end
 
     def get_session_data
@@ -47,22 +47,6 @@ class Aviator::Test
       @session
     end
 
-    def v1_base_url
-      unless @v1_base_url
-        @v1_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volume' }[:endpoints].find{|a| a[:interface] == 'admin'}[:url]
-      end
-
-      @v1_base_url
-    end
-
-    def v2_base_url
-      unless @v2_base_url
-        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints].find{|a| a[:interface] == 'admin'}[:url]
-      end
-
-      @v2_base_url
-    end
-
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -80,19 +64,20 @@ class Aviator::Test
       snapshot.wont_be_empty
 
       #delete snapshot
-      response = session.volume_service.request(:delete_snapshot, base_url: v2_base_url) do |params|
+      response = session.volume_service.request(:delete_snapshot, api_version: :v2) do |params|
         params[:snapshot_id] = snapshot[:id]
       end
+
       response.status.must_equal 202
 
-      #sleep 5
+      # sleep 5
 
-      list = session.volume_service.request(:list_snapshots, base_url: v2_base_url)
+      list = session.volume_service.request(:list_snapshots, api_version: :v2)
       list.body[:snapshots].collect{ |s| s[:id] }.include?(snapshot[:id]).must_equal false
 
-      #sleep 5
+      # sleep 5
       #delete volume
-      response = session.volume_service.request(:delete_volume, base_url: v1_base_url) do |params|
+      response = session.volume_service.request(:delete_volume, api_version: :v1) do |params|
         params[:id] = @volume[:id]
       end
     end
