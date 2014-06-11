@@ -7,17 +7,20 @@ module Aviator
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/CreateServers.html'
 
+    link 'documentation',
+         'http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot'
+
     param :accessIPv4,  required: false, alias: :access_ipv4
     param :accessIPv6,  required: false, alias: :access_ipv6
     param :adminPass,   required: false, alias: :admin_pass
-    param :imageRef,    required: true,  alias: :image_ref
+    param :imageRef,    required: false, alias: :image_ref
     param :flavorRef,   required: true,  alias: :flavor_ref
     param :metadata,    required: false
     param :name,        required: true
     param :networks,    required: false
     param :personality, required: false
     param :key_name,    required: false
-
+    param :block_device_mapping_v2, required: false
 
     def body
       p = {
@@ -28,7 +31,7 @@ module Aviator
         }
       }
 
-      [:adminPass, :metadata, :personality, :networks, :accessIPv4, :accessIPv6, :key_name].each do |key|
+      [:adminPass, :metadata, :personality, :networks, :accessIPv4, :accessIPv6, :key_name, :block_device_mapping_v2].each do |key|
         p[:server][key] = params[key] if params[key]
       end
 
