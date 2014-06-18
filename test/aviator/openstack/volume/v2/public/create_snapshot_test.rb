@@ -11,7 +11,7 @@ class Aviator::Test
     def helper
       Aviator::Test::RequestHelper
     end
-    
+
     def klass
       @klass ||= helper.load_request('openstack', 'volume', 'v2', 'public', 'create_snapshot.rb')
     end
@@ -28,14 +28,6 @@ class Aviator::Test
       @session
     end
 
-    def v2_base_url
-      unless @v2_base_url
-        @v2_base_url = get_session_data[:catalog].find { |s| s[:type] == 'volumev2' }[:endpoints].find{|a| a[:interface] == 'admin'}[:url]
-      end
-
-      @v2_base_url
-    end
-
 
     validate_attr :anonymous? do
       klass.anonymous?.must_equal false
@@ -47,16 +39,16 @@ class Aviator::Test
     end
 
 
-   
+
     validate_response 'parameters are provided' do
 
       volume    = session.volume_service.request(:list_volumes).body['volumes'].first
-    
-      response = session.volume_service.request(:create_snapshot, base_url: v2_base_url) do |params|
+
+      response = session.volume_service.request(:create_snapshot, api_version: :v2) do |params|
         params[:name]         = 'Aviator Volume Test Snapshot Name'
         params[:description]  = 'Aviator Volume Test Description'
-        params[:volume_id]            =  volume[:id]
-        params[:force]                = true
+        params[:volume_id]    =  volume[:id]
+        params[:force]        = true
       end
 
       response.status.must_equal 202

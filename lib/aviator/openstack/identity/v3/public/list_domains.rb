@@ -8,6 +8,9 @@ module Aviator
     link 'documentation',
       'http://developer.openstack.org/api-ref-identity-v3.html#domains-v3'
 
+    link 'documentation',
+      'https://github.com/openstack/identity-api/blob/master/v3/src/markdown/identity-api-v3.md#list-domains-get-domains'
+
     param :page,      required: false
     param :per_page,  required: false
     param :name,      required: false
