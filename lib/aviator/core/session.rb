@@ -15,6 +15,12 @@ module Aviator
       end
     end
 
+    class InitializationError < StandardError
+      def initialize
+        super("The session could not find :session_dump, :config_file, and " \
+              ":config in the constructor arguments provided")
+      end
+    end
 
     class InvalidConfigFilePathError < ArgumentError
       def initialize(path)
@@ -38,14 +44,14 @@ module Aviator
 
 
     def initialize(opts={})
-      config_path  = opts[:config_file]
-      environment  = opts[:environment]
-      session_dump = opts[:session_dump]
-
-      if session_dump
-        initialize_with_dump(session_dump)
+      if opts.has_key? :session_dump
+        initialize_with_dump(opts[:session_dump])
+      elsif opts.has_key? :config_file
+        initialize_with_config(opts[:config_file], opts[:environment])
+      elsif opts.has_key? :config
+        initialize_with_hash(opts[:config])
       else
-        initialize_with_config(config_path, environment)
+        raise InitializationError.new
       end
 
       @log_file = opts[:log_file]
@@ -77,8 +83,8 @@ module Aviator
 
     def dump
       JSON.generate({
-        environment: environment,
-        auth_info:   auth_info
+        :environment => environment,
+        :auth_info   => auth_info
       })
     end
 
@@ -112,9 +118,9 @@ module Aviator
       raise NotAuthenticatedError.new unless authenticated?
       raise ValidatorNotDefinedError.new unless environment[:auth_service][:validator]
 
-      auth_with_bootstrap = auth_info.merge({ auth_service: environment[:auth_service] })
+      auth_with_bootstrap = auth_info.merge({ :auth_service => environment[:auth_service] })
 
-      response = auth_service.request environment[:auth_service][:validator].to_sym, session_data: auth_with_bootstrap
+      response = auth_service.request environment[:auth_service][:validator].to_sym, :session_data => auth_with_bootstrap
 
       response.status == 200 || response.status == 203
     end
@@ -130,10 +136,10 @@ module Aviator
 
     def auth_service
       @auth_service ||= Service.new(
-        provider: environment[:provider],
-        service:  environment[:auth_service][:name],
-        default_session_data: { auth_service: environment[:auth_service] },
-        log_file: log_file
+        :provider => environment[:provider],
+        :service  => environment[:auth_service][:name],
+        :default_session_data => { :auth_service => environment[:auth_service] },
+        :log_file => log_file
       )
     end
 
@@ -149,10 +155,10 @@ module Aviator
       @services ||= {}
 
       @services[service_name] ||= Service.new(
-        provider: environment[:provider],
-        service:  service_name,
-        default_session_data: auth_info,
-        log_file: log_file
+        :provider => environment[:provider],
+        :service  => service_name,
+        :default_session_data => auth_info,
+        :log_file => log_file
       )
 
       @services[service_name]
@@ -162,8 +168,7 @@ module Aviator
     def initialize_with_config(config_path, environment)
       raise InvalidConfigFilePathError.new(config_path) unless Pathname.new(config_path).file?
 
-      config = YAML.load_file(config_path).with_indifferent_access
-
+      config = Hashish.new(YAML.load_file(config_path))
 
       raise EnvironmentNotDefinedError.new(config_path, environment) unless config[environment]
 
@@ -172,11 +177,14 @@ module Aviator
 
 
     def initialize_with_dump(session_dump)
-      session_info = JSON.parse(session_dump).with_indifferent_access
+      session_info = Hashish.new(JSON.parse(session_dump))
       @environment = session_info[:environment]
       @auth_info   = session_info[:auth_info]
     end
 
+    def initialize_with_hash(hash_obj)
+      @environment = Hashish.new(hash_obj)
+    end
 
     def log_file
       @log_file

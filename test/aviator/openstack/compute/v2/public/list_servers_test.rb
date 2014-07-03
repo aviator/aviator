@@ -8,8 +8,8 @@ class Aviator::Test
     def admin_session
       unless @admin_session
         @admin_session = Aviator::Session.new(
-                           config_file: Environment.path,
-                           environment: 'openstack_admin'
+                           :config_file => Environment.path,
+                           :environment => 'openstack_admin'
                          )
         @admin_session.authenticate
       end
@@ -25,13 +25,13 @@ class Aviator::Test
 
     def new_session_data
       service = Aviator::Service.new(
-        provider: Environment.openstack_admin[:provider],
-        service:  Environment.openstack_admin[:auth_service][:name]
+        :provider => Environment.openstack_admin[:provider],
+        :service  => Environment.openstack_admin[:auth_service][:name]
       )
 
       bootstrap = RequestHelper.admin_bootstrap_session_data
 
-      response = service.request :create_token, session_data: bootstrap do |params|
+      response = service.request :create_token, :session_data => bootstrap do |params|
         auth_credentials = Environment.openstack_admin[:auth_credentials]
         auth_credentials.each { |key, value| params[key] = auth_credentials[key] }
       end
@@ -138,7 +138,7 @@ class Aviator::Test
 
     validate_attr :param_aliases do
       aliases = {
-        changes_since: 'changes-since'
+        :changes_since => 'changes-since'
       }
 
       klass.param_aliases.must_equal aliases
@@ -147,9 +147,9 @@ class Aviator::Test
 
     validate_response 'no parameters are provided' do
       service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'compute',
-        default_session_data: new_session_data
+        :provider => 'openstack',
+        :service  => 'compute',
+        :default_session_data => new_session_data
       )
 
       response = service.request :list_servers
@@ -163,9 +163,9 @@ class Aviator::Test
 
     validate_response 'parameters are invalid' do
       service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'compute',
-        default_session_data: new_session_data
+        :provider => 'openstack',
+        :service  => 'compute',
+        :default_session_data => new_session_data
       )
 
       response = service.request :list_servers do |params|
@@ -181,9 +181,9 @@ class Aviator::Test
 
     validate_response 'parameters are valid' do
       service = Aviator::Service.new(
-        provider: 'openstack',
-        service:  'compute',
-        default_session_data: new_session_data
+        :provider => 'openstack',
+        :service  => 'compute',
+        :default_session_data => new_session_data
       )
 
       response = service.request :list_servers do |params|

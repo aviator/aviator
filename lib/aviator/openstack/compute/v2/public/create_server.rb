@@ -1,29 +1,29 @@
 module Aviator
 
-  define_request :create_server, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :create_server, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/CreateServers.html'
 
-    param :accessIPv4,  required: false, alias: :access_ipv4
-    param :accessIPv6,  required: false, alias: :access_ipv6
-    param :adminPass,   required: false, alias: :admin_pass
-    param :imageRef,    required: true,  alias: :image_ref
-    param :flavorRef,   required: true,  alias: :flavor_ref
-    param :metadata,    required: false
-    param :name,        required: true
-    param :networks,    required: false
-    param :personality, required: false
+    param :accessIPv4,  :required => false, :alias => :access_ipv4
+    param :accessIPv6,  :required => false, :alias => :access_ipv6
+    param :adminPass,   :required => false, :alias => :admin_pass
+    param :imageRef,    :required => true,  :alias => :image_ref
+    param :flavorRef,   :required => true,  :alias => :flavor_ref
+    param :metadata,    :required => false
+    param :name,        :required => true
+    param :networks,    :required => false
+    param :personality, :required => false
 
 
     def body
       p = {
-        server: {
-          flavorRef: params[:flavorRef],
-          imageRef:  params[:imageRef],
-          name:      params[:name]
+        :server => {
+          :flavorRef => params[:flavorRef],
+          :imageRef  => params[:imageRef],
+          :name      => params[:name]
         }
       }
 

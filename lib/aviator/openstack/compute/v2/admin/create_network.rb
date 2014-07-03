@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :create_network, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :create_network, :inherit => [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :compute
 
@@ -8,24 +8,24 @@ module Aviator
          'http://api.openstack.org/api-ref-compute.html#ext-os-networks'
 
 
-    param :label,             required: true
-    param :bridge,            required: false
-    param :bridge_interface,  required: false
-    param :cidr,              required: false
-    param :cidr_v6,           required: false
-    param :dns1,              required: false
-    param :dns2,              required: false
-    param :gateway,           required: false
-    param :gateway_v6,        required: false
-    param :multi_host,        required: false
-    param :project_id,        required: false
-    param :vlan,              required: false
+    param :label,             :required => true
+    param :bridge,            :required => false
+    param :bridge_interface,  :required => false
+    param :cidr,              :required => false
+    param :cidr_v6,           :required => false
+    param :dns1,              :required => false
+    param :dns2,              :required => false
+    param :gateway,           :required => false
+    param :gateway_v6,        :required => false
+    param :multi_host,        :required => false
+    param :project_id,        :required => false
+    param :vlan,              :required => false
 
 
     def body
       p = {
-        network: {
-          label: params[:label]
+        :network => {
+          :label => params[:label]
         }
       }
 

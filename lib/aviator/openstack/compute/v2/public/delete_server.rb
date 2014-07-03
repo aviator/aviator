@@ -1,13 +1,13 @@
 module Aviator
 
-  define_request :delete_server, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :delete_server, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/Delete_Server-d1e2883.html'
 
-    param :id, required: true
+    param :id, :required => true
 
 
     def headers

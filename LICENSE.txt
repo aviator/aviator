@@ -1,4 +1,4 @@
-Copyright (c) 2013 Mark Maglana
+Copyright (c) 2014 Mark Maglana
 
 MIT License
 

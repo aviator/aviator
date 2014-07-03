@@ -10,12 +10,12 @@ module Aviator
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/Revert_Resized_Server-d1e4024.html'
 
-    param :id, required: true
+    param :id, :required => true
 
 
     def body
       {
-        revertResize: nil
+        :revertResize => nil
       }
     end
 

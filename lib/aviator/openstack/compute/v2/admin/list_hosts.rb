@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :list_hosts, inherit: [:openstack, :common, :v2, :admin, :base] do
+  define_request :list_hosts, :inherit => [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :compute
 
@@ -10,8 +10,8 @@ module Aviator
     link 'documentation bug',
          'https://bugs.launchpad.net/nova/+bug/1224763'
 
-    param :service, required: false
-    param :zone,    required: false
+    param :service, :required => false
+    param :zone,    :required => false
 
 
     def headers

@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :list_server_metadata, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :list_server_metadata, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
@@ -8,7 +8,7 @@ module Aviator
       'http://docs.openstack.org/api/openstack-compute/2/content/List_Metadata-d1e5089.html'
 
 
-    param :id, required: true
+    param :id, :required => true
 
 
     def headers

@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :delete_image_metadata_item, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :delete_image_metadata_item, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
@@ -8,8 +8,8 @@ module Aviator
          'http://docs.openstack.org/api/openstack-compute/2/content/Delete_Metadata_Item-d1e5790.html'
 
 
-    param :id,  required: true
-    param :key, required: true
+    param :id,  :required => true
+    param :key, :required => true
 
 
     def headers

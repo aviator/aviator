@@ -1,28 +1,28 @@
 module Aviator
 
-  define_request :rebuild_server, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :rebuild_server, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/Rebuild_Server-d1e3538.html'
 
-    param :accessIPv4,  required: false, alias: :access_ipv4
-    param :accessIPv6,  required: false, alias: :access_ipv6
-    param :adminPass,   required: true,  alias: :admin_pass
-    param :id,          required: true
-    param :imageRef,    required: true,  alias: :image_ref
-    param :metadata,    required: false
-    param :name,        required: true
-    param :personality, required: false
+    param :accessIPv4,  :required => false, :alias => :access_ipv4
+    param :accessIPv6,  :required => false, :alias => :access_ipv6
+    param :adminPass,   :required => true,  :alias => :admin_pass
+    param :id,          :required => true
+    param :imageRef,    :required => true,  :alias => :image_ref
+    param :metadata,    :required => false
+    param :name,        :required => true
+    param :personality, :required => false
 
 
     def body
       p = {
-        rebuild: {
-          adminPass: params[:adminPass],
-          imageRef:  params[:imageRef],
-          name:      params[:name]
+        :rebuild => {
+          :adminPass => params[:adminPass],
+          :imageRef  => params[:imageRef],
+          :name      => params[:name]
         }
       }
       

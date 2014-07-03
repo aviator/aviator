@@ -80,7 +80,7 @@ module Aviator
 
   class << self
 
-    def define_request(request_name, options={ inherit: [:request] }, &block)
+    def define_request(request_name, options={ :inherit => [:request] }, &block)
       RequestBuilder.define_request self, request_name, options, &block
     end
 

@@ -7,12 +7,28 @@ VCR.configure do |c|
 
   unless @vcr_port_matcher_registered
     # References:
-    #   From VCR docs: http://goo.gl/j0fiJ
-    #   Discussion by author: http://goo.gl/p9q4r
+    #   From VCR :docs => http://goo.gl/j0fiJ
+    #   Discussion by :author => http://goo.gl/p9q4r
     c.register_request_matcher :port do |r1, r2|
       r1.parsed_uri.port == r2.parsed_uri.port
     end
     @vcr_port_matcher_registered = true
+  end
+
+  unless @vcr_json_body_matcher_registered
+    # References:
+    #   From VCR :docs => http://goo.gl/j0fiJ
+    #   Discussion by :author => http://goo.gl/p9q4r
+    c.register_request_matcher :json_body do |r1, r2|
+      if r1.body.length != r2.body.length
+        false
+      elsif r1.body.empty?
+        true
+      else
+        JSON.parse(r1.body) == JSON.parse(r2.body)
+      end
+    end
+    @vcr_json_body_matcher_registered = true
   end
 
   #=========== BEGIN FILTERS FOR SENSITIVE DATA ===========
@@ -62,16 +78,16 @@ VCR.configure do |c|
     # IF RUNNING IN CI:
     # Test should immediately throw an error if no cassette exists for a
     # given example that needs one.
-    record: (ENV['CI'] || ENV['TRAVIS'] ? :none : :once),
+    :record => (ENV['CI'] || ENV['TRAVIS'] ? :none : :once),
 
-    match_requests_on: [:method, :port, :path, :query, :headers, :body],
+    :match_requests_on => [:method, :port, :path, :query, :headers, :json_body],
 
     # Strict mocking
-    # Inspired by: http://myronmars.to/n/dev-blog/2012/06/thoughts-on-mocking
-    allow_unused_http_interactions: false,
+    # Inspired :by => http://myronmars.to/n/dev-blog/2012/06/thoughts-on-mocking
+    :allow_unused_http_interactions => false,
 
     # Enable ERB in the cassettes.
-    # Reference: http://goo.gl/aPXYk
-    erb: true
+    # :Reference => http://goo.gl/aPXYk
+    :erb => true
   }
 end

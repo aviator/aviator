@@ -9,6 +9,11 @@ class Aviator::Test
     end
 
 
+    def klass
+      Aviator::Session
+    end
+
+
     def log_file_path
       Pathname.new(__FILE__).expand_path.join('..', '..', '..', '..', 'tmp', 'aviator.log')
     end
@@ -16,9 +21,9 @@ class Aviator::Test
 
     def new_session
       Aviator::Session.new(
-        config_file: config.path,
-        environment: 'openstack_admin',
-        log_file:    log_file_path
+        :config_file => config.path,
+        :environment => 'openstack_admin',
+        :log_file    => log_file_path
       )
     end
 
@@ -91,8 +96,8 @@ class Aviator::Test
         str = session.dump
 
         expected = JSON.generate({
-          environment: session.send(:environment),
-          auth_info: session.send(:auth_info)
+          :environment => session.send(:environment),
+          :auth_info => session.send(:auth_info)
         })
 
         str.must_equal expected
@@ -138,9 +143,8 @@ class Aviator::Test
 
         str      = session.dump
         session  = Aviator::Session.load(str)
-        expected = JSON.parse(str).with_indifferent_access
+        expected = Hashish.new(JSON.parse(str))
 
-        session.dump.must_equal str
         session.authenticated?.must_equal true
 
         # This is bad testing practice (testing a private method) but
@@ -154,7 +158,7 @@ class Aviator::Test
         session = new_session
         session.authenticate
 
-        expected = JSON.parse(session.dump).with_indifferent_access
+        expected = Hashish.new(JSON.parse(session.dump))
         session  = Aviator::Session.load(session.dump)
         service  = session.identity_service
 
@@ -166,6 +170,31 @@ class Aviator::Test
 
     describe '::new' do
 
+      it 'can accept a hash object as configuration' do
+        config = {
+          :provider => 'openstack',
+          :auth_service => {
+            :name      => 'identity',
+            :host_uri  => 'http://devstack:5000/v2.0',
+            :request   => 'create_token',
+            :validator => 'list_tenants'
+          },
+          :auth_credentials => {
+            :username    => 'myusername',
+            :password    => 'mypassword',
+            :tenant_name => 'myproject'
+          }
+        }
+
+        session = klass.new(:config => config)
+
+        session.send(:environment).must_equal Hashish.new(config)
+
+        auth_service = session.send(:auth_service)
+        auth_service.send(:service).must_equal config[:auth_service][:name]
+      end
+
+
       it 'directs log entries to the given log file' do
         log_file_path.delete if log_file_path.file?
 
@@ -173,6 +202,16 @@ class Aviator::Test
         session.authenticate
 
         log_file_path.file?.must_equal true
+      end
+
+
+      it 'raises an error when constructor keys are missing' do
+        the_method = lambda { klass.new }
+        the_method.must_raise Aviator::Session::InitializationError
+
+        error = the_method.call rescue $!
+
+        error.message.wont_be_nil
       end
 
     end
