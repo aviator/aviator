@@ -158,7 +158,7 @@ module Aviator
         service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
         raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
         version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
-        version ? version[1].to_sym : :v1
+        version ? version[1].to_sym : :v2
       end
     end
 
