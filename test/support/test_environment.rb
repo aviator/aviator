@@ -1,4 +1,4 @@
-require 'aviator/hashish'
+require 'aviator/core/utils/hashish'
 
 module Aviator
 class Test
