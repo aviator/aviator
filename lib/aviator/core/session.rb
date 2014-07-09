@@ -182,9 +182,11 @@ module Aviator
       @auth_info   = session_info[:auth_info]
     end
 
+
     def initialize_with_hash(hash_obj)
       @environment = Hashish.new(hash_obj)
     end
+
 
     def log_file
       @log_file

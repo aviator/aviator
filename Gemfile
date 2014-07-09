@@ -9,6 +9,7 @@ gemspec
 group :test do
   if Aviator::Compatibility::RUBY_1_8_MODE
     gem 'mime-types', '~> 1.25.1'
+    gem 'rest-client', '~> 1.6.7'
   end
 
   gem 'rake'

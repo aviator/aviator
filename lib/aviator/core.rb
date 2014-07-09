@@ -12,3 +12,5 @@ require "aviator/core/response"
 require "aviator/core/service"
 require "aviator/core/session"
 require "aviator/core/logger"
+
+require "aviator/openstack"

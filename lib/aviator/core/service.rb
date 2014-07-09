@@ -76,7 +76,7 @@ module Aviator
         session_data[k] = options[k] if options[k]
       end
 
-      request_class = find_request(request_name, session_data, options[:endpoint_type])
+      request_class = provider_module.find_request(service, request_name, session_data, options)
 
       raise UnknownRequestError.new(request_name) unless request_class
 
@@ -111,71 +111,8 @@ module Aviator
     end
 
 
-    # Candidate for extraction to aviator/openstack
-    def find_request(name, session_data, endpoint_type=nil)
-      endpoint_types = if endpoint_type
-                         [endpoint_type.to_s.camelize]
-                       else
-                         ['Public', 'Admin']
-                       end
-
-      namespace = Aviator.const_get(provider.camelize) \
-                         .const_get(service.camelize)
-
-      version = infer_version(session_data, name).to_s.camelize
-
-      return nil unless version && namespace.const_defined?(version)
-
-      namespace = namespace.const_get(version, name)
-
-      endpoint_types.each do |endpoint_type|
-        name = name.to_s.camelize
-
-        next unless namespace.const_defined?(endpoint_type)
-        next unless namespace.const_get(endpoint_type).const_defined?(name)
-
-        return namespace.const_get(endpoint_type).const_get(name)
-      end
-
-      nil
-    end
-
-
-    # Candidate for extraction to aviator/openstack
-    def infer_version(session_data, request_name='sample_request')
-      if session_data.has_key?(:auth_service) && session_data[:auth_service][:api_version]
-        session_data[:auth_service][:api_version].to_sym
-
-      elsif session_data.has_key?(:auth_service) && session_data[:auth_service][:host_uri]
-        m = session_data[:auth_service][:host_uri].match(/(v\d+)\.?\d*/)
-        return m[1].to_sym unless m.nil?
-
-      elsif session_data.has_key? :base_url
-        m = session_data[:base_url].match(/(v\d+)\.?\d*/)
-        return m[1].to_sym unless m.nil?
-
-      elsif session_data.has_key? :access
-        service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
-        raise MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
-        version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
-        version ? version[1].to_sym : :v1
-      end
-    end
-
-
     def load_requests
-      # :TODO => This should be determined by a provider-specific module.
-      # e.g. Aviator::OpenStack::requests_base_dir
-      request_file_paths = Dir.glob(Pathname.new(__FILE__).join(
-                             '..',
-                             '..',
-                             provider.to_s,
-                             service.to_s,
-                             '**',
-                             '*.rb'
-                             ).expand_path
-                           )
-
+      request_file_paths = provider_module.request_file_paths(service)
       request_file_paths.each{ |path| require path }
 
       constant_parts = request_file_paths \
@@ -190,6 +127,11 @@ module Aviator
 
     def log_file
       @log_file
+    end
+
+
+    def provider_module
+      @provider_module ||= "Aviator::#{provider.camelize}".constantize
     end
 
   end
