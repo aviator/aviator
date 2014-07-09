@@ -6,24 +6,41 @@ common: &common
     request:     create_token
     validator:   list_tenants
     api_version: v2
-  
-  
-# This is expected by the test suite. You may change its values freely
-# as long as the name 'openstack_admin' doesn't change and the user's
-# role in the tenant is that of 'admin'
+
+
+# Make sure this user is an admin. Use these values to create the
+# dummy user and tenant in your OpenStack environment. Do not change
+# the values below unless you are absolutely sure you know what you
+# are doing.
+#
+# NOTE: The values are used by test/support/vcr_setup.rb to determine
+#       what sensitive values to filter out of the cassettes. You can
+#       actually customize this a bit by modifying the trailing hex
+#       number in each of the values. In fact, you can modify the
+#       values completely as long as the patter will only ever appear
+#       as the admin's username/password/tenant_name in the cassette
 openstack_admin:
   <<: *common
   auth_credentials:
-    username:   aviatortest_admin
-    password:   aviatortest_password_admin
-    tenant_name: aviatortest_project_admin
+    username:    aviatortest_admin_10315
+    password:    aviatortest_password_admin_1ebe99
+    tenant_name: aviatortest_project_admin_27731a
 
-# This is expected by the test suite. You may change its values freely
-# as long as the name 'openstack_member' doesn't change and the user's
-# role in the tenant is that of 'member'
+
+# Make sure this user is a member. Use these values to create the
+# dummy user and tenant in your OpenStack environment. Do not change
+# the values below unless you are absolutely sure you know what you
+# are doing.
+#
+# NOTE: The values are used by test/support/vcr_setup.rb to determine
+#       what sensitive values to filter out of the cassettes. You can
+#       actually customize this a bit by modifying the trailing hex
+#       number in each of the values. In fact, you can modify the
+#       values completely as long as the patter will only ever appear
+#       as the member's username/password/tenant_name in the cassette
 openstack_member:
   <<: *common
   auth_credentials:
-    username:   aviatortest_member
-    password:   aviatortest_password_member
-    tenant_name: aviatortest_project_member
+    username:    aviatortest_member_eae591
+    password:    aviatortest_password_member_a96929
+    tenant_name: aviatortest_project_member_5c5452
