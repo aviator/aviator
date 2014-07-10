@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'aviator/openstack_rb' do
+  describe 'aviator/openstack/provider' do
 
     def config
       Environment.openstack_admin
@@ -37,7 +37,7 @@ class Aviator::Test
 
 
     def modyul
-      Aviator::Openstack
+      Aviator::Openstack::Provider
     end
 
 

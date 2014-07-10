@@ -136,7 +136,7 @@ module Aviator
 
 
     def provider_module
-      @provider_module ||= "Aviator::#{provider.camelize}".constantize
+      @provider_module ||= "Aviator::#{provider.camelize}::Provider".constantize
     end
 
   end
