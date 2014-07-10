@@ -34,6 +34,7 @@ module Aviator
         namespace_arr = [
           klass.provider,
           klass.service,
+          'Requests',
           klass.api_version,
           klass.endpoint_type
         ]
@@ -55,17 +56,29 @@ module Aviator
 
 
       def get_request_class(root_namespace, request_class_arr)
-        request_class_arr.inject(root_namespace) do |namespace, sym|
+        provider_specific = request_class_arr != [:request]
+
+        if provider_specific
+          full_request_class_arr = request_class_arr.dup
+          full_request_class_arr.insert(2, :requests) if provider_specific
+        else
+          full_request_class_arr = request_class_arr
+        end
+
+        full_request_class_arr.inject(root_namespace) do |namespace, sym|
           namespace.const_get(sym.to_s.camelize, false)
         end
       rescue NameError => e
-        arr = ['..', '..'] + request_class_arr
-        arr[-1,1] = arr.last.to_s + '.rb'
-        path = Pathname.new(__FILE__).join(*arr.map{|i| i.to_s }).expand_path
+        if Aviator.const_defined?(full_request_class_arr[0].to_s.camelize)
+          provider = "Aviator::#{ full_request_class_arr[0] }::Provider".constantize
+          arr = ['..'] + full_request_class_arr
+          arr[-1,1] = arr.last.to_s + '.rb'
+          path = Pathname.new(provider.root_dir).join(*arr.map{|i| i.to_s }).expand_path
+        end
 
-        if path.exist?
+        if provider && path.exist?
           require path
-          request_class_arr.inject(root_namespace) do |namespace, sym|
+          full_request_class_arr.inject(root_namespace) do |namespace, sym|
             namespace.const_get(sym.to_s.camelize, false)
           end
         else

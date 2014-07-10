@@ -24,17 +24,17 @@ class Aviator::Test
           meta :api_version,   api_ver
           meta :endpoint_type, ep_type
         end
-        
-        [provider, service, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
+
+        [provider, service, :requests, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
           const_name = sym.to_s.camelize
-          
+
           namespace.const_defined?(const_name, false).must_equal true
-          
+
           namespace.const_get(const_name, false)
         end
       end
-      
-      
+
+
       it 'does not get confused when a similar name is defined up in the namespace hierarchy' do
         provider = :aws
         service  = :amazing
@@ -49,7 +49,7 @@ class Aviator::Test
           meta :endpoint_type, ep_type
         end
 
-        [provider, service, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
+        [provider, service, :requests, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
           const_name = sym.to_s.camelize
 
           namespace.const_defined?(const_name, false).must_equal true,
@@ -89,6 +89,7 @@ class Aviator::Test
         child_req_hierarchy = [
           base[:provider],
           base[:service],
+          :requests,
           base[:api_ver],
           base[:ep_type],
           :child_request
@@ -163,11 +164,11 @@ class Aviator::Test
 
         builder.define_request child_arr.last, :inherit => base_arr do; end
 
-        base_klass = base_arr.inject(builder) do |namespace, sym|
+        base_klass = base_arr.insert(2, :requests).inject(builder) do |namespace, sym|
           namespace.const_get(sym.to_s.camelize, false)
         end
 
-        child_klass = child_arr.inject(builder) do |namespace, sym|
+        child_klass = child_arr.insert(2, :requests).inject(builder) do |namespace, sym|
           namespace.const_get(sym.to_s.camelize, false)
         end
 
@@ -176,7 +177,7 @@ class Aviator::Test
       end
 
     end
-    
+
   end
-  
+
 end

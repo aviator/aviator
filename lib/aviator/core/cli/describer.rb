@@ -26,7 +26,7 @@ module Aviator
 
     def self.describe_request(provider_name, service_name, api_version, endpoint_type, request_name)
       service = Aviator::Service.new :provider => provider_name, :service => service_name
-      request_class = "Aviator::#{ provider_name.camelize }::#{ service_name.camelize }::"\
+      request_class = "Aviator::#{ provider_name.camelize }::#{ service_name.camelize }::Requests::"\
                       "#{ api_version.camelize }::#{ endpoint_type.camelize }::#{ request_name.camelize }".constantize
 
       display = ":Request => #{ request_name }\n"

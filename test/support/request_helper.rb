@@ -60,6 +60,7 @@ class Test
 
 
       def load_request(*path)
+        path.insert(2, 'requests')
         require request_path(*path)
         get_request_class(Aviator, *path)
       end
