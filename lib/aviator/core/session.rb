@@ -154,12 +154,17 @@ module Aviator
 
       @services ||= {}
 
-      @services[service_name] ||= Service.new(
-        :provider => environment[:provider],
-        :service  => service_name,
-        :default_session_data => auth_info,
-        :log_file => log_file
-      )
+      if @services[service_name].nil?
+        default_options = environment["#{ service_name }_service"]
+
+        @services[service_name] = Service.new(
+          :provider => environment[:provider],
+          :service  => service_name,
+          :default_session_data => auth_info,
+          :default_options => default_options,
+          :log_file => log_file
+        )
+      end
 
       @services[service_name]
     end

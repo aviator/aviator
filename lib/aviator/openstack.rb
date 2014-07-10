@@ -16,7 +16,12 @@ module Aviator
         namespace = Aviator.const_get('Openstack') \
                            .const_get(service.camelize)
 
-        version = infer_version(session_data, name, service).to_s.camelize
+        if options[:api_version]
+          m = options[:api_version].to_s.match(/(v\d+)\.?\d*/)
+          version = m[1].to_s.camelize unless m.nil?
+        end
+
+        version ||= infer_version(session_data, name, service).to_s.camelize
 
         return nil unless version && namespace.const_defined?(version)
 

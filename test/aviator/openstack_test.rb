@@ -66,6 +66,29 @@ class Aviator::Test
       end
 
 
+      it 'can find the correct request class if based on the provided version' do
+        load_service
+
+        bootstrap = {
+          :auth_service => {
+            :name        => 'identity',
+            :host_uri    => 'http://devstack:5000',
+            :request     => 'create_token'
+          }
+        }
+        api_version = :v2
+        request_class = modyul.find_request(
+                            bootstrap[:auth_service][:name],
+                            bootstrap[:auth_service][:request],
+                            bootstrap,
+                            { :api_version => api_version }
+                        )
+
+        request_class.wont_be_nil
+        request_class.api_version.must_equal api_version
+      end
+
+
       it 'raises an error if session data does not have the endpoint information' do
         load_service
         request_name = config[:auth_service][:request].to_sym

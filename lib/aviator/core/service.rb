@@ -29,8 +29,8 @@ module Aviator
 
 
     class UnknownRequestError < StandardError
-      def initialize(request_name)
-        super "Unknown request #{ request_name }."
+      def initialize(request_name, options)
+        super "Unknown request #{ request_name } #{ options }."
       end
     end
 
@@ -60,6 +60,7 @@ module Aviator
       @provider = opts[:provider] || (raise ProviderNotDefinedError.new)
       @service  = opts[:service]  || (raise ServiceNameNotDefinedError.new)
       @log_file = opts[:log_file]
+      @default_options = opts[:default_options] || {}
 
       @default_session_data = opts[:default_session_data]
 
@@ -68,6 +69,10 @@ module Aviator
 
 
     def request(request_name, options={}, &params)
+      if options[:api_version].nil? && @default_options[:api_version]
+        options[:api_version] = @default_options[:api_version]
+      end
+
       session_data = options[:session_data] || default_session_data
 
       raise SessionDataNotProvidedError.new unless session_data
@@ -78,7 +83,7 @@ module Aviator
 
       request_class = provider_module.find_request(service, request_name, session_data, options)
 
-      raise UnknownRequestError.new(request_name) unless request_class
+      raise UnknownRequestError.new(request_name, options) unless request_class
 
       request  = request_class.new(session_data, &params)
 
