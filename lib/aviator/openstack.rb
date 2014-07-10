@@ -5,6 +5,7 @@ module Aviator
     class << self
 
       def find_request(service, name, session_data, options)
+        service = service.to_s
         endpoint_type = options[:endpoint_type]
         endpoint_types = if endpoint_type
                            [endpoint_type.to_s.camelize]
