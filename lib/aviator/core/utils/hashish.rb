@@ -23,6 +23,10 @@ class Hashish
     @hash[normalize(key)] = value
   end
 
+  def dup
+    Hashish.new(@hash.dup)
+  end
+
   def each(&block)
     @hash.each(&block)
   end
