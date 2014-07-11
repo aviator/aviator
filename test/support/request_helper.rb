@@ -39,10 +39,13 @@ class Test
       end
 
 
-      def admin_bootstrap_session_data
-        {
-          :auth_service => Environment.openstack_admin[:auth_service]
+      def admin_bootstrap_session_data(api_version=nil)
+        data = {
+          :auth_service => Environment.openstack_admin[:auth_service].dup
         }
+
+        data[:auth_service][:api_version] = api_version.to_sym unless api_version.nil?
+        data
       end
 
 

@@ -1,0 +1,35 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v3/auth/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"somebogususer","password":"doesitreallymatter?","domain":{"id":"default"}}}},"scope":{"domain":{"id":"default"}}}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 401
+      message:
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '99'
+      date:
+      - Fri, 11 Jul 2014 23:11:08 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"error": {"message": "Could not find user, somebogususer.", "code":
+        401, "title": "Unauthorized"}}'
+    http_version:
+  recorded_at: Fri, 11 Jul 2014 23:11:08 GMT
+recorded_with: VCR 2.8.0
