@@ -68,7 +68,10 @@ module Aviator
       response = auth_service.request environment[:auth_service][:request].to_sym, &block
 
       if response.status == 200
-        @auth_info = response.body
+        @auth_response = Hashish.new({
+          :headers => response.headers,
+          :body    => response.body
+        })
         update_services_session_data
       else
         raise AuthenticationError.new(response.body)
@@ -77,15 +80,15 @@ module Aviator
 
 
     def authenticated?
-      !auth_info.nil?
+      !auth_response.nil?
     end
 
 
     def dump
-      JSON.generate({
-        :environment => environment,
-        :auth_info   => auth_info
-      })
+      JSON.generate(Hashish.new({
+        :environment   => environment,
+        :auth_response => auth_response
+      }))
     end
 
 
@@ -118,10 +121,12 @@ module Aviator
       raise NotAuthenticatedError.new unless authenticated?
       raise ValidatorNotDefinedError.new unless environment[:auth_service][:validator]
 
-      auth_with_bootstrap = auth_info.merge({ :auth_service => environment[:auth_service] })
+      auth_with_bootstrap = Hashish.new({
+        :auth_response => auth_response,
+        :auth_service  => environment[:auth_service]
+      })
 
       response = auth_service.request environment[:auth_service][:validator].to_sym, :session_data => auth_with_bootstrap
-
       response.status == 200 || response.status == 203
     end
 
@@ -129,17 +134,17 @@ module Aviator
     private
 
 
-    def auth_info
-      @auth_info
+    def auth_response
+      @auth_response
     end
 
 
     def auth_service
       @auth_service ||= Service.new(
-        :provider => environment[:provider],
-        :service  => environment[:auth_service][:name],
+        :provider             => environment[:provider],
+        :service              => environment[:auth_service][:name],
         :default_session_data => { :auth_service => environment[:auth_service] },
-        :log_file => log_file
+        :log_file             => log_file
       )
     end
 
@@ -158,11 +163,11 @@ module Aviator
         default_options = environment["#{ service_name }_service"]
 
         @services[service_name] = Service.new(
-          :provider => environment[:provider],
-          :service  => service_name,
-          :default_session_data => auth_info,
-          :default_options => default_options,
-          :log_file => log_file
+          :provider             => environment[:provider],
+          :service              => service_name,
+          :default_session_data => auth_response,
+          :default_options      => default_options,
+          :log_file             => log_file
         )
       end
 
@@ -182,9 +187,9 @@ module Aviator
 
 
     def initialize_with_dump(session_dump)
-      session_info = Hashish.new(JSON.parse(session_dump))
-      @environment = session_info[:environment]
-      @auth_info   = session_info[:auth_info]
+      session_info   = Hashish.new(JSON.parse(session_dump))
+      @environment   = session_info[:environment]
+      @auth_response = session_info[:auth_response]
     end
 
 
@@ -202,7 +207,7 @@ module Aviator
       return unless @services
 
       @services.each do |name, obj|
-        obj.default_session_data = auth_info
+        obj.default_session_data = auth_response
       end
     end
 

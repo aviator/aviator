@@ -79,9 +79,9 @@ class Aviator::Test
 
         session.identity_service.must_equal keystone
 
-        new_token = session.identity_service.default_session_data[:access][:token][:id]
-        new_token.wont_equal session_data_1[:access][:token][:id]
-        keystone.default_session_data[:access][:token][:id].must_equal new_token
+        new_token = session.identity_service.default_session_data[:body][:access][:token][:id]
+        new_token.wont_equal session_data_1[:body][:access][:token][:id]
+        keystone.default_session_data[:body][:access][:token][:id].must_equal new_token
       end
 
     end # describe '#authenticate'
@@ -96,8 +96,8 @@ class Aviator::Test
         str = session.dump
 
         expected = JSON.generate({
-          :environment => session.send(:environment),
-          :auth_info => session.send(:auth_info)
+          :environment   => session.send(:environment),
+          :auth_response => session.send(:auth_response)
         })
 
         str.must_equal expected
@@ -150,7 +150,7 @@ class Aviator::Test
         # This is bad testing practice (testing a private method) but
         # I'll go ahead and do it anyway just to be sure.
         session.send(:environment).must_equal expected[:environment]
-        session.send(:auth_info).must_equal   expected[:auth_info]
+        session.send(:auth_response).must_equal expected[:auth_response]
       end
 
 
@@ -162,7 +162,7 @@ class Aviator::Test
         session  = Aviator::Session.load(session.dump)
         service  = session.identity_service
 
-        service.default_session_data.must_equal expected[:auth_info]
+        service.default_session_data.must_equal expected[:auth_response]
       end
 
     end
@@ -231,7 +231,7 @@ class Aviator::Test
         session = new_session
         session.authenticate
 
-        session.send(:auth_info)[:access][:token][:id] = 'invalidtokenid'
+        session.send(:auth_response)[:body][:access][:token][:id] = 'invalidtokenid'
 
         session.validate.must_equal false
       end

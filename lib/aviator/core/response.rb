@@ -3,7 +3,7 @@ module Aviator
   class Response
     extend Forwardable
 
-    def_delegators :@response, :headers, :status
+    def_delegators :@response, :status
 
     attr_reader :request
 
@@ -25,6 +25,11 @@ module Aviator
       else
         Hashish.new({})
       end
+    end
+
+
+    def headers
+      Hashish.new(@response.headers)
     end
 
 

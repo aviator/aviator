@@ -8,7 +8,8 @@ class Hashish
   include Enumerable
 
   def initialize(hash={})
-    @hash = hash
+    @hash = hash.dup
+    stringify_keys
     hashishify_values
   end
 
@@ -102,6 +103,7 @@ class Hashish
     end
   end
 
+
   def normalize(key)
     if @hash.has_key? key
       key
@@ -111,6 +113,16 @@ class Hashish
       key.to_s
     else
       key
+    end
+  end
+
+
+  def stringify_keys
+    keys = @hash.keys
+    keys.each do |key|
+      if key.is_a? Symbol
+        @hash[key.to_s] = @hash.delete(key)
+      end
     end
   end
 
