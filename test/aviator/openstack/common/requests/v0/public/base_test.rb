@@ -2,21 +2,15 @@ require 'test_helper'
 
 class Aviator::Test
 
-  describe 'aviator/openstack/common/requests/v2/public/base' do
+  describe 'aviator/openstack/common/requests/v0/public/base' do
 
-    def create_request(session_data = get_session_data, &block)
-      block ||= lambda do |params|
-                  params[:tenant_id] = 0
-                  params[:role_id]   = 0
-                  params[:user_id]   = 0
-                end
-
-      klass.new(session_data, &block)
+    def create_request(session_data=get_session_data, &block)
+      klass.new(session_data)
     end
 
 
-    def get_session_data
-      session.send :auth_info
+    def get_session_data(keystone_api_version=:v2)
+      session(keystone_api_version).send :auth_info
     end
 
 
@@ -26,15 +20,17 @@ class Aviator::Test
 
 
     def klass
-      @klass ||= helper.load_request('openstack', 'common', 'v2', 'public', 'base.rb')
+      @klass ||= helper.load_request('openstack', 'common', 'v0', 'public', 'base.rb')
     end
 
 
-    def session
+    def session(api_version)
       unless @session
+        config = Environment.openstack_admin.dup
+        config[:auth_service][:api_version] = api_version.to_sym
+
         @session = Aviator::Session.new(
-          :config_file => Environment.path,
-          :environment => 'openstack_admin'
+          :config => config
         )
         @session.authenticate
       end
@@ -49,7 +45,7 @@ class Aviator::Test
 
 
     validate_attr :api_version do
-      klass.api_version.must_equal :v2
+      klass.api_version.must_equal :v0
     end
 
 
@@ -58,12 +54,17 @@ class Aviator::Test
     end
 
 
-    validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+    describe '::headers' do
 
-      request = create_request
+      it 'must know to extract token from a Keystone v2 auth info' do
+        session_data = get_session_data(:v2)
+        headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
 
-      request.headers.must_equal headers
+        request = create_request(session_data)
+
+        request.headers.must_equal headers
+      end
+
     end
 
 

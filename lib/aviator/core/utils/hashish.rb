@@ -1,3 +1,5 @@
+require 'json'
+
 # Hash-ish!
 #
 # This class is implemented using composition rather than inheritance so
@@ -24,7 +26,7 @@ class Hashish
   end
 
   def dup
-    Hashish.new(@hash.dup)
+    Hashish.new(JSON.parse(@hash.to_json))
   end
 
   def each(&block)
