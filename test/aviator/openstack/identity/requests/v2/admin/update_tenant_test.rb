@@ -10,7 +10,7 @@ class Aviator::Test
 
 
     def get_session_data
-      session.send :auth_info
+      session.send :auth_response
     end
 
 
@@ -62,7 +62,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data[:body][:access][:token][:id] }
 
       request = create_request { |p| p[:id] = 0 }
 
@@ -94,7 +94,7 @@ class Aviator::Test
       # in case the corresponding cassette is deleted
       tenant_id    = '105b09f0b6500d36168480ad84'
 
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
+      service_spec = get_session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
       url          = "#{ service_spec[:endpoints][0][:adminURL] }/tenants/#{ tenant_id }"
 
       request = create_request do |params|

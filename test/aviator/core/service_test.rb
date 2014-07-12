@@ -52,7 +52,11 @@ class Aviator::Test
 
 
       it 'uses the default session data if session data is not provided' do
-        default_session_data = do_auth_request.body
+        auth_response = do_auth_request
+        default_session_data = Hashish.new({
+          :headers => auth_response.headers,
+          :body    => auth_response.body
+        })
         s = service(default_session_data)
 
         response = s.request :list_tenants
@@ -112,7 +116,7 @@ class Aviator::Test
         svc = service(bootstrap)
 
         session_data_1 = svc.default_session_data
-        session_data_2 = do_auth_request.body
+        session_data_2 = do_auth_request
 
         svc.default_session_data = session_data_2
 

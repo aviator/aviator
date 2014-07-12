@@ -11,7 +11,7 @@ class Aviator::Test
 
 
     def get_session_data
-      session.send :auth_info
+      session.send :auth_response
     end
 
 
@@ -62,7 +62,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data[:body][:access][:token][:id] }
 
       request = create_request
 
@@ -94,7 +94,7 @@ class Aviator::Test
     validate_attr :url do
       user_id = 'thisdoesntneedtobevalidinthistest'
 
-      service_spec = get_session_data[:access][:serviceCatalog].find { |s| s[:type] == 'identity' }
+      service_spec = get_session_data[:body][:access][:serviceCatalog].find { |s| s[:type] == 'identity' }
       url          = "#{ service_spec[:endpoints][0][:adminURL] }/users/#{ user_id }"
 
       request = create_request do |params|

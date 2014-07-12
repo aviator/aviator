@@ -23,7 +23,11 @@ module Openstack
           version = m[1].to_s.camelize unless m.nil?
         end
 
-        version ||= infer_version(session_data, name, service).to_s.camelize
+        version ||= infer_version(session_data, name, service)
+
+        unless version.nil?
+          version = version.to_s.camelize
+        end
 
         return nil unless version && namespace.const_defined?(version)
 
@@ -73,8 +77,8 @@ module Openstack
           m = session_data[:base_url].match(/(v\d+)\.?\d*/)
           return m[1].to_sym unless m.nil?
 
-        elsif session_data.has_key? :access
-          service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service }
+        elsif session_data.has_key?(:body) && session_data[:body].has_key?(:access)
+          service_spec = session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == service }
           raise Aviator::Service::MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
           version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
           version ? version[1].to_sym : :v1

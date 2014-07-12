@@ -17,7 +17,7 @@ module Aviator
       h = {}
 
       unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:access][:token][:id]
+        h['X-Auth-Token'] = session_data[:body][:access][:token][:id]
       end
 
       h
@@ -30,7 +30,7 @@ module Aviator
 
 
     def url
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
+      service_spec = session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == service.to_s }
       "#{ service_spec[:endpoints][0][:adminURL] }/users/#{ params[:id]}"
     end
 

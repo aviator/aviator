@@ -14,7 +14,7 @@ class Aviator::Test
 
 
     def get_session_data
-      session.send :auth_info
+      session.send :auth_response
     end
 
 
@@ -49,7 +49,7 @@ class Aviator::Test
                      params[:all_tenants] = true
                    end
 
-        current_tenant = get_session_data[:access][:token][:tenant]
+        current_tenant = get_session_data[:body][:access][:token][:tenant]
         active_servers = response.body[:servers].select do |server| 
                            server[:status] == 'ACTIVE' && server[:tenant_id] == current_tenant[:id]
                          end
@@ -97,7 +97,7 @@ class Aviator::Test
 
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data[:body][:access][:token][:id] }
 
       request = create_request
 
@@ -129,7 +129,7 @@ class Aviator::Test
 
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = get_session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server[:id] }/action"
 
       request = create_request do |params|

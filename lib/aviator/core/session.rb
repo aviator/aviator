@@ -121,10 +121,7 @@ module Aviator
       raise NotAuthenticatedError.new unless authenticated?
       raise ValidatorNotDefinedError.new unless environment[:auth_service][:validator]
 
-      auth_with_bootstrap = Hashish.new({
-        :auth_response => auth_response,
-        :auth_service  => environment[:auth_service]
-      })
+      auth_with_bootstrap = auth_response.merge({ :auth_service  => environment[:auth_service] })
 
       response = auth_service.request environment[:auth_service][:validator].to_sym, :session_data => auth_with_bootstrap
       response.status == 200 || response.status == 203

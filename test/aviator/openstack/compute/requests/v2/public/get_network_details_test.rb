@@ -11,7 +11,7 @@ class Aviator::Test
 
 
     def get_session_data
-      session.send :auth_info
+      session.send :auth_response
     end
 
 
@@ -62,7 +62,7 @@ class Aviator::Test
     validate_attr :headers do
       session_data = get_session_data
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => session_data[:body][:access][:token][:id] }
 
       request = create_request(session_data)
 
@@ -82,7 +82,7 @@ class Aviator::Test
 
     validate_attr :url do
       session_data = get_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       network_id   = 'samplenetworkId'
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/os-networks/#{ network_id }"
       request      = klass.new(session_data) { |p| p[:id] = network_id }

@@ -107,8 +107,6 @@ class Hashish
   def normalize(key)
     if @hash.has_key? key
       key
-    elsif key.is_a? String
-      key.to_sym
     elsif key.is_a? Symbol
       key.to_s
     else

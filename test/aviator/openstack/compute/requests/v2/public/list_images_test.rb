@@ -22,7 +22,10 @@ class Aviator::Test
         auth_credentials.each { |key, value| params[key] = auth_credentials[key] }
       end
 
-      response.body
+      Hashish.new({
+        :body    => response.body,
+        :headers => response.headers
+      })
     end
 
 
@@ -60,7 +63,7 @@ class Aviator::Test
     validate_attr :headers do
       session_data = new_session_data
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => session_data[:body][:access][:token][:id] }
 
       request = create_request(session_data)
 
@@ -94,7 +97,7 @@ class Aviator::Test
 
     validate_attr :url do
       session_data = new_session_data
-      service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
+      service_spec = session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/images"
 
       params = [

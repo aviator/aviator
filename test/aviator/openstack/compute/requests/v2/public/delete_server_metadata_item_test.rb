@@ -15,7 +15,7 @@ class Aviator::Test
 
 
     def delete_session_data
-      session.send :auth_info
+      session.send :auth_response
     end
 
 
@@ -66,7 +66,7 @@ class Aviator::Test
     validate_attr :headers do
       session_data = delete_session_data
 
-      headers = { 'X-Auth-Token' => session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => session_data[:body][:access][:token][:id] }
 
       request = create_request(session_data)
 
@@ -87,7 +87,7 @@ class Aviator::Test
     validate_attr :url do
       server_id    = 'doesnt matter'
       metadata_key = 'doesnt matter'
-      service_spec = delete_session_data[:access][:serviceCatalog].find { |s| s[:type] == 'compute' }
+      service_spec = delete_session_data[:body][:access][:serviceCatalog].find { |s| s[:type] == 'compute' }
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/servers/#{ server_id }/metadata/#{ metadata_key }"
 
       request = create_request do |p|

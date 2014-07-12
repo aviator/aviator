@@ -16,11 +16,16 @@ class Aviator::Test
         :auth_service => config[:auth_service]
       }
 
-      load_service.request request_name, :session_data => bootstrap do |params|
+      response = load_service.request request_name, :session_data => bootstrap do |params|
         config[:auth_credentials].each do |k,v|
           params[k] = v
         end
       end
+
+      Hashish.new({
+        :body    => response.body,
+        :headers => response.headers
+      })
     end
 
 
@@ -93,12 +98,12 @@ class Aviator::Test
         load_service
         request_name = config[:auth_service][:request].to_sym
 
-        bootstrap = Hashish.new(JSON.parse('{"access": {"token": {"issued_at": "2013-09-25T20:21:55.453783",
-          "expires": "2013-09-26T02:21:55Z", "id": "2f6bdec6cd0f49b4a60ede0cd4bf2c0d"},
-          "serviceCatalog": [], "user": {"username": "bogus",
-          "roles_links": [], "id": "447527294dae4a1788d36beb0db99c00", "roles": [],
-          "name": "bogus"}, "metadata": {"is_admin": 0, "roles":
-          []}}}'))
+        bootstrap = Hashish.new({ :body => JSON.parse('{"access": {"token": {"issued_at": "2013-09-25T20:21:55.453783",
+                  "expires": "2013-09-26T02:21:55Z", "id": "2f6bdec6cd0f49b4a60ede0cd4bf2c0d"},
+                  "serviceCatalog": [], "user": {"username": "bogus",
+                  "roles_links": [], "id": "447527294dae4a1788d36beb0db99c00", "roles": [],
+                  "name": "bogus"}, "metadata": {"is_admin": 0, "roles":
+                  []}}}')})
 
         the_method = lambda { modyul.find_request('identity', request_name, bootstrap, {}) }
 
@@ -107,10 +112,10 @@ class Aviator::Test
 
 
       it 'can find the correct request based on non-bootstrapped session data' do
-        session_data = do_auth_request.body
+        session_data = do_auth_request
         service_name = :identity
         request_name = :list_tenants
-        service_spec = session_data[:access][:serviceCatalog].find{|s| s[:type] == service_name.to_s }
+        service_spec = session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == service_name.to_s }
         version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)[1].to_sym
 
         request = modyul.find_request(service_name, request_name, session_data, {})

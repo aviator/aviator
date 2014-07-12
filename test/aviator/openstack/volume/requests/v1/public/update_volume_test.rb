@@ -11,7 +11,7 @@ class Aviator::Test
     end
 
     def get_session_data
-      session.send :auth_info
+      session.send :auth_response
     end
 
 
@@ -59,7 +59,7 @@ class Aviator::Test
     end
 
     validate_attr :headers do
-      headers = { 'X-Auth-Token' => get_session_data[:access][:token][:id] }
+      headers = { 'X-Auth-Token' => get_session_data[:body][:access][:token][:id] }
 
       request = create_request
 
@@ -86,7 +86,7 @@ class Aviator::Test
     end
 
     validate_attr :url do
-      service_spec = get_session_data[:access][:serviceCatalog].find{|s| s[:type] == 'volume' }
+      service_spec = get_session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == 'volume' }
       volume_id    = 'doesitmatter'
       url          = "#{ service_spec[:endpoints][0][:publicURL] }/volumes/#{ volume_id }"
 
