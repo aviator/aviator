@@ -32,7 +32,17 @@ class Aviator::Test
         @session = Aviator::Session.new(
           :config => config
         )
-        @session.authenticate
+        if api_version == :v2
+          @session.authenticate
+        elsif api_version == :v3
+          @session.authenticate do |params|
+            params[:username]  = Environment.openstack_admin[:auth_credentials][:username]
+            params[:password]  = Environment.openstack_admin[:auth_credentials][:password]
+            params[:domain_id] = "default"
+          end
+        else
+          raise "Unsupported Keystone API version #{ api_version }"
+        end
       end
 
       @session
@@ -59,6 +69,16 @@ class Aviator::Test
       it 'must know to extract token from a Keystone v2 auth info' do
         session_data = get_session_data(:v2)
         headers = { 'X-Auth-Token' => session_data[:body][:access][:token][:id] }
+
+        request = create_request(session_data)
+
+        request.headers.must_equal headers
+      end
+
+
+      it 'must know to extract token from a Keystone v3 auth info' do
+        session_data = get_session_data(:v3)
+        headers = { 'X-Auth-Token' => session_data[:headers]['x-subject-token'] }
 
         request = create_request(session_data)
 

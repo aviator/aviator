@@ -67,7 +67,7 @@ module Aviator
 
       response = auth_service.request environment[:auth_service][:request].to_sym, &block
 
-      if response.status == 200
+      if [200, 201].include? response.status
         @auth_response = Hashish.new({
           :headers => response.headers,
           :body    => response.body

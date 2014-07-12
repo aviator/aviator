@@ -9,7 +9,13 @@ module Aviator
 
     def headers
       {}.tap do |h|
-        h['X-Auth-Token'] = session_data[:body][:access][:token][:id] unless self.anonymous?
+        if self.anonymous?
+          # do nothing
+        elsif session_data.has_key?(:headers) && session_data[:headers].has_key?('x-subject-token')
+          h['X-Auth-Token'] = session_data[:headers]['x-subject-token']
+        else
+          h['X-Auth-Token'] = session_data[:body][:access][:token][:id]
+        end
       end
     end
 
