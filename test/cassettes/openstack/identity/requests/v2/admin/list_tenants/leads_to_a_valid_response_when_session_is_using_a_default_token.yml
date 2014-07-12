@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"<OPENSTACK_MEMBER_USERNAME>","password":"<OPENSTACK_MEMBER_PASSWORD>"}}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '1401'
+      date:
+      - Sat, 12 Jul 2014 05:28:28 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2014-07-12T05:28:28.927138",
+        "expires": "2014-07-13T05:28:28Z", "id": "MIIDGQYJKoZIhvcNAQcCoIIDCjCCAwYCAQExCTAHBgUrDgMCGjCCAW8GCSqGSIb3DQEHAaCCAWAEggFceyJhY2Nlc3MiOiB7InRva2VuIjogeyJpc3N1ZWRfYXQiOiAiMjAxNC0wNy0xMlQwNToyODoyOC45MjcxMzgiLCAiZXhwaXJlcyI6ICIyMDE0LTA3LTEzVDA1OjI4OjI4WiIsICJpZCI6ICJwbGFjZWhvbGRlciJ9LCAic2VydmljZUNhdGFsb2ciOiBbXSwgInVzZXIiOiB7InVzZXJuYW1lIjogImF2aWF0b3J0ZXN0X21lbWJlcl9lYWU1OTEiLCAicm9sZXNfbGlua3MiOiBbXSwgImlkIjogImI1YTU5ZDZkM2UzODRmNWVhY2Y1Y2NmYTliYjdiMjZhIiwgInJvbGVzIjogW10sICJuYW1lIjogImF2aWF0b3J0ZXN0X21lbWJlcl9lYWU1OTEifSwgIm1ldGFkYXRhIjogeyJpc19hZG1pbiI6IDAsICJyb2xlcyI6IFtdfX19MYIBgTCCAX0CAQEwXDBXMQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVW5zZXQxDjAMBgNVBAcMBVVuc2V0MQ4wDAYDVQQKDAVVbnNldDEYMBYGA1UEAwwPd3d3LmV4YW1wbGUuY29tAgEBMAcGBSsOAwIaMA0GCSqGSIb3DQEBAQUABIIBAJvApKbftcteiJYJhKKlU9VpAEr6jJLv17-yw7KKh49lS2am19S9ynd2RQ-7RpC9yfBew06PSEer6iPcbTDX1B1DheQlr2fg2ZU8WeBBCNTsiUgCaNzUDPin5261ehE1cS7sHmc1LGGRyMw+OOio64LwgsvAY-ateX97v2OMhShZQk66oB0EUyzKGsLXBenPATrrZzOHa9g7nQ+WOHugoZvbcqRjAz0gN2veuBGNQ2OlFX3n5YoL4AFQdg-wTuaTUp+5gbtL66nH31KspvIW7zENY0wtUSS8SipHh1ooLr3fpgfv2vvnk33C-FxDnYy697vMVbXOFTXMrbJ4zWRr1-U="},
+        "serviceCatalog": [], "user": {"username": "<OPENSTACK_MEMBER_USERNAME>",
+        "roles_links": [], "id": "b5a59d6d3e384f5eacf5ccfa9bb7b26a", "roles": [],
+        "name": "<OPENSTACK_MEMBER_USERNAME>"}, "metadata": {"is_admin": 0, "roles":
+        []}}}'
+    http_version: 
+  recorded_at: Sat, 12 Jul 2014 05:28:28 GMT
+- request:
+    method: get
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tenants
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+      X-Auth-Token:
+      - MIIDGQYJKoZIhvcNAQcCoIIDCjCCAwYCAQExCTAHBgUrDgMCGjCCAW8GCSqGSIb3DQEHAaCCAWAEggFceyJhY2Nlc3MiOiB7InRva2VuIjogeyJpc3N1ZWRfYXQiOiAiMjAxNC0wNy0xMlQwNToyODoyOC45MjcxMzgiLCAiZXhwaXJlcyI6ICIyMDE0LTA3LTEzVDA1OjI4OjI4WiIsICJpZCI6ICJwbGFjZWhvbGRlciJ9LCAic2VydmljZUNhdGFsb2ciOiBbXSwgInVzZXIiOiB7InVzZXJuYW1lIjogImF2aWF0b3J0ZXN0X21lbWJlcl9lYWU1OTEiLCAicm9sZXNfbGlua3MiOiBbXSwgImlkIjogImI1YTU5ZDZkM2UzODRmNWVhY2Y1Y2NmYTliYjdiMjZhIiwgInJvbGVzIjogW10sICJuYW1lIjogImF2aWF0b3J0ZXN0X21lbWJlcl9lYWU1OTEifSwgIm1ldGFkYXRhIjogeyJpc19hZG1pbiI6IDAsICJyb2xlcyI6IFtdfX19MYIBgTCCAX0CAQEwXDBXMQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVW5zZXQxDjAMBgNVBAcMBVVuc2V0MQ4wDAYDVQQKDAVVbnNldDEYMBYGA1UEAwwPd3d3LmV4YW1wbGUuY29tAgEBMAcGBSsOAwIaMA0GCSqGSIb3DQEBAQUABIIBAJvApKbftcteiJYJhKKlU9VpAEr6jJLv17-yw7KKh49lS2am19S9ynd2RQ-7RpC9yfBew06PSEer6iPcbTDX1B1DheQlr2fg2ZU8WeBBCNTsiUgCaNzUDPin5261ehE1cS7sHmc1LGGRyMw+OOio64LwgsvAY-ateX97v2OMhShZQk66oB0EUyzKGsLXBenPATrrZzOHa9g7nQ+WOHugoZvbcqRjAz0gN2veuBGNQ2OlFX3n5YoL4AFQdg-wTuaTUp+5gbtL66nH31KspvIW7zENY0wtUSS8SipHh1ooLr3fpgfv2vvnk33C-FxDnYy697vMVbXOFTXMrbJ4zWRr1-U=
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '159'
+      date:
+      - Sat, 12 Jul 2014 05:28:28 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"tenants_links": [], "tenants": [{"description": "", "enabled":
+        true, "id": "a8d4262ba436494c823184998949cd73", "name": "<OPENSTACK_MEMBER_TENANTNAME>"}]}'
+    http_version: 
+  recorded_at: Sat, 12 Jul 2014 05:28:29 GMT
+recorded_with: VCR 2.8.0
