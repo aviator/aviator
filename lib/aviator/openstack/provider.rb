@@ -3,6 +3,36 @@ module Openstack
 
   module Provider
 
+    class MultipleServiceApisError < StandardError
+      def initialize(service, entries, request_name)
+        types = entries.map{|e| e[:type] }.join("\n - ")
+        msg = <<EOF
+Multiple entries for the #{ service } service were found in the api catalog:
+
+ - #{ types }
+
+I'm unable to guess which one it is you want to use. To fix this problem, you'll need to
+do one of two things:
+
+  1) Indicate in the config file the api version you want to use:
+
+      production:
+        provider: openstack
+        ...
+        #{ service }_service:
+          api_version: v2
+
+  2) Indicate the api version when you call the request:
+
+      session.#{ service }_service.request :#{ request_name }, :api_version => :v2 { ... }
+
+If you combine the two methods, method #2 will override method #1
+
+EOF
+        super(msg)
+      end
+    end
+
     class << self
 
       def find_request(service, name, session_data, options)
@@ -78,9 +108,17 @@ module Openstack
           return m[1].to_sym unless m.nil?
 
         elsif session_data.has_key?(:body) && session_data[:body].has_key?(:access)
-          service_spec = session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == service }
-          raise Aviator::Service::MissingServiceEndpointError.new(service.to_s, request_name) unless service_spec
-          version = service_spec[:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
+          service_specs = session_data[:body][:access][:serviceCatalog].select{|s| s[:type].match("#{ service }(v\d+)?") }
+          raise MultipleServiceApisError.new(service, service_specs, request_name) unless service_specs.length <= 1
+          raise Aviator::Service::MissingServiceEndpointError.new(service.to_s, request_name) unless service_specs.length > 0
+          version = service_specs[0][:endpoints][0][:publicURL].match(/(v\d+)\.?\d*/)
+          version ? version[1].to_sym : :v1
+
+        elsif session_data.has_key?(:headers) && session_data[:headers].has_key?("x-subject-token")
+          service_specs = session_data[:body][:token][:catalog].select{|s| s[:type].match("#{ service }(v\d+)?") }
+          raise MultipleServiceApisError.new(service, service_specs, request_name) unless service_specs.length <= 1
+          raise Aviator::Service::MissingServiceEndpointError.new(service.to_s, request_name) unless service_specs.length > 0
+          version = service_specs[0][:endpoints][0][:url].match(/(v\d+)\.?\d*/)
           version ? version[1].to_sym : :v1
         end
       end
