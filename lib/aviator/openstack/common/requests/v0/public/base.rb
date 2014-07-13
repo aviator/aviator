@@ -52,7 +52,7 @@ module Aviator
 
 
     def build_service_type_string
-      api_versions_without_a_prefix = [
+      api_versions_without_a_suffix = [
         [:compute,  :v2],
         [:ec2,      :v1],
         [:identity, :v2],
@@ -62,7 +62,7 @@ module Aviator
         [:volume,   :v1]
       ]
 
-      if api_versions_without_a_prefix.include? [service, api_version]
+      if api_versions_without_a_suffix.include? [service, api_version]
         service.to_s
       else
         "#{ service }#{ api_version }"
