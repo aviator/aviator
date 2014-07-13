@@ -39,7 +39,8 @@ module Aviator
         extract_base_url_from_keystone_v3_session_data
 
       elsif session_data[:auth_service] && session_data[:auth_service][:host_uri] && session_data[:auth_service][:api_version]
-        "#{ session_data[:auth_service][:host_uri] }/v2.0"
+        version = session_data[:auth_service][:api_version].to_s == "v2" ? "v2.0" : session_data[:auth_service][:api_version]
+        "#{ session_data[:auth_service][:host_uri] }/#{ version }"
 
       elsif session_data[:auth_service] && session_data[:auth_service][:host_uri]
         session_data[:auth_service][:host_uri]
