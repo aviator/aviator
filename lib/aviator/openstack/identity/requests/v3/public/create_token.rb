@@ -21,13 +21,16 @@ module Aviator
     param :userId,     :required => false, :alias => :user_id
     param :username,   :required => false
 
+
     def body
-      params[:tokenId] ? token_auth(params) : password_auth(params)
+      params[:token_id] ? token_auth_body : password_auth_body
     end
+
 
     def http_method
       :post
     end
+
 
     def url
       url  = session_data[:auth_service][:host_uri]
@@ -35,75 +38,13 @@ module Aviator
       url += "/auth/tokens"
     end
 
+
     private
-    def token_auth(local_params)
-      p = {
-        :auth => {
-          :identity => {
-            :methods => ['token'],
-            :token   => { :id => local_params[:tokenId] }
-          }
-        }
-      }
-      p[:auth][:scope] = scope_object(local_params) if local_params[:tenantName] || local_params[:tenantId]
-      p
-    end
 
-    def password_auth(local_params)
-      p = {
-        :auth => {
-          :identity => {
-            :methods  => ['password'],
-            :password => { :user => user_object(params) }
-          }
-        }
-      }
-
-      if local_params[:domainName] || local_params[:domainId]
-        p[:auth][:identity][:password][:user][:domain] = domain_object(params)
-      end
-
-      if local_params[:tenantName] || local_params[:tenantId] || local_params[:domainName] || local_params[:domainId]
-        p[:auth][:scope] = scope_object(local_params)
-      end
-      p
-    end
-
-    def scope_object(local_params)
-      p = {}
-      if local_params[:tenantName] || local_params[:tenantId]
-        p = { :project => project_object(local_params) }
-        p[:project][:domain] = domain_object(local_params) if local_params[:domainName] || local_params[:domainId]
-      elsif local_params[:domainName] || local_params[:domainId]
-        p = { :domain => domain_object(local_params) }
-      end
-      p
-    end
-
-    def domain_object(local_params)
-      compact_hash({
-        :id => local_params[:domainId],
-        :name => local_params[:domainName]
-      })
-    end
-
-    def project_object(local_params)
-      compact_hash({
-        :id => local_params[:tenantId],
-        :name => local_params[:tenantName]
-      })
-    end
-
-    def user_object(local_params)
-      compact_hash({
-        :id => local_params[:userId],
-        :name => local_params[:username],
-        :password => local_params[:password]
-      })
-    end
-
+    # Removes nil elements from hash
+    # Adapted from http://stackoverflow.com/a/14773555/402145
     def compact_hash(hash, opts = {})
-      opts[:recurse] = true if opts[:recurse].nil?
+      opts[:recurse] ||= true
       hash.inject({}) do |new_hash, (k,v)|
         if !v.nil?
           new_hash[k] = opts[:recurse] && v.kind_of?(Hash) ? compact_hash(v, opts) : v
@@ -111,6 +52,74 @@ module Aviator
         new_hash
       end
     end
+
+
+    def domain_hash
+      compact_hash({
+        :id   => params[:domain_id],
+        :name => params[:domain_name]
+      })
+    end
+
+
+    def password_auth_body
+      p = {
+        :auth => {
+          :identity => {
+            :methods  => ['password'],
+            :password => {
+              :user => compact_hash({
+                         :id       => params[:user_id],
+                         :name     => params[:username],
+                         :password => params[:password]
+                       })
+            }
+          }
+        }
+      }
+
+      if params[:domain_name] || params[:domain_id]
+        p[:auth][:identity][:password][:user][:domain] = domain_hash
+      end
+
+      if params[:tenant_name] || params[:tenant_id] || params[:domain_name] || params[:domain_id]
+        p[:auth][:scope] = scope_hash
+      end
+      p
+    end
+
+
+    def scope_hash
+      p = {}
+
+      if params[:tenant_name] || params[:tenant_id]
+        p[:project] = compact_hash({
+                        :id   => params[:tenant_id],
+                        :name => params[:tenant_name]
+                      })
+        p[:project][:domain] = domain_hash if params[:domain_name] || params[:domain_id]
+
+      elsif params[:domain_name] || params[:domain_id]
+        p[:domain] = domain_hash
+      end
+
+      p
+    end
+
+
+    def token_auth_body
+      p = {
+        :auth => {
+          :identity => {
+            :methods => ['token'],
+            :token   => { :id => params[:token_id] }
+          }
+        }
+      }
+      p[:auth][:scope] = scope_hash if params[:tenant_name] || params[:tenant_id]
+      p
+    end
+
 
   end
 
