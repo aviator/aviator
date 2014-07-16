@@ -188,6 +188,29 @@ class Aviator::Test
       response.headers.wont_be_nil
     end
 
+    validate_response 'the block_device_mapping_v2 is provided' do
+      image_id   = session.compute_service.request(:list_images).body[:images].first[:id]
+      flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
+
+      response = session.compute_service.request :create_server do |params|
+        params[:flavorRef] = flavor_id
+        params[:name] = 'Aviator Server'
+        params[:block_device_mapping_v2] = [
+          {
+            source_type: 'image',
+            delete_on_termination: 'True',
+            uuid: image_id,
+            boot_index: '0',
+            destination_type: 'volume',
+            volume_size: (image_id.size.to_f/(2**30)).ceil
+          }
+        ]
+      end
+      response.status.must_equal 202
+      response.body.wont_be_nil
+      response.body[:server].wont_be_nil
+    end
+
     validate_response 'the key_name parameter is invalid' do
       image_id  = session.compute_service.request(:list_images).body[:images].first[:id]
       flavor_id = session.compute_service.request(:list_flavors).body[:flavors].first[:id]
