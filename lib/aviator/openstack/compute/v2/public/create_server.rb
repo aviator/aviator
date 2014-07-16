@@ -10,6 +10,9 @@ module Aviator
     link 'documentation',
          'http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-block-device-mapping-v2-boot'
 
+    link 'documentation',
+         'https://bugs.launchpad.net/openstack-api-site/+bug/1215115'
+
     param :accessIPv4,  required: false, alias: :access_ipv4
     param :accessIPv6,  required: false, alias: :access_ipv6
     param :adminPass,   required: false, alias: :admin_pass
@@ -53,7 +56,11 @@ module Aviator
 
 
     def url
-      "#{ base_url }/servers"
+      if params[:block_device_mapping_v2] && !params[:block_device_mapping_v2].empty?
+        "#{ base_url }/os-volumes_boot"
+      else
+        "#{ base_url }/servers"
+      end
     end
 
   end
