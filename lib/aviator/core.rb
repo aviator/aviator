@@ -1,6 +1,7 @@
 require 'yaml'
 require 'json'
 require 'faraday'
+require 'pathname'
 
 require "aviator/version"
 require "aviator/core/utils/string"
