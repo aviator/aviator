@@ -85,10 +85,10 @@ module Aviator
 
 
     def dump
-      JSON.generate(Hashish.new({
+      JSON.generate({
         :environment   => environment,
         :auth_response => auth_response
-      }))
+      })
     end
 
 
