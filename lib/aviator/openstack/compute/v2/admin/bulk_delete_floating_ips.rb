@@ -7,6 +7,9 @@ module Aviator
     link 'documentation',
          'http://docs.openstack.org/api/openstack-compute/2/content/POST_os-floating-ips-bulk-v2_DeleteFloatingIPBulk__v2__tenant_id__os-floating-ips-bulk_delete_ext-os-floating-ips-bulk.html'
 
+    link 'Incorrect documentation: Method should have been PUT not POST',
+         'https://github.com/openstack/nova/blob/master/nova/tests/integrated/test_api_samples.py#L1067'
+
     param :ip_range, required: true
 
     def body
@@ -22,7 +25,6 @@ module Aviator
     end
 
     def http_method
-      # Disclaimer from the documentation provided: Method should have been PUT not POST.
       :put
     end
 
