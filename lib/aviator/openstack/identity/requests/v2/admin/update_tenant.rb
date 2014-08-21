@@ -21,7 +21,7 @@ module Aviator
       }
 
       [:name, :enabled, :description].each do |key|
-        p[:tenant][key] = params[key] if params[key]
+        p[:tenant][key] = params[key] unless params[key].nil?
       end
 
       p
