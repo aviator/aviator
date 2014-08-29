@@ -64,7 +64,7 @@ class Aviator::Test
     end
 
     validate_attr :optional_params do
-      klass.optional_params.must_equal []
+      klass.optional_params.must_equal [:all_tenants]
     end
 
     validate_attr :required_params do
