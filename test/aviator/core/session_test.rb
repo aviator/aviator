@@ -261,18 +261,17 @@ class Aviator::Test
 
     describe '#xxx_service' do
 
-      it 'raises a NotAuthenticatedError if called without authenticating first' do
-        the_method = lambda { new_session.identity_service }
-
-        the_method.must_raise Aviator::Session::NotAuthenticatedError
-      end
-
-
       it 'returns an instance of the indicated service' do
         session = new_session
         session.authenticate
 
         session.identity_service.wont_be_nil
+      end
+
+      it 'returns an instance of the indicated service even if not authenticated' do
+        session = new_session
+        session.compute_service.wont_be_nil
+        session.authenticated?.must_equal false
       end
 
     end

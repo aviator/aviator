@@ -21,9 +21,17 @@ module Aviator
     end
 
     class SessionDataNotProvidedError < StandardError
-      def initialize
-        super "default_session_data is not initialized and no session data was "\
-              "provided in the method call."
+      def initialize(service_name, request_name)
+        super "\n\nERROR: default_session_data is not initialized and no session data was provided in\n"\
+              "the method call. You have two ways to fix this:\n\n"\
+              "   1) Call Session#authenticate before calling Session##{service_name}_service, or\n\n"\
+              "   2) If you're really sure you don't want to authenticate beforehand,\n"\
+              "      construct the method call this way:\n\n"\
+              "          service = session.#{service_name}_service\n"\
+              "          service.request :#{request_name}, :api_version => :v2, :session_data => sessiondatavar\n\n"\
+              "      Replace :v2 with whatever available version you want to use and make sure sessiondatavar\n"\
+              "      is a hash that contains, at least, the :base_url key. Other keys, such as :service_token may\n"\
+              "      be needed depending on what the request class you are calling requires.\n\n"
       end
     end
 
@@ -75,7 +83,7 @@ module Aviator
 
       session_data = options[:session_data] || default_session_data
 
-      raise SessionDataNotProvidedError.new unless session_data
+      raise SessionDataNotProvidedError.new(@service, request_name) unless session_data
 
       [:base_url].each do |k|
         session_data[k] = options[k] if options[k]

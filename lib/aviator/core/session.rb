@@ -152,8 +152,6 @@ module Aviator
 
 
     def get_service_obj(service_name)
-      raise NotAuthenticatedError.new unless self.authenticated?
-
       @services ||= {}
 
       if @services[service_name].nil?
