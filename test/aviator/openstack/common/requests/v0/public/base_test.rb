@@ -66,6 +66,19 @@ class Aviator::Test
 
     describe '#headers' do
 
+      it 'must know to extract a service token if provided' do
+        session_data = {
+          :base_url => 'http://example.com',
+          :service_token => 'sometokenipickedupfromsomewhere'
+        }
+        headers = { 'X-Auth-Token' => session_data[:service_token] }
+
+        request = create_request(session_data)
+
+        request.headers.must_equal headers
+      end
+
+
       it 'must know to extract token from a Keystone v2 auth info' do
         session_data = get_session_data(:v2)
         headers = { 'X-Auth-Token' => session_data[:body][:access][:token][:id] }

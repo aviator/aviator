@@ -12,6 +12,12 @@ module Aviator
         if self.anonymous?
           # do nothing
 
+        elsif session_data.has_key? :service_token
+          # service_token is the token that one would bootstrap OpenStack
+          # with during the installation process. This token can be used
+          # directly and does not require authentication beforehand.
+          h['X-Auth-Token'] = session_data[:service_token]
+
         elsif keystone_v2_style_session_data?
           h['X-Auth-Token'] = session_data[:body][:access][:token][:id]
 
