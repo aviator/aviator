@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :add_server_floating_ip.rb, :inherit => [:openstack, :common, :v2, :public, :base] do
+  define_request :add_server_floating_ip, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :service, :compute
 
