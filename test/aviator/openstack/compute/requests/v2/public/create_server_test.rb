@@ -87,6 +87,7 @@ class Aviator::Test
         :accessIPv4,
         :accessIPv6,
         :adminPass,
+        :key_name,
         :metadata,
         :networks,
         :personality
