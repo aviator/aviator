@@ -12,6 +12,7 @@ module Aviator
     param :adminPass,   :required => false, :alias => :admin_pass
     param :imageRef,    :required => true,  :alias => :image_ref
     param :flavorRef,   :required => true,  :alias => :flavor_ref
+    param :key_name,    :required => false
     param :metadata,    :required => false
     param :name,        :required => true
     param :networks,    :required => false
@@ -27,7 +28,7 @@ module Aviator
         }
       }
 
-      [:adminPass, :metadata, :personality, :networks, :accessIPv4, :accessIPv6].each do |key|
+      [:adminPass, :metadata, :personality, :networks, :accessIPv4, :accessIPv6, :key_name].each do |key|
         p[:server][key] = params[key] if params[key]
       end
 
