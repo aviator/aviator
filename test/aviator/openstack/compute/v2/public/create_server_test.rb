@@ -93,7 +93,8 @@ class Aviator::Test
         :personality,
         :key_name,
         :block_device_mapping_v2,
-        :security_groups
+        :security_groups,
+        :availability_zone
       ]
     end
 

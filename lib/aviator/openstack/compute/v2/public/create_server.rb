@@ -26,6 +26,8 @@ module Aviator
 
     param :block_device_mapping_v2, required: false
     param :security_groups,         required: false
+    param :availability_zone,       required: false
+
 
     def body
       p = {
@@ -36,8 +38,20 @@ module Aviator
         }
       }
 
-      [:adminPass, :metadata, :personality, :networks, :accessIPv4, :accessIPv6,
-       :key_name, :block_device_mapping_v2, :security_groups].each do |key|
+      keys = [
+        :adminPass,
+        :metadata,
+        :personality,
+        :networks,
+        :accessIPv4,
+        :accessIPv6,
+        :key_name,
+        :block_device_mapping_v2,
+        :security_groups,
+        :availability_zone
+      ]
+
+      keys.each do |key|
         p[:server][key] = params[key] if params[key]
       end
 
