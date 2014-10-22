@@ -76,6 +76,7 @@ module Aviator
       else
         raise AuthenticationError.new(response.body)
       end
+      self
     end
 
 
