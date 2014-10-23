@@ -94,7 +94,8 @@ class Aviator::Test
         :key_name,
         :block_device_mapping_v2,
         :security_groups,
-        :availability_zone
+        :availability_zone,
+        :'os:scheduler_hints'
       ]
     end
 
@@ -131,7 +132,8 @@ class Aviator::Test
         access_ipv6: :accessIPv6,
         admin_pass:  :adminPass,
         image_ref:   :imageRef,
-        flavor_ref:  :flavorRef
+        flavor_ref:  :flavorRef,
+        scheduler_hints: :'os:scheduler_hints'
       }
 
       klass.param_aliases.must_equal aliases
