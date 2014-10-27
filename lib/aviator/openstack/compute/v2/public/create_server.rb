@@ -13,6 +13,9 @@ module Aviator
     link 'documentation',
          'https://bugs.launchpad.net/openstack-api-site/+bug/1215115'
 
+    link 'documentation',
+         'http://docs.openstack.org/api/openstack-compute/2/content/POST_os-scheduler-hints-v2_createServer__v2__tenant_id__servers_ext-os-scheduler-hints.html'
+
     param :accessIPv4,  required: false, alias: :access_ipv4
     param :accessIPv6,  required: false, alias: :access_ipv6
     param :adminPass,   required: false, alias: :admin_pass
@@ -27,6 +30,7 @@ module Aviator
     param :block_device_mapping_v2, required: false
     param :security_groups,         required: false
     param :availability_zone,       required: false
+    param :'os:scheduler_hints',    required: false, alias: :scheduler_hints
 
 
     def body
@@ -53,6 +57,10 @@ module Aviator
 
       keys.each do |key|
         p[:server][key] = params[key] if params[key]
+      end
+
+      if params[:'os:scheduler_hints']
+        p[:'os:scheduler_hints'] = params[:'os:scheduler_hints']
       end
 
       p
