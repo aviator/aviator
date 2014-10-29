@@ -1,6 +1,6 @@
 module Aviator
 
-  define_request :update_network, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :update_network, inherit: [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :compute
 
@@ -8,6 +8,7 @@ module Aviator
          'http://api.openstack.org/api-ref-compute.html#ext-os-networks'
 
 
+    param :tenant_id ,           required: true
     param :id,                   required: true
     param :associate_host,       required: false
     param :disassociate,         required: false
@@ -41,7 +42,7 @@ module Aviator
 
 
     def url
-      "#{ base_url }/os-networks/#{ params[:id] }/action"
+      "/v2/#{params[:tenant_id]}/os-networks/#{ params[:id] }/action"
     end
 
   end
