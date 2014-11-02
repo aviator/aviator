@@ -21,3 +21,5 @@ test/environment.yml
 vcr.log
 .ruby-gemset
 .ruby-version
+*.swp
+*.swo
