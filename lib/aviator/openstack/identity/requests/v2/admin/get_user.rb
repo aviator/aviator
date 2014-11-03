@@ -1,4 +1,4 @@
-require 'uri'
+require 'cgi'
 
 module Aviator
 
@@ -32,7 +32,7 @@ module Aviator
 
     def url
       service_spec = session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
-      "#{ service_spec[:endpoints][0][:adminURL] }/users/?" + URI.encode_www_form(Hash[params.members.zip(params.to_a)])
+      "#{ service_spec[:endpoints][0][:adminURL] }/users/?name=" + CGI::escape(params.name)
     end
 
   end
