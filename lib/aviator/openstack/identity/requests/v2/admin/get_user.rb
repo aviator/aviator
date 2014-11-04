@@ -2,7 +2,7 @@ require 'cgi'
 
 module Aviator
 
-  define_request :get_user do
+  define_request :get_user, :inherit => [:openstack, :common, :v2, :public, :base] do
 
     meta :provider,      :openstack
     meta :service,       :identity
@@ -15,13 +15,7 @@ module Aviator
     param :name,      :required => true
 
     def headers
-      h = {}
-
-      unless self.anonymous?
-        h['X-Auth-Token'] = session_data[:body][:access][:token][:id]
-      end
-
-      h
+      super
     end
 
 
@@ -32,7 +26,7 @@ module Aviator
 
     def url
       service_spec = session_data[:body][:access][:serviceCatalog].find{|s| s[:type] == 'identity' }
-      "#{ service_spec[:endpoints][0][:adminURL] }/users/?name=" + CGI::escape(params.name)
+      "#{ base_url }/users/?name=" + CGI::escape(params.name)
     end
 
   end
