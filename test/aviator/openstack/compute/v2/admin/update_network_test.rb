@@ -6,7 +6,6 @@ class Aviator::Test
 
     def create_request(session_data = get_session_data, &block)
       block ||= lambda do |params|
-                  params[:tenant_id] = 'theTenant'
                   params[:id] = 'theNetwork'
                 end
 
@@ -26,14 +25,6 @@ class Aviator::Test
 
     def klass
       @klass ||= helper.load_request('openstack', 'compute', 'v2', 'admin', 'update_network.rb')
-    end
-
-
-    def tenant_id
-      return @tenant_id unless @tenant_id.nil?
-
-      response   = session.identity_service.request(:list_tenants)
-      @tenant_id = response.body[:tenants].last[:id]
     end
 
 
@@ -86,21 +77,18 @@ class Aviator::Test
 
 
     validate_attr :required_params do
-      klass.required_params.must_equal [
-        :tenant_id,
-        :id
-      ]
+      klass.required_params.must_equal [:id]
     end
 
 
     validate_attr :url do
-      session_data = get_session_data
+      network_id = 'networkId'
 
-      network_id = "networkId"
-      url = "/v2/#{tenant_id}/os-networks/#{network_id}/action"
+      service_spec = get_session_data[:catalog].find{ |s| s[:type] == 'compute' }
+      url          = "#{ service_spec[:endpoints].find{|e| e[:interface] == 'admin'}[:url] }/os-networks/#{network_id}/action"
 
-      request = klass.new(session_data) do |p|
-        p[:tenant_id] = tenant_id
+
+      request = klass.new(get_session_data) do |p|
         p[:id] = network_id
       end
 
