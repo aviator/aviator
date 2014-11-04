@@ -8,7 +8,6 @@ module Aviator
          'http://api.openstack.org/api-ref-compute.html#ext-os-networks'
 
 
-    param :tenant_id ,           required: true
     param :id,                   required: true
     param :associate_host,       required: false
     param :disassociate,         required: false
@@ -25,7 +24,7 @@ module Aviator
       ]
 
       optional_params.each do |key|
-        p[key] = params[key] if params[key]
+        p[key] = params[key] if params[key] == 1
       end
 
       p
@@ -42,7 +41,7 @@ module Aviator
 
 
     def url
-      "/v2/#{params[:tenant_id]}/os-networks/#{ params[:id] }/action"
+      "#{ base_url }/os-networks/#{ params[:id] }/action"
     end
 
   end
