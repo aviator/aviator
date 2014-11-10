@@ -2,6 +2,13 @@ module Aviator
 
   class Describer
 
+    class InvalidProviderNameError < StandardError
+      def initialize(name)
+        super "Provider '#{ name }' does not exist."
+      end
+    end
+
+
     def self.describe_aviator
       str = "Available providers:\n"
 
@@ -104,13 +111,19 @@ module Aviator
 
 
     def self.describe_service(provider_name, service_name)
-      str = "Available requests for #{ provider_name } #{ service_name }_service:\n"
+      requests = request_classes(provider_name, service_name)
 
-      request_classes(provider_name, service_name).each do |klass|
-        str << "  #{ klass.api_version } #{ klass.endpoint_type } #{ klass.name.split('::').last.underscore }\n"
+      if requests.empty?
+        str = "No requests found for #{ provider_name } #{ service_name }_service."
+      else
+        str = "Available requests for #{ provider_name } #{ service_name }_service:\n"
+
+        requests.each do |klass|
+          str << "  #{ klass.api_version } #{ klass.endpoint_type } #{ klass.name.split('::').last.underscore }\n"
+        end
+
+        str
       end
-
-      str
     end
 
 
@@ -132,12 +145,14 @@ module Aviator
       end
 
 
-      def service_names(provider_name)
-        Pathname.new(__FILE__) \
-          .join('..', '..', '..', provider_name) \
-          .children \
-          .select{|c| c.directory? } \
-          .map{|c| c.basename.to_s }
+      def service_names(name)
+        provider = Pathname.new(__FILE__).join('..', '..', '..', name)
+
+        raise InvalidProviderNameError.new(name) unless provider.exist?
+
+        provider.children \
+                .select{|c| c.directory? } \
+                .map{|c| c.basename.to_s }
       end
     end
 

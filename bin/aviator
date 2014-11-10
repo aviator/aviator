@@ -8,7 +8,7 @@ module Aviator
 module CLI
 
   class Main < Thor
-    
+
     desc 'describe [PROVIDER] [SERVICE] [API_VERSION ENDPOINT_TYPE REQUEST_NAME]', 'Describes various parts of Aviator.'
     def describe(provider=nil, service=nil, api_version=nil, endpoint_type=nil, request=nil)
       if request
@@ -20,6 +20,8 @@ module CLI
       else
         puts Aviator::Describer.describe_aviator
       end
+    rescue Aviator::Describer::InvalidProviderNameError => e
+      puts e.message
     end
 
   end
