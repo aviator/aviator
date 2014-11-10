@@ -21,10 +21,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'faraday', '0.8.8'
-  spec.add_dependency 'thor', '~> 0.18.1'
+  # Runtime dependencies
+  spec.add_dependency 'faraday', '>= 0.8.8'
+  spec.add_dependency 'thor', '>= 0.18.1'
   spec.add_dependency 'terminal-table', '>= 1.4.5'
 
+  # Development dependencies. See Gemfile for more development deps.
   spec.add_development_dependency "bundler", ">= 1.0"
   spec.add_development_dependency 'rb-fsevent', '~> 0.9.0'
   spec.add_development_dependency 'guard', '~> 1.8.0'

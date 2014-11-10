@@ -31,6 +31,17 @@ VCR.configure do |c|
     @vcr_json_body_matcher_registered = true
   end
 
+  unless @vcr_custom_headers_matcher_registered
+    # References:
+    #   From VCR :docs => http://goo.gl/j0fiJ
+    #   Discussion by :author => http://goo.gl/p9q4r
+    c.register_request_matcher :custom_headers do |r1, r2|
+      r1.headers["User-Agent"] = r2.headers["User-Agent"]
+      r1.headers == r2.headers
+    end
+    @vcr_custom_headers_matcher_registered = true
+  end
+
   #=========== BEGIN FILTERS FOR SENSITIVE DATA ===========
 
   configs = [:openstack_admin, :openstack_member]
@@ -80,7 +91,7 @@ VCR.configure do |c|
     # given example that needs one.
     :record => (ENV['CI'] || ENV['TRAVIS'] ? :none : :once),
 
-    :match_requests_on => [:method, :port, :path, :query, :headers, :json_body],
+    :match_requests_on => [:method, :port, :path, :query, :custom_headers, :json_body],
 
     # Strict mocking
     # Inspired :by => http://myronmars.to/n/dev-blog/2012/06/thoughts-on-mocking
