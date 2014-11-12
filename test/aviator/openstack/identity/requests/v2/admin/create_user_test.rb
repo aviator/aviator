@@ -104,7 +104,8 @@ class Aviator::Test
       klass.optional_params.must_equal [
         :email,
         :enabled,
-        :tenantId
+        :tenantId,
+        :extras
       ]
     end
 
