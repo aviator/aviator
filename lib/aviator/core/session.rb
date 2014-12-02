@@ -132,6 +132,12 @@ module Aviator
     end
 
 
+    def request(service_name, request_name, request_opts={}, &params)
+      service = send("#{service_name.to_s}_service")
+      service.request(request_name, request_opts, &params)
+    end
+
+
     def validate
       raise NotAuthenticatedError.new unless authenticated?
       raise ValidatorNotDefinedError.new unless config[:auth_service][:validator]

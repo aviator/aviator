@@ -333,18 +333,36 @@ describe 'Aviator::Session' do
   end
 
 
+  describe '#request' do
 
-      it 'raises an error when constructor keys are missing' do
-        the_method = lambda { klass.new }
-        the_method.must_raise Aviator::Session::InitializationError
+    it 'delegates to Service#request' do
+      request_name   = :create_server
+      request_opts   = {}
+      request_params = lambda do |params|
+                         params[:key1] = :value1
+                         params[:key2] = :value2
+                       end
+      yielded_params = {}
 
-        error = the_method.call rescue $!
+      mock_auth     = mock('Aviator::Service')
+      mock_compute  = mock('Aviator::Service')
+      mock_response = mock('Aviator::Response')
 
-        error.message.wont_be_nil
-      end
+      Aviator::Service.expects(:new).twice.returns(mock_auth, mock_compute)
+      mock_response.stubs(:status).returns(200)
+      mock_response.stubs(:headers).returns({})
+      mock_response.stubs(:body).returns('{}')
+      mock_auth.expects(:request).returns(mock_response)
+      mock_compute.expects(:request).with(request_name, request_opts).yields(yielded_params).returns(mock_response)
 
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
+
+      session.request :compute, request_name, request_opts, &request_params
+      yielded_params.wont_be_empty
     end
 
+  end
 
 
   describe '#validate' do
