@@ -1,6 +1,68 @@
 module Aviator
 module Openstack
 
+  #
+  # Manages a provider (e.g. OpenStack) session.
+  #
+  # Author::    Mark Maglana (mmaglana@gmail.com)
+  # Copyright:: Copyright (c) 2014 Mark Maglana
+  # License::   Distributed under the MIT license
+  # Homepage::  http://aviator.github.io/www/
+  #
+  # <b>Request Options</b>
+  #
+  # The following options may be used in combination with each other when calling
+  # an OpenStack request class
+  #
+  # :api_version => :v2::
+  #     Forces Aviator to use the request class for the v2 API. For any other
+  #     version, replace Note that this may throw an error if no such request
+  #     class exists. If you want to globally specify the API version to use for
+  #     a specific service, declare it in your config file under the correct
+  #     environment. For example:
+  #
+  #  production:
+  #    provider: openstack
+  #    ...
+  #    compute_service:
+  #       api_version: v2
+  #
+  # Note that the <tt>:api_version</tt> option overrides whatever is declared in the
+  # configuration.
+  #
+  # :endpoint_type => (:public|:admin)::
+  #    This allows you to be specific about the endpoint type in cases where two
+  #    request classes under admin and public endpoints of the same service share
+  #    the same name. This is true, for example, for the :list_tenants request of
+  #    the identity service's v2 API. Its public endpoint will return only the tenants
+  #    the user is a member of whereas the admin endpoint will return all tenants
+  #    in the system.
+  #
+  # :session_data => Hash::
+  #    Under normal situations, you wouldn't need to use this as it is automatically populated
+  #    by the Session object provided it is authenticated. The specific use case when you'd
+  #    need to set thsi optin is when you want to use Aviator to seed your OpenStack installation.
+  #    In such a scenario, you would need to use a service token since no usernames and tenants
+  #    would exist yet in the environment. To use a service token with Aviator, you will need to
+  #    write something similar to the following example:
+  #
+  #  openstack = Aviator::Session.new(:config => { :provider => 'openstack'})
+  #
+  #  session_data = {:base_url      => 'http://example.com',
+  #                  :service_token => 'service-token-created-at-openstack-install-time'}
+  #
+  #  openstack.request :identity, :create_tenant, :api_version => :v2, :session_data => session_data) do |params|
+  #    params.name        = 'Tenant A'
+  #    params.description = 'First Tenant!'
+  #    params.enabled     = true
+  #  end
+  #
+  # Notice how the above code skips authentication. This is because the service token is
+  # pre-validated and ready for use with any request. Also note how we're providing a <tt>:base_url</tt>
+  # member in our session data. This is necessary since we normally get the service endpoints from
+  # Keystone when we authenticate. Now since we are not authenticating against Keystone, we don't have
+  # that catalogue to begin with. Thus the need to hardcode it in the request.
+  #
   module Provider
 
     class MultipleServiceApisError < StandardError
@@ -35,6 +97,7 @@ EOF
 
     class << self
 
+      #:nodoc:
       def find_request(service, name, session_data, options)
         service = service.to_s
         endpoint_type = options[:endpoint_type]
