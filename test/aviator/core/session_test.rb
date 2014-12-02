@@ -185,7 +185,8 @@ describe 'Aviator::Session' do
         :auth_response => Hashish.new({ :headers => stub_headers, :body => JSON.load(stub_body) })
       })
 
-      session.dump.must_equal expected
+      # Convert back to json since key ordering is not preserved in Ruby 1.8
+      JSON.load(session.dump).must_equal JSON.load(expected)
     end
 
   end
