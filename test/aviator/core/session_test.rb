@@ -69,7 +69,7 @@ describe 'Aviator::Session' do
       Faraday.expects(:new).returns(mock_conn)
       mock_conn.expects(:post).yields(mock_http_req).returns(mock_response)
       mock_http_req.expects(:url)
-      mock_http_req.expects(:body=).with(JSON.generate(valid_config[valid_env]['auth_credentials']))
+      mock_http_req.expects(:body=).with(){|json| JSON.load(json) == valid_config[valid_env]['auth_credentials']}
       mock_response.expects(:status).returns(200)
       mock_response.expects(:headers).returns({})
       mock_response.expects(:body).returns({})
@@ -86,8 +86,8 @@ describe 'Aviator::Session' do
       # the request classes referenced by auth_service:request
       # in the config file
       params = {
-        :username => 'someuser',
-        :password => 'password'
+        'username' => 'someuser',
+        'password' => 'password'
       }
 
       mock_conn = mock('Faraday::Connection')
@@ -96,7 +96,7 @@ describe 'Aviator::Session' do
       Faraday.expects(:new).returns(mock_conn)
       mock_conn.expects(:post).yields(mock_http_req).returns(mock_response)
       mock_http_req.expects(:url)
-      mock_http_req.expects(:body=).with(JSON.generate(params))
+      mock_http_req.expects(:body=).with(){|json| JSON.load(json) == params }
       mock_response.expects(:status).returns(200)
       mock_response.expects(:headers).returns({})
       mock_response.expects(:body).returns({})
