@@ -1,208 +1,337 @@
 require 'test_helper'
+require 'mocha/setup'
 
-class Aviator::Test
+require 'support/dummy/provider'
 
-  describe 'aviator/core/session' do
 
-    def config
-      Environment
+describe 'Aviator::Session' do
+
+  # Methods/attributes shared across tests
+
+  def stub_body
+    '{"key":"value"}'
+  end
+
+
+  def stub_headers
+    {}
+  end
+
+
+  def stub_http
+    mock_conn = mock('Faraday::Connection')
+    mock_http_req = mock('Faraday::Request')
+    mock_response = mock('Faraday::Response')
+    Faraday.expects(:new).returns(mock_conn)
+    mock_conn.stubs(:post).yields(mock_http_req).returns(mock_response)
+    mock_http_req.stubs(:url)
+    mock_http_req.stubs(:body=)
+    mock_response.stubs(:status).returns(200)
+    mock_response.stubs(:headers).returns(stub_headers)
+    mock_response.stubs(:body).returns(stub_body)
+  end
+
+
+  def valid_config
+    @valid_config ||= YAML::load <<-YAML
+      production:
+        provider: dummy
+        auth_service:
+          name:      auth
+          host_uri:  http://some.address.com
+          request:   authenticate
+          validator: validate
+        auth_credentials:
+          username:    myusername
+          password:    mypassword
+      YAML
+  end
+
+
+  def valid_config_path
+    'path/to/config.yml'
+  end
+
+
+  def valid_env
+    @valid_env ||= valid_config.keys.first
+  end
+
+
+  # Tests/expectations
+
+  describe '#authenticate' do
+
+    it 'authenticates against the auth service declared in its config' do
+      mock_conn = mock('Faraday::Connection')
+      mock_http_req = mock('Faraday::Request')
+      mock_response = mock('Faraday::Response')
+      Faraday.expects(:new).returns(mock_conn)
+      mock_conn.expects(:post).yields(mock_http_req).returns(mock_response)
+      mock_http_req.expects(:url)
+      mock_http_req.expects(:body=).with(JSON.generate(valid_config[valid_env]['auth_credentials']))
+      mock_response.expects(:status).returns(200)
+      mock_response.expects(:headers).returns({})
+      mock_response.expects(:body).returns({})
+
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
+
+      session.authenticated?.must_equal true
     end
 
 
-    def klass
-      Aviator::Session
-    end
+    it 'authenticates against the auth service using the credentials in the given block' do
+      # Keys below are dependent on whatever is declared in
+      # the request classes referenced by auth_service:request
+      # in the config file
+      params = {
+        :username => 'someuser',
+        :password => 'password'
+      }
 
+      mock_conn = mock('Faraday::Connection')
+      mock_http_req = mock('Faraday::Request')
+      mock_response = mock('Faraday::Response')
+      Faraday.expects(:new).returns(mock_conn)
+      mock_conn.expects(:post).yields(mock_http_req).returns(mock_response)
+      mock_http_req.expects(:url)
+      mock_http_req.expects(:body=).with(JSON.generate(params))
+      mock_response.expects(:status).returns(200)
+      mock_response.expects(:headers).returns({})
+      mock_response.expects(:body).returns({})
 
-    def log_file_path
-      Pathname.new(__FILE__).expand_path.join('..', '..', '..', '..', 'tmp', 'aviator.log')
-    end
-
-
-    def new_session
-      Aviator::Session.new(
-        :config_file => config.path,
-        :environment => 'openstack_admin',
-        :log_file    => log_file_path
-      )
-    end
-
-
-    describe '#authenticate' do
-
-      it 'authenticates against the auth service indicated in the config file' do
-        session = new_session
-
-        session.authenticate
-
-        session.authenticated?.must_equal true
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate do |p|
+        params.each do |key, value|
+          p[key] = value
+        end
       end
 
+      session.authenticated?.must_equal true
+    end
 
-      it 'authenticates against the auth service using the credentials in the given block' do
-        session     = new_session
-        credentials = config.openstack_admin[:auth_credentials]
 
+    it 'raises an AuthenticationError when authentication fails' do
+      Faraday.expects(:new).returns(mock_conn = mock('Faraday::Connection'))
+      mock_conn.expects(:post).returns(mock_response = mock('Faraday::Response'))
+      mock_response.expects(:status).returns(401)
+      mock_response.expects(:body).returns({})
+
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      # Wrapping the next method call in a lambda so that we can
+      # check if an AuthenticationError was raised. See assertion.
+      auth_method = lambda do
         session.authenticate do |c|
-          c[:username] = credentials[:username]
-          c[:password] = credentials[:password]
+          c[:username] = 'invalidusername'
+          c[:password] = 'invalidpassword'
         end
-
-        session.authenticated?.must_equal true
       end
 
-
-      it 'raises an AuthenticationError when authentication fails' do
-        session     = new_session
-        credentials = config.openstack_admin[:auth_credentials]
-
-        the_method = lambda do
-          session.authenticate do |c|
-            c[:username] = 'invalidusername'
-            c[:password] = 'invalidpassword'
-          end
-        end
-
-        the_method.must_raise Aviator::Session::AuthenticationError
-      end
-
-
-      it 'updates the session data of its service objects' do
-        session = new_session
-        session.authenticate
-
-        keystone = session.identity_service
-
-        session_data_1 = keystone.default_session_data
-
-        session.authenticate
-
-        session.identity_service.must_equal keystone
-
-        new_token = session.identity_service.default_session_data[:body][:access][:token][:id]
-        new_token.wont_equal session_data_1[:body][:access][:token][:id]
-        keystone.default_session_data[:body][:access][:token][:id].must_equal new_token
-      end
-
-    end # describe '#authenticate'
-
-
-    describe '#dump' do
-
-      it 'serializes the session data for caching' do
-        session = new_session
-        session.authenticate
-
-        str = session.dump
-
-        expected = JSON.generate({
-          :environment   => session.send(:environment),
-          :auth_response => session.send(:auth_response)
-        })
-
-        str.must_equal expected
-      end
-
+      auth_method.must_raise Aviator::Session::AuthenticationError
     end
 
 
-    describe '#load' do
+    it 'updates the session data of its service objects' do
+      # This test ensures that Session will always update the session
+      # data in Service objects that were created before reauthentication
+      mock_conn = mock('Faraday::Connection')
+      mock_http_req = mock('Faraday::Request')
+      mock_response_1 = mock('Faraday::Response')
+      mock_response_2 = mock('Faraday::Response')
+      Faraday.expects(:new).returns(mock_conn)
+      mock_conn.stubs(:post).yields(mock_http_req).returns(mock_response_1, mock_response_2)
+      mock_http_req.stubs(:url)
+      mock_http_req.stubs(:body=)
+      mock_response_1.stubs(:status).returns(200)
+      mock_response_1.stubs(:headers).returns({})
+      mock_response_1.stubs(:body).returns('{"session_data":1}')
+      mock_response_2.stubs(:status).returns(200)
+      mock_response_2.stubs(:headers).returns({})
+      mock_response_2.stubs(:body).returns('{"session_data":2}')
 
-      it 'returns itself' do
-        session = new_session
-        session.authenticate
+      # First authentication
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
+      session.authenticated?.must_equal true
 
-        str = session.dump
-        session.load(str).must_equal session
-      end
+      # Capture session data
+      auth_service   = session.auth_service
+      session_data_1 = auth_service.default_session_data
 
+      # Second authentication
+      session.authenticate
+      session.authenticated?.must_equal true
 
-      it 'updates the session data of its service objects' do
-        session1 = new_session
-        session1.authenticate
-        keystone1 = session1.identity_service
+      # Check second session data
+      session.auth_service.must_equal auth_service
+      auth_service.default_session_data.wont_equal session_data_1
+    end
 
-        session2 = new_session
-        session2.authenticate
-        keystone2 = session2.identity_service
-
-        session1.load(session2.dump)
-
-        keystone1.wont_equal keystone2
-        keystone1.default_session_data.must_equal keystone2.default_session_data
-      end
-
-    end # describe '#load'
-
-
-    describe '::load' do
-
-      it 'creates a new instance from the given session dump' do
-        session = new_session
-        session.authenticate
-
-        str      = session.dump
-        session  = Aviator::Session.load(str)
-        expected = Hashish.new(JSON.parse(str))
-
-        session.authenticated?.must_equal true
-
-        # This is bad testing practice (testing a private method) but
-        # I'll go ahead and do it anyway just to be sure.
-        session.send(:environment).must_equal expected[:environment]
-        session.send(:auth_response).must_equal expected[:auth_response]
-      end
+  end
 
 
-      it 'uses the loaded auth info for its services' do
-        session = new_session
-        session.authenticate
+  describe '#dump' do
 
-        expected = Hashish.new(JSON.parse(session.dump))
-        session  = Aviator::Session.load(session.dump)
-        service  = session.identity_service
+    it 'serializes the session data for caching' do
+      stub_http
 
-        service.default_session_data.must_equal expected[:auth_response]
-      end
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
+      session.authenticated?.must_equal true
 
+      expected = JSON.generate({
+        :config        => valid_config[valid_env],
+        :auth_response => Hashish.new({ :headers => stub_headers, :body => JSON.load(stub_body) })
+      })
+
+      session.dump.must_equal expected
+    end
+
+  end
+
+
+  describe '#load' do
+
+    it 'returns itself' do
+      stub_http
+
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
+
+      session.authenticated?.must_equal true
+      session.load(session.dump).must_equal session
     end
 
 
-    describe '::new' do
+    it 'updates the session data of its service objects' do
+      # This test ensures that Session will always update the session
+      # data in Service objects that were created before reload
+      mock_conn = mock('Faraday::Connection')
+      mock_http_req = mock('Faraday::Request')
+      mock_response_1 = mock('Faraday::Response')
+      mock_response_2 = mock('Faraday::Response')
+      Faraday.stubs(:new).returns(mock_conn)
+      mock_conn.stubs(:post).yields(mock_http_req).returns(mock_response_1, mock_response_2)
+      mock_http_req.stubs(:url)
+      mock_http_req.stubs(:body=)
+      mock_response_1.stubs(:status).returns(200)
+      mock_response_1.stubs(:headers).returns({})
+      mock_response_1.stubs(:body).returns('{"session_data":1}')
+      mock_response_2.stubs(:status).returns(200)
+      mock_response_2.stubs(:headers).returns({})
+      mock_response_2.stubs(:body).returns('{"session_data":2}')
 
-      it 'can accept a hash object as configuration' do
-        config = {
-          :provider => 'openstack',
-          :auth_service => {
-            :name      => 'identity',
-            :host_uri  => 'http://devstack:5000/v2.0',
-            :request   => 'create_token',
-            :validator => 'list_tenants'
-          },
-          :auth_credentials => {
-            :username    => 'myusername',
-            :password    => 'mypassword',
-            :tenant_name => 'myproject'
-          }
-        }
+      # First session
+      session1 = Aviator::Session.new(:config => valid_config[valid_env])
+      session1.authenticate
+      session1.authenticated?.must_equal true
+      auth_service_1 = session1.auth_service
 
-        session = klass.new(:config => config)
+      # Second session
+      session2 = Aviator::Session.new(:config => valid_config[valid_env])
+      session2.authenticate
+      session2.authenticated?.must_equal true
+      auth_service_2 = session2.auth_service
 
-        session.send(:environment).must_equal Hashish.new(config)
+      session1.load(session2.dump)
 
-        auth_service = session.send(:auth_service)
-        auth_service.send(:service).must_equal config[:auth_service][:name]
-      end
+      session1.wont_equal session2
+      session1.auth_service.wont_equal session2.auth_service
+      auth_service_1.default_session_data.must_equal auth_service_2.default_session_data
+    end
+
+  end
 
 
-      it 'directs log entries to the given log file' do
-        log_file_path.delete if log_file_path.file?
+  describe '::load' do
 
-        session = new_session
-        session.authenticate
+    it 'creates a new instance from the given session dump' do
+      stub_http
 
-        log_file_path.file?.must_equal true
-      end
+      session1 = Aviator::Session.new(:config => valid_config[valid_env])
+      session1.authenticate
+      session1.authenticated?.must_equal true
+      auth_service_1 = session1.auth_service
+
+      session2 = Aviator::Session.load(session1.dump)
+      session2.authenticated?.must_equal true
+      auth_service_2 = session2.auth_service
+
+      session1.wont_equal session2
+      session1.auth_service.wont_equal session2.auth_service
+      auth_service_1.default_session_data.must_equal auth_service_2.default_session_data
+    end
+
+  end
+
+
+  describe '::new' do
+
+    it 'accepts a config file and environment name' do
+      Pathname.any_instance.stubs(:file?).returns(true)
+      YAML.expects(:load_file).with(valid_config_path).returns(valid_config)
+
+      session = Aviator::Session.new(:config_file => valid_config_path,
+                                     :environment => valid_env)
+
+      session.config.must_equal Hashish.new(valid_config[valid_env])
+    end
+
+
+    it 'accepts a hash object as configuration' do
+      hash = valid_config[valid_env]
+
+      session = Aviator::Session.new(:config => hash)
+
+      session.config.must_equal Hashish.new(hash)
+    end
+
+
+    it 'accepts a session dump' do
+      mock_conn = mock('Faraday::Connection')
+      mock_http_req = mock('Faraday::Request')
+      mock_response = mock('Faraday::Response')
+      Faraday.expects(:new).returns(mock_conn)
+      mock_conn.stubs(:post).yields(mock_http_req).returns(mock_response)
+      mock_http_req.stubs(:url)
+      mock_http_req.stubs(:body=)
+      mock_response.stubs(:status).returns(200)
+      mock_response.stubs(:headers).returns({})
+      mock_response.stubs(:body).returns('{"session_data":1}')
+
+      session1 = Aviator::Session.new(:config => valid_config[valid_env])
+      session1.authenticate
+      session1.authenticated?.must_equal true
+
+      session2 = Aviator::Session.new(:session_dump => session1.dump)
+
+      session2.authenticated?.must_equal true
+      session2.config.must_equal Hashish.new(valid_config[valid_env])
+    end
+
+
+    it 'optionally accepts a log file path' do
+      hash = valid_config[valid_env]
+      path = '/path/to/log/file.log'
+
+      session = Aviator::Session.new(:config => hash, :log_file => path)
+
+      session.log_file.must_equal path
+    end
+
+
+    it 'raises an error when required constructor keys are missing' do
+      new_method = lambda { Aviator::Session.new(:log_file => '/path/to/log/file/log') }
+      new_method.must_raise Aviator::Session::InitializationError
+
+      error = new_method.call rescue $!
+
+      error.message.wont_be_nil
+    end
+
+  end
+
 
 
       it 'raises an error when constructor keys are missing' do
@@ -217,65 +346,72 @@ class Aviator::Test
     end
 
 
-    describe '#validate' do
 
-      it 'returns true if session is still valid' do
-        session = new_session
-        session.authenticate
+  describe '#validate' do
 
-        session.validate.must_equal true
-      end
+    it 'returns true if session is still valid' do
+      stub_http
 
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
 
-      it 'returns false if session is no longer valid' do
-        session = new_session
-        session.authenticate
-
-        session.send(:auth_response)[:body][:access][:token][:id] = 'invalidtokenid'
-
-        session.validate.must_equal false
-      end
-
-
-      it 'raises an error if called before authenticating' do
-        the_method = lambda { new_session.validate }
-
-        the_method.must_raise Aviator::Session::NotAuthenticatedError
-      end
-
-
-      it 'returns true even when a default token is used' do
-        session = new_session
-        credentials = config.openstack_admin[:auth_credentials]
-
-        session.authenticate do |c|
-          c[:username] = credentials[:username]
-          c[:password] = credentials[:password]
-        end
-
-        session.validate.must_equal true
-      end
-
+      session.validate.must_equal true
     end
 
 
-    describe '#xxx_service' do
+    it 'returns false if session is no longer valid' do
+      mock_conn = mock('Faraday::Connection')
+      mock_http_req = mock('Faraday::Request')
+      mock_response = mock('Faraday::Response')
+      Faraday.expects(:new).returns(mock_conn)
+      mock_conn.stubs(:post).yields(mock_http_req).returns(mock_response)
+      mock_http_req.stubs(:url)
+      mock_http_req.stubs(:body=)
+      mock_response.stubs(:status).returns(200)
+      mock_response.stubs(:headers).returns(stub_headers)
+      mock_response.stubs(:body).returns(stub_body)
 
-      it 'returns an instance of the indicated service' do
-        session = new_session
-        session.authenticate
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
 
-        session.identity_service.wont_be_nil
-      end
+      session.validate.must_equal true
 
-      it 'returns an instance of the indicated service even if not authenticated' do
-        session = new_session
-        session.compute_service.wont_be_nil
-        session.authenticated?.must_equal false
-      end
+      # Stub response status to 401 this time
+      mock_response.stubs(:status).returns(401)
 
+      session.validate.must_equal false
     end
 
-  end # describe 'aviator/core/service'
 
-end # class Aviator::Test
+    it 'raises an error if called before authenticating and no default session data is provided' do
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+
+      the_method = lambda { session.validate }
+
+      the_method.must_raise Aviator::Session::NotAuthenticatedError
+    end
+
+  end
+
+
+  describe '#xxxxx_service' do
+
+    it 'returns an instance of the indicated service' do
+      stub_http
+
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
+
+      session.compute_service.wont_be_nil
+    end
+
+    it 'returns an instance of the indicated service even if not authenticated' do
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+
+      session.authenticated?.must_equal false
+      session.compute_service.wont_be_nil
+    end
+
+  end
+
+end

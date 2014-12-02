@@ -60,12 +60,16 @@ module Aviator
 
     def authenticate(&block)
       block ||= lambda do |params|
-        environment[:auth_credentials].each do |key, value|
-          params[key] = value
+        config[:auth_credentials].each do |key, value|
+          begin
+            params[key] = value
+          rescue NameError => e
+            raise NameError.new("Unknown param name '#{key}'")
+          end
         end
       end
 
-      response = auth_service.request environment[:auth_service][:request].to_sym, &block
+      response = auth_service.request config[:auth_service][:request].to_sym, &block
 
       if [200, 201].include? response.status
         @auth_response = Hashish.new({
@@ -85,9 +89,14 @@ module Aviator
     end
 
 
+    def config
+      @config
+    end
+
+
     def dump
       JSON.generate({
-        :environment   => environment,
+        :config        => config,
         :auth_response => auth_response
       })
     end
@@ -118,13 +127,18 @@ module Aviator
     end
 
 
+    def log_file
+      @log_file
+    end
+
+
     def validate
       raise NotAuthenticatedError.new unless authenticated?
-      raise ValidatorNotDefinedError.new unless environment[:auth_service][:validator]
+      raise ValidatorNotDefinedError.new unless config[:auth_service][:validator]
 
-      auth_with_bootstrap = auth_response.merge({ :auth_service  => environment[:auth_service] })
+      auth_with_bootstrap = auth_response.merge({ :auth_service  => config[:auth_service] })
 
-      response = auth_service.request environment[:auth_service][:validator].to_sym, :session_data => auth_with_bootstrap
+      response = auth_service.request config[:auth_service][:validator].to_sym, :session_data => auth_with_bootstrap
       response.status == 200 || response.status == 203
     end
 
@@ -139,16 +153,11 @@ module Aviator
 
     def auth_service
       @auth_service ||= Service.new(
-        :provider             => environment[:provider],
-        :service              => environment[:auth_service][:name],
-        :default_session_data => { :auth_service => environment[:auth_service] },
+        :provider             => config[:provider],
+        :service              => config[:auth_service][:name],
+        :default_session_data => { :auth_service => config[:auth_service] },
         :log_file             => log_file
       )
-    end
-
-
-    def environment
-      @environment
     end
 
 
@@ -156,10 +165,10 @@ module Aviator
       @services ||= {}
 
       if @services[service_name].nil?
-        default_options = environment["#{ service_name }_service"]
+        default_options = config["#{ service_name }_service"]
 
         @services[service_name] = Service.new(
-          :provider             => environment[:provider],
+          :provider             => config[:provider],
           :service              => service_name,
           :default_session_data => auth_response,
           :default_options      => default_options,
@@ -174,28 +183,23 @@ module Aviator
     def initialize_with_config(config_path, environment)
       raise InvalidConfigFilePathError.new(config_path) unless Pathname.new(config_path).file?
 
-      config = Hashish.new(YAML.load_file(config_path))
+      all_config = Hashish.new(YAML.load_file(config_path))
 
-      raise EnvironmentNotDefinedError.new(config_path, environment) unless config[environment]
+      raise EnvironmentNotDefinedError.new(config_path, environment) unless all_config[environment]
 
-      @environment = config[environment]
+      @config = all_config[environment]
     end
 
 
     def initialize_with_dump(session_dump)
       session_info   = Hashish.new(JSON.parse(session_dump))
-      @environment   = session_info[:environment]
+      @config        = session_info[:config]
       @auth_response = session_info[:auth_response]
     end
 
 
     def initialize_with_hash(hash_obj)
-      @environment = Hashish.new(hash_obj)
-    end
-
-
-    def log_file
-      @log_file
+      @config = Hashish.new(hash_obj)
     end
 
 
