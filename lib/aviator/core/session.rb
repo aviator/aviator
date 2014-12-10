@@ -7,7 +7,8 @@
 module Aviator
 
   #
-  # Manages a provider (e.g. OpenStack) session.
+  # Manages a provider (e.g. OpenStack) session and serves as the entry point
+  # for a consumer class/object. See Session::new for notes on usage.
   #
   class Session
 
@@ -52,8 +53,7 @@ module Aviator
     end
 
     #
-    # Create a new Session instance with options provided in <tt>opts</tt> which can
-    # have many forms discussed below.
+    # Create a new Session instance.
     #
     # <b>Initialize with a config file</b>
     #
@@ -74,17 +74,20 @@ module Aviator
     #      password: mypassword
     #      tenant_name: myproject
     #
+    # <b>SIDENOTE:</b> For more information about the <tt>validator</tt> member, see Session#validate.
+    #
     # Once the session has been instantiated, you may authenticate against the
     # provider as follows:
     #
     #  session.authenticate
     #
-    # Note that the required items under <tt>auth_credentials</tt> in the config
-    # file depends on the required parameters of the request class declared under
-    # <tt>auth_service</tt>. If writing the <tt>auth_credentials</tt> in the config
-    # file is not acceptable, you may omit it and just supply the credentials at
-    # runtime. For instance, assume that the <tt>auth_credentials</tt> section in the
-    # config file above is missing. You would then authenticate as follows:
+    # The members you put under <tt>auth_credentials</tt> will depend on the request
+    # class you declare under <tt>auth_service:request</tt> and what parameters it
+    # accepts. To know more about a request class and its parameters, you can use
+    # the CLI tool <tt>aviator describe</tt> or view the request definition file directly.
+    #
+    # If writing the <tt>auth_credentials</tt> in the config file is not acceptable,
+    # you may omit it and just supply the credentials at runtime. For example:
     #
     #  session.authenticate do |params|
     #    params.username    = ARGV[0]
@@ -92,7 +95,7 @@ module Aviator
     #    params.tenant_name = ARGV[2]
     #  end
     #
-    # Please see Session#authenticate for more info.
+    # See Session#authenticate for more info.
     #
     # Note that while the example config file above only has one environment (production),
     # you can declare an arbitrary number of environments in your config file. Shifting
@@ -101,8 +104,8 @@ module Aviator
     #
     # <b>Initialize with an in-memory hash</b>
     #
-    # You can create an in-memory hash which is similar in structure to the config file except
-    # that you don't need to specify an environment name. For example:
+    # You can create an in-memory hash with a structure similar to the config file but without
+    # the environment name. For example:
     #
     #  configuration = {
     #    :provider => 'openstack',
@@ -151,12 +154,14 @@ module Aviator
     end
 
     #
-    # Authenticates against the auth_service request class declared in the session's
-    # configuration during initialization. Please see Session.new for more information
+    # Authenticates against the backend provider using the auth_service request class
+    # declared in the session's configuration. Please see Session.new for more information
     # on declaring the request class to use for authentication.
     #
-    # If the auth_service request class accepts a parameter block, you may also supply that
-    # when calling this method and it will be directly passed to the request. For example:
+    # <b>Request params block</b>
+    #
+    # If the auth_service request class accepts parameters, you may supply that
+    # as a block and it will be directly passed to the request. For example:
     #
     #  session = Aviator::Session.new(:config => config)
     #  session.authenticate do |params|
@@ -165,9 +170,12 @@ module Aviator
     #    params.tenant_name = project
     #  end
     #
-    # Expects an HTTP status 200 or 201. Any other status is treated as a failure.
+    # If your configuration happens to have an <tt>auth_credentials</tt> in it, those
+    # will be overridden by this block.
     #
-    # Note that you can also treat the block's argument like a hash with the attribute
+    # <b>Treat parameters as a hash</b>
+    #
+    # You can also treat the params struct like a hash with the attribute
     # names as the keys. For example, we can rewrite the above as:
     #
     #  session = Aviator::Session.new(:config => config)
@@ -179,8 +187,10 @@ module Aviator
     #
     # Keys can be symbols or strings.
     #
-    # You may also provide parameters as an argument instead of a block. This is
-    # especially useful when mocking Aviator as it's easier to specify ordinary
+    # <b>Use a hash argument instead of a block</b>
+    #
+    # You may also provide request params as an argument instead of a block. This is
+    # especially useful if you want to mock Aviator as it's easier to specify ordinary
     # argument expectations over blocks. Further rewriting the example above,
     # we end up with:
     #
@@ -193,6 +203,11 @@ module Aviator
     #
     # If both <tt>:params</tt> and a block are provided, the <tt>:params</tt>
     # values will be used and the block ignored.
+    #
+    # <b>Success requirements</b>
+    #
+    # Expects an HTTP status 200 or 201 response from the backend. Any other
+    # status is treated as a failure.
     #
     def authenticate(opts={}, &block)
       block ||= lambda do |params|
@@ -220,7 +235,10 @@ module Aviator
     end
 
     #
-    # Returns true if the session has been authenticated.
+    # Returns true if the session has been authenticated. Note that this relies on
+    # cached response from a previous run of Session#authenticate if one was made.
+    # If you want to check against the backend provider if the session is still valid,
+    # use Session#validate instead.
     #
     def authenticated?
       !auth_response.nil?
@@ -263,7 +281,7 @@ module Aviator
     end
 
 
-    def method_missing(name, *args, &block)
+    def method_missing(name, *args, &block) # :nodoc:
       service_name_parts = name.to_s.match(/^(\w+)_service$/)
 
       if service_name_parts
@@ -278,7 +296,8 @@ module Aviator
     # Creates a new Session object from a previous session's dump. See Session#dump for
     # more information.
     #
-    # If you want the newly deserialized session to log its output, make sure to indicate it on load
+    # If you want the newly deserialized session to log its output, add a <tt>:log_file</tt>
+    # option.
     #
     #  Aviator::Session.load(session_dump_str, :log_file => 'path/to/aviator.log')
     #
@@ -328,8 +347,8 @@ module Aviator
     #    :flavor_ref => "fa283da1-59a5-4245-8569-b6eadf69f10b"
     #  }
     #
-    # If both <tt>:params</tt> and a block are provided, the <tt>:params</tt>
-    # values will be used and the block ignored.
+    # If both <tt>:params</tt> and a block are provided, the values in <tt>:params</tt>
+    # will be used and the block ignored.
     #
     # <b>Return Value</b>
     #
@@ -354,33 +373,39 @@ module Aviator
     #
     # <b>Request Options</b>
     #
-    # You can further customize how the request is fulfilled by providing one or more
-    # options to the method call. For example, the following ensures that the request
-    # will call the :create_server request for the v1 API.
+    # You can further customize how the method behaves by providing one or more
+    # options to the call. For example, assuming you are using the <tt>openstack</tt>
+    # provider, the following will call the <tt>:create_server</tt> request of the
+    # v1 API of <tt>:compute_service</tt>.
     #
-    #  session.request :compute_service, :create_server, :api_version => v1
+    #  session.request :compute_service, :create_server, :api_version => v1, :params => params
     #
     # The available options vary depending on the provider. See the documentation
     # on the provider's Provider class for more information (e.g. Aviator::Openstack::Provider)
     #
-    def request(service_name, request_name, opts={}, &params)
+    def request(service_name, request_name, opts={}, &block)
       service = send("#{service_name.to_s}_service")
-      response = service.request(request_name, opts, &params)
+      response = service.request(request_name, opts, &block)
       response.to_hash
     end
 
 
     #
-    # Returns true if the session is still valid in the underlying provider. This method does this
-    # by calling the validator request class declared declared under <tt>auth_service</tt> in the
+    # Returns true if the session is still valid in the underlying provider. This method calls
+    # the <tt>validator</tt> request class declared under <tt>auth_service</tt> in the
     # configuration. The validator can be any request class as long as:
     #
     # * The request class exists!
+    # * Is not an anonymous request. Otherwise it will always return true.
     # * Does not require any parameters
     # * It returns an HTTP status 200 or 203 to indicate auth info validity.
     # * It returns any other HTTP status to indicate that the auth info is invalid.
     #
     # See Session::new for an example on how to specify the request class to use for session validation.
+    #
+    # Note that this method requires the session to be previously authenticated otherwise a
+    # NotAuthenticatedError will be raised. If you just want to check if the session was previously
+    # authenticated, use Session#authenticated? instead.
     #
     def validate
       raise NotAuthenticatedError.new unless authenticated?
