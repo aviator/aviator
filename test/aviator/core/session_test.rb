@@ -112,6 +112,33 @@ describe 'Aviator::Session' do
     end
 
 
+    it 'authenticates against the auth service using the credentials in a params arg' do
+      # Keys below are dependent on whatever is declared in
+      # the request classes referenced by auth_service:request
+      # in the config file
+      params = {
+        'username' => 'someuser',
+        'password' => 'password'
+      }
+
+      mock_conn = mock('Faraday::Connection')
+      mock_http_req = mock('Faraday::Request')
+      mock_response = mock('Faraday::Response')
+      Faraday.expects(:new).returns(mock_conn)
+      mock_conn.expects(:post).yields(mock_http_req).returns(mock_response)
+      mock_http_req.expects(:url)
+      mock_http_req.expects(:body=).with(){|json| JSON.load(json) == params }
+      mock_response.expects(:status).returns(200)
+      mock_response.expects(:headers).returns({})
+      mock_response.expects(:body).returns({})
+
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate :params => params
+
+      session.authenticated?.must_equal true
+    end
+
+
     it 'raises an AuthenticationError when authentication fails' do
       Faraday.expects(:new).returns(mock_conn = mock('Faraday::Connection'))
       mock_conn.expects(:post).returns(mock_response = mock('Faraday::Response'))
@@ -353,14 +380,48 @@ describe 'Aviator::Session' do
       mock_response.stubs(:status).returns(200)
       mock_response.stubs(:headers).returns({})
       mock_response.stubs(:body).returns('{}')
+      hashed_response = {:response1 => :value1}
+      mock_response.stubs(:to_hash).returns(hashed_response)
       mock_auth.expects(:request).returns(mock_response)
       mock_compute.expects(:request).with(request_name, request_opts).yields(yielded_params).returns(mock_response)
 
       session = Aviator::Session.new(:config => valid_config[valid_env])
       session.authenticate
 
-      session.request :compute, request_name, request_opts, &request_params
+      response = session.request :compute, request_name, request_opts, &request_params
       yielded_params.wont_be_empty
+      response.must_equal hashed_response
+    end
+
+
+    it 'passes the params arg to Service#request' do
+      request_name   = :create_server
+      request_opts   = {
+        :params => {
+           :key1 => :value1,
+           :key2 => :value2
+        }
+      }
+
+      mock_auth     = mock('Aviator::Service')
+      mock_compute  = mock('Aviator::Service')
+      mock_response = mock('Aviator::Response')
+
+      Aviator::Service.expects(:new).twice.returns(mock_auth, mock_compute)
+      mock_response.stubs(:status).returns(200)
+      mock_response.stubs(:headers).returns({:header1 => :headervalue1})
+      mock_response.stubs(:body).returns('{":bodykey1": "bodyvalue1"}')
+      hashed_response = {:responsekey1 => :responsevalue1}
+      mock_response.stubs(:to_hash).returns(hashed_response)
+      mock_auth.expects(:request).returns(mock_response)
+      mock_compute.expects(:request).with(request_name, request_opts).returns(mock_response)
+
+      session = Aviator::Session.new(:config => valid_config[valid_env])
+      session.authenticate
+
+      response = session.request :compute, request_name, request_opts
+
+      response.must_equal hashed_response
     end
 
   end

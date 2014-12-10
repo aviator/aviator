@@ -35,7 +35,6 @@ module Aviator
       end
     end
 
-
     class UnknownRequestError < StandardError
       def initialize(request_name, options)
         super "Unknown request #{ request_name } #{ options }."
@@ -92,6 +91,19 @@ module Aviator
       request_class = provider_module.find_request(service, request_name, session_data, options)
 
       raise UnknownRequestError.new(request_name, options) unless request_class
+
+      # Always use :params over &params if provided
+      if options[:params]
+        params = lambda do |params|
+          options[:params].each do |key, value|
+            begin
+              params[key] = value
+            rescue NameError => e
+              raise NameError.new("Unknown param name '#{key}'")
+            end
+          end
+        end
+      end
 
       request  = request_class.new(session_data, &params)
 

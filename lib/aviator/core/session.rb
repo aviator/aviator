@@ -178,7 +178,22 @@ module Aviator
     #
     # Keys can be symbols or strings.
     #
-    def authenticate(&block)
+    # You may also provide parameters as an argument instead of a block. This is
+    # especially useful when mocking Aviator as it's easier to specify ordinary
+    # argument expectations over blocks. Further rewriting the example above,
+    # we end up with:
+    #
+    #  session = Aviator::Session.new(:config => config)
+    #  session.authenticate :params => {
+    #    :username    => username,
+    #    :password    => password,
+    #    :tenant_name => project
+    #  }
+    #
+    # If both <tt>:params</tt> and a block are provided, the <tt>:params</tt>
+    # values will be used and the block ignored.
+    #
+    def authenticate(opts={}, &block)
       block ||= lambda do |params|
         config[:auth_credentials].each do |key, value|
           begin
@@ -189,7 +204,7 @@ module Aviator
         end
       end
 
-      response = auth_service.request config[:auth_service][:request].to_sym, &block
+      response = auth_service.request(config[:auth_service][:request].to_sym, opts, &block)
 
       if [200, 201].include? response.status
         @auth_response = Hashish.new({
@@ -301,6 +316,39 @@ module Aviator
     #
     # Keys can be symbols or strings.
     #
+    # You may also provide parameters as an argument instead of a block. This is
+    # especially useful when mocking Aviator as it's easier to specify ordinary
+    # argument expectations over blocks. Further rewriting the example above,
+    # we end up with:
+    #
+    #  session.request :compute_service, :create_server, :params => {
+    #    :name       => "My Server",
+    #    :image_ref  => "7cae8c8e-fb01-4a88-bba3-ae0fcb1dbe29",
+    #    :flavor_ref => "fa283da1-59a5-4245-8569-b6eadf69f10b"
+    #  }
+    #
+    # If both <tt>:params</tt> and a block are provided, the <tt>:params</tt>
+    # values will be used and the block ignored.
+    #
+    # <b>Return Value</b>
+    #
+    # The return value will be an instance of Hashish, a lightweight replacement for
+    # activesupport's HashWithIndifferentAccess, with the following structure:
+    #
+    #   {
+    #     :status => 200,
+    #     :headers => {
+    #       'X-Auth-Token' => 'd9186f45ce5446eaa0adc9def1c46f5f',
+    #       'Content-Type' => 'application/json'
+    #     },
+    #     :body => {
+    #       :some_key => :some_value
+    #     }
+    #   }
+    #
+    # Note that the members in <tt>:headers</tt> and <tt>:body</tt> will vary depending
+    # on the provider and the request that was made.
+    #
     # ---
     #
     # <b>Request Options</b>
@@ -316,7 +364,8 @@ module Aviator
     #
     def request(service_name, request_name, opts={}, &params)
       service = send("#{service_name.to_s}_service")
-      service.request(request_name, opts, &params)
+      response = service.request(request_name, opts, &params)
+      response.to_hash
     end
 
 
