@@ -1,12 +1,13 @@
+#
+# Author::    Mark Maglana (mmaglana@gmail.com)
+# Copyright:: Copyright (c) 2014 Mark Maglana
+# License::   Distributed under the MIT license
+# Homepage::  http://aviator.github.io/www/
+#
 module Aviator
 
   #
   # Manages a provider (e.g. OpenStack) session.
-  #
-  # Author::    Mark Maglana (mmaglana@gmail.com)
-  # Copyright:: Copyright (c) 2014 Mark Maglana
-  # License::   Distributed under the MIT license
-  # Homepage::  http://aviator.github.io/www/
   #
   class Session
 
@@ -360,7 +361,7 @@ module Aviator
     #  session.request :compute_service, :create_server, :api_version => v1
     #
     # The available options vary depending on the provider. See the documentation
-    # on the provider's Provider class for more information (e.g. Aviator::OpenStack::Provider)
+    # on the provider's Provider class for more information (e.g. Aviator::Openstack::Provider)
     #
     def request(service_name, request_name, opts={}, &params)
       service = send("#{service_name.to_s}_service")

@@ -2,13 +2,6 @@ module Aviator
 module Openstack
 
   #
-  # Manages a provider (e.g. OpenStack) session.
-  #
-  # Author::    Mark Maglana (mmaglana@gmail.com)
-  # Copyright:: Copyright (c) 2014 Mark Maglana
-  # License::   Distributed under the MIT license
-  # Homepage::  http://aviator.github.io/www/
-  #
   # <b>Request Options</b>
   #
   # The following options may be used in combination with each other when calling
@@ -16,10 +9,10 @@ module Openstack
   #
   # :api_version => :v2::
   #     Forces Aviator to use the request class for the v2 API. For any other
-  #     version, replace Note that this may throw an error if no such request
-  #     class exists. If you want to globally specify the API version to use for
-  #     a specific service, declare it in your config file under the correct
-  #     environment. For example:
+  #     version, replace :v2 with the desired one. Note that this may throw an
+  #     error if no such request class for the given api version exists. If you
+  #     want to globally specify the API version to use for a specific service,
+  #     declare it in your config file under the correct environment. For example:
   #
   #  production:
   #    provider: openstack

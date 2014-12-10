@@ -1,7 +1,6 @@
-# Original work by Stephen Paul Suarez
-# https://github.com/musashi-dev/aviator/blob/develop/lib/aviator/openstack/identity/v3/public/create_token.rb
-
 module Aviator
+  # Original work by Stephen Paul Suarez
+  # https://github.com/musashi-dev/aviator/blob/develop/lib/aviator/openstack/identity/v3/public/create_token.rb
 
   define_request :create_token, :inherit => [:openstack, :common, :v3, :public, :base] do
 
