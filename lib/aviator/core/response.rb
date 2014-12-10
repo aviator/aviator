@@ -14,7 +14,7 @@ module Aviator
 
 
     def body
-      if raw_body.length > 0
+      @body ||= if raw_body.length > 0
         if Aviator::Compatibility::RUBY_1_8_MODE
           clean_body = raw_body.gsub(/\\ /, ' ')
         else
@@ -29,14 +29,22 @@ module Aviator
 
 
     def headers
-      Hashish.new(@response.headers)
+      @headers ||= Hashish.new(@response.headers)
     end
 
+
+    def to_hash
+      Hashish.new({
+        :status  => status,
+        :headers => headers,
+        :body    => body
+      })
+    end
 
     private
 
     def raw_body
-      @response.body
+      @raw_body ||= @response.body
     end
 
   end
