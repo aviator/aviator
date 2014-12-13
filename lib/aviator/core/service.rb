@@ -1,5 +1,8 @@
 module Aviator
 
+  #
+  # Manages a service
+  #
   class Service
 
     class AccessDetailsNotDefinedError < StandardError
@@ -74,7 +77,9 @@ module Aviator
       load_requests
     end
 
-
+    #
+    # No longer recommended for public use. Use Aviator::Session#request instead
+    #
     def request(request_name, options={}, &params)
       if options[:api_version].nil? && @default_options[:api_version]
         options[:api_version] = @default_options[:api_version]

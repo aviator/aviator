@@ -110,10 +110,10 @@ class Aviator::Test
         request_class = build_request(provider, service, request_name)
 
         expected = <<-EOF
-:Request => #{ request_name }
+Request: #{ request_name }
 
 Sample Code:
-  session.#{ service }_service.request(:#{ request_name })
+  session.request(:#{ service }_service, :#{ request_name })
 EOF
 
         output = klass.describe_request(
@@ -139,7 +139,7 @@ EOF
                         end
 
         expected = <<-EOF
-:Request => #{ request_name }
+Request: #{ request_name }
 
 Parameters:
  +----------+-----------+
@@ -150,7 +150,7 @@ Parameters:
  +----------+-----------+
 
 Sample Code:
-  session.#{ service }_service.request(:#{ request_name }) do |params|
+  session.request(:#{ service }_service, :#{ request_name }) do |params|
     params.another = value
     params.theParam = value
   end
@@ -179,7 +179,7 @@ EOF
                         end
 
         expected = <<-EOF
-:Request => #{ request_name }
+Request: #{ request_name }
 
 Parameters:
  +--------------+-----------+---------------+
@@ -190,7 +190,7 @@ Parameters:
  +--------------+-----------+---------------+
 
 Sample Code:
-  session.#{ service }_service.request(:#{ request_name }) do |params|
+  session.request(:#{ service }_service, :#{ request_name }) do |params|
     params.another_param = value
     params.the_param = value
   end
@@ -221,7 +221,7 @@ EOF
                         end
 
         expected = <<-EOF
-:Request => #{ request_name }
+Request: #{ request_name }
 
 Parameters:
  +--------------+-----------+---------------+
@@ -232,7 +232,7 @@ Parameters:
  +--------------+-----------+---------------+
 
 Sample Code:
-  session.#{ service }_service.request(:#{ request_name }) do |params|
+  session.request(:#{ service }_service, :#{ request_name }) do |params|
     params.another_param = value
     params.the_param = value
   end

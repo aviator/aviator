@@ -36,7 +36,7 @@ module Aviator
       request_class = "Aviator::#{ provider_name.camelize }::#{ service_name.camelize }::Requests::"\
                       "#{ api_version.camelize }::#{ endpoint_type.camelize }::#{ request_name.camelize }".constantize
 
-      display = ":Request => #{ request_name }\n"
+      display = "Request: #{ request_name }\n"
 
 
       # Build the parameters
@@ -83,7 +83,7 @@ module Aviator
       # Build the sample code
       display << "\nSample Code:\n"
 
-      display << "  session.#{ service_name }_service.request(:#{ request_name })"
+      display << "  session.request(:#{ service_name }_service, :#{ request_name })"
 
       if params && params.length > 0
         display << " do |params|\n"
