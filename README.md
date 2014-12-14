@@ -6,5 +6,6 @@
 [![Code Climate](https://codeclimate.com/github/aviator/aviator.png)](https://codeclimate.com/github/aviator/aviator)
 [![Gem Version](https://badge.fury.io/rb/aviator.png)](http://badge.fury.io/rb/aviator)
 
+Aviator complies with <a href="http://semver.org/">Semantic Versioning</a>.
 
 <a href="http://aviator.github.io/www/">Usage and Installation</a>
