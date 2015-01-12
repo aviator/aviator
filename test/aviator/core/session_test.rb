@@ -48,20 +48,25 @@ class Aviator::Test
         the_method = lambda do
           session.authenticate do |c|
             c[:username] = 'invalidusername'
-            c[:password] = 'invalidpassword'
+            c[:password] = '!@#$%^&*'
           end
         end
 
         filtered = false
+        unfiltered = false
 
-        puts log_file_path
+        if File.readlines(log_file_path).grep(/m@!@#$%^&*/).size > 0
+          unfiltered=true
+        end
 
-        if File.readlines(log_file_path).grep(/m@4asdf*1$/).size > 0
+        if File.readlines(log_file_path).grep(/FILTERED_VALUE/).size > 0
           filtered=true
         end
 
         #special characters password must not be in aviator.log
-        filtered.must_equal false
+        unfiltered.must_equal false
+
+        filtered.must_equal true
 
         the_method.must_raise Aviator::Session::AuthenticationError
       end
