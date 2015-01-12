@@ -48,7 +48,7 @@ class Aviator::Test
         the_method = lambda do
           session.authenticate do |c|
             c[:username] = 'invalidusername'
-            c[:password] = '!@#$%^&*'
+            c[:password] = 'm@!@#$%^&*'
           end
         end
 
