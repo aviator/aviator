@@ -24,7 +24,7 @@ class Aviator::Test
 
     describe '#password' do
 
-      it 'filters the password in log file' do
+      it 'filters the valid passwords' do
         session     = new_session
         credentials = config.openstack_admin[:auth_credentials]
 
@@ -40,6 +40,33 @@ class Aviator::Test
         end
         filtered.must_equal true
       end
+
+      it 'filters invalid passwords and special characters' do
+        session     = new_session
+        credentials = config.openstack_admin[:auth_credentials]
+
+        the_method = lambda do
+          session.authenticate do |c|
+            c[:username] = 'invalidusername'
+            c[:password] = 'invalidpassword'
+          end
+        end
+
+        filtered = false
+
+        puts log_file_path
+
+        if File.readlines(log_file_path).grep(/m@4asdf*1$/).size > 0
+          filtered=true
+        end
+
+        #special characters password must not be in aviator.log
+        filtered.must_equal false
+
+        the_method.must_raise Aviator::Session::AuthenticationError
+      end
+
+
     end #password filter
 
     describe '#authenticate' do
