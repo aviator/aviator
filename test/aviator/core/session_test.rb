@@ -22,6 +22,25 @@ class Aviator::Test
       )
     end
 
+    describe '#password' do
+
+      it 'filters the password in log file' do
+        session     = new_session
+        credentials = config.openstack_admin[:auth_credentials]
+
+        session.authenticate do |c|
+          c[:username] = credentials[:username]
+          c[:password] = credentials[:password]
+        end
+
+        filtered = false
+
+        if File.readlines(log_file_path).grep(/FILTERED_VALUE/).size > 0
+          filtered=true
+        end
+        filtered.must_equal true
+      end
+    end #password filter
 
     describe '#authenticate' do
 
