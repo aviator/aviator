@@ -5,7 +5,7 @@ http_interactions:
     uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
     body:
       encoding: UTF-8
-      string: ! '{"auth":{"<OPENSTACK_ADMIN_PASSWORD>Credentials":{"username":"invalidusername","<OPENSTACK_ADMIN_PASSWORD>":"m@!@#$%^&*"}}}'
+      string: ! '{"auth":{"<OPENSTACK_ADMIN_PASSWORD>Credentials":{"username":"invalidusername","password":"m@!@#$%^&*"}}}'
     headers:
       Content-Type:
       - application/json
@@ -16,14 +16,12 @@ http_interactions:
       code: 200
       message:
     headers:
-      www-authenticate:
-      - Keystone uri="http://192.168.56.11:5000/"
       vary:
       - X-Auth-Token
       content-type:
       - application/json
       content-length:
-      - '101'
+      - '1317'
       date:
       - Mon, 12 Jan 2015 16:26:15 GMT
       connection:

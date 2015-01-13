@@ -60,29 +60,31 @@ class Aviator::Test
         filtered.must_equal true
       end
 
-      it 'filters invalid passwords and special characters' do
+      it 'filters special characters' do
         session     = new_session
         credentials = config.openstack_admin[:auth_credentials]
 
-        the_method = lambda do
-          session.authenticate do |c|
-            c[:username] = 'invalidusername'
-            c[:password] = 'm@!@#$%^&*'
-          end
+        session.authenticate do |c|
+          c[:username] = 'invalidusername'
+          c[:password] = 'm@!@#$%^&*'
         end
 
         filtered = false
         unfiltered = false
 
-        unfiltered=true if File.readlines(log_file_path) =~ /m@!@#$%^&*/
-        filtered=true if File.readlines(log_file_path) =~ (/FILTERED_VALUE/)
+        unfiltered=true if File.readlines(log_file_path) =~ /m@\!@#\$%\^\&\*/
+
+        if File.readlines(log_file_path).grep(/FILTERED_VALUE/).size > 0
+          filtered=true
+        end
 
         #special characters password must not be in aviator.log
         unfiltered.must_equal false
 
-        the_method.must_raise Aviator::Session::AuthenticationError
-      end
+        #FILTERED_VALUE must be seen instead of the password
+        filtered.must_equal true
 
+      end
 
     end #password filter
 
