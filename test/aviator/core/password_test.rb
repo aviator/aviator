@@ -72,7 +72,9 @@ class Aviator::Test
         filtered = false
         unfiltered = false
 
-        unfiltered=true if File.readlines(log_file_path) =~ /m@\!@#\$%\^\&\*/
+        if File.readlines(log_file_path).grep(/m@\!@#\$%\^\&\*/).size > 0
+          unfiltered=true
+        end
 
         if File.readlines(log_file_path).grep(/FILTERED_VALUE/).size > 0
           filtered=true
