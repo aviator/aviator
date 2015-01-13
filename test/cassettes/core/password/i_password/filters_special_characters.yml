@@ -1,0 +1,38 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <OPENSTACK_ADMIN_HOST_URI>:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"<OPENSTACK_ADMIN_PASSWORD>Credentials":{"username":"invalidusername","password":"m@!@#$%^&*"}}}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      vary:
+      - X-Auth-Token
+      content-type:
+      - application/json
+      content-length:
+      - '1317'
+      date:
+      - Mon, 12 Jan 2015 16:26:15 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"issued_at": "2015-01-12T16:26:15.776499",
+        "expires": "2015-01-12T17:26:15Z", "id": "MIIC+QYJKoZIhvcNAQcCoIIC6jCCAuYCAQExDTALBglghkgBZQMEAgEwggFHBgkqhkiG9w0BBwGgggE4BIIBNHsiYWNjZXNzIjogeyJ0b2tlbiI6IHsiaXNzdWVkX2F0IjogIjIwMTUtMDEtMTJUMTY6MjY6MTUuNzc2NDk5IiwgImV4cGlyZXMiOiAiMjAxNS0wMS0xMlQxNzoyNjoxNVoiLCAiaWQiOiAicGxhY2Vob2xkZXIifSwgInNlcnZpY2VDYXRhbG9nIjogW10sICJ1c2VyIjogeyJ1c2VybmFtZSI6ICJhZG1pbiIsICJyb2xlc19saW5rcyI6IFtdLCAiaWQiOiAiZDE3YjFiZDhkYTFhNGE3NGI0ODRiY2RiNWI2MWRhZDUiLCAicm9sZXMiOiBbXSwgIm5hbWUiOiAiYWRtaW4ifSwgIm1ldGFkYXRhIjogeyJpc19hZG1pbiI6IDAsICJyb2xlcyI6IFtdfX19MYIBhTCCAYECAQEwXDBXMQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVW5zZXQxDjAMBgNVBAcMBVVuc2V0MQ4wDAYDVQQKDAVVbnNldDEYMBYGA1UEAwwPd3d3LmV4YW1wbGUuY29tAgEBMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAyiT6tRhPSdDIL18rWSwbyrof293+Q2ZknVV428omJWn0wPKRF8LXUG8wx03oNM13XuuVpqxEe10GHXP7nhFfcH-jfYT5EB+OSBAftYn8ql7zag-Ji6eLjYBnQts9pKWZADOVQm6O4tIiyTW2ZLRqFtSmMZwhzMXTWi2HJR57teMdKQcMYARpqEyM08f0if1t+mxg83a2D2dx74vojn-xnJiVYVYxD40QS8CuAAqNGK9issx7u9vTCsazu4kGnsBwH6UySxRJ7Y-eGmf-PcfPsyn7Nu9GAqYW4gGKJb36ylGKjgWHniYveE44XRodr8hkSlqZsLCy4MlizXbqsFvTQ"},
+        "serviceCatalog": [], "user": {"username": "<OPENSTACK_ADMIN_USERNAME>", "roles_links":
+        [], "id": "d17b1bd8da1a4a74b484bcdb5b61dad5", "roles": [], "name": "<OPENSTACK_ADMIN_USERNAME>"},
+        "metadata": {"is_<OPENSTACK_ADMIN_USERNAME>": 0, "roles": []}}}'
+    http_version:
+  recorded_at: Mon, 12 Jan 2015 16:26:16 GMT
+recorded_with: VCR 2.8.0

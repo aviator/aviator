@@ -2,7 +2,7 @@ module Aviator
 
   class Logger < Faraday::Response::Middleware
     extend Forwardable
-    
+
     def initialize(app, logger=nil)
       super(app)
       @logger = logger || begin
@@ -28,7 +28,7 @@ module Aviator
       debug('RES_HEAD') { dump_headers env[:response_headers] }
       debug('RES_BODY') { dump_body env[:body] }
     end
-    
+
 
     def self.configure(log_file_path)
       # Return a subclass with its logfile path set. This
@@ -36,15 +36,15 @@ module Aviator
       # different paths.
       Class.new(self) { const_set('LOG_FILE_PATH', log_file_path) }
     end
-    
+
 
     private
-    
+
     def dump_body(body)
       return if body.nil?
-      
+
       # TODO: Make this configurable
-      body.gsub(/(?<=["']password["']:["'])\w*(?=["'])/, '[FILTERED_VALUE]')
+      body.gsub(/(?<=["']password["']:["']).*?(?=["'])/, '[FILTERED_VALUE]')
     end
 
     def dump_headers(headers)

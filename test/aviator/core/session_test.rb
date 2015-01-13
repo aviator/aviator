@@ -22,7 +22,6 @@ class Aviator::Test
       )
     end
 
-
     describe '#authenticate' do
 
       it 'authenticates against the auth service indicated in the config file' do
