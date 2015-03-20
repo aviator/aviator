@@ -1,19 +1,18 @@
 module Aviator
 
-  define_request :create_flavor, inherit: [:openstack, :common, :v2, :public, :base] do
+  define_request :create_flavor, inherit: [:openstack, :common, :v2, :admin, :base] do
 
     meta :service, :compute
 
     link 'documentation',
          'http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-flavor-access'
 
-    param :tenant_id, required: true
-    param :disk,   required: true
-    param :id, required: false
+    param :tenant_id, required: false
     param :name, required: true
     param :ram,  required: true
     param :vcpus,  required: true
-    #param :os-flavor-access:is_public, required: false
+    param :disk,   required: true
+    param :id, required: false
 
     def headers
       super
@@ -26,7 +25,7 @@ module Aviator
 
 
     def url
-      "#{ base_url }/flavors/}"
+      "#{ base_url }/flavors"
     end
 
   end
