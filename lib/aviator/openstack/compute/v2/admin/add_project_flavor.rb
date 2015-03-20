@@ -9,7 +9,7 @@ module Aviator
 
     param :tenant_id,       required: false
     param :flavor_id,       required: true
-    param :addTenantAccess, required: true
+    param :addTenantAccess, required: true, alias: :add_tenant_access
     param :tenant,          required: true
 
 
@@ -18,6 +18,13 @@ module Aviator
       super
     end
 
+    def body
+      p = {
+        addTenantAccess: {
+          tenant: params[:tenant]
+        }
+      }
+    end
 
     def http_method
       :post
