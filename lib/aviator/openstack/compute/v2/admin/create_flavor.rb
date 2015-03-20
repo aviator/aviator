@@ -18,6 +18,19 @@ module Aviator
       super
     end
 
+    def body
+      p = {
+        flavor: {
+          name: params[:name],
+          ram: params[:ram],
+          vcpus: params[:vcpus],
+          disk: params[:disk],
+          id: params[:id],
+          tenant_id: params[:tenant_id],
+        }
+      }
+    end
+
 
     def http_method
       :post

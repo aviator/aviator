@@ -89,7 +89,7 @@ class Aviator::Test
       tenant_id = tenant[:id]
 
       response = session.compute_service.request :create_flavor do |params|
-        params[:id] = 'auto'
+        params[:tenant_id] = tenant_id
         params[:disk] = '1'
         params[:ram] = '526'
         params[:vcpus] = '1'
@@ -103,21 +103,20 @@ class Aviator::Test
     end
 
 
-    # validate_response 'invalid parameters are provided' do
-    #   response = session.compute_service.request :create_flavor do |params|
-    #     params[:id] = 12343124324
-    #     params[:tenant_id] = '123123213'
-    #     params[:disk] = '1'
-    #     params[:ram] = '526'
-    #     params[:name] = 123123213
-    #     params[:vcpus] = '1'
-    #     params[:'os-flavor-access:is_public'] = 'false'
-    #   end
+    validate_response 'invalid parameters are provided' do
+      response = session.compute_service.request :create_flavor do |params|
+        params[:id] = 'auto'
+        params[:tenant_id] = '123123213'
+        params[:disk] = '1'
+        params[:ram] = '526'
+        params[:name] = 123123213
+        params[:vcpus] = '1'
+      end
 
-    #   response.status.must_equal 400
-    #   response.body.wont_be_nil
-    #   response.headers.wont_be_nil
-    # end
+      response.status.must_equal 400
+      response.body.wont_be_nil
+      response.headers.wont_be_nil
+    end
 
 
   end
