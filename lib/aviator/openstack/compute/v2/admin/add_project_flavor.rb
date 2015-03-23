@@ -9,9 +9,6 @@ module Aviator
 
     param :tenant_id,       required: true
     param :flavor_id,       required: true
-    param :addTenantAccess, required: false, alias: :add_tenant_access
-    param :tenant,          required: false
-
 
 
     def headers
@@ -22,7 +19,7 @@ module Aviator
     def body
       p = {
         addTenantAccess: {
-          tenant: params[:tenant]
+          tenant: params[:tenant_id]
         }
       }
     end

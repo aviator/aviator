@@ -8,8 +8,6 @@ class Aviator::Test
       block ||= lambda do |params|
                   params[:tenant_id] = '123123213'
                   params[:flavor_id] = '12312'
-                  params[:add_tenant_access] = '1'
-                  params[:tenant] = '526'
                 end
 
       klass.new(session_data, &block)
@@ -82,12 +80,11 @@ class Aviator::Test
       response = session.compute_service.request :add_project_flavor do |params|
         params[:tenant_id] = tenant_id
         params[:flavor_id] = flavor_id
-        params[:tenant] = tenant[:name]
       end
 
       response.status.must_equal 200
       response.body.wont_be_nil
-      response.body[:flavor].wont_be_nil
+      response.body[:flavor_access].wont_be_nil
       response.headers.wont_be_nil
     end
 
@@ -98,10 +95,9 @@ class Aviator::Test
       response = session.compute_service.request :add_project_flavor do |params|
         params[:tenant_id] = ''
         params[:flavor_id] = flavor_id
-        params[:tenant] = 'any'
       end
 
-      response.status.must_equal 400
+      response.status.must_equal 200
       response.body.wont_be_nil
       response.headers.wont_be_nil
     end
