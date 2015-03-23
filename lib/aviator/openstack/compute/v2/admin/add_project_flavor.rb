@@ -7,15 +7,16 @@ module Aviator
     link 'documentation',
          'http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-flavor-access'
 
-    param :tenant_id,       required: false
+    param :tenant_id,       required: true
     param :flavor_id,       required: true
-    param :addTenantAccess, required: true, alias: :add_tenant_access
-    param :tenant,          required: true
+    param :addTenantAccess, required: false, alias: :add_tenant_access
+    param :tenant,          required: false
 
 
 
     def headers
       super
+
     end
 
     def body
