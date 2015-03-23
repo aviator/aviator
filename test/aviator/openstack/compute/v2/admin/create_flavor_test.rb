@@ -102,6 +102,22 @@ class Aviator::Test
       response.headers.wont_be_nil
     end
 
+    validate_response 'valid parameters are provided except for tenant_id' do
+
+      response = session.compute_service.request :create_flavor do |params|
+        params[:tenant_id] = ''
+        params[:disk] = '1'
+        params[:ram] = '526'
+        params[:vcpus] = '1'
+        params[:name] = 'testflavor'
+      end
+
+      response.status.must_equal 200
+      response.body.wont_be_nil
+      response.body[:flavor].wont_be_nil
+      response.headers.wont_be_nil
+    end
+
 
     validate_response 'invalid parameters are provided' do
       response = session.compute_service.request :create_flavor do |params|
