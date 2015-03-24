@@ -7,12 +7,13 @@ module Aviator
     link 'documentation',
          'http://developer.openstack.org/api-ref-compute-v2-ext.html#ext-os-flavor-access'
 
-    param :tenant_id, required: false
-    param :name, required: true
-    param :ram,  required: true
-    param :vcpus,  required: true
-    param :disk,   required: true
-    param :id, required: false
+    param :tenant_id,                    required: false
+    param :name,                         required: true
+    param :ram,                          required: true
+    param :vcpus,                        required: true
+    param :disk,                         required: true
+    param :id,                           required: false
+    param :'os-flavor-access:is_public', required: false
 
     def headers
       super
@@ -27,6 +28,7 @@ module Aviator
           disk: params[:disk],
           id: params[:id],
           tenant_id: params[:tenant_id],
+          'os-flavor-access:is_public' => params[:'os-flavor-access:is_public']
         }
       }
     end
