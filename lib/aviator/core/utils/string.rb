@@ -1,24 +1,26 @@
-class String
+module Aviator
 
-  unless instance_methods.include? 'camelize'
-    define_method :camelize do
-      word = self.slice(0,1).capitalize + self.slice(1..-1)
-      word.gsub(/_([a-zA-Z\d])/) { "#{$1.capitalize}" }
-    end
-  end
+  class StrUtil
 
-  unless instance_methods.include? 'constantize'
-    define_method :constantize do
-      self.split("::").inject(Object) do |namespace, sym|
-        namespace.const_get(sym.to_s.camelize, false)
+    class <<self
+
+      def camelize(str)
+        word = str.slice(0,1).capitalize + str.slice(1..-1)
+        word.gsub(/_([a-zA-Z\d])/) { "#{$1.capitalize}" }
       end
-    end
-  end
 
-  unless instance_methods.include? 'underscore'
-    define_method :underscore do
-      self.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
+      def constantize(str)
+        str.split("::").inject(Object) do |namespace, sym|
+          namespace.const_get(self.camelize(sym.to_s), false)
+        end
+      end
+
+      def underscore(str)
+        str.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
+      end
+
     end
+
   end
 
 end

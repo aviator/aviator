@@ -13,7 +13,7 @@ class Aviator::Test
         request_path = [provider_name, service_name, :requests, base_ver, base_ept, base_name]
 
         @base = request_path.inject(Aviator) do |namespace, sym|
-          const_name = sym.to_s.camelize
+          const_name = Aviator::StrUtil.camelize(sym.to_s)
 
           if namespace && namespace.const_defined?(const_name, false)
             namespace.const_get(const_name, false)
@@ -91,7 +91,7 @@ class Aviator::Test
         expected  = "Available requests for #{ provider } #{ service }_service:\n"
 
         requests.each do |klass|
-          expected << "  #{ klass.api_version } #{ klass.endpoint_type } #{ klass.name.split('::').last.underscore }\n"
+          expected << "  #{ klass.api_version } #{ klass.endpoint_type } #{ Aviator::StrUtil.underscore(klass.name.split('::').last) }\n"
         end
 
         klass.describe_service(provider, service).must_equal expected

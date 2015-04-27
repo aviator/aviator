@@ -40,12 +40,12 @@ module Aviator
         ]
 
         namespace = namespace_arr.inject(root_namespace) do |namespace, sym|
-          const_name = sym.to_s.camelize
+          const_name = StrUtil.camelize(sym.to_s)
           namespace.const_set(const_name, Module.new) unless namespace.const_defined?(const_name, false)
           namespace.const_get(const_name, false)
         end
 
-        klassname = request_name.to_s.camelize
+        klassname = StrUtil.camelize(request_name.to_s)
 
         if namespace.const_defined?(klassname, false)
           raise RequestAlreadyDefinedError.new(namespace, klassname)
@@ -66,11 +66,11 @@ module Aviator
         end
 
         full_request_class_arr.inject(root_namespace) do |namespace, sym|
-          namespace.const_get(sym.to_s.camelize, false)
+          namespace.const_get(StrUtil.camelize(sym.to_s), false)
         end
       rescue NameError => e
-        if Aviator.const_defined?(full_request_class_arr[0].to_s.camelize)
-          provider = "Aviator::#{ full_request_class_arr[0] }::Provider".constantize
+        if Aviator.const_defined?(StrUtil.camelize(full_request_class_arr[0].to_s))
+          provider = StrUtil.constantize("Aviator::#{ full_request_class_arr[0] }::Provider")
           arr = ['..'] + full_request_class_arr
           arr[-1,1] = arr.last.to_s + '.rb'
           path = Pathname.new(provider.root_dir).join(*arr.map{|i| i.to_s }).expand_path
@@ -79,7 +79,7 @@ module Aviator
         if provider && path.exist?
           require path
           full_request_class_arr.inject(root_namespace) do |namespace, sym|
-            namespace.const_get(sym.to_s.camelize, false)
+            namespace.const_get(StrUtil.camelize(sym.to_s), false)
           end
         else
           raise BaseRequestNotFoundError.new(request_class_arr)

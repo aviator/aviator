@@ -33,8 +33,9 @@ module Aviator
 
     def self.describe_request(provider_name, service_name, api_version, endpoint_type, request_name)
       service = Aviator::Service.new :provider => provider_name, :service => service_name
-      request_class = "Aviator::#{ provider_name.camelize }::#{ service_name.camelize }::Requests::"\
-                      "#{ api_version.camelize }::#{ endpoint_type.camelize }::#{ request_name.camelize }".constantize
+      request_class = "Aviator::#{ StrUtil.camelize(provider_name) }::#{ StrUtil.camelize(service_name) }::Requests::"\
+                      "#{ StrUtil.camelize(api_version) }::#{ StrUtil.camelize(endpoint_type) }::#{ StrUtil.camelize(request_name) }"
+      request_class = StrUtil.constantize(request_class)
 
       display = "Request: #{ request_name }\n"
 
@@ -119,7 +120,7 @@ module Aviator
         str = "Available requests for #{ provider_name } #{ service_name }_service:\n"
 
         requests.each do |klass|
-          str << "  #{ klass.api_version } #{ klass.endpoint_type } #{ klass.name.split('::').last.underscore }\n"
+          str << "  #{ klass.api_version } #{ klass.endpoint_type } #{ StrUtil.underscore(klass.name.split('::').last) }\n"
         end
 
         str

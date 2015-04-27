@@ -50,7 +50,7 @@ class Test
 
 
       def get_request_class(parent, *path)
-        const_name = path.shift.to_s.camelize.gsub(/\.rb$/, '')
+        const_name = Aviator::StrUtil.camelize(path.shift.to_s).gsub(/\.rb$/, '')
 
         const = if parent.const_defined?(const_name)
                  parent.const_get(const_name)

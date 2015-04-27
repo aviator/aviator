@@ -8,8 +8,8 @@ module Provider
   class << self
 
     def find_request(service, name, session_data, options)
-      fqrn = "Aviator::Dummy::#{service.to_s.camelize}::Requests::V1::Public::#{name.to_s.camelize}"
-      fqrn.constantize
+      fqrn = "Aviator::Dummy::#{Aviator::StrUtil.camelize(service.to_s)}::Requests::V1::Public::#{Aviator::StrUtil.camelize(name.to_s)}"
+      Aviator::StrUtil.constantize(fqrn)
     rescue NameError => e
       raise NameError.new("#{fqrn} not found: #{e.message}")
     end

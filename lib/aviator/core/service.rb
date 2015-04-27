@@ -47,7 +47,7 @@ module Aviator
 
     class MissingServiceEndpointError < StandardError
       def initialize(service_name, request_name)
-        request_name = request_name.to_s.split('::').last.underscore
+        request_name = StrUtil.underscore(request_name.to_s.split('::').last)
         super "The session's service catalog does not have an entry for the #{ service_name } "\
               "service. Therefore, I don't know to which base URL the request should be sent. "\
               "This may be because you are using a default or unscoped token. If this is not your "\
@@ -147,10 +147,10 @@ module Aviator
 
       constant_parts = request_file_paths \
                         .map{|rf| rf.to_s.match(/#{provider}\/#{service}\/([\w\/]+)\.rb$/) } \
-                        .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
+                        .map{|rf| rf[1].split('/').map{|c| StrUtil.camelize(c) }.join('::') }
 
       @request_classes = constant_parts.map do |cp|
-        "Aviator::#{provider.camelize}::#{service.camelize}::#{cp}".constantize
+        StrUtil.constantize("Aviator::#{StrUtil.camelize(provider)}::#{StrUtil.camelize(service)}::#{cp}")
       end
     end
 
@@ -161,7 +161,7 @@ module Aviator
 
 
     def provider_module
-      @provider_module ||= "Aviator::#{provider.camelize}::Provider".constantize
+      @provider_module ||= StrUtil.constantize("Aviator::#{StrUtil.camelize(provider)}::Provider")
     end
 
   end

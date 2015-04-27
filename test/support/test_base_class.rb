@@ -17,8 +17,9 @@ class Test < MiniTest::Spec
              .gsub(/^Aviator::Test::/, '') \
              .gsub(/::#/,  '/i_') \
              .gsub(/::::/, '/c_') \
-             .gsub(/::/,   '/') \
-             .underscore
+             .gsub(/::/,   '/')
+
+    path = Aviator::StrUtil.underscore(path)
 
     basename = __name__.gsub(/test_\d+_/, '')
 

@@ -95,24 +95,24 @@ EOF
         service = service.to_s
         endpoint_type = options[:endpoint_type]
         endpoint_types = if endpoint_type
-                           [endpoint_type.to_s.camelize]
+                           [StrUtil.camelize(endpoint_type.to_s)]
                          else
                            ['Public', 'Admin']
                          end
 
         namespace = Aviator.const_get('Openstack') \
-                           .const_get(service.camelize) \
+                           .const_get(StrUtil.camelize(service)) \
                            .const_get('Requests')
 
         if options[:api_version]
           m = options[:api_version].to_s.match(/(v\d+)\.?\d*/)
-          version = m[1].to_s.camelize unless m.nil?
+          version = StrUtil.camelize(m[1].to_s) unless m.nil?
         end
 
         version ||= infer_version(session_data, name, service)
 
         unless version.nil?
-          version = version.to_s.camelize
+          version = StrUtil.camelize(version.to_s)
         end
 
         return nil unless version && namespace.const_defined?(version)
@@ -120,7 +120,7 @@ EOF
         namespace = namespace.const_get(version, name)
 
         endpoint_types.each do |endpoint_type|
-          name = name.to_s.camelize
+          name = StrUtil.camelize(name.to_s)
 
           next unless namespace.const_defined?(endpoint_type)
           next unless namespace.const_get(endpoint_type).const_defined?(name)

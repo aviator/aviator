@@ -83,17 +83,18 @@ class Aviator::Test
       it 'returns an array of the request classes' do
         provider_name  = config[:provider]
         service_name    = config[:auth_service][:name]
-        provider_module = "Aviator::#{ provider_name.camelize }::Provider".constantize
+        provider_module = "Aviator::#{ Aviator::StrUtil.camelize(provider_name) }::Provider"
+        provider_module = Aviator::StrUtil.constantize(provider_module)
 
         request_file_paths = provider_module.request_file_paths(service_name)
         request_file_paths.each{ |path| require path }
 
         constant_parts = request_file_paths \
                           .map{|rf| rf.to_s.match(/#{ provider_name }\/#{ service_name }\/([\w\/]+)\.rb$/) } \
-                          .map{|rf| rf[1].split('/').map{|c| c.camelize }.join('::') }
+                          .map{|rf| rf[1].split('/').map{|c| Aviator::StrUtil.camelize(c) }.join('::') }
 
         classes = constant_parts.map do |cp|
-          "Aviator::#{ provider_name.camelize }::#{ service_name.camelize }::#{ cp }".constantize
+          Aviator::StrUtil.constantize("Aviator::#{ Aviator::StrUtil.camelize(provider_name) }::#{ Aviator::StrUtil.camelize(service_name) }::#{ cp }")
         end
 
         service.request_classes.must_equal classes

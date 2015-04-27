@@ -26,7 +26,7 @@ class Aviator::Test
         end
 
         [provider, service, :requests, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
-          const_name = sym.to_s.camelize
+          const_name = Aviator::StrUtil.camelize(sym.to_s)
 
           namespace.const_defined?(const_name, false).must_equal true
 
@@ -50,7 +50,7 @@ class Aviator::Test
         end
 
         [provider, service, :requests, api_ver, ep_type, _name_].inject(builder) do |namespace, sym|
-          const_name = sym.to_s.camelize
+          const_name = Aviator::StrUtil.camelize(sym.to_s)
 
           namespace.const_defined?(const_name, false).must_equal true,
             "Expected #{ const_name } to be defined in #{ namespace }"
@@ -96,7 +96,7 @@ class Aviator::Test
         ]
 
         child_request = child_req_hierarchy.inject(builder) do |namespace, sym|
-          namespace.const_get(sym.to_s.camelize, false)
+          namespace.const_get(Aviator::StrUtil.camelize(sym.to_s), false)
         end
 
         child_request.wont_be_nil
@@ -154,7 +154,7 @@ class Aviator::Test
         error = the_method.call rescue $!
 
         error.message.wont_be_nil
-        error.request_name.must_equal request[:name].to_s.camelize
+        error.request_name.must_equal Aviator::StrUtil.camelize(request[:name].to_s)
       end
 
 
@@ -165,11 +165,11 @@ class Aviator::Test
         builder.define_request child_arr.last, :inherit => base_arr do; end
 
         base_klass = base_arr.insert(2, :requests).inject(builder) do |namespace, sym|
-          namespace.const_get(sym.to_s.camelize, false)
+          namespace.const_get(Aviator::StrUtil.camelize(sym.to_s), false)
         end
 
         child_klass = child_arr.insert(2, :requests).inject(builder) do |namespace, sym|
-          namespace.const_get(sym.to_s.camelize, false)
+          namespace.const_get(Aviator::StrUtil.camelize(sym.to_s), false)
         end
 
         base_klass.wont_be_nil

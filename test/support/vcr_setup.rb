@@ -50,7 +50,7 @@ VCR.configure do |c|
   [:username, :password, :tenantName, :tokenId].each do |key|
     configs.each do |config|
       c.filter_sensitive_data("<#{ config.to_s.upcase }_#{key.to_s.upcase}>") do
-        env.send(config)[:auth_credentials][key] || env.send(config)[:auth_credentials][key.to_s.underscore]
+        env.send(config)[:auth_credentials][key] || env.send(config)[:auth_credentials][Aviator::StrUtil.underscore(key.to_s)]
       end
     end
   end
