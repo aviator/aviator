@@ -15,7 +15,7 @@ group :test do
   gem 'rake'
   gem 'simplecov', '~> 0.7.0'
   gem 'coveralls', '~> 0.7.0'
-  gem 'json', '~> 1.7.0'
+  gem 'json', '~> 1.8.0'
   gem 'minitest', '~> 4.7.0'
   gem 'minitest-reporters', '~> 0.14.20'
   gem 'mocha', '~> 1.1.0'
