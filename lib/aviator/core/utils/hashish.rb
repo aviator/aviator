@@ -15,7 +15,7 @@ class Hashish
 
   def ==(other_obj)
     other_obj.class == self.class &&
-    other_obj.hash == self.hash
+    other_obj.to_hash == self.to_hash
   end
 
   def [](key)
@@ -42,7 +42,7 @@ class Hashish
     @hash.has_key? normalize(name)
   end
 
-  def hash
+  def to_hash
     @hash
   end
 
